@@ -3,5 +3,6 @@ public class Main {
         System.out.println("Hello World!");
         System.out.println("Salut");
         System.out.println("Test Antoine");
+        System.out.println("$fg[yellow] ciao");
     }
 }
