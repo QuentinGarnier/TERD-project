@@ -1,11 +1,11 @@
 package World;
 
-import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertEquals;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class PositionTest {
-
     @Test
     public void testLucky() {
         World w = new World();
@@ -15,5 +15,4 @@ public class PositionTest {
         assertEquals(0, p0.getX());
         assertEquals(1, p0.getY());
     }
-
 }
