@@ -15,6 +15,10 @@ public class PositionTest {
         assertEquals(0, p0.getX());
         assertEquals(1, p0.getY());
 
+        p0.nextPosition(w, Move.LEFT.getMove());
+        assertEquals(0, p0.getX());
+        assertEquals(1, p0.getY());
+
         p0.nextPosition(w, Move.RIGHT.getMove());
         assertEquals(1, p0.getX());
         assertEquals(1, p0.getY());

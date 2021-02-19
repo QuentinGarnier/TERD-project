@@ -15,6 +15,11 @@ public class World {
             }
         }
     }
+
+    public boolean validCell(int x, int y){
+        return (x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y);
+    }
+
     public Cell getCell(int x, int y) {
         return lab[x][y];
     }
