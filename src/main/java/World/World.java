@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 public class World {
     private static final World instanceWorld = new World();
+    public static World getInstanceWorld() {
+        return instanceWorld;
+    }
 
     public static final int MAX_X = 70; // to be verified
     public static final int MAX_Y = 20; // to be verified
@@ -30,10 +33,6 @@ public class World {
 
     public Cell getCell(int x, int y) {
         return lab[x][y];
-    }
-
-    public static World getInstanceWorld() {
-        return instanceWorld;
     }
 
     @Override
