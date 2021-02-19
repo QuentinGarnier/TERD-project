@@ -6,7 +6,7 @@ public class Cell {
     // 1. MONSTER, OBSTACLE (WALL, TREE or whatever), CELL not inside the lab... --> in all of these cases BLOCKED == TRUE
     // 2. ITEM or NOTHING --> BLOCKED == FALSE
     // 3. by default isBlocked == false
-    public boolean isBlocked() {
+    public boolean blocked() {
         return isBlocked;
     }
 }
