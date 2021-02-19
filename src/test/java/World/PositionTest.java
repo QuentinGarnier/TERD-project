@@ -7,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 public class PositionTest {
     @Test
     public void testProgramme() {
-
         World w = World.getInstanceWorld();
         Position p0 = new Position(0, 0);
         Move m = Move.UP;

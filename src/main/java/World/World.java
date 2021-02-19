@@ -10,7 +10,7 @@ public class World {
         lab = new Cell[MAX_X][MAX_Y];
         for (int x = 0; x < MAX_X; x++){
             for (int y = 0; y < MAX_Y; y++){
-                lab[x][y] = new Cell();
+                lab[x][y] = new Cell(ElementsEnum.EMPTY); // TODO
             }
         }
     }
