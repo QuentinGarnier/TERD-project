@@ -1,4 +1,4 @@
-package Labyrinthe;
+package World;
 
 public enum Move {
     //Axe X oriented to the right

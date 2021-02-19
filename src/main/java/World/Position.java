@@ -1,4 +1,4 @@
-package Labyrinthe;
+package World;
 
 public class Position {
     private int x;
@@ -8,7 +8,7 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-    public final void nextPosition(Lab l, Position p){
+    public final void nextPosition(World l, Position p){
         int newX = p.x + x;
         int newY = p.y + y;
         if (!l.getCell(newX, newY).isBlocked()){

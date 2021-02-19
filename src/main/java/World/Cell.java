@@ -1,4 +1,4 @@
-package Labyrinthe;
+package World;
 
 public class Cell {
     private boolean isBlocked = false;
