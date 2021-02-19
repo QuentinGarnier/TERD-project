@@ -10,7 +10,12 @@ public class Cell {
         this.cellContent = e;
     }
 
-    public boolean blocked() {
+    public boolean isBlocked() {
         return !(cellContent == ElementsEnum.ITEM || cellContent == ElementsEnum.EMPTY);
+    }
+
+    @Override
+    public String toString() {
+        return cellContent.toString();
     }
 }
