@@ -1,22 +1,17 @@
 package Labyrinthe;
 
 public enum Move {
-    //Axe abscisse orienté à droite
-    //Axe ordonnée orienté en haut
-    UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGTH(1, 0);
+    //Axe X oriented to the right
+    //Axe Y oriented to de top
+    UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGHT(1, 0);
 
-    private int x, y;
+    private Position move;
 
     Move(int x, int y){
-        this.x = x;
-        this.y = y;
+        move = new Position(x, y);
     }
 
-    public int getMoveX(){
-        return x;
-    }
-
-    public int getMoveY() {
-        return y;
+    public Position getMove(){
+        return move;
     }
 }

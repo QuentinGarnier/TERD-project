@@ -1,16 +1,19 @@
 package Labyrinthe;
 
 public class Position {
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
 
     Position(int x, int y){
         this.x = x;
         this.y = y;
     }
-    public final Position nextPosition(Lab l, Move m){
-        //todo
-        return this; // TODO
+    public final void nextPosition(Lab l, Position p){
+        int newX = p.x + x;
+        int newY = p.y + y;
+        if (!l.getCell(newX, newY).isBlocked()){
+            x = newX; y = newY;
+        }
     }
 
     public int getX() {
