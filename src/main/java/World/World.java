@@ -6,6 +6,7 @@ public class World {
     public static final int MAX_X = 100; // to be verified
     public static final int MAX_Y = 100; // to be verified
     private final Cell lab[][];
+
     private World(){
         lab = new Cell[MAX_X][MAX_Y];
         for (int x = 0; x < MAX_X; x++){

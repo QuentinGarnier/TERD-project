@@ -8,10 +8,10 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-    public final void nextPosition(World l, Position p){
+    public final void nextPosition(World w, Position p){
         int newX = p.x + x;
         int newY = p.y + y;
-        if (!l.getCell(newX, newY).blocked()){
+        if (!w.getCell(newX, newY).blocked()){
             x = newX; y = newY;
         }
     }

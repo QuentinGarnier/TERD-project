@@ -1,8 +1,8 @@
 package World;
 
 public enum Move {
-    //Axe X oriented to the right
-    //Axe Y oriented to de top
+    //X axis oriented to the right
+    //Y axis oriented to the top
     UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGHT(1, 0);
 
     private Position move;
