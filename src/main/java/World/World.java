@@ -8,10 +8,13 @@ public class World {
 
     public static final int MAX_X = 70; // to be verified
     public static final int MAX_Y = 20; // to be verified
+    public static final int MAX_ROOM_NUMBER = MAX_X * MAX_Y / ((Room.MIN_HEIGHT + 2) * (Room.MIN_WIDTH + 2));
     private final Cell[][] lab;
+    private final Room[] rooms;
 
     private World(){
         lab = new Cell[MAX_X][MAX_Y];
+        rooms = new Room[MAX_ROOM_NUMBER];
         for (int y = 0; y < MAX_Y; y++){
             // TODO to be verified
             for (int x = 0; x < MAX_X; x++){
@@ -25,6 +28,13 @@ public class World {
                 } else {
                     lab[x][y] = new Cell(ElementsEnum.EMPTY);
                 }
+            }
+        }
+        for (int i = 0; ; i++){
+            try {
+                rooms[i] = new Room(lab);
+            } catch (NO_MORE_SPACE_ERROR e){
+                break;
             }
         }
     }
