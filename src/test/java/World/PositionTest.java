@@ -8,21 +8,19 @@ public class PositionTest {
     @Test
     public void testProgramme() {
         World w = World.getInstanceWorld();
-        Position p0 = new Position(0, 0);
-        Move m = Move.UP;
-        /*
-        p0.nextPosition(w, m.getMove());
-        assertEquals(0, p0.getX());
-        assertEquals(1, p0.getY());
+        Position p0 = new Position(1, 1);
+
+        p0.nextPosition(w, Move.UP.getMove());
+        assertEquals(1, p0.getX());
+        assertEquals(2, p0.getY());
 
         p0.nextPosition(w, Move.LEFT.getMove());
-        assertEquals(0, p0.getX());
-        assertEquals(1, p0.getY());
+        // can't go LEFT since (0, 0) is not accessible
+        assertEquals(1, p0.getX());
+        assertEquals(2, p0.getY());
 
         p0.nextPosition(w, Move.RIGHT.getMove());
-        assertEquals(1, p0.getX());
-        assertEquals(1, p0.getY());*/
-
-        System.out.println(w.toString());
+        assertEquals(2, p0.getX());
+        assertEquals(2, p0.getY());
     }
 }
