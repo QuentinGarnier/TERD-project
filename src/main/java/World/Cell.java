@@ -9,12 +9,12 @@ public class Cell {
         this.cellContent = e;
     }
 
-    public boolean isAccessible() {
-        return cellContent.isAccessible();
-    }
-
     @Override
     public String toString() {
         return cellContent.toString();
+    }
+
+    public ElementsEnum getCellContent() {
+        return cellContent;
     }
 }

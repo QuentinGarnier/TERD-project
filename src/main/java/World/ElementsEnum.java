@@ -3,7 +3,7 @@ package World;
 public enum ElementsEnum {
     VERTICAL_WALL('|', false),
     HORIZONTAL_WALL('—', false),
-    CORNER('+', false), // TODO there are 4 types of corners ?
+    CORNER('┼', false), // TODO there are 4 types of corners ?
     MONSTER('O', false),
     OUTSIDE_ROOM('?', false),
     TREE('&',false),

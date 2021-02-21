@@ -1,27 +1,69 @@
 package World;
 
+import java.util.Random;
+
 public class Room {
     public static final int MIN_WIDTH = 3;
+    public static final int MAX_WIDTH = 7;
     public static final int MIN_HEIGHT = 3;
+    public static final int MAX_HEIGHT = 7;
     private final Position topLeft;
     private final Position bottomRight;
     private boolean heroIsHere = false; // if true room is shown
+    Random gen;
 
-    public Room(Cell[][] lab) throws NO_MORE_SPACE_ERROR {
-        this.topLeft = findTopLeft(lab);
-        this.bottomRight = findBottomRight(lab);
-        putRandomEltInRoom(lab);
+    public Room() {
+        this.gen = new Random();
+        this.topLeft = findTopLeft();
+        this.bottomRight = findBottomRight();
     }
-    Position findTopLeft(Cell[][] lab) throws NO_MORE_SPACE_ERROR{
-        /* TODO: 20/02/21
-            if there is no more space left throw NO_MORE_SPACE_ERROR
-         */
-        return null;
+
+    private Position findTopLeft(){
+        return new Position(Math.abs(gen.nextInt()) % World.MAX_X, Math.abs(gen.nextInt()) % World.MAX_Y);
     }
-    Position findBottomRight(Cell[][] lab){
-        // TODO: 20/02/21  bottom right is computed from w et topLeft
-        return null;
+
+    private Position findBottomRight(){
+        return new Position(
+                topLeft.getX() + MIN_WIDTH + Math.abs(gen.nextInt()) % MAX_WIDTH,
+                topLeft.getY() + MIN_HEIGHT + Math.abs(gen.nextInt()) % MAX_HEIGHT);
     }
+
+    public boolean insideWorld(){
+        return  topLeft.getX() < World.MAX_X &&
+                topLeft.getY() < World.MAX_Y &&
+                topLeft.getX() >= 0 &&
+                topLeft.getY() >= 0 &&
+                bottomRight.getX() < World.MAX_X &&
+                bottomRight.getY() < World.MAX_Y &&
+                bottomRight.getX() >= 0 &&
+                bottomRight.getY() >= 0;
+    }
+
+    public boolean checkCollision(Cell[][] lab){
+        if (!insideWorld()) return true;
+        for (int x = topLeft.getX(); x <= bottomRight.getX(); x++){
+            for (int y = topLeft.getY(); y <= bottomRight.getY(); y++){
+                if (lab[x][y].getCellContent() != ElementsEnum.OUTSIDE_ROOM) return true;
+            }
+        }
+        return false;
+    }
+
+    public void updateLab(Cell[][] lab){
+        for (int x = topLeft.getX(); x <= bottomRight.getX(); x++){
+            for (int y = topLeft.getY(); y <= bottomRight.getY(); y++){
+                if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
+                        (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
+                    lab[x][y] = new Cell(ElementsEnum.CORNER);
+                else if (x == topLeft.getX() || x == bottomRight.getX())
+                    lab[x][y] = new Cell(ElementsEnum.VERTICAL_WALL);
+                else if (y == topLeft.getY() || y == bottomRight.getY())
+                    lab[x][y] = new Cell(ElementsEnum.HORIZONTAL_WALL);
+                else lab[x][y] = new Cell(ElementsEnum.EMPTY);
+            }
+        }
+    }
+
     void putRandomEltInRoom(Cell[][] lab){
 
     }

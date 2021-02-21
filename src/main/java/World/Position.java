@@ -11,7 +11,7 @@ public class Position {
     public final void nextPosition(World w, Position p){
         int newX = p.x + x;
         int newY = p.y + y;
-        if (w.getCell(newX, newY).isAccessible()){
+        if (w.getCell(newX, newY).getCellContent().isAccessible()){
             x = newX; y = newY;
         }
     }

@@ -1,50 +1,45 @@
 package World;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class World {
     private static final World instanceWorld = new World();
     public static World getInstanceWorld() {
         return instanceWorld;
     }
 
-    public static final int MAX_X = 70; // to be verified
+    public static final int MAX_X = 50; // to be verified
     public static final int MAX_Y = 20; // to be verified
-    public static final int MAX_ROOM_NUMBER = MAX_X * MAX_Y / ((Room.MIN_HEIGHT + 2) * (Room.MIN_WIDTH + 2));
+    private final int maxRandomRoom = 100;
     private final Cell[][] lab;
-    private final Room[] rooms;
+    private final List<Room> rooms;
+
 
     private World(){
         lab = new Cell[MAX_X][MAX_Y];
-        rooms = new Room[MAX_ROOM_NUMBER];
-        for (int y = 0; y < MAX_Y; y++){
-            // TODO to be verified
-            for (int x = 0; x < MAX_X; x++){
-                if((x == 0 && (y == 0 || y == (MAX_Y - 1))) ||
-                        (x == (MAX_X - 1) && (y == 0 || y == (MAX_Y - 1)))){
-                    lab[x][y] = new Cell(ElementsEnum.CORNER);
-                } else if (x == 0 || x == MAX_X - 1){
-                    lab[x][y] = new Cell(ElementsEnum.VERTICAL_WALL);
-                } else if (y == 0 || y == MAX_Y - 1){
-                    lab[x][y] = new Cell(ElementsEnum.HORIZONTAL_WALL);
-                } else {
-                    lab[x][y] = new Cell(ElementsEnum.EMPTY);
-                }
-            }
-        }
-        for (int i = 0; ; i++){
-            try {
-                rooms[i] = new Room(lab);
-            } catch (NO_MORE_SPACE_ERROR e){
-                break;
+        rooms = new ArrayList<Room>();
+        initializeLab();
+        createRooms();
+    }
+
+    void initializeLab(){
+        for (int x = 0; x < MAX_X; x++){
+            for (int y = 0; y < MAX_Y; y++){
+                lab[x][y] = new Cell(ElementsEnum.OUTSIDE_ROOM);
             }
         }
     }
 
-    /* TODO is it useful ? a cell is valid if it accessible
-        see isAccessible method in Cell class
-    public boolean validCell(int x, int y){
-        return x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y;
+    void createRooms(){
+        for (int i = 0; i < maxRandomRoom; i++){
+            Room r = new Room();
+            if (!r.checkCollision(lab)){
+                r.updateLab(lab);
+                rooms.add(r);
+            }
+        }
     }
-    */
 
     public Cell getCell(int x, int y) {
         return lab[x][y];
@@ -55,7 +50,8 @@ public class World {
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++){
             for(int i = 0; i < MAX_X; i++){
-                sb.append(lab[i][j].toString());
+                if (lab[i][j] != null) sb.append(lab[i][j].toString());
+                else sb.append(' ');
             }
             sb.append(System.lineSeparator());
         }
