@@ -1,6 +1,6 @@
-package Entity;
+package entity;
 
-import World.Position;
+import graphics.elements.Position;
 
 public interface Entity {
     Position getPos();

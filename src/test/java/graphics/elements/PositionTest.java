@@ -1,5 +1,6 @@
-package World;
+package graphics.elements;
 
+import graphics.map.WorldMap;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -7,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class PositionTest {
     @Test
     public void testProgramme() {
-        World w = World.getInstanceWorld();
+        WorldMap w = WorldMap.getInstanceWorld();
         Position p0 = new Position(1, 1);
 
         p0.nextPosition(w, Move.UP.getMove());

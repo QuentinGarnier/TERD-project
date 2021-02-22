@@ -1,9 +1,9 @@
-package World;
+package graphics.elements.cells;
 
-public enum ElementsEnum {
+public enum CellElementType {
     VERTICAL_WALL('|', false),
     HORIZONTAL_WALL('—', false),
-    CORNER('┼', false), // TODO there are 4 types of corners ?
+    CORNER('┼', false), // TODO there are 4 types of corners?
     MONSTER('O', false),
     OUTSIDE_ROOM('?', false),
     TREE('&',false),
@@ -14,12 +14,12 @@ public enum ElementsEnum {
     private final char symbol;
     private final boolean isAccessible;
 
-    ElementsEnum(char c, boolean isAccessible){
-        symbol = c;
+    CellElementType(char c, boolean isAccessible) {
+        this.symbol = c;
         this.isAccessible = isAccessible;
     }
 
-    public char getSymbol(){
+    public char getSymbol() {
         return symbol;
     }
 

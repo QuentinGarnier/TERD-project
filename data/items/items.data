@@ -1,0 +1,7 @@
+# Template des items :
+# ID ; type (0=food, 1=consumable, 2=equip) ; name ; effect (x hp recovered, increase stats by x...)
+
+000;0;Sandwich;undefined
+001;1;Potion;undefined
+002;2;Wooden sword;undefined
+002;3;Iron sword;undefined

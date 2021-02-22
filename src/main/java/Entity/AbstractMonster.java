@@ -1,6 +1,6 @@
-package Entity;
+package entity;
 
-import World.Position;
+import graphics.elements.Position;
 
 public abstract class AbstractMonster extends AbstractEntity{
     private int speed;//an example of a monster's characteristic

@@ -1,4 +1,4 @@
-package World;
+package graphics.elements;
 
 public enum Move {
     //X axis oriented to the right

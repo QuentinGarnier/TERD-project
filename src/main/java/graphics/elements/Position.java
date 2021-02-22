@@ -1,17 +1,19 @@
-package World;
+package graphics.elements;
+
+import graphics.map.WorldMap;
 
 public class Position {
     private int x;
     private int y;
 
-    public Position(int x, int y){
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    public final void nextPosition(World w, Position p){
-        int newX = p.x + x;
+    public final void nextPosition(WorldMap wmap, Position p) {
+        int newX = p.getX() + this.x;
         int newY = p.y + y;
-        if (w.getCell(newX, newY).getCellContent().isAccessible()){
+        if (wmap.getCell(newX, newY).getContent().isAccessible()) {
             x = newX; y = newY;
         }
     }

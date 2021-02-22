@@ -1,6 +1,6 @@
-package Entity;
+package entity;
 
-import World.Position;
+import graphics.elements.Position;
 
 public abstract class AbstractEntity implements Entity{
     private final Position position;

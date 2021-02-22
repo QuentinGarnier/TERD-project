@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class MonsterFactory {
     private static final MonsterFactory instanceFactory = new MonsterFactory();
