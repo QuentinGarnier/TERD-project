@@ -15,10 +15,12 @@ public class Player extends AbstractEntity {
     private static final Player instancePlayer = new Player(new Position(0, 0), 100, 10);
 
     private ArrayList<Item> inventory;
+    private int money;
 
-    private Player(Position position, int HP, int attack){
+    private Player(Position position, int HP, int attack) {
         super(position, HP, attack);
         this.inventory = new ArrayList<>();
+        this.money = 0;
     }
 
     public static Player getInstancePlayer() {

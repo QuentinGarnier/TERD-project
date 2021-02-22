@@ -2,12 +2,12 @@ package entity;
 
 import graphics.elements.Position;
 
-public abstract class AbstractEntity implements Entity{
+public abstract class AbstractEntity implements Entity {
     private final Position position;
     private int HP;
     private int attack;
 
-    public AbstractEntity(Position position, int HP, int attack){
+    public AbstractEntity(Position position, int HP, int attack) {
         this.position = position;
         this.HP = HP;
         this.attack = attack;
@@ -20,11 +20,11 @@ public abstract class AbstractEntity implements Entity{
 
     @Override
     public int getHP() {
-        return 0;
+        return this.HP;
     }
 
     @Override
     public int getAttack() {
-        return 0;
+        return this.attack;
     }
 }
