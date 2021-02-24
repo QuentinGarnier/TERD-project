@@ -1,7 +1,5 @@
 package graphics.elements.cells;
 
-import entity.Entity;
-
 public class CellElementEntity extends CellElement {
     private Entity entity;
 
