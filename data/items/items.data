@@ -1,7 +1,17 @@
 # Template des items :
-# ID ; type (0=food, 1=consumable, 2=equip) ; name ; effect (x hp recovered, increase stats by x...)
+# ID ; type (0=food, 1=consumable, 2=equip) ; name ; effect (when used/equipped)
 
-000;0;Sandwich;undefined
-001;1;Potion;undefined
-002;2;Wooden sword;undefined
-003;2;Iron sword;undefined
+# Items' effects patterns - [x] is a number, (x) is an optional argument, (x ...) is an optional argument repeated several times:
+# Food effects: hunger*[amount]*hp*[amount](*[additional effect])
+# Consumable effects: [effect id, like 'regain hp']*[amount](*[amount2] ...)
+# Equip effects: "stat_1"*[amount](*"stat_2"*[amount2] ...) -> "stat_n" can be hp, strength or any other stat.
+
+000;0;Sandwich;hunger*30*hp*0
+001;0;Super sandwich;hunger*60*hp*10
+002;0;Apple;hunger*10*hp*0
+003;0;Strange mushroom;hunger*10*hp*-10
+
+200;1;Basic potion;001*20
+
+500;2;Wooden sword;str*5
+501;2;Iron sword;str*10

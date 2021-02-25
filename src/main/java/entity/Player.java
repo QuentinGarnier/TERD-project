@@ -42,25 +42,7 @@ public class Player extends AbstractEntity {
      * @param id is the ID of the item in the items.data file (data/items/items.data)
      */
     public static void addItem(int id) {
-        try {
-            Scanner scanner = new Scanner(new File("data/items/items.data"));
-            String line;
-            while(scanner.hasNextLine()) {
-                line = scanner.nextLine();
-                if(line.length() > 0) if(line.charAt(0) != '#') {
-                    String[] info = line.split(";"); //info[0] = id; info[1] = type; info[2] = name; info[3] = effect (to do)
-                    if(Integer.parseInt(info[0]) == id) {
-                        switch (info[1]) {
-                            case "0": instancePlayer.inventory.add(new ItemFood(Integer.parseInt(info[0]), info[2])); break;
-                            case "1": instancePlayer.inventory.add(new ItemConsumable(Integer.parseInt(info[0]), info[2])); break;
-                            case "2": instancePlayer.inventory.add(new ItemEquip(Integer.parseInt(info[0]), info[2])); break;
-                        }
-                    }
-                }
-            }
-            scanner.close();
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        AbstractItem item = AbstractItem.getItemByID(id);
+        if(item != null) instancePlayer.inventory.add(item);
     }
 }

@@ -1,4 +1,3 @@
-import graphics.ColorStr;
 import graphics.map.WorldMap;
 
 public class Main {
