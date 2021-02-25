@@ -6,9 +6,9 @@ import graphics.map.WorldMap;
 import java.util.Random;
 
 public class Room {
-    public static final int MIN_WIDTH = 3;
+    public static final int MIN_WIDTH = 5;
     public static final int MAX_WIDTH = 7;
-    public static final int MIN_HEIGHT = 3;
+    public static final int MIN_HEIGHT = 5;
     public static final int MAX_HEIGHT = 7;
     private final Position topLeft;
     private final Position bottomRight;
@@ -57,7 +57,7 @@ public class Room {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
                         (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
-                    lab[x][y] = new Cell(new CellElementOutsideRoom());
+                    lab[x][y] = new Cell(new CellElementCorner());
                 else if (x == topLeft.getX() || x == bottomRight.getX())
                     lab[x][y] = new Cell(new CellElementWall(true));
                 else if (y == topLeft.getY() || y == bottomRight.getY())
@@ -67,7 +67,27 @@ public class Room {
         }
     }
 
-    void putRandomEltInRoom(Cell[][] lab){
+    void putRandomEltInRoom(Cell[][] lab) {
 
+    }
+
+    public void setHeroIsHere(boolean b) {
+        this.heroIsHere = b;
+    }
+
+    public Position getTopLeft() {
+        return this.topLeft;
+    }
+
+    public Position getBottomRight() {
+        return this.bottomRight;
+    }
+
+    public int getWidth() {
+        return (this.bottomRight.getX() - this.topLeft.getX());
+    }
+
+    public int getHeight() {
+        return (this.bottomRight.getY() - this.topLeft.getY());
     }
 }

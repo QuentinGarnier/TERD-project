@@ -1,5 +1,6 @@
 package entity;
 
+import graphics.ColorStr;
 import graphics.elements.Position;
 import items.AbstractItem;
 import items.ItemConsumable;

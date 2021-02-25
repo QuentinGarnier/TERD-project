@@ -1,11 +1,15 @@
 package graphics.map;
 
+import entity.Player;
 import graphics.elements.cells.Cell;
+import graphics.elements.cells.CellElementEntity;
 import graphics.elements.cells.CellElementOutsideRoom;
 import graphics.elements.Room;
+import graphics.elements.cells.CellElementType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WorldMap {
     private static final WorldMap instanceWorld = new WorldMap();
@@ -22,6 +26,7 @@ public class WorldMap {
         rooms = new ArrayList<Room>();
         initializeLab();
         createRooms();
+        placePlayer();
     }
 
     private void initializeLab() {
@@ -48,6 +53,19 @@ public class WorldMap {
 
     public Cell getCell(int x, int y) {
         return instanceWorld.lab[x][y];
+    }
+
+    private void placePlayer() {
+        Random rnd = new Random();
+        int iRoom = rnd.nextInt(rooms.size());
+        Room room = this.rooms.get(iRoom);
+        room.setHeroIsHere(true);
+
+        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
+        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
+
+        Player.getInstancePlayer().setPosition(x, y);
+        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()));
     }
 
     @Override

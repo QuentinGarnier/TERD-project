@@ -17,6 +17,10 @@ public abstract class AbstractEntity{
         return position;
     }
 
+    public void setPosition(int x, int y) {
+        this.position.setPosition(x,y);
+    }
+
     public int getHP() {
         return this.HP;
     }

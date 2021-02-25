@@ -9,11 +9,11 @@ public class PositionTest {
     @Test
     public void testProgramme() {
         WorldMap w = WorldMap.getInstanceWorld();
-        Position p0 = new Position(1, 1);
+        Position p0 = new Position(-5, 1);
 
         p0.nextPosition(w, Move.UP.getMove());
         assertEquals(1, p0.getX());
-        assertEquals(2, p0.getY());
+        assertEquals(0, p0.getY());
 
         p0.nextPosition(w, Move.LEFT.getMove());
         // can't go LEFT since (0, 0) is not accessible
