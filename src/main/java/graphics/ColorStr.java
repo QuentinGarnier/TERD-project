@@ -1,6 +1,7 @@
 package graphics;
 
 public class ColorStr {
+    public static final String DEFAULT = "\033[0m";
     public static final String BLACK = "\033[30m";
     public static final String RED = "\033[31m";
     public static final String GREEN = "\033[32m";
