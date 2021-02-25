@@ -22,6 +22,10 @@ public class Cell {
         return this.content;
     }
 
+    public boolean isAccessible() {
+        return this.content.isAccessible();
+    }
+
     @Override
     public String toString() {
         return this.content.toString();

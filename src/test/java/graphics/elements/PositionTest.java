@@ -1,27 +1,48 @@
 package graphics.elements;
 
+import entity.Player;
 import graphics.map.WorldMap;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.util.Random;
+
+import static org.junit.Assert.*;
 
 public class PositionTest {
+
     @Test
-    public void testProgramme() {
+    public void testNextPosition() {
         WorldMap w = WorldMap.getInstanceWorld();
-        Position p0 = new Position(-5, 1);
+        Position p0 = Player.getInstancePlayer().getPos();
+        Position p1 = new Position(p0.getX(), p0.getY());
+        Random rnd = new Random();
 
-        p0.nextPosition(w, Move.UP.getMove());
-        assertEquals(1, p0.getX());
-        assertEquals(0, p0.getY());
+        for(int i=0; i<100; i++) {
+            int gen = rnd.nextInt(4);
+            p1.setPosition(p0.getX(), p0.getY());
 
-        p0.nextPosition(w, Move.LEFT.getMove());
-        // can't go LEFT since (0, 0) is not accessible
-        assertEquals(1, p0.getX());
-        assertEquals(2, p0.getY());
+            switch (gen) {
+                case 0:
+                    p0.nextPosition(w, Move.UP.getMove());
+                    assertTrue(w.getCell(p1.getX(), p1.getY() - 1).isAccessible() != p0.equals(p1));
+                    break;
 
-        p0.nextPosition(w, Move.RIGHT.getMove());
-        assertEquals(2, p0.getX());
-        assertEquals(2, p0.getY());
+                case 1:
+                    p0.nextPosition(w, Move.LEFT.getMove());
+                    assertTrue(w.getCell(p1.getX() - 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    break;
+
+                case 2:
+                    p0.nextPosition(w, Move.RIGHT.getMove());
+                    assertTrue(w.getCell(p1.getX() + 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    break;
+
+                case 3:
+                    p0.nextPosition(w, Move.DOWN.getMove());
+                    assertTrue(w.getCell(p1.getX(), p1.getY() + 1).isAccessible() != p0.equals(p1));
+                    break;
+            }
+        }
     }
+
 }

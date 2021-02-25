@@ -55,6 +55,10 @@ public class WorldMap {
         return instanceWorld.lab[x][y];
     }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
     private void placePlayer() {
         Random rnd = new Random();
         int iRoom = rnd.nextInt(rooms.size());

@@ -38,4 +38,16 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
+    public boolean equals(Position p) {
+        return p.getX() == this.x && p.getY() == this.y;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
