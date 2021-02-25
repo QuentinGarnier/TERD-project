@@ -2,7 +2,7 @@ package graphics.elements.cells;
 
 import entity.AbstractEntity;
 
-public class CellElementEntity extends CellElement {
+public class CellElementEntity extends AbstractCellElement {
     private AbstractEntity entity;
 
     public CellElementEntity(CellElementType type, AbstractEntity e) {

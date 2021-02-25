@@ -7,9 +7,9 @@ public class Cell {
      * 1. MONSTER, OBSTACLE (WALL, TREE or whatever), CELL not inside the lab... -> in all of these cases NOT_ACCESSIBLE
      * 2. ITEM or EMPTY --> ACCESSIBLE
      */
-    private CellElement content;
+    private AbstractCellElement content;
 
-    public Cell(CellElement e) {
+    public Cell(AbstractCellElement e) {
         this.content = e;
     }
 
@@ -18,7 +18,7 @@ public class Cell {
     }
 
 
-    public CellElement getContent() {
+    public AbstractCellElement getContent() {
         return this.content;
     }
 

@@ -1,7 +1,7 @@
 package entity;
 
 import graphics.elements.Position;
-import items.Item;
+import items.AbstractItem;
 import items.ItemConsumable;
 import items.ItemEquip;
 import items.ItemFood;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Player extends AbstractEntity {
     private static final Player instancePlayer = new Player(new Position(0, 0), 100, 10);
 
-    private ArrayList<Item> inventory;
+    private ArrayList<AbstractItem> inventory;
     private int money;
 
     private Player(Position position, int HP, int attack) {
@@ -27,12 +27,12 @@ public class Player extends AbstractEntity {
         return instancePlayer;
     }
 
-    public static ArrayList<Item> getInventory() {
+    public static ArrayList<AbstractItem> getInventory() {
         return instancePlayer.inventory;
     }
 
-    public static Item getItemByID(int id) {
-        for(Item i : instancePlayer.inventory) if(i.getID() == id) return i;
+    public static AbstractItem getItemByID(int id) {
+        for(AbstractItem i : instancePlayer.inventory) if(i.getID() == id) return i;
         return null;
     }
 

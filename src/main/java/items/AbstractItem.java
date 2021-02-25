@@ -1,11 +1,11 @@
 package items;
 
-public abstract class Item {
+public abstract class AbstractItem {
     private final int id;
     private final String name;
     private final ItemType type;
 
-    Item(int i, String n, ItemType t) {
+    AbstractItem(int i, String n, ItemType t) {
         this.id = i;
         this.name = n;
         this.type = t;

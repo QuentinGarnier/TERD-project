@@ -1,9 +1,9 @@
 package graphics.elements.cells;
 
-public abstract class CellElement {
+public abstract class AbstractCellElement {
     private CellElementType content;
 
-    CellElement(CellElementType type) {
+    AbstractCellElement(CellElementType type) {
         this.content = type;
     }
 
