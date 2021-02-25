@@ -1,14 +1,16 @@
 package graphics.elements.cells;
 
-public class CellElementEntity extends CellElement {
-    private Entity entity;
+import entity.AbstractEntity;
 
-    public CellElementEntity(CellElementType type, Entity e) {
+public class CellElementEntity extends CellElement {
+    private AbstractEntity entity;
+
+    public CellElementEntity(CellElementType type, AbstractEntity e) {
         super(type);
         this.entity = e;
     }
 
-    public Entity getEntity() {
+    public AbstractEntity getEntity() {
         return this.entity;
     }
 }
