@@ -1,7 +1,7 @@
 package graphics.map;
 
 import graphics.elements.cells.Cell;
-import graphics.elements.cells.AbstractCellElementOutsideRoom;
+import graphics.elements.cells.CellElementOutsideRoom;
 import graphics.elements.Room;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class WorldMap {
     private void initializeLab() {
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                lab[x][y] = new Cell(new AbstractCellElementOutsideRoom());
+                lab[x][y] = new Cell(new CellElementOutsideRoom());
             }
         }
     }

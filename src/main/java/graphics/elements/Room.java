@@ -57,12 +57,12 @@ public class Room {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
                         (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
-                    lab[x][y] = new Cell(new AbstractCellElementOutsideRoom());
+                    lab[x][y] = new Cell(new CellElementOutsideRoom());
                 else if (x == topLeft.getX() || x == bottomRight.getX())
-                    lab[x][y] = new Cell(new AbstractCellElementWall(true));
+                    lab[x][y] = new Cell(new CellElementWall(true));
                 else if (y == topLeft.getY() || y == bottomRight.getY())
-                    lab[x][y] = new Cell(new AbstractCellElementWall(false));
-                else lab[x][y] = new Cell(new AbstractCellElementEmpty());
+                    lab[x][y] = new Cell(new CellElementWall(false));
+                else lab[x][y] = new Cell(new CellElementEmpty());
             }
         }
     }
