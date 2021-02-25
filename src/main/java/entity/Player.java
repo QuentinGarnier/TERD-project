@@ -8,7 +8,6 @@ import items.AbstractItem;
 import java.awt.im.InputContext;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Player extends AbstractEntity {
@@ -75,7 +74,7 @@ public class Player extends AbstractEntity {
                 }
 
                 if (key == 'w' || key == 'a' || key == 's' || key == 'd') {
-                    wmap.toEmptyACell(oldPos.getX(), oldPos.getY());
+                    wmap.toEmptyACell(oldPos.getX(), oldPos.getY());//subject to change (currently the hero can only walk on EMPTY cells, so that's what he leaves)
                     instancePlayer.setPosition(pos);
                     wmap.setPlayerPlace(pos.getX(), pos.getY());
                     wmap.repaint();
