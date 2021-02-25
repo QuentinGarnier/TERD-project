@@ -18,12 +18,16 @@ public abstract class AbstractEntity{
     }
 
     public void setPosition(int x, int y) {
-        this.position.setPosition(x,y);
+        position.setPosition(x,y);
+    }
+
+    public void setPosition(Position p) {
+        position.setPosition(p.getX(), p.getY());
     }
 
     public int getHP() {
-        return this.HP;
+        return HP;
     }
 
-    public int getAttack() { return this.attack; }
+    public int getAttack() { return attack; }
 }

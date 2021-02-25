@@ -10,24 +10,24 @@ public class Cell {
     private AbstractCellElement content;
 
     public Cell(AbstractCellElement e) {
-        this.content = e;
+        content = e;
     }
 
     public Cell() {
-        this.content = new CellElementEmpty();
+        content = new CellElementEmpty();
     }
 
 
     public AbstractCellElement getContent() {
-        return this.content;
+        return content;
     }
 
     public boolean isAccessible() {
-        return this.content.isAccessible();
+        return content.isAccessible();
     }
 
     @Override
     public String toString() {
-        return this.content.toString();
+        return content.toString();
     }
 }

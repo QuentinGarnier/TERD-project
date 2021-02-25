@@ -4,23 +4,23 @@ public abstract class AbstractCellElement {
     private CellElementType content;
 
     AbstractCellElement(CellElementType type) {
-        this.content = type;
+        content = type;
     }
 
     public CellElementType getType() {
-        return this.content;
+        return content;
     }
 
     public char getSymbol() {
-        return this.content.getSymbol();
+        return content.getSymbol();
     }
 
     public boolean isAccessible() {
-        return this.content.isAccessible();
+        return content.isAccessible();
     }
 
     @Override
     public String toString() {
-        return this.content.toString();
+        return content.toString();
     }
 }

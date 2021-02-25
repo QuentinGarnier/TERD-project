@@ -52,7 +52,7 @@ public class WorldMap {
     }
 
     public Cell getCell(int x, int y) {
-        return instanceWorld.lab[x][y];
+        return lab[x][y];
     }
 
     public List<Room> getRooms() {
@@ -71,6 +71,13 @@ public class WorldMap {
         Player.getInstancePlayer().setPosition(x, y);
         lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()));
     }
+    public void setPlayerPlace(int x, int y){
+        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()));
+    }
+    public void toEmptyACell(int x, int y){
+        lab[x][y] = new Cell(new CellElementEntity(CellElementType.EMPTY, Player.getInstancePlayer()));
+    }
+    public void repaint(){ System.out.println(this); }
 
     @Override
     public String toString() {
