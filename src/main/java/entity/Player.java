@@ -93,7 +93,7 @@ public class Player extends AbstractEntity {
     public static void showCommands(){
         char top = 'w', left = 'a';
         if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; }
-        System.out.printf("To move : %c (top), %c (left), s (bottom), d (right)%sTo leave : p", top, left, System.lineSeparator());
+        System.out.printf("To move : %c (top), %c (left), s (bottom), d (right)%sTo leave : p%s", top, left, System.lineSeparator(), System.lineSeparator());
     }
 
     public static char charConverterToUniversal(char c){
