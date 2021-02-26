@@ -8,20 +8,14 @@ public class Cell {
      * 2. ITEM or EMPTY --> ACCESSIBLE
      */
     public final int id;
-    private AbstractCellElement content;
+    private CellElementType content;
 
-    public Cell(AbstractCellElement e, int id) {
+    public Cell(CellElementType e, int id) {
         content = e;
         this.id = id;
     }
 
-    public Cell() {
-        id = -1;
-        content = new CellElementEmpty();
-    }
-
-
-    public AbstractCellElement getContent() {
+    public CellElementType getContent() {
         return content;
     }
 

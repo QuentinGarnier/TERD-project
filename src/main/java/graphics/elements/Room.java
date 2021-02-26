@@ -12,12 +12,13 @@ public class Room {
     public static final int MAX_HEIGHT = 7;
     private final Position topLeft;
     private final Position bottomRight;
-    private boolean heroIsHere = false; // if true room is shown
+    private boolean heroIsHere; // if true room is shown
     public final int id;
     private int lowestRoomNeighbor;
     Random gen;
 
     public Room(int id) {
+        this.heroIsHere = false;
         this.id = id;
         this.lowestRoomNeighbor = id;
         this.gen = new Random();
@@ -50,7 +51,7 @@ public class Room {
         if (!insideWorld()) return true;
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
-                if (lab[x][y].getContent().getType() != CellElementType.OUTSIDE_ROOM) return true;
+                if (lab[x][y].getContent() != CellElementType.OUTSIDE_ROOM) return true;
             }
         }
         return false;
@@ -61,17 +62,17 @@ public class Room {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
                         (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
-                    lab[x][y] = new Cell(new CellElementCorner(), id);
+                    lab[x][y] = new Cell(CellElementType.CORNER, id);
                 else if (x == topLeft.getX() || x == bottomRight.getX())
-                    lab[x][y] = new Cell(new CellElementWall(true), id);
+                    lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id);
                 else if (y == topLeft.getY() || y == bottomRight.getY())
-                    lab[x][y] = new Cell(new CellElementWall(false), id);
-                else lab[x][y] = new Cell(); // ==> empty cell <-> in room
+                    lab[x][y] = new Cell(CellElementType.HORIZONTAL_WALL, id);
+                else lab[x][y] = new Cell(CellElementType.EMPTY, id); // ==> empty cell <-> in room
             }
         }
     }
 
-    void putRandomEltInRoom(Cell[][] lab) {
+    void putRandomEltInRoom(WorldMap w) {
 
     }
 

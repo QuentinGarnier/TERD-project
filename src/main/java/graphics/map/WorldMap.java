@@ -4,8 +4,6 @@ import entity.Player;
 import graphics.elements.Corridor;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
-import graphics.elements.cells.CellElementEntity;
-import graphics.elements.cells.CellElementOutsideRoom;
 import graphics.elements.Room;
 import graphics.elements.cells.CellElementType;
 
@@ -18,9 +16,9 @@ public class WorldMap {
 
     public static final int MAX_X = 50; // to be verified
     public static final int MAX_Y = 20; // to be verified
-    private final int maxRandomRoom = 100;
-    private Cell[][] lab;
-    private List<Room> rooms;
+    private static final int maxRandomRoom = 100;
+    private final Cell[][] lab;
+    private final List<Room> rooms;
     private final List<Corridor> corridors;
 
 
@@ -37,7 +35,7 @@ public class WorldMap {
     private void initializeLab() {
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                lab[x][y] = new Cell(new CellElementOutsideRoom(), -1);
+                lab[x][y] = new Cell(CellElementType.OUTSIDE_ROOM, -1);
             }
         }
     }
@@ -90,13 +88,13 @@ public class WorldMap {
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
 
         Player.getInstancePlayer().setPosition(x, y);
-        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()), -1);
+        lab[x][y] = new Cell(CellElementType.HERO, -1);
     }
     public void setPlayerPlace(int x, int y){
-        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()), -1);
+        lab[x][y] = new Cell(CellElementType.HERO, -1);
     }
     public void toEmptyACell(int x, int y){
-        lab[x][y] = new Cell(new CellElementEntity(CellElementType.EMPTY, Player.getInstancePlayer()), -1);
+        lab[x][y] = new Cell(CellElementType.HERO, -1);
     }
     public void repaint(){ System.out.println(this); }
 

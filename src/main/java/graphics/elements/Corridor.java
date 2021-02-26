@@ -1,7 +1,6 @@
 package graphics.elements;
 
 import graphics.elements.cells.Cell;
-import graphics.elements.cells.CellElementCorridor;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 
@@ -13,7 +12,7 @@ public class Corridor {
     private final List<Position> positionList;
     public final int id;
     public int startRoom;
-    private Random gen;
+    private final Random gen;
     private boolean isValid;
 
     public Corridor(int id, WorldMap w, Room r, List<Room> rooms, List<Corridor> corridors){
@@ -39,7 +38,7 @@ public class Corridor {
                 if (x != null && P[x.getX()][x.getY()] == null){
                     P[x.getX()][x.getY()] = z;
                     Cell cell = w.getCell(x);
-                    CellElementType ct = cell.getContent().getType();
+                    CellElementType ct = cell.getContent();
                     if (cell.id == -1 || rooms.get(cell.id).getLowestRoomNeighbor() != startRoom) {
                         if (ct == CellElementType.HORIZONTAL_WALL ||
                                 ct == CellElementType.VERTICAL_WALL) {
@@ -80,11 +79,11 @@ public class Corridor {
         Position current = P[end.getX()][end.getY()];
         while (!current.equals(start)){
             positionList.add(current);
-            w.setCell(current, new Cell(new CellElementCorridor(), this.id));
+            w.setCell(current, new Cell(CellElementType.CORRIDOR, this.id));
             current = P[current.getX()][current.getY()];
         }
-        w.setCell(start, new Cell(new CellElementCorridor(), this.id));
-        w.setCell(end, new Cell(new CellElementCorridor(), this.id));
+        w.setCell(start, new Cell(CellElementType.CORRIDOR, this.id));
+        w.setCell(end, new Cell(CellElementType.CORRIDOR, this.id));
         isValid = true;
     }
 
@@ -129,7 +128,7 @@ public class Corridor {
         for (int i = 0; i < ps.length; i++){
             if (ps[i] != null) {
                 Cell cell = w.getCell(ps[i]);
-                CellElementType ct = cell.getContent().getType();
+                CellElementType ct = cell.getContent();
                 if (ct == CellElementType.HORIZONTAL_WALL ||
                         ct == CellElementType.VERTICAL_WALL ||
                         ct == CellElementType.CORNER ||
@@ -139,10 +138,6 @@ public class Corridor {
             }
         }
         return ps;
-    }
-
-    public int getStartRoom() {
-        return startRoom;
     }
 
     public boolean isValid() {
