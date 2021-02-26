@@ -1,6 +1,8 @@
 package graphics.map;
 
 import entity.Player;
+import graphics.elements.Corridor;
+import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementEntity;
 import graphics.elements.cells.CellElementOutsideRoom;
@@ -19,32 +21,47 @@ public class WorldMap {
     private final int maxRandomRoom = 100;
     private Cell[][] lab;
     private List<Room> rooms;
+    private final List<Corridor> corridors;
 
 
     private WorldMap() {
         lab = new Cell[MAX_X][MAX_Y];
-        rooms = new ArrayList<Room>();
+        rooms = new ArrayList<>();
+        corridors = new ArrayList<>();
         initializeLab();
         createRooms();
         placePlayer();
+        createCorridors();
     }
 
     private void initializeLab() {
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                lab[x][y] = new Cell(new CellElementOutsideRoom());
+                lab[x][y] = new Cell(new CellElementOutsideRoom(), -1);
             }
         }
     }
 
     private void createRooms() {
+        int id = 0;
         for (int i = 0; i < maxRandomRoom; i++) {
-            Room r = new Room();
+            Room r = new Room(id);
             if (!r.checkCollision(lab)) {
                 r.updateLab(lab);
                 rooms.add(r);
+                id++;
             }
         }
+    }
+
+    private void createCorridors() {
+        int id = 0;
+        for (Room r : rooms) {
+            Corridor c = new Corridor(id, this, r, rooms, corridors);
+            if (c.isValid()) id++;
+        }
+        rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
+        System.out.println();
     }
 
     public static WorldMap getInstanceWorld() {
@@ -55,8 +72,12 @@ public class WorldMap {
         return lab[x][y];
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    public Cell getCell(Position p) {
+        return getCell(p.getX(), p.getY());
+    }
+
+    public void setCell(Position p, Cell c){
+        lab[p.getX()][p.getY()] = c;
     }
 
     private void placePlayer() {
@@ -69,13 +90,13 @@ public class WorldMap {
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
 
         Player.getInstancePlayer().setPosition(x, y);
-        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()));
+        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()), -1);
     }
     public void setPlayerPlace(int x, int y){
-        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()));
+        lab[x][y] = new Cell(new CellElementEntity(CellElementType.HERO, Player.getInstancePlayer()), -1);
     }
     public void toEmptyACell(int x, int y){
-        lab[x][y] = new Cell(new CellElementEntity(CellElementType.EMPTY, Player.getInstancePlayer()));
+        lab[x][y] = new Cell(new CellElementEntity(CellElementType.EMPTY, Player.getInstancePlayer()), -1);
     }
     public void repaint(){ System.out.println(this); }
 

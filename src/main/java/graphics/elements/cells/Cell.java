@@ -7,13 +7,16 @@ public class Cell {
      * 1. MONSTER, OBSTACLE (WALL, TREE or whatever), CELL not inside the lab... -> in all of these cases NOT_ACCESSIBLE
      * 2. ITEM or EMPTY --> ACCESSIBLE
      */
+    public final int id;
     private AbstractCellElement content;
 
-    public Cell(AbstractCellElement e) {
+    public Cell(AbstractCellElement e, int id) {
         content = e;
+        this.id = id;
     }
 
     public Cell() {
+        id = -1;
         content = new CellElementEmpty();
     }
 

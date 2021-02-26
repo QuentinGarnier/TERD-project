@@ -13,9 +13,13 @@ public class Room {
     private final Position topLeft;
     private final Position bottomRight;
     private boolean heroIsHere = false; // if true room is shown
+    public final int id;
+    private int lowestRoomNeighbor;
     Random gen;
 
-    public Room() {
+    public Room(int id) {
+        this.id = id;
+        this.lowestRoomNeighbor = id;
         this.gen = new Random();
         this.topLeft = findTopLeft();
         this.bottomRight = findBottomRight();
@@ -57,12 +61,12 @@ public class Room {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
                         (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
-                    lab[x][y] = new Cell(new CellElementCorner());
+                    lab[x][y] = new Cell(new CellElementCorner(), id);
                 else if (x == topLeft.getX() || x == bottomRight.getX())
-                    lab[x][y] = new Cell(new CellElementWall(true));
+                    lab[x][y] = new Cell(new CellElementWall(true), id);
                 else if (y == topLeft.getY() || y == bottomRight.getY())
-                    lab[x][y] = new Cell(new CellElementWall(false));
-                else lab[x][y] = new Cell(new CellElementEmpty());
+                    lab[x][y] = new Cell(new CellElementWall(false), id);
+                else lab[x][y] = new Cell(); // ==> empty cell <-> in room
             }
         }
     }
@@ -73,6 +77,10 @@ public class Room {
 
     public void setHeroIsHere(boolean b) {
         this.heroIsHere = b;
+    }
+
+    public void setLowestRoomNeighbor(int lowestRoomNeighbor) {
+        this.lowestRoomNeighbor = lowestRoomNeighbor;
     }
 
     public Position getTopLeft() {
@@ -89,5 +97,9 @@ public class Room {
 
     public int getHeight() {
         return (this.bottomRight.getY() - this.topLeft.getY());
+    }
+
+    public int getLowestRoomNeighbor() {
+        return lowestRoomNeighbor;
     }
 }
