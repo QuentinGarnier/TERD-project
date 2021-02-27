@@ -2,6 +2,7 @@ package graphics.map;
 
 import entity.Player;
 import graphics.elements.Corridor;
+import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.Room;
@@ -10,6 +11,7 @@ import graphics.elements.cells.CellElementType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class WorldMap {
     private static final WorldMap instanceWorld = new WorldMap();
@@ -90,14 +92,55 @@ public class WorldMap {
         Player.getInstancePlayer().setPosition(x, y);
         lab[x][y] = new Cell(CellElementType.HERO, -1);
     }
-    public void setPlayerPlace(int x, int y){
-        lab[x][y] = new Cell(CellElementType.HERO, -1);
+    public void setPlayerPlace(Position p, Cell heroCell){
+        setCell(p, heroCell);
     }
-    public void toEmptyACell(int x, int y){
-        lab[x][y] = new Cell(CellElementType.HERO, -1);
+    public void toEmptyACell(Position p){
+        setCell(p, new Cell(CellElementType.HERO, -1));
     }
     public void repaint(){ System.out.println(this); }
 
+    public static void gamePlayer(){
+        Scanner sc = new Scanner(System.in);
+        String buffer;
+        char key;
+        boolean gameState = true;
+        Player instancePlayer = Player.getInstancePlayer();
+        Cell oldCell = new Cell(CellElementType.EMPTY, -1);
+        Cell heroCell = instanceWorld.getCell(instancePlayer.getPos());
+
+        while (gameState){
+            buffer = sc.nextLine();
+            if (buffer.length() == 1) {
+                key = buffer.charAt(0);
+                Position pos = instancePlayer.getPos();
+                Position oldPos = new Position(pos.getX(), pos.getY());
+
+                if(Player.getKeyboard().equals("fr_FR")){ key = Player.charConverterToUniversal(key); }
+
+                switch (key) {
+                    case 'w': pos.nextPosition(instanceWorld, Move.UP.getMove()); break;
+                    case 'a': pos.nextPosition(instanceWorld, Move.LEFT.getMove()); break;
+                    case 's': pos.nextPosition(instanceWorld, Move.DOWN.getMove()); break;
+                    case 'd': pos.nextPosition(instanceWorld, Move.RIGHT.getMove()); break;
+                    case 'p':
+                        gameState = false;
+                        System.out.println("Leaved game");
+                        break;
+                    default: break;
+                }
+
+                if (key == 'w' || key == 'a' || key == 's' || key == 'd') {
+                    instancePlayer.setPosition(pos);
+                    instanceWorld.setCell(oldPos, oldCell);
+                    oldCell = instanceWorld.getCell(pos);
+                    instanceWorld.setPlayerPlace(pos, heroCell);
+                    instanceWorld.repaint();
+                }
+            }
+        }
+        sc.close();
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
