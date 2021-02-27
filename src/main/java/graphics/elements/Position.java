@@ -43,10 +43,12 @@ public class Position {
 
     public static Position sumPos(Position p, Move m) {
         Position res = new Position(p.x + m.getMove().x, p.y + m.getMove().y);
-        if (res.x < 0 || res.x >= WorldMap.MAX_X ||
-                res.y < 0 || res.y >= WorldMap.MAX_Y) return null;
-        return res;
+        return res.insideWorld() ? res : null;
     }
+
+    public boolean insideWorld() {
+        return x > 0 && x < WorldMap.MAX_X &&
+                y > 0 && y < WorldMap.MAX_Y; }
 
     @Override
     public boolean equals(Object o) {

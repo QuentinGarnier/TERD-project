@@ -12,13 +12,11 @@ public class Room {
     public static final int MAX_HEIGHT = 7;
     private final Position topLeft;
     private final Position bottomRight;
-    private boolean heroIsHere; // if true room is shown
     public final int id;
     private int lowestRoomNeighbor;
     Random gen;
 
     public Room(int id) {
-        this.heroIsHere = false;
         this.id = id;
         this.lowestRoomNeighbor = id;
         this.gen = new Random();
@@ -32,23 +30,12 @@ public class Room {
 
     private Position findBottomRight() {
         return new Position(
-                topLeft.getX() + MIN_WIDTH + Math.abs(gen.nextInt()) % MAX_WIDTH,
-                topLeft.getY() + MIN_HEIGHT + Math.abs(gen.nextInt()) % MAX_HEIGHT);
-    }
-
-    public boolean insideWorld() {
-        return  topLeft.getX() < WorldMap.MAX_X &&
-                topLeft.getY() < WorldMap.MAX_Y &&
-                topLeft.getX() >= 0 &&
-                topLeft.getY() >= 0 &&
-                bottomRight.getX() < WorldMap.MAX_X &&
-                bottomRight.getY() < WorldMap.MAX_Y &&
-                bottomRight.getX() >= 0 &&
-                bottomRight.getY() >= 0;
+                topLeft.getX() + MIN_WIDTH + gen.nextInt(MAX_WIDTH - MIN_WIDTH),
+                topLeft.getY() + MIN_HEIGHT + gen.nextInt(MAX_HEIGHT - MIN_HEIGHT));
     }
 
     public boolean checkCollision(Cell[][] lab) {
-        if (!insideWorld()) return true;
+        if (!topLeft.insideWorld() || !bottomRight.insideWorld()) return true;
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 if (lab[x][y].getContent() != CellElementType.OUTSIDE_ROOM) return true;
@@ -76,10 +63,6 @@ public class Room {
 
     }
 
-    public void setHeroIsHere(boolean b) {
-        heroIsHere = b;
-    }
-
     public void setLowestRoomNeighbor(int lowestRoomNeighbor) {
         this.lowestRoomNeighbor = lowestRoomNeighbor;
     }
@@ -102,5 +85,13 @@ public class Room {
 
     public int getLowestRoomNeighbor() {
         return lowestRoomNeighbor;
+    }
+
+    public static boolean isRoom(Cell c){
+        CellElementType ct = c.getContent();
+        return ct == CellElementType.HORIZONTAL_WALL ||
+                ct == CellElementType.VERTICAL_WALL ||
+                ct == CellElementType.CORNER ||
+                ct == CellElementType.EMPTY;
     }
 }

@@ -9,10 +9,7 @@ import graphics.elements.cells.Cell;
 import graphics.elements.Room;
 import graphics.elements.cells.CellElementType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class WorldMap {
     private static final WorldMap instanceWorld = new WorldMap();
@@ -29,6 +26,12 @@ public class WorldMap {
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
+        generateWorld();
+    }
+
+    public void generateWorld(){
+        rooms.clear();
+        corridors.clear();
         initializeLab();
         createRooms();
         placePlayer();
@@ -56,14 +59,19 @@ public class WorldMap {
         }
     }
 
+    public List<Room> getRooms() {
+        return Collections.unmodifiableList(rooms);
+    }
+
     private void createCorridors() {
         int id = 0;
         for (Room r : rooms) {
             Corridor c = new Corridor(id, this, r, rooms, corridors);
             if (c.isValid()) id++;
         }
-        rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
-        System.out.println();
+        //rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
+        //System.out.println();
+        //System.out.println(corridors.size());
     }
 
     private void generateMoney() {
@@ -88,11 +96,22 @@ public class WorldMap {
 
     public void setCell(Position p, Cell c){ setCell(p.getX(), p.getY(), c); }
 
+    public void setHeroIsHere(boolean isRoom, int id){
+        for (int i = 0; i < MAX_X; i++){
+            for (int j = 0; j < MAX_Y; j++){
+                Cell c = lab[i][j];
+                c.setHeroIsHere(isRoom ?
+                        Room.isRoom(c) && c.id == id :
+                        c.getContent() == CellElementType.CORRIDOR && c.id == id);
+            }
+        }
+    }
+
     private void placePlayer() {
         Random rnd = new Random();
         int iRoom = rnd.nextInt(rooms.size());
         Room room = rooms.get(iRoom);
-        room.setHeroIsHere(true);
+        setHeroIsHere(true, iRoom);
 
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
@@ -173,7 +192,7 @@ public class WorldMap {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++) {
-            for(int i = 0; i < MAX_X; i++) sb.append(lab[i][j] != null ? lab[i][j].toString() : ' ');
+            for(int i = 0; i < MAX_X; i++) sb.append(lab[i][j].isHeroIsHere() ? ColorStr.yellow(lab[i][j].toString()): lab[i][j].toString());
             sb.append(System.lineSeparator());
         }
         return sb.toString();

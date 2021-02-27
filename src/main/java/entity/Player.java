@@ -1,6 +1,7 @@
 package entity;
 
 import graphics.elements.Position;
+import graphics.map.WorldMap;
 import items.AbstractItem;
 
 import java.awt.im.InputContext;
@@ -11,6 +12,8 @@ import java.util.Locale;
 public class Player extends AbstractEntity {
     private static final Player instancePlayer = new Player(new Position(0, 0), 100, 10);
 
+    private boolean isRoom;
+    private int id;
     private ArrayList<AbstractItem> inventory;
     private int money;
 
@@ -69,6 +72,4 @@ public class Player extends AbstractEntity {
     }
 
     public void incrementMoney(){money++;}
-
-
 }

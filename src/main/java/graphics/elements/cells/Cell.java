@@ -8,11 +8,21 @@ public class Cell {
      * 2. ITEM or EMPTY --> ACCESSIBLE
      */
     public final int id;
-    private CellElementType content;
+    private final CellElementType content;
+    private boolean heroIsHere;
 
     public Cell(CellElementType e, int id) {
         content = e;
         this.id = id;
+        this.heroIsHere = false;
+    }
+
+    public void setHeroIsHere(boolean heroIsHere) {
+        this.heroIsHere = heroIsHere;
+    }
+
+    public boolean isHeroIsHere() {
+        return heroIsHere;
     }
 
     public CellElementType getContent() {

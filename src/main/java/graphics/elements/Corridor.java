@@ -11,7 +11,7 @@ import java.util.Random;
 public class Corridor {
     private final List<Position> positionList;
     public final int id;
-    public int startRoom;
+    public Room startRoom;
     private final Random gen;
     private boolean isValid;
 
@@ -20,15 +20,16 @@ public class Corridor {
         isValid = false;
         gen = new Random();
         this.id = id;
-        this.startRoom = r.getLowestRoomNeighbor();
-        Position door = openDoor(r);
+        this.startRoom = r;
         if (r.id == 0 || r.getLowestRoomNeighbor() != 0){
-            createCorridor(w, r, door, rooms, corridors);
-            if (isValid) corridors.add(this);
+            createCorridor(w, r, rooms, corridors);
+            while (!isValid) createCorridor(w, r, rooms, corridors);
+            corridors.add(this);
         }
     }
 
-    private void createCorridor(WorldMap w, Room r, Position start, List<Room> rooms, List<Corridor> corridors){
+    private void createCorridor(WorldMap w, Room r, List<Room> rooms, List<Corridor> corridors){
+        Position start = openDoor(r);
         List<Position> Q = new ArrayList<>();
         Position[][] P = new Position[WorldMap.MAX_X][WorldMap.MAX_Y];
         Q.add(start);
@@ -39,51 +40,57 @@ public class Corridor {
                     P[x.getX()][x.getY()] = z;
                     Cell cell = w.getCell(x);
                     CellElementType ct = cell.getContent();
-                    if (cell.id == -1 || rooms.get(cell.id).getLowestRoomNeighbor() != startRoom) {
-                        if (ct == CellElementType.HORIZONTAL_WALL ||
-                                ct == CellElementType.VERTICAL_WALL) {
-                            updateRooms(rooms, cell.id);
-                            createPath(w, P, start, x);
-                            return;
-                        } else if (ct == CellElementType.CORRIDOR && r.getLowestRoomNeighbor() != rooms.get(corridors.get(cell.id).startRoom).getLowestRoomNeighbor()) {
-                            updateCorridors(rooms, corridors, cell.id);
-                            createPath(w, P, start, x);
-                            return;
-                        } else if (ct == CellElementType.OUTSIDE_ROOM){
-                            Q.add(x);
-                        }
+                    if ((ct == CellElementType.HORIZONTAL_WALL ||
+                            ct == CellElementType.VERTICAL_WALL) &&
+                            rooms.get(cell.id).getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
+                        updateRooms(rooms, rooms.get(cell.id));
+                        createPath(w, P, start, x);
+                        return;
+                    } else if (ct == CellElementType.CORRIDOR &&
+                            corridors.get(cell.id).startRoom.getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
+                        updateCorridors(rooms, corridors.get(cell.id));
+                        createPath(w, P, start, x);
+                        return;
+                    } else if (ct == CellElementType.OUTSIDE_ROOM){
+                        Q.add(x);
                     }
                 }
             }
         }
     }
 
-    private void updateRooms(List<Room> rooms, int end){
-        if (rooms.get(end).getLowestRoomNeighbor() < startRoom) {
-            int prov = startRoom;
-            this.startRoom = rooms.get(end).getLowestRoomNeighbor();
-            updateRooms(rooms, prov);
-        } else {
-            rooms.forEach(x -> {
-                if (x.getLowestRoomNeighbor() == end)
-                    x.setLowestRoomNeighbor(startRoom);
-            });
-        }
+    private void updateRooms(List<Room> rooms, Room endRoom){
+        int start = startRoom.getLowestRoomNeighbor();
+        int end = endRoom.getLowestRoomNeighbor();
+        int min = Math.min(start, end);
+        int max = Math.max(start, end);
+        //System.out.println("Linking :" + startRoom.id + " to " + endRoom.id);
+        //System.out.println("Updating : " + max + " to " + min);
+        rooms.forEach(x -> {
+            if (x.getLowestRoomNeighbor() == max)
+                x.setLowestRoomNeighbor(min);
+        });
+        //rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
+        //System.out.println();
     }
 
-    private void updateCorridors(List<Room> rooms, List<Corridor> corridors, int end){
-        updateRooms(rooms, corridors.get(end).startRoom);
+
+    private void updateCorridors(List<Room> rooms, Corridor c){
+        //System.out.println("CORRIDOR");
+        updateRooms(rooms, c.startRoom);
     }
 
     private void createPath(WorldMap w, Position[][] P, Position start, Position end){
+        int iStart = w.getCell(start).id;
+        int iEnd = w.getCell(end).id;
         Position current = P[end.getX()][end.getY()];
         while (!current.equals(start)){
             positionList.add(current);
             w.setCell(current, new Cell(CellElementType.CORRIDOR, this.id));
             current = P[current.getX()][current.getY()];
         }
-        w.setCell(start, new Cell(CellElementType.CORRIDOR, this.id));
-        w.setCell(end, new Cell(CellElementType.CORRIDOR, this.id));
+        w.setCell(start, new Cell(CellElementType.EMPTY, iStart));
+        w.setCell(end, new Cell(CellElementType.EMPTY, iEnd));
         isValid = true;
     }
 
@@ -125,18 +132,6 @@ public class Corridor {
         ps[1] = Position.sumPos(p, Move.LEFT);
         ps[2] = Position.sumPos(p, Move.DOWN);
         ps[3] = Position.sumPos(p, Move.RIGHT);
-        for (int i = 0; i < ps.length; i++){
-            if (ps[i] != null) {
-                Cell cell = w.getCell(ps[i]);
-                CellElementType ct = cell.getContent();
-                if (ct == CellElementType.HORIZONTAL_WALL ||
-                        ct == CellElementType.VERTICAL_WALL ||
-                        ct == CellElementType.CORNER ||
-                        ct == CellElementType.CORRIDOR) {
-                    if (cell.id == r.id) ps[i] = null;
-                }
-            }
-        }
         return ps;
     }
 
