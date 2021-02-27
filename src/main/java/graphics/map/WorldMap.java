@@ -83,7 +83,7 @@ public class WorldMap {
     private void placePlayer() {
         Random rnd = new Random();
         int iRoom = rnd.nextInt(rooms.size());
-        Room room = this.rooms.get(iRoom);
+        Room room = rooms.get(iRoom);
         room.setHeroIsHere(true);
 
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;

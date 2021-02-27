@@ -77,7 +77,7 @@ public class Room {
     }
 
     public void setHeroIsHere(boolean b) {
-        this.heroIsHere = b;
+        heroIsHere = b;
     }
 
     public void setLowestRoomNeighbor(int lowestRoomNeighbor) {
@@ -85,19 +85,19 @@ public class Room {
     }
 
     public Position getTopLeft() {
-        return this.topLeft;
+        return topLeft;
     }
 
     public Position getBottomRight() {
-        return this.bottomRight;
+        return bottomRight;
     }
 
     public int getWidth() {
-        return (this.bottomRight.getX() - this.topLeft.getX());
+        return (bottomRight.getX() - topLeft.getX());
     }
 
     public int getHeight() {
-        return (this.bottomRight.getY() - this.topLeft.getY());
+        return (bottomRight.getY() - topLeft.getY());
     }
 
     public int getLowestRoomNeighbor() {
