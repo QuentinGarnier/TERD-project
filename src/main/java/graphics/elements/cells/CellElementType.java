@@ -12,6 +12,7 @@ public enum CellElementType {
     TREE('&',false),
     HERO('@', false),
     ITEM('%', true),
+    COIN('●', true),
     EMPTY('.', true); // work also for doors
 
     private final char symbol;
@@ -36,6 +37,7 @@ public enum CellElementType {
             case HERO: return ColorStr.cyan("" + symbol);
             case MONSTER: return ColorStr.red("" + symbol);
             case ITEM: return ColorStr.green("" + symbol);
+            case COIN: return ColorStr.yellow("" + symbol);
             default: return "" + symbol;
         }
     }

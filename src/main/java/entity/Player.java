@@ -1,16 +1,12 @@
 package entity;
 
-import graphics.elements.Move;
 import graphics.elements.Position;
-import graphics.elements.cells.Cell;
-import graphics.elements.cells.CellElementType;
-import graphics.map.WorldMap;
 import items.AbstractItem;
 
 import java.awt.im.InputContext;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Scanner;
+
 
 public class Player extends AbstractEntity {
     private static final Player instancePlayer = new Player(new Position(0, 0), 100, 10);
@@ -31,6 +27,8 @@ public class Player extends AbstractEntity {
     public static ArrayList<AbstractItem> getInventory() {
         return instancePlayer.inventory;
     }
+
+    public int getMoney() { return instancePlayer.money; }
 
     public static AbstractItem getItemByID(int id) {
         for(AbstractItem i : instancePlayer.inventory) if(i.getID() == id) return i;
@@ -69,6 +67,8 @@ public class Player extends AbstractEntity {
             default: return c;
         }
     }
+
+    public void incrementMoney(){money++;}
 
 
 }

@@ -1,6 +1,7 @@
 package graphics.map;
 
 import entity.Player;
+import graphics.ColorStr;
 import graphics.elements.Corridor;
 import graphics.elements.Move;
 import graphics.elements.Position;
@@ -32,6 +33,7 @@ public class WorldMap {
         createRooms();
         placePlayer();
         createCorridors();
+        generateMoney();
     }
 
     private void initializeLab() {
@@ -64,6 +66,18 @@ public class WorldMap {
         System.out.println();
     }
 
+    private void generateMoney() {
+        Random gen = new Random();
+        int randomX, randomY;
+        for (int i = 0; i< 50; i++){
+            randomX = gen.nextInt(MAX_X);
+            randomY = gen.nextInt(MAX_Y);
+            if (lab[randomX][randomY].getContent() == CellElementType.EMPTY){
+                lab[randomX][randomY] = new Cell(CellElementType.COIN, -1);
+            }
+        }
+    }
+
     public static WorldMap getInstanceWorld() {
         return instanceWorld;
     }
@@ -76,8 +90,11 @@ public class WorldMap {
         return getCell(p.getX(), p.getY());
     }
 
+    public void setCell(int x, int y, Cell c){
+        lab[x][y] = c;
+    }
     public void setCell(Position p, Cell c){
-        lab[p.getX()][p.getY()] = c;
+        setCell(p.getX(), p.getY(), c);
     }
 
     private void placePlayer() {
@@ -92,15 +109,23 @@ public class WorldMap {
         Player.getInstancePlayer().setPosition(x, y);
         lab[x][y] = new Cell(CellElementType.HERO, -1);
     }
-    public void setPlayerPlace(Position p, Cell heroCell){
+    public void setPlayerPlace(Position p, Cell heroCell) {
         setCell(p, heroCell);
     }
-    public void toEmptyACell(Position p){
+    public void toEmptyACell(Position p) {
         setCell(p, new Cell(CellElementType.HERO, -1));
     }
-    public void repaint(){ System.out.println(this); }
+    public void repaint() {
+        StringBuilder ATH = new StringBuilder();
+        ATH.append("---------------" + System.lineSeparator());
+        ATH.append("| Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " |" + System.lineSeparator());
+        ATH.append("---------------" + System.lineSeparator());
 
-    public static void gamePlayer(){
+        System.out.println(this);
+        System.out.println(ATH.toString());
+    }
+
+    public static void gamePlayer() {
         Scanner sc = new Scanner(System.in);
         String buffer;
         char key;
@@ -135,6 +160,14 @@ public class WorldMap {
                     instanceWorld.setCell(oldPos, oldCell);
                     oldCell = instanceWorld.getCell(pos);
                     instanceWorld.setPlayerPlace(pos, heroCell);
+
+
+                    if (oldCell.getContent() == CellElementType.COIN){
+                        instancePlayer.incrementMoney();
+                        System.out.println("You earned " + ColorStr.yellow("+1 coin") + System.lineSeparator());
+                        oldCell = new Cell(CellElementType.EMPTY, -1);
+                    }
+
                     instanceWorld.repaint();
                 }
             }
@@ -145,7 +178,7 @@ public class WorldMap {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++) {
-            for(int i = 0; i < MAX_X; i++) sb.append(lab[i][j] != null? lab[i][j].toString(): ' ');
+            for(int i = 0; i < MAX_X; i++) sb.append(lab[i][j] != null ? lab[i][j].toString() : ' ');
             sb.append(System.lineSeparator());
         }
         return sb.toString();
