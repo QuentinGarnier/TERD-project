@@ -33,7 +33,7 @@ public class WorldMap {
         createRooms();
         placePlayer();
         createCorridors();
-        generateMoney();
+        generateMoney();//just to test
     }
 
     private void initializeLab() {
@@ -78,24 +78,15 @@ public class WorldMap {
         }
     }
 
-    public static WorldMap getInstanceWorld() {
-        return instanceWorld;
-    }
+    public static WorldMap getInstanceWorld() { return instanceWorld; }
 
-    public Cell getCell(int x, int y) {
-        return lab[x][y];
-    }
+    public Cell getCell(int x, int y) { return lab[x][y]; }
 
-    public Cell getCell(Position p) {
-        return getCell(p.getX(), p.getY());
-    }
+    public Cell getCell(Position p) { return getCell(p.getX(), p.getY()); }
 
-    public void setCell(int x, int y, Cell c){
-        lab[x][y] = c;
-    }
-    public void setCell(Position p, Cell c){
-        setCell(p.getX(), p.getY(), c);
-    }
+    public void setCell(int x, int y, Cell c){ lab[x][y] = c; }
+
+    public void setCell(Position p, Cell c){ setCell(p.getX(), p.getY(), c); }
 
     private void placePlayer() {
         Random rnd = new Random();
@@ -115,13 +106,17 @@ public class WorldMap {
     public void toEmptyACell(Position p) {
         setCell(p, new Cell(CellElementType.HERO, -1));
     }
-    public void repaint() {
-        StringBuilder ATH = new StringBuilder();
-        ATH.append("---------------" + System.lineSeparator());
-        ATH.append("| Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " |" + System.lineSeparator());
-        ATH.append("---------------" + System.lineSeparator());
 
+    public void repaint() {
         System.out.println(this);
+        showATH();
+    }
+
+    public void showATH(){
+        StringBuilder ATH = new StringBuilder();
+        ATH.append("---------------").append(System.lineSeparator());
+        ATH.append("| Money : ").append(ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●")).append(" |").append(System.lineSeparator());
+        ATH.append("---------------").append(System.lineSeparator());
         System.out.println(ATH.toString());
     }
 
