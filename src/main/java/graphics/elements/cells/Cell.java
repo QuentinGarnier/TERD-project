@@ -7,13 +7,15 @@ public class Cell {
      * 1. MONSTER, OBSTACLE (WALL, TREE or whatever), CELL not inside the lab... -> in all of these cases NOT_ACCESSIBLE
      * 2. ITEM or EMPTY --> ACCESSIBLE
      */
-    public final int id;
-    private final CellElementType content;
+    private int currentId;
+    private CellElementType currentContent;
+    private int memoryId;
+    private CellElementType memoryContent;
     private boolean heroIsHere;
 
     public Cell(CellElementType e, int id) {
-        content = e;
-        this.id = id;
+        currentContent = e;
+        this.currentId = id;
         this.heroIsHere = false;
     }
 
@@ -25,16 +27,30 @@ public class Cell {
         return heroIsHere;
     }
 
-    public CellElementType getContent() {
-        return content;
+    public CellElementType getCurrentContent() {
+        return currentContent;
+    }
+
+    public void setCurrentContent(CellElementType currentContent, int currentId) {
+        this.currentId = currentId;
+        this.currentContent = currentContent;
+    }
+
+    public void setMemory(int memoryId, CellElementType memoryContent) {
+        this.memoryContent = memoryContent;
+        this.memoryId = memoryId;
+    }
+
+    public int getCurrentId() {
+        return currentId;
     }
 
     public boolean isAccessible() {
-        return content.isAccessible();
+        return currentContent.isAccessible();
     }
 
     @Override
     public String toString() {
-        return content.toString();
+        return currentContent.toString();
     }
 }

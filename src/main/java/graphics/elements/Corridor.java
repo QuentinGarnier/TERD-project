@@ -15,16 +15,16 @@ public class Corridor {
     private final Random gen;
     private boolean isValid;
 
-    public Corridor(int id, WorldMap w, Room r, List<Room> rooms, List<Corridor> corridors){
+    public Corridor(WorldMap w, Room r, List<Room> rooms, List<Corridor> corridors){
         positionList = new ArrayList<>();
         isValid = false;
         gen = new Random();
-        this.id = id;
+        this.id = corridors.size();
         this.startRoom = r;
+        // rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
+        // System.out.println();
         if (r.id == 0 || r.getLowestRoomNeighbor() != 0){
             createCorridor(w, r, rooms, corridors);
-            while (!isValid) createCorridor(w, r, rooms, corridors);
-            corridors.add(this);
         }
     }
 
@@ -39,17 +39,17 @@ public class Corridor {
                 if (x != null && P[x.getX()][x.getY()] == null){
                     P[x.getX()][x.getY()] = z;
                     Cell cell = w.getCell(x);
-                    CellElementType ct = cell.getContent();
+                    CellElementType ct = cell.getCurrentContent();
                     if ((ct == CellElementType.HORIZONTAL_WALL ||
                             ct == CellElementType.VERTICAL_WALL) &&
-                            rooms.get(cell.id).getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
-                        updateRooms(rooms, rooms.get(cell.id));
-                        createPath(w, P, start, x);
+                            rooms.get(cell.getCurrentId()).getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
+                        updateRooms(rooms, rooms.get(cell.getCurrentId()));
+                        createPath(w, P, start, x, true, corridors);
                         return;
                     } else if (ct == CellElementType.CORRIDOR &&
-                            corridors.get(cell.id).startRoom.getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
-                        updateCorridors(rooms, corridors.get(cell.id));
-                        createPath(w, P, start, x);
+                            corridors.get(cell.getCurrentId()).startRoom.getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
+                        updateCorridors(rooms, corridors.get(cell.getCurrentId()));
+                        createPath(w, P, start, x, false, corridors);
                         return;
                     } else if (ct == CellElementType.OUTSIDE_ROOM){
                         Q.add(x);
@@ -80,17 +80,25 @@ public class Corridor {
         updateRooms(rooms, c.startRoom);
     }
 
-    private void createPath(WorldMap w, Position[][] P, Position start, Position end){
-        int iStart = w.getCell(start).id;
-        int iEnd = w.getCell(end).id;
+    private void createPath(WorldMap w, Position[][] P, Position start, Position end, boolean endIsRoom, List<Corridor> corridors){
+        int iStart = w.getCell(start).getCurrentId();
+        int iEnd = w.getCell(end).getCurrentId();
+        int cellId = endIsRoom ? id : iEnd;
+        // System.out.println(cellId);
         Position current = P[end.getX()][end.getY()];
         while (!current.equals(start)){
             positionList.add(current);
-            w.setCell(current, new Cell(CellElementType.CORRIDOR, this.id));
+            w.setCell(current, new Cell(CellElementType.CORRIDOR, cellId));
             current = P[current.getX()][current.getY()];
         }
         w.setCell(start, new Cell(CellElementType.EMPTY, iStart));
-        w.setCell(end, new Cell(CellElementType.EMPTY, iEnd));
+        if (endIsRoom) {
+            w.setCell(end, new Cell(CellElementType.EMPTY, iEnd));
+            corridors.add(this);
+        } else {
+            w.setCell(end, new Cell(CellElementType.CORRIDOR, iEnd));
+            corridors.get(iEnd).positionList.addAll(positionList);
+        }
         isValid = true;
     }
 

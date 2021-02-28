@@ -9,7 +9,7 @@ public class WorldMapTest {
     @Test
     public void testProgramme() {
         WorldMap w = WorldMap.getInstanceWorld();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             System.out.println();
             for (Room r : w.getRooms()) {
                 assertEquals(r.getLowestRoomNeighbor(), 0);

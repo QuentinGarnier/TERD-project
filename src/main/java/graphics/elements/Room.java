@@ -3,6 +3,7 @@ package graphics.elements;
 import graphics.elements.cells.*;
 import graphics.map.WorldMap;
 
+import java.util.List;
 import java.util.Random;
 
 public class Room {
@@ -14,14 +15,18 @@ public class Room {
     private final Position bottomRight;
     public final int id;
     private int lowestRoomNeighbor;
-    Random gen;
+    private final Random gen;
 
-    public Room(int id) {
-        this.id = id;
-        this.lowestRoomNeighbor = id;
+    public Room(List<Room> roomList, WorldMap w) {
+        this.id = roomList.size();
+        this.lowestRoomNeighbor = this.id;
         this.gen = new Random();
         this.topLeft = findTopLeft();
         this.bottomRight = findBottomRight();
+        if (!checkCollision(w)){
+            updateLab(w);
+            roomList.add(this);
+        }
     }
 
     private Position findTopLeft() {
@@ -34,27 +39,27 @@ public class Room {
                 topLeft.getY() + MIN_HEIGHT + gen.nextInt(MAX_HEIGHT - MIN_HEIGHT));
     }
 
-    public boolean checkCollision(Cell[][] lab) {
+    public boolean checkCollision(WorldMap w) {
         if (!topLeft.insideWorld() || !bottomRight.insideWorld()) return true;
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
-                if (lab[x][y].getContent() != CellElementType.OUTSIDE_ROOM) return true;
+                if (w.getCell(x, y).getCurrentContent() != CellElementType.OUTSIDE_ROOM) return true;
             }
         }
         return false;
     }
 
-    public void updateLab(Cell[][] lab) {
+    public void updateLab(WorldMap w) {
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
                         (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
-                    lab[x][y] = new Cell(CellElementType.CORNER, id);
+                    w.setCell(x, y, new Cell(CellElementType.CORNER, id));
                 else if (x == topLeft.getX() || x == bottomRight.getX())
-                    lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id);
+                    w.setCell(x, y, new Cell(CellElementType.VERTICAL_WALL, id));
                 else if (y == topLeft.getY() || y == bottomRight.getY())
-                    lab[x][y] = new Cell(CellElementType.HORIZONTAL_WALL, id);
-                else lab[x][y] = new Cell(CellElementType.EMPTY, id); // ==> empty cell <-> in room
+                    w.setCell(x, y, new Cell(CellElementType.HORIZONTAL_WALL, id));
+                else w.setCell(x, y, new Cell(CellElementType.EMPTY, id)); // ==> empty cell <-> in room
             }
         }
     }
@@ -88,7 +93,7 @@ public class Room {
     }
 
     public static boolean isRoom(Cell c){
-        CellElementType ct = c.getContent();
+        CellElementType ct = c.getCurrentContent();
         return ct == CellElementType.HORIZONTAL_WALL ||
                 ct == CellElementType.VERTICAL_WALL ||
                 ct == CellElementType.CORNER ||

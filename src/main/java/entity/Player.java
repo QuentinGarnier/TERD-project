@@ -69,16 +69,5 @@ public class Player extends AbstractEntity {
         System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo leave : p%s", top, left, System.lineSeparator(), System.lineSeparator());
     }
 
-    public static char charConverterToUniversal(char c){
-        switch (c){
-            case 'z': return 'w';
-            case 'q': return 'a';
-
-            case 'a':       //possibly to be defined
-            case 'w': return '_';
-            default: return c;
-        }
-    }
-
     public void incrementMoney(){ money++; }
 }

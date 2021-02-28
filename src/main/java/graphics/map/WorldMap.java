@@ -35,29 +35,24 @@ public class WorldMap {
         corridors.clear();
         initializeLab();
         createRooms();
-        placePlayer();
         createCorridors();
-        generateMoney();//just to test
+        placePlayer();
+        //generateMoney();//just to test
     }
 
     private void initializeLab() {
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                lab[x][y] = new Cell(CellElementType.OUTSIDE_ROOM, -1);
+                lab[x][y] = new Cell(CellElementType.OUTSIDE_ROOM, 0);
             }
         }
     }
 
     private void createRooms() {
-        int id = 0;
         for (int i = 0; i < maxRandomRoom; i++) {
-            Room r = new Room(id);
-            if (!r.checkCollision(lab)) {
-                r.updateLab(lab);
-                rooms.add(r);
-                id++;
-            }
+            new Room(rooms, this);
         }
+        if (rooms.size() == 0) createRooms();
     }
 
     public List<Room> getRooms() {
@@ -65,13 +60,17 @@ public class WorldMap {
     }
 
     private void createCorridors() {
-        int id = 0;
         for (Room r : rooms) {
-            Corridor c = new Corridor(id, this, r, rooms, corridors);
-            if (c.isValid()) id++;
+            new Corridor(this, r, rooms, corridors);
         }
-        //rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
-        //System.out.println();
+        // rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
+        // System.out.println();
+        for (int i = 0; i < rooms.size(); i++){
+            if (rooms.get(i).getLowestRoomNeighbor() != 0){
+                createCorridors();
+                break;
+            }
+        }
         //System.out.println(corridors.size());
     }
 
@@ -81,8 +80,8 @@ public class WorldMap {
         for (int i = 0; i < maxRandomCoinByWorld; i++){
             randomX = gen.nextInt(MAX_X);
             randomY = gen.nextInt(MAX_Y);
-            if (lab[randomX][randomY].getContent() == CellElementType.EMPTY){
-                lab[randomX][randomY] = new Cell(CellElementType.COIN, -1);
+            if (lab[randomX][randomY].getCurrentContent() == CellElementType.EMPTY){
+                lab[randomX][randomY] = new Cell(CellElementType.COIN, 0);
             }
         }
     }
@@ -102,8 +101,8 @@ public class WorldMap {
             for (int j = 0; j < MAX_Y; j++){
                 Cell c = lab[i][j];
                 c.setHeroIsHere(isRoom ?
-                        Room.isRoom(c) && c.id == id :
-                        c.getContent() == CellElementType.CORRIDOR && c.id == id);
+                        Room.isRoom(c) && c.getCurrentId() == id :
+                        c.getCurrentContent() == CellElementType.CORRIDOR && c.getCurrentId() == id);
             }
         }
     }
@@ -118,13 +117,13 @@ public class WorldMap {
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
 
         Player.getInstancePlayer().setPosition(x, y);
-        lab[x][y] = new Cell(CellElementType.HERO, -1);
+        lab[x][y] = new Cell(CellElementType.HERO, 0);
     }
     public void setPlayerPlace(Position p, Cell heroCell) {
         setCell(p, heroCell);
     }
     public void toEmptyACell(Position p) {
-        setCell(p, new Cell(CellElementType.HERO, -1));
+        setCell(p, new Cell(CellElementType.HERO, 0));
     }
 
     public void repaint() {
@@ -142,13 +141,24 @@ public class WorldMap {
         System.out.println(ATH.toString());
     }
 
+    public static char charConverterToUniversal(char c){
+        switch (c){
+            case 'z': return 'w';
+            case 'q': return 'a';
+
+            case 'a':       //possibly to be defined
+            case 'w': return '_';
+            default: return c;
+        }
+    }
+
     public static void gamePlayer() {
         Scanner sc = new Scanner(System.in);
         String buffer;
         char key;
         boolean gameState = true;
         Player instancePlayer = Player.getInstancePlayer();
-        Cell oldCell = new Cell(CellElementType.EMPTY, -1);
+        Cell oldCell = new Cell(CellElementType.EMPTY, 0);
         Cell heroCell = instanceWorld.getCell(instancePlayer.getPos());
 
         while (gameState){
@@ -158,7 +168,7 @@ public class WorldMap {
                 Position pos = instancePlayer.getPos();
                 Position oldPos = new Position(pos.getX(), pos.getY());
 
-                if(Player.getKeyboard().equals("fr_FR")){ key = Player.charConverterToUniversal(key); }
+                if(Player.getKeyboard().equals("fr_FR")){ key = charConverterToUniversal(key); }
 
                 switch (key) {
                     case 'w': pos.nextPosition(instanceWorld, Move.UP.getMove()); break;
@@ -167,7 +177,7 @@ public class WorldMap {
                     case 'd': pos.nextPosition(instanceWorld, Move.RIGHT.getMove()); break;
                     case 'p':
                         gameState = false;
-                        System.out.println("Leaved game");
+                        System.out.println("Left game");
                         break;
                     default: break;
                 }
@@ -179,10 +189,10 @@ public class WorldMap {
                     instanceWorld.setPlayerPlace(pos, heroCell);
 
 
-                    if (oldCell.getContent() == CellElementType.COIN){
+                    if (oldCell.getCurrentContent() == CellElementType.COIN){
                         instancePlayer.incrementMoney();
                         System.out.println("You have earned " + ColorStr.yellow("+1 coin") + System.lineSeparator());
-                        oldCell = new Cell(CellElementType.EMPTY, -1);
+                        oldCell = new Cell(CellElementType.EMPTY, 0);
                     }
 
                     instanceWorld.repaint();
@@ -195,7 +205,9 @@ public class WorldMap {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++) {
-            for(int i = 0; i < MAX_X; i++) sb.append(lab[i][j].isHeroIsHere() ? ColorStr.yellow(lab[i][j].toString()): lab[i][j].toString());
+            for(int i = 0; i < MAX_X; i++) {
+                sb.append(lab[i][j].isHeroIsHere() ? ColorStr.yellow(lab[i][j].toString()) : lab[i][j].toString());
+            }
             sb.append(System.lineSeparator());
         }
         return sb.toString();

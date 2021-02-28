@@ -15,7 +15,7 @@ public class Position {
     public final void nextPosition(WorldMap wmap, Position p) {
         int newX = p.getX() + this.x;
         int newY = p.y + y;
-        if (wmap.getCell(newX, newY).getContent().isAccessible()) {
+        if (wmap.getCell(newX, newY).getCurrentContent().isAccessible()) {
             x = newX; y = newY;
         }
     }
