@@ -10,3 +10,6 @@ Adam BEN AMARA - GitHub : AdamBenAmara
 ## Exécution de l'application :
 Il suffit d'exécuter la fonction main de la classe Main (fonctionnel dans IntelliJ).  
 Particularité en jeu : il faut faire "entrée" après avoir taper une touche de déplacement (ZQSD / WASD) ou pour quitter (P). Ceci est temporaire et sera amélioré dans les futures versions.
+
+## Documentation :
+Toute la documentation relative au projet peut être consultée sur notre [page wiki](https://github.com/QuentinGarnier/TERD-project/wiki).
