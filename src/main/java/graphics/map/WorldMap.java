@@ -119,11 +119,13 @@ public class WorldMap {
         Player.getInstancePlayer().setPosition(x, y);
         lab[x][y] = new Cell(CellElementType.HERO, 0);
     }
+
     public void setPlayerPlace(Position p, Cell heroCell) {
         setCell(p, heroCell);
     }
+
     public void toEmptyACell(Position p) {
-        setCell(p, new Cell(CellElementType.HERO, 0));
+        setCell(p, new Cell(CellElementType.EMPTY, 0));
     }
 
     public void repaint() {
@@ -190,11 +192,13 @@ public class WorldMap {
                     instanceWorld.setCell(oldPos, oldCell);
                     oldCell = instanceWorld.getCell(pos);
                     instanceWorld.setPlayerPlace(pos, heroCell);
-
-
+                    for(Room r : instanceWorld.rooms){
+                        if (r.isPositionInsideRoom(pos)) instanceWorld.setHeroIsHere(true, r.getId());
+                    }
+                    
                     if (oldCell.getCurrentContent() == CellElementType.COIN){
                         instancePlayer.incrementMoney();
-                        System.out.println("You have earned " + ColorStr.yellow("+1 coin!") + System.lineSeparator());
+                        System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
                         oldCell = new Cell(CellElementType.EMPTY, 0);
                     }
 

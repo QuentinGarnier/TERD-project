@@ -92,11 +92,18 @@ public class Room {
         return lowestRoomNeighbor;
     }
 
+    public int getId() { return id; }
+
     public static boolean isRoom(Cell c){
         CellElementType ct = c.getCurrentContent();
         return ct == CellElementType.HORIZONTAL_WALL ||
                 ct == CellElementType.VERTICAL_WALL ||
                 ct == CellElementType.CORNER ||
                 ct == CellElementType.EMPTY;
+    }
+
+    public boolean isPositionInsideRoom(Position p){
+        return p.getX() >= topLeft.getX() && p.getX() <= bottomRight.getX() &&
+                p.getY() >= topLeft.getY() && p.getY() <= bottomRight.getY();
     }
 }

@@ -10,19 +10,20 @@ import java.util.Locale;
 
 
 public class Player extends AbstractEntity {
-    private static final Player instancePlayer = new Player(new Position(0, 0), 100, 10);
+    private static final Player instancePlayer = new Player();
 
     private int level;
     private int hunger; //max: 100
-    private boolean isRoom;
-    private int id;
     private ArrayList<AbstractItem> inventory;
     private int money;
 
-    private Player(Position position, int HP, int attack) {
-        super(position, HP, attack);
-        this.level = 1;
-        this.hunger = 100; //default: full bar
+    private boolean isRoom;
+    private int id;
+
+    private Player() {
+        super(new Position(0, 0), 100, 10);
+        level = 1;
+        hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
     }
@@ -40,7 +41,7 @@ public class Player extends AbstractEntity {
     }
 
     public int getLvl() {
-        return this.level;
+        return level;
     }
 
     public boolean spendMoney(int cost) {
@@ -84,25 +85,25 @@ public class Player extends AbstractEntity {
     }
 
     public void levelUp() {
-        this.level ++;
+        level ++;
     }
 
     public int getHunger() {
-        return this.hunger;
+        return hunger;
     }
 
     public String getHungerState() {
-        if(this.hunger > 75) return "Sated";        //100 to 76
-        else if(this.hunger > 50) return "Peckish"; //75 to 51
-        else if(this.hunger > 30) return "Hungry";  //50 to 26
+        if(hunger > 75) return "Sated";        //100 to 76
+        else if(hunger > 50) return "Peckish"; //75 to 51
+        else if(hunger > 30) return "Hungry";  //50 to 26
         else return "Starving";                     //25 to 0 (0 = you die)
     }
 
     //Hunger is capped at 100.
     public void modifyHunger(int x) {
-        if(this.hunger + x > 100) this.hunger = 100;
-        else if(this.hunger + x < 0) this.hunger = 0;
-        else this.hunger += x;
+        if(hunger + x > 100) hunger = 100;
+        else if(hunger + x < 0) hunger = 0;
+        else hunger += x;
     }
 
     /**

@@ -15,8 +15,8 @@ public class Cell {
 
     public Cell(CellElementType e, int id) {
         currentContent = e;
-        this.currentId = id;
-        this.heroIsHere = false;
+        currentId = id;
+        heroIsHere = false;
     }
 
     public void setHeroIsHere(boolean heroIsHere) {
