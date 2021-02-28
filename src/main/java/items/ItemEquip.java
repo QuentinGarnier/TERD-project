@@ -29,8 +29,8 @@ public class ItemEquip extends AbstractItem {
 
     @Override
     void parseEffectLine() {
-        /*
-        AJOUTER LE PARSER ICI
-         */
+        String[] strSplit = this.effectLine.split("@");
+
+        /* AJOUTER LE PARSER ICI */
     }
 }

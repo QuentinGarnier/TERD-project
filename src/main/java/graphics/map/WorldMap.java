@@ -134,15 +134,18 @@ public class WorldMap {
     public void showATH(){
         StringBuilder ATH = new StringBuilder();
         ATH.append("-".repeat(48)).append(System.lineSeparator());
+        ATH.append("  >>> Level : ").append(ColorStr.green("" + Player.getInstancePlayer().getLvl())).append(" ");
+        ATH.append("| Hunger : ").append(ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")")).append(" <<<").append(System.lineSeparator());
+        ATH.append("-".repeat(48)).append(System.lineSeparator());
         ATH.append("| Money : ").append(ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●")).append(" ");
-        ATH.append("| HP : ").append(ColorStr.red(Player.getInstancePlayer().getHP() + "/100 ♥")).append(" ");
+        ATH.append("| HP : ").append(ColorStr.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getMaxHP() + " ♥")).append(" ");
         ATH.append("| Attack : ").append(ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔")).append(" |").append(System.lineSeparator());
         ATH.append("-".repeat(48)).append(System.lineSeparator());
         System.out.println(ATH.toString());
     }
 
     public static char charConverterToUniversal(char c){
-        switch (c){
+        switch (c) {
             case 'z': return 'w';
             case 'q': return 'a';
 
@@ -161,14 +164,14 @@ public class WorldMap {
         Cell oldCell = new Cell(CellElementType.EMPTY, 0);
         Cell heroCell = instanceWorld.getCell(instancePlayer.getPos());
 
-        while (gameState){
+        while(gameState) {
             buffer = sc.nextLine();
-            if (buffer.length() == 1) {
+            if(buffer.length() == 1) {
                 key = buffer.charAt(0);
                 Position pos = instancePlayer.getPos();
                 Position oldPos = new Position(pos.getX(), pos.getY());
 
-                if(Player.getKeyboard().equals("fr_FR")){ key = charConverterToUniversal(key); }
+                if(Player.getKeyboard().equals("fr_FR")) key = charConverterToUniversal(key);
 
                 switch (key) {
                     case 'w': pos.nextPosition(instanceWorld, Move.UP.getMove()); break;
@@ -177,7 +180,7 @@ public class WorldMap {
                     case 'd': pos.nextPosition(instanceWorld, Move.RIGHT.getMove()); break;
                     case 'p':
                         gameState = false;
-                        System.out.println("Left game");
+                        System.out.println("You left the game.");
                         break;
                     default: break;
                 }
@@ -191,7 +194,7 @@ public class WorldMap {
 
                     if (oldCell.getCurrentContent() == CellElementType.COIN){
                         instancePlayer.incrementMoney();
-                        System.out.println("You have earned " + ColorStr.yellow("+1 coin") + System.lineSeparator());
+                        System.out.println("You have earned " + ColorStr.yellow("+1 coin!") + System.lineSeparator());
                         oldCell = new Cell(CellElementType.EMPTY, 0);
                     }
 
