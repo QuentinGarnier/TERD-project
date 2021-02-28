@@ -1,7 +1,7 @@
 package entity;
 
+import graphics.ColorStr;
 import graphics.elements.Position;
-import graphics.map.WorldMap;
 import items.AbstractItem;
 
 import java.awt.im.InputContext;
@@ -19,8 +19,8 @@ public class Player extends AbstractEntity {
 
     private Player(Position position, int HP, int attack) {
         super(position, HP, attack);
-        this.inventory = new ArrayList<>();
-        this.money = 0;
+        inventory = new ArrayList<>();
+        money = 0;
     }
 
     public static Player getInstancePlayer() {
@@ -31,7 +31,16 @@ public class Player extends AbstractEntity {
         return instancePlayer.inventory;
     }
 
-    public int getMoney() { return instancePlayer.money; }
+    public int getMoney() { return money; }
+
+    public boolean spendMoney(int cost){
+        if (cost > money){
+            System.out.println(ColorStr.red("Not enough money"));
+            return false;
+        }
+        money -= cost;
+        return true;
+    }
 
     public static AbstractItem getItemByID(int id) {
         for(AbstractItem i : instancePlayer.inventory) if(i.getID() == id) return i;
@@ -44,7 +53,7 @@ public class Player extends AbstractEntity {
      */
     public static void addItem(int id) {
         AbstractItem item = AbstractItem.getItemByID(id);
-        if(item != null) instancePlayer.inventory.add(item);
+        if (item != null) instancePlayer.inventory.add(item);
     }
 
 
@@ -71,5 +80,5 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public void incrementMoney(){money++;}
+    public void incrementMoney(){ money++; }
 }

@@ -17,6 +17,7 @@ public class WorldMap {
     public static final int MAX_X = 50; // to be verified
     public static final int MAX_Y = 20; // to be verified
     private static final int maxRandomRoom = 100;
+    private static final int maxRandomCoinByWorld = 50; // test
     private final Cell[][] lab;
     private final List<Room> rooms;
     private final List<Corridor> corridors;
@@ -77,7 +78,7 @@ public class WorldMap {
     private void generateMoney() {
         Random gen = new Random();
         int randomX, randomY;
-        for (int i = 0; i< 50; i++){
+        for (int i = 0; i < maxRandomCoinByWorld; i++){
             randomX = gen.nextInt(MAX_X);
             randomY = gen.nextInt(MAX_Y);
             if (lab[randomX][randomY].getContent() == CellElementType.EMPTY){
@@ -133,9 +134,11 @@ public class WorldMap {
 
     public void showATH(){
         StringBuilder ATH = new StringBuilder();
-        ATH.append("---------------").append(System.lineSeparator());
-        ATH.append("| Money : ").append(ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●")).append(" |").append(System.lineSeparator());
-        ATH.append("---------------").append(System.lineSeparator());
+        ATH.append("-".repeat(48)).append(System.lineSeparator());
+        ATH.append("| Money : ").append(ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●")).append(" ");
+        ATH.append("| HP : ").append(ColorStr.red(Player.getInstancePlayer().getHP() + "/100 ♥")).append(" ");
+        ATH.append("| Attack : ").append(ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔")).append(" |").append(System.lineSeparator());
+        ATH.append("-".repeat(48)).append(System.lineSeparator());
         System.out.println(ATH.toString());
     }
 
@@ -178,7 +181,7 @@ public class WorldMap {
 
                     if (oldCell.getContent() == CellElementType.COIN){
                         instancePlayer.incrementMoney();
-                        System.out.println("You earned " + ColorStr.yellow("+1 coin") + System.lineSeparator());
+                        System.out.println("You have earned " + ColorStr.yellow("+1 coin") + System.lineSeparator());
                         oldCell = new Cell(CellElementType.EMPTY, -1);
                     }
 
