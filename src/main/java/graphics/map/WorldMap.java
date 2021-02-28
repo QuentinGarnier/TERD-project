@@ -37,7 +37,7 @@ public class WorldMap {
         createRooms();
         createCorridors();
         placePlayer();
-        //generateMoney();//just to test
+        generateMoney();//just to test
     }
 
     private void initializeLab() {
