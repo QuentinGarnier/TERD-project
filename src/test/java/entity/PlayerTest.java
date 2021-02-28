@@ -10,7 +10,7 @@ public class PlayerTest {
 
     @Test
     public void testAddItem() {
-        System.out.println(wmap);
+        wmap.repaint();
         Player.addItem(2);
         Player.addItem(0);
         Player.addItem(501);
