@@ -35,7 +35,7 @@ public class Monster extends AbstractEntity{
 
     public boolean withinReach(Player p){
         Position pos = p.getPos();
-        if ((pos.getX() == this.getPos().getX() + 1) || (pos.getX() == this.getPos().getX() - 1) || (pos.getY() == this.getPos().getY() + 1) || (pos.getY() == this.getPos().getY() + 1)){
+        if ((pos.getX() == this.getPos().getX() + 1) || (pos.getX() == this.getPos().getX() - 1) || (pos.getY() == this.getPos().getY() + 1) || (pos.getY() == this.getPos().getY() - 1)){
             return true;
         }
         else
