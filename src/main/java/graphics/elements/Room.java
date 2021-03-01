@@ -2,15 +2,20 @@ package graphics.elements;
 
 import graphics.elements.cells.*;
 import graphics.map.WorldMap;
+import items.AbstractItem;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Room {
     public static final int MIN_WIDTH = 5;
     public static final int MAX_WIDTH = 7;
     public static final int MIN_HEIGHT = 5;
     public static final int MAX_HEIGHT = 7;
+    private final List<AbstractItem> items;
     private final Position topLeft;
     private final Position bottomRight;
     public final int id;
@@ -19,6 +24,7 @@ public class Room {
 
     public Room(List<Room> roomList, WorldMap w) {
         this.id = roomList.size();
+        this.items = new ArrayList<>();
         this.lowestRoomNeighbor = this.id;
         this.gen = new Random();
         this.topLeft = findTopLeft();
@@ -43,7 +49,7 @@ public class Room {
         if (!topLeft.insideWorld() || !bottomRight.insideWorld()) return true;
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
-                if (w.getCell(x, y).getCurrentContent() != CellElementType.OUTSIDE_ROOM) return true;
+                if (w.getCell(x, y).getBaseContent() != CellElementType.OUTSIDE_ROOM) return true;
             }
         }
         return false;
@@ -66,6 +72,10 @@ public class Room {
 
     void putRandomEltInRoom(WorldMap w) {
 
+    }
+
+    public List<AbstractItem> getItems() {
+        return Collections.unmodifiableList(items);
     }
 
     public void setLowestRoomNeighbor(int lowestRoomNeighbor) {
@@ -95,7 +105,7 @@ public class Room {
     public int getId() { return id; }
 
     public static boolean isRoom(Cell c){
-        CellElementType ct = c.getCurrentContent();
+        CellElementType ct = c.getBaseContent();
         return ct == CellElementType.HORIZONTAL_WALL ||
                 ct == CellElementType.VERTICAL_WALL ||
                 ct == CellElementType.CORNER ||

@@ -2,10 +2,16 @@ package entity;
 
 import graphics.ColorStr;
 import graphics.elements.Position;
+import graphics.elements.Room;
+import graphics.elements.cells.Cell;
+import graphics.elements.cells.CellElementType;
+import graphics.map.WorldMap;
 import items.AbstractItem;
 
 import java.awt.im.InputContext;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -14,14 +20,14 @@ public class Player extends AbstractEntity {
 
     private int level;
     private int hunger; //max: 100
-    private ArrayList<AbstractItem> inventory;
+    private List<AbstractItem> inventory;
     private int money;
 
     private boolean isRoom;
     private int id;
 
     private Player() {
-        super(new Position(0, 0), 100, 10);
+        super(new Position(0, 0), 100, 10, CellElementType.HERO, -1);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
@@ -32,8 +38,19 @@ public class Player extends AbstractEntity {
         return instancePlayer;
     }
 
-    public static ArrayList<AbstractItem> getInventory() {
-        return instancePlayer.inventory;
+    public static List<AbstractItem> getInventory() {
+        return Collections.unmodifiableList(instancePlayer.inventory);
+    }
+
+    public void pickElement(Position p){
+        WorldMap worldMap = WorldMap.getInstanceWorld();
+        Cell c = worldMap.getCell(p);
+        if (c.getItemContent() != null){
+            Room r = worldMap.getRooms().get(c.getBaseId());
+            inventory.add(r.getItems().get(c.getItemId()));
+        } else {
+            System.out.println("Nothing to pick");
+        }
     }
 
     public int getMoney() {

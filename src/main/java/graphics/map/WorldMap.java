@@ -14,7 +14,7 @@ import java.util.*;
 public class WorldMap {
     private static final WorldMap instanceWorld = new WorldMap();
 
-    public static final int MAX_X = 50; // to be verified
+    public static final int MAX_X = 70; // to be verified
     public static final int MAX_Y = 20; // to be verified
     private static final int maxRandomRoom = 100;
     private static final int maxRandomCoinByWorld = 50; // test
@@ -63,15 +63,12 @@ public class WorldMap {
         for (Room r : rooms) {
             new Corridor(this, r, rooms, corridors);
         }
-        // rooms.forEach(x -> System.out.print(x.getLowestRoomNeighbor() + " "));
-        // System.out.println();
-        for (int i = 0; i < rooms.size(); i++){
-            if (rooms.get(i).getLowestRoomNeighbor() != 0){
+        for (Room room : rooms) {
+            if (room.getLowestRoomNeighbor() != 0) {
                 createCorridors();
                 break;
             }
         }
-        //System.out.println(corridors.size());
     }
 
     private void generateMoney() {
@@ -80,8 +77,9 @@ public class WorldMap {
         for (int i = 0; i < maxRandomCoinByWorld; i++){
             randomX = gen.nextInt(MAX_X);
             randomY = gen.nextInt(MAX_Y);
-            if (lab[randomX][randomY].getCurrentContent() == CellElementType.EMPTY){
-                lab[randomX][randomY] = new Cell(CellElementType.COIN, 0);
+            Cell cell = getCell(randomX, randomY);
+            if (cell.getBaseContent() == CellElementType.EMPTY){
+                cell.setItem(CellElementType.COIN, 0);
             }
         }
     }
@@ -96,36 +94,16 @@ public class WorldMap {
 
     public void setCell(Position p, Cell c){ setCell(p.getX(), p.getY(), c); }
 
-    public void setHeroIsHere(boolean isRoom, int id){
-        for (int i = 0; i < MAX_X; i++){
-            for (int j = 0; j < MAX_Y; j++){
-                Cell c = lab[i][j];
-                c.setHeroIsHere(isRoom ?
-                        Room.isRoom(c) && c.getCurrentId() == id :
-                        c.getCurrentContent() == CellElementType.CORRIDOR && c.getCurrentId() == id);
-            }
-        }
-    }
-
     private void placePlayer() {
         Random rnd = new Random();
         int iRoom = rnd.nextInt(rooms.size());
         Room room = rooms.get(iRoom);
-        setHeroIsHere(true, iRoom);
 
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
 
         Player.getInstancePlayer().setPosition(x, y);
-        lab[x][y] = new Cell(CellElementType.HERO, 0);
-    }
-
-    public void setPlayerPlace(Position p, Cell heroCell) {
-        setCell(p, heroCell);
-    }
-
-    public void toEmptyACell(Position p) {
-        setCell(p, new Cell(CellElementType.EMPTY, 0));
+        getCell(x, y).setEntity(CellElementType.HERO, 0);
     }
 
     public void repaint() {
@@ -133,28 +111,33 @@ public class WorldMap {
         showATH();
     }
 
+    private int padding(String str){
+        String s1 = str.replaceAll("\\033\\[3.m", "").replace(ColorStr.DEFAULT, "");
+        return (MAX_X - s1.length())/2 - 1;
+    }
+
     public void showATH(){
-        StringBuilder ATH = new StringBuilder();
-        ATH.append("-".repeat(48)).append(System.lineSeparator());
-        ATH.append("  >>> Level : ").append(ColorStr.green("" + Player.getInstancePlayer().getLvl())).append(" ");
-        ATH.append("| Hunger : ").append(ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")")).append(" <<<").append(System.lineSeparator());
-        ATH.append("-".repeat(48)).append(System.lineSeparator());
-        ATH.append("| Money : ").append(ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●")).append(" ");
-        ATH.append("| HP : ").append(ColorStr.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getMaxHP() + " ♥")).append(" ");
-        ATH.append("| Attack : ").append(ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔")).append(" |").append(System.lineSeparator());
-        ATH.append("-".repeat(48)).append(System.lineSeparator());
-        System.out.println(ATH.toString());
+        String row1 = "  >>> Level : " + ColorStr.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
+        int padRow1 = padding(row1);
+        String row2 = "Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + ColorStr.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getMaxHP() + " ♥") + " " +
+                "| Attack : " + ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔");
+        int padRow2 = padding(row2);
+        System.out.println(padRow1 + " " + padRow2);
+        String ATH = "-".repeat(MAX_X) + System.lineSeparator() +
+                " ".repeat(padRow1 + 1) + row1 + System.lineSeparator() +
+                "-".repeat(MAX_X) + System.lineSeparator() +
+                "|" + " ".repeat(padRow2) + row2 + " ".repeat(padRow2) + "|"+ System.lineSeparator() +
+                "-".repeat(MAX_X) + System.lineSeparator();
+        System.out.println(ATH);
     }
 
     public static char charConverterToUniversal(char c){
-        switch (c) {
-            case 'z': return 'w';
-            case 'q': return 'a';
-
-            case 'a':       //possibly to be defined
-            case 'w': return '_';
-            default: return c;
-        }
+        return switch (c) {
+            case 'z' -> 'w';
+            case 'q' -> 'a';
+            case 'a', 'w' -> '_';
+            default -> c;
+        };
     }
 
     public static void gamePlayer() {
@@ -163,57 +146,37 @@ public class WorldMap {
         char key;
         boolean gameState = true;
         Player instancePlayer = Player.getInstancePlayer();
-        Cell oldCell = new Cell(CellElementType.EMPTY, 0);
-        Cell heroCell = instanceWorld.getCell(instancePlayer.getPos());
 
         while(gameState) {
             buffer = sc.nextLine();
             if(buffer.length() == 1) {
                 key = buffer.charAt(0);
-                Position pos = instancePlayer.getPos();
-                Position oldPos = new Position(pos.getX(), pos.getY());
 
                 if(Player.getKeyboard().equals("fr_FR")) key = charConverterToUniversal(key);
 
                 switch (key) {
-                    case 'w': pos.nextPosition(instanceWorld, Move.UP.getMove()); break;
-                    case 'a': pos.nextPosition(instanceWorld, Move.LEFT.getMove()); break;
-                    case 's': pos.nextPosition(instanceWorld, Move.DOWN.getMove()); break;
-                    case 'd': pos.nextPosition(instanceWorld, Move.RIGHT.getMove()); break;
+                    case 'w': instancePlayer.moveEntity(Move.UP); break;
+                    case 'a': instancePlayer.moveEntity(Move.LEFT); break;
+                    case 's': instancePlayer.moveEntity(Move.DOWN); break;
+                    case 'd': instancePlayer.moveEntity(Move.RIGHT); break;
                     case 'p':
                         gameState = false;
                         System.out.println("You left the game.");
                         break;
                     default: break;
                 }
-
-                if (key == 'w' || key == 'a' || key == 's' || key == 'd') {
-                    instancePlayer.setPosition(pos);
-                    instanceWorld.setCell(oldPos, oldCell);
-                    oldCell = instanceWorld.getCell(pos);
-                    instanceWorld.setPlayerPlace(pos, heroCell);
-                    for(Room r : instanceWorld.rooms){
-                        if (r.isPositionInsideRoom(pos)) instanceWorld.setHeroIsHere(true, r.getId());
-                    }
-                    
-                    if (oldCell.getCurrentContent() == CellElementType.COIN){
-                        instancePlayer.incrementMoney();
-                        System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
-                        oldCell = new Cell(CellElementType.EMPTY, 0);
-                    }
-
-                    instanceWorld.repaint();
-                }
+                WorldMap.getInstanceWorld().repaint();
             }
         }
         sc.close();
     }
     @Override
     public String toString() {
+        Cell hero = getCell(Player.getInstancePlayer().getPos());
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++) {
             for(int i = 0; i < MAX_X; i++) {
-                sb.append(lab[i][j].isHeroIsHere() ? ColorStr.yellow(lab[i][j].toString()) : lab[i][j].toString());
+                sb.append(getCell(i, j).equals(hero) ? ColorStr.yellow(lab[i][j].toString()) : lab[i][j].toString());
             }
             sb.append(System.lineSeparator());
         }

@@ -12,10 +12,11 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-    public final void nextPosition(WorldMap wmap, Position p) {
+    public final void nextPosition(Position p) {
+        WorldMap worldMap = WorldMap.getInstanceWorld();
         int newX = p.getX() + this.x;
         int newY = p.y + y;
-        if (wmap.getCell(newX, newY).getCurrentContent().isAccessible()) {
+        if (insideWorld(newX, newY) && worldMap.getCell(newX, newY).getBaseContent().isAccessible()) {
             x = newX; y = newY;
         }
     }
@@ -46,9 +47,14 @@ public class Position {
         return res.insideWorld() ? res : null;
     }
 
-    public boolean insideWorld() {
+    public static boolean insideWorld(int x, int y){
         return x > 0 && x < WorldMap.MAX_X &&
-                y > 0 && y < WorldMap.MAX_Y; }
+                y > 0 && y < WorldMap.MAX_Y;
+    }
+
+    public boolean insideWorld() {
+        return insideWorld(x, y);
+    }
 
     @Override
     public boolean equals(Object o) {

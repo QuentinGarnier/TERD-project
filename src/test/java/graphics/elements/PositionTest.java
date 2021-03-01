@@ -23,22 +23,22 @@ public class PositionTest {
 
             switch (gen) {
                 case 0:
-                    p0.nextPosition(w, Move.UP.getMove());
+                    p0.nextPosition(Move.UP.getMove());
                     assertTrue(w.getCell(p1.getX(), p1.getY() - 1).isAccessible() != p0.equals(p1));
                     break;
 
                 case 1:
-                    p0.nextPosition(w, Move.LEFT.getMove());
+                    p0.nextPosition(Move.LEFT.getMove());
                     assertTrue(w.getCell(p1.getX() - 1, p1.getY()).isAccessible() != p0.equals(p1));
                     break;
 
                 case 2:
-                    p0.nextPosition(w, Move.RIGHT.getMove());
+                    p0.nextPosition(Move.RIGHT.getMove());
                     assertTrue(w.getCell(p1.getX() + 1, p1.getY()).isAccessible() != p0.equals(p1));
                     break;
 
                 case 3:
-                    p0.nextPosition(w, Move.DOWN.getMove());
+                    p0.nextPosition(Move.DOWN.getMove());
                     assertTrue(w.getCell(p1.getX(), p1.getY() + 1).isAccessible() != p0.equals(p1));
                     break;
             }
