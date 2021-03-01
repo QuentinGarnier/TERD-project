@@ -135,7 +135,8 @@ public class WorldMap {
         return switch (c) {
             case 'z' -> 'w';
             case 'q' -> 'a';
-            case 'a', 'w' -> '_';
+            case 'a' -> 'q';
+            case 'w' -> '_';
             default -> c;
         };
     }
@@ -154,18 +155,20 @@ public class WorldMap {
 
                 if(Player.getKeyboard().equals("fr_FR")) key = charConverterToUniversal(key);
 
+                instancePlayer.applyStateEffect();
+
                 switch (key) {
                     case 'w': instancePlayer.moveEntity(Move.UP); break;
                     case 'a': instancePlayer.moveEntity(Move.LEFT); break;
                     case 's': instancePlayer.moveEntity(Move.DOWN); break;
                     case 'd': instancePlayer.moveEntity(Move.RIGHT); break;
+                    case 'q': instancePlayer.attack(null); break;
                     case 'p':
                         gameState = false;
                         System.out.println("You left the game.");
                         break;
                     default: break;
                 }
-                WorldMap.getInstanceWorld().repaint();
             }
         }
         sc.close();

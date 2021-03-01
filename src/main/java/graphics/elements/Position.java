@@ -56,6 +56,10 @@ public class Position {
         return insideWorld(x, y);
     }
 
+    public static int calculateRange(Position p1, Position p2){
+        return Math.max(Math.abs(p2.x- p1.x), Math.abs(p2.y - p1.y));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Position){

@@ -22,6 +22,8 @@ public class Player extends AbstractEntity {
     private int hunger; //max: 100
     private List<AbstractItem> inventory;
     private int money;
+    private PlayerState state;
+    private PlayerStrategy specialty;
 
     private boolean isRoom;
     private int id;
@@ -32,6 +34,8 @@ public class Player extends AbstractEntity {
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
+        state = PlayerState.BURNT;
+        specialty = new WarriorStrategy(); //default: warrior
     }
 
     public static Player getInstancePlayer() {
@@ -60,6 +64,8 @@ public class Player extends AbstractEntity {
     public int getLvl() {
         return level;
     }
+
+    public PlayerState getState() { return state; }
 
     public boolean spendMoney(int cost) {
         if (cost > money){
@@ -92,9 +98,9 @@ public class Player extends AbstractEntity {
     }
 
     public static void showCommands() {
-        char top = 'w', left = 'a';
-        if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; }
-        System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo leave : p%s", top, left, System.lineSeparator(), System.lineSeparator());
+        char top = 'w', left = 'a', attack = 'q';
+        if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; attack = 'a';}
+        System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
     }
 
     public void incrementMoney() {
@@ -132,5 +138,13 @@ public class Player extends AbstractEntity {
             if(!inventory.get(i).use()) inventory.remove(i); //use the item then remove it if it returns false (see use() functions)
             break;
         }
+    }
+
+    public void attack(Monster monster){
+        specialty.attack(monster);
+    }
+
+    public void applyStateEffect(){
+        specialty.applyStateEffect();
     }
 }

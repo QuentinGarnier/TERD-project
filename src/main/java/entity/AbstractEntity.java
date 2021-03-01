@@ -34,6 +34,8 @@ public abstract class AbstractEntity{
             Player.getInstancePlayer().incrementMoney();
             currentCell.heroPickItem();
         }
+
+        worldMap.repaint();
     }
 
     public Position getPos() {
@@ -65,16 +67,24 @@ public abstract class AbstractEntity{
      * @param x number of HP added or substituted (can be positive or negative).
      */
     public void modifyHP(int x) {
-        if(this.HP + x > this.HPmax) this.HP = this.HPmax;
-        else if(this.HP + x < 0) this.HP = 0;
-        else this.HP += x;
+        if(HP + x > HPmax) HP = HPmax;
+        else if(HP + x < 0) HP = 0;
+        else HP += x;
     }
 
+    public void takeDamage(int damage){ modifyHP(-damage); }
+
+    public void toHeal(int health){ modifyHP(health); }
+
     public void setHPmax(int x) {
-        this.HPmax = x;
+        HPmax = x;
     }
 
     public void fullHeal() {
-        this.HP = this.HPmax;
+        HP = HPmax;
+    }
+
+    public boolean withinReach(AbstractEntity entity, int range){
+        return Position.calculateRange(this.getPos(), entity.getPos()) == range;
     }
 }
