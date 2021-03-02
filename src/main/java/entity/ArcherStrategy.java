@@ -17,12 +17,13 @@ public class ArcherStrategy extends AbstractPlayerStrategy {
 
     @Override
     public boolean attack(AbstractEntity entity) {
+
         if (entity == Player.getInstancePlayer()) return false;
 
         Monster monster = (Monster) entity;
 
         if (monster == null){//monster not yet implemented
-            System.out.println("Archer : A vain archery (no monster in your range (> 5 <))");
+            System.out.println("[monster not implemented]");
             return false;
         }
 
@@ -41,7 +42,9 @@ public class ArcherStrategy extends AbstractPlayerStrategy {
         Player player = Player.getInstancePlayer();
         PlayerState state = player.getState();
         switch (state){//TODO : to complete
-            case FROZEN: break;
+            case FROZEN://add effect
+                System.out.println(ColorStr.blue("The freezes immobilizes you"));
+                break;
             case BURNT:
                 takeDamage(2);
                 System.out.println(ColorStr.red("The burn inflicted on you 2 damages"));
@@ -51,7 +54,9 @@ public class ArcherStrategy extends AbstractPlayerStrategy {
                 inhibitAccuracy();
                 System.out.println(ColorStr.magenta("You are suffering from poisoning (-1 HP and decreased accuracy)"));
                 break;
-            case PARALYSED: break;
+            case PARALYSED:
+                System.out.println(ColorStr.yellow("You are paralized" ));
+                break;
             default: resetAccuracy(); break;
         }
     }

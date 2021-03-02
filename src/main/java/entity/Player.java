@@ -35,7 +35,7 @@ public class Player extends AbstractEntity {
         inventory = new ArrayList<>();
         money = 0;
         state = PlayerState.POISONED;
-        specialty = new ArcherStrategy(); //default: warrior
+        specialty = new WarriorStrategy(); //default: warrior
     }
 
     public static Player getInstancePlayer() {
@@ -148,5 +148,9 @@ public class Player extends AbstractEntity {
 
     public void applyStateEffect(){
         specialty.applyStateEffect();
+    }
+
+    public boolean canMove() {
+        return Player.getInstancePlayer().getState() != PlayerState.FROZEN;
     }
 }

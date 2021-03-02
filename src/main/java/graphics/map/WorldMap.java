@@ -1,6 +1,7 @@
 package graphics.map;
 
 import entity.Player;
+import entity.PlayerState;
 import graphics.ColorStr;
 import graphics.elements.Corridor;
 import graphics.elements.Move;
@@ -163,10 +164,10 @@ public class WorldMap {
                 instancePlayer.applyStateEffect();
 
                 switch (key) {
-                    case 'w': instancePlayer.moveEntity(Move.UP); break;
-                    case 'a': instancePlayer.moveEntity(Move.LEFT); break;
-                    case 's': instancePlayer.moveEntity(Move.DOWN); break;
-                    case 'd': instancePlayer.moveEntity(Move.RIGHT); break;
+                    case 'w': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.UP); break;
+                    case 'a': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.LEFT); break;
+                    case 's': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.DOWN); break;
+                    case 'd': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.RIGHT); break;
                     case 'q': instancePlayer.attack(null); break;
                     case 'p':
                         gameState = false;

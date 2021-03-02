@@ -18,7 +18,7 @@ public class WarriorStrategy extends AbstractPlayerStrategy {
         Monster monster = (Monster) entity;
 
         if (monster == null) {//monster not yet implemented
-            System.out.println("Warrior : A vain blow (no monster in your range (> 1 <))");
+            System.out.println("[monster not implemented]");
             return false;
         }
 
@@ -48,7 +48,7 @@ public class WarriorStrategy extends AbstractPlayerStrategy {
                 System.out.println(ColorStr.magenta("You are suffering from poisoning (-1 HP, -1 Hunger and disorientation)"));//implement random move when move key is pressed (and his proba)
                 break;
             case PARALYSED:
-                inhibitAttack();//here it is just the warriorstrategy attack which is modified, not player's one. //TODO : fix it
+                inhibitAttack();
                 System.out.println(ColorStr.yellow("You are paralized (your attack is less strong)" ));
                 break;
             default:
@@ -56,6 +56,7 @@ public class WarriorStrategy extends AbstractPlayerStrategy {
                 break;
         }
     }
+
 
     @Override
     public String toString() {

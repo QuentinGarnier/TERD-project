@@ -1,9 +1,9 @@
 package entity;
 
 public abstract class AbstractEntityStrategy {
+
     private int attack;
     private int HP, HPmax;
-
 
     AbstractEntityStrategy(int att, int hp){
         attack = att;
@@ -23,18 +23,16 @@ public abstract class AbstractEntityStrategy {
     }
 
     public void modifyHP(int x) {
-        if(HP + x > HPmax) HP = HPmax;
-        else if(HP + x < 0) HP = 0;
-        else HP += x;
+        HP += x;
+        if(HP > HPmax) HP = HPmax;
+        else if(HP < 0) HP = 0;
     }
 
     public void takeDamage(int damage){ modifyHP(-damage); }
 
     public void toHeal(int health){ modifyHP(health); }
 
-    public void setHPmax(int x) {
-        HPmax = x;
-    }
+    public void setHPmax(int x) { HPmax = x; }
 
     public void fullHeal() { HP = HPmax; }
 
