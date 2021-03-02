@@ -60,6 +60,23 @@ public class Position {
         return Math.max(Math.abs(p2.x- p1.x), Math.abs(p2.y - p1.y));
     }
 
+    public double distance(Position p){
+        return distance(this, p);
+    }
+
+    Position[] getNeighbor(){
+        Position[] ps = new Position[4];
+        ps[0] = Position.sumPos(this, Move.UP);
+        ps[1] = Position.sumPos(this, Move.LEFT);
+        ps[2] = Position.sumPos(this,Move.DOWN);
+        ps[3] = Position.sumPos(this, Move.RIGHT);
+        return ps;
+    }
+
+    public static double distance(Position p1, Position p2){
+        return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Position){

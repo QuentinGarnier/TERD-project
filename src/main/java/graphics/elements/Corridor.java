@@ -6,6 +6,7 @@ import graphics.map.WorldMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Corridor {
@@ -31,7 +32,7 @@ public class Corridor {
         Q.add(start);
         while (Q.size() != 0){
             Position z = eject(Q);
-            for (Position x : getNeighbor(z)){
+            for (Position x : Objects.requireNonNull(z).getNeighbor()){
                 if (x != null && P[x.getX()][x.getY()] == null){
                     P[x.getX()][x.getY()] = z;
                     Cell cell = w[x.getX()][x.getY()];
@@ -115,15 +116,6 @@ public class Corridor {
         if (res.getX() == 0 || res.getX() == WorldMap.MAX_X - 1 ||
                 res.getY() == 0 || res.getY() == WorldMap.MAX_Y - 1) return openDoor(r);
         return res;
-    }
-
-    Position[] getNeighbor(Position p){
-        Position[] ps = new Position[4];
-        ps[0] = Position.sumPos(p, Move.UP);
-        ps[1] = Position.sumPos(p, Move.LEFT);
-        ps[2] = Position.sumPos(p, Move.DOWN);
-        ps[3] = Position.sumPos(p, Move.RIGHT);
-        return ps;
     }
 }
 
