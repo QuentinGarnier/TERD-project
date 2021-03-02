@@ -172,6 +172,8 @@ public class WorldMap {
                         break;
                     default: break;
                 }
+
+                WorldMap.getInstanceWorld().repaint();
             }
         }
         sc.close();

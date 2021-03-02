@@ -17,7 +17,7 @@ public class ArcherStrategy implements PlayerStrategy {
     public boolean attack(Monster monster) {
 
         if (monster == null){//monster not yet implemented
-            System.out.println(ColorStr.encircled(" Specialty : Archer ") + " A vain archery (no monster within your reach");
+            System.out.println("Archer : A vain archery (no monster in your range (> 5 <))");
             return false;
         }
 
@@ -26,7 +26,7 @@ public class ArcherStrategy implements PlayerStrategy {
                 monster.takeDamage(4);
                 return true;
             } else System.out.println(ColorStr.red("Missed target"));
-        } else System.out.println(ColorStr.encircled(" Specialty : Archer ") + " A vain archery (no monster within your reach");
+        } else System.out.println("Archer : A vain archery (no monster in your range (> 5 <))");
         return false;
 
     }

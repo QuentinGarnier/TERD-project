@@ -34,8 +34,6 @@ public abstract class AbstractEntity{
             Player.getInstancePlayer().incrementMoney();
             currentCell.heroPickItem();
         }
-
-        worldMap.repaint();
     }
 
     public Position getPos() {

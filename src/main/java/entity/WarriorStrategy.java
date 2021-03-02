@@ -4,11 +4,6 @@ import graphics.ColorStr;
 
 public class WarriorStrategy implements PlayerStrategy {
 
-    private int attack;
-
-    public WarriorStrategy(){
-        attack = 10;
-    }
 
     private void inhibitAttack(){ Player.getInstancePlayer().modifyAttack(2); }
 
@@ -18,14 +13,14 @@ public class WarriorStrategy implements PlayerStrategy {
     public boolean attack(Monster monster) {
 
         if (monster == null) {//monster not yet implemented
-            System.out.println(ColorStr.red(ColorStr.encircled(" Specialty : Warrior ")) + " A vain blow (no monster within your reach)");
+            System.out.println("Warrior : A vain blow (no monster in your range (> 1 <))");
             return false;
         }
 
         if (Player.getInstancePlayer().withinReach(monster, 1)){
-            monster.takeDamage(attack);
+            monster.takeDamage(Player.getInstancePlayer().getAttack());
             return true;
-        } else System.out.println(ColorStr.red(ColorStr.encircled(" Specialty : Warrior ")) + " A vain blow (no monster within your reach)");
+        } else System.out.println("Warrior : A vain blow (no monster in your range (> 1 <))");
         return false;
     }
 
