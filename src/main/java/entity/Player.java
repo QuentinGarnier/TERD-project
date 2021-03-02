@@ -23,7 +23,7 @@ public class Player extends AbstractEntity {
     private List<AbstractItem> inventory;
     private int money;
     private PlayerState state;
-    private PlayerStrategy specialty;
+    private AbstractPlayerStrategy specialty;
 
     private boolean isRoom;
     private int id;
@@ -35,7 +35,7 @@ public class Player extends AbstractEntity {
         inventory = new ArrayList<>();
         money = 0;
         state = PlayerState.POISONED;
-        specialty = new WarriorStrategy(); //default: warrior
+        specialty = new ArcherStrategy(); //default: warrior
     }
 
     public static Player getInstancePlayer() {
@@ -67,7 +67,7 @@ public class Player extends AbstractEntity {
 
     public PlayerState getState() { return state; }
 
-    public PlayerStrategy getSpecialty() { return specialty; }
+    public AbstractPlayerStrategy getSpecialty() { return specialty; }
 
     public boolean spendMoney(int cost) {
         if (cost > money){

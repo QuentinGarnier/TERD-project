@@ -2,11 +2,13 @@ package entity;
 
 import graphics.ColorStr;
 
-public class ArcherStrategy implements PlayerStrategy {
+public class ArcherStrategy extends AbstractPlayerStrategy {
     private double arrowProba;
 
     public ArcherStrategy(){
+        super(4, 50);
         arrowProba = 0.75;
+
     }
 
     private void inhibitAccuracy(){ arrowProba -= 0.25; }
@@ -14,7 +16,10 @@ public class ArcherStrategy implements PlayerStrategy {
     private void resetAccuracy(){ arrowProba += 0.25;}
 
     @Override
-    public boolean attack(Monster monster) {
+    public boolean attack(AbstractEntity entity) {
+        if (entity == Player.getInstancePlayer()) return false;
+
+        Monster monster = (Monster) entity;
 
         if (monster == null){//monster not yet implemented
             System.out.println("Archer : A vain archery (no monster in your range (> 5 <))");
@@ -23,7 +28,7 @@ public class ArcherStrategy implements PlayerStrategy {
 
         if (Player.getInstancePlayer().withinReach(monster, 5)) {
             if (Math.random() > arrowProba) { //to simulate a archer shooting
-                monster.takeDamage(4);
+                //monster.takeDamage(getAttack());
                 return true;
             } else System.out.println(ColorStr.red("Missed target"));
         } else System.out.println("Archer : A vain archery (no monster in your range (> 5 <))");
@@ -38,11 +43,11 @@ public class ArcherStrategy implements PlayerStrategy {
         switch (state){//TODO : to complete
             case FROZEN: break;
             case BURNT:
-                player.takeDamage(2);
+                takeDamage(2);
                 System.out.println(ColorStr.red("The burn inflicted on you 2 damages"));
                 break;
             case POISONED:
-                player.takeDamage(1);
+                takeDamage(1);
                 inhibitAccuracy();
                 System.out.println(ColorStr.magenta("You are suffering from poisoning (-1 HP and decreased accuracy)"));
                 break;

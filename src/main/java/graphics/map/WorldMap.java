@@ -123,8 +123,8 @@ public class WorldMap {
         int padRow0 = padding(row0);
         String row1 = "  >>> Level : " + ColorStr.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
         int padRow1 = padding(row1);
-        String row2 = "Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + ColorStr.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getMaxHP() + " ♥") + " " +
-                "| Attack : " + ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔");
+        String row2 = "Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + ColorStr.red(Player.getInstancePlayer().getSpecialty().getHP() + "/" + Player.getInstancePlayer().getSpecialty().getHPmax() + " ♥") + " " +
+                "| Attack : " + ColorStr.blue(Player.getInstancePlayer().getSpecialty().getAttack() + " ⚔");
         int padRow2 = padding(row2);
         //System.out.println(padRow1 + " " + padRow2);
         String ATH = " ".repeat(padRow0) + row0 + System.lineSeparator() +
