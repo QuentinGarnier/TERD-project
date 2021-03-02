@@ -84,13 +84,25 @@ public class WorldMap {
         }
     }
 
-    public static WorldMap getInstanceWorld() { return instanceWorld; }
+    public static WorldMap getInstanceWorld() {
+        return instanceWorld;
+    }
 
-    public Cell getCell(int x, int y) { return lab[x][y]; }
+    public Cell[][] getLab() {
+        return lab;
+    }
 
-    public Cell getCell(Position p) { return getCell(p.getX(), p.getY()); }
+    public Cell getCell(int x, int y) {
+        return lab[x][y];
+    }
 
-    public void setCell(int x, int y, Cell c){ lab[x][y] = c; }
+    public Cell getCell(Position p) {
+        return getCell(p.getX(), p.getY());
+    }
+
+    public void setCell(int x, int y, Cell c) {
+        lab[x][y] = c;
+    }
 
     public void setCell(Position p, Cell c){ setCell(p.getX(), p.getY(), c); }
 
@@ -111,12 +123,12 @@ public class WorldMap {
         showATH();
     }
 
-    private int padding(String str){
+    private int padding(String str) {
         String s1 = str.replaceAll("\\033\\[3.m", "").replace(ColorStr.DEFAULT, "");
         return (MAX_X - s1.length())/2 - 1;
     }
 
-    public void showATH(){
+    public void showATH() {
         String row0 = Player.getInstancePlayer().getSpecialty().toString() + " " + Player.getInstancePlayer().getState().getText();
         int padRow0 = padding(row0);
         String row1 = "  >>> Level : " + ColorStr.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
@@ -134,7 +146,7 @@ public class WorldMap {
         System.out.println(ATH);
     }
 
-    public static char charConverterToUniversal(char c){
+    public static char charConverterToUniversal(char c) {
         return switch (c) {
             case 'z' -> 'w';
             case 'q' -> 'a';
@@ -178,6 +190,7 @@ public class WorldMap {
         }
         sc.close();
     }
+
     @Override
     public String toString() {
         Cell hero = getCell(Player.getInstancePlayer().getPos());
