@@ -1,6 +1,7 @@
 package graphics.elements;
 
-import graphics.elements.cells.*;
+import graphics.elements.cells.Cell;
+import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import items.AbstractItem;
 
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Room {
     public static final int MIN_WIDTH = 5;
@@ -22,15 +22,15 @@ public class Room {
     private int lowestRoomNeighbor;
     private final Random gen;
 
-    public Room(List<Room> roomList, WorldMap w) {
+    public Room(List<Room> roomList, Cell[][] lab) {
         this.id = roomList.size();
         this.items = new ArrayList<>();
         this.lowestRoomNeighbor = this.id;
         this.gen = new Random();
         this.topLeft = findTopLeft();
         this.bottomRight = findBottomRight();
-        if (!checkCollision(w)){
-            updateLab(w);
+        if (!checkCollision(lab)){
+            updateLab(lab);
             roomList.add(this);
         }
     }
@@ -45,27 +45,27 @@ public class Room {
                 topLeft.getY() + MIN_HEIGHT + gen.nextInt(MAX_HEIGHT - MIN_HEIGHT));
     }
 
-    public boolean checkCollision(WorldMap w) {
+    public boolean checkCollision(Cell[][] lab) {
         if (!topLeft.insideWorld() || !bottomRight.insideWorld()) return true;
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
-                if (w.getCell(x, y).getBaseContent() != CellElementType.OUTSIDE_ROOM) return true;
+                if (lab[x][y].getBaseContent() != CellElementType.OUTSIDE_ROOM) return true;
             }
         }
         return false;
     }
 
-    public void updateLab(WorldMap w) {
+    public void updateLab(Cell[][] lab) {
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
                         (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
-                    w.setCell(x, y, new Cell(CellElementType.CORNER, id));
+                    lab[x][y] = new Cell(CellElementType.CORNER, id);
                 else if (x == topLeft.getX() || x == bottomRight.getX())
-                    w.setCell(x, y, new Cell(CellElementType.VERTICAL_WALL, id));
+                   lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id);
                 else if (y == topLeft.getY() || y == bottomRight.getY())
-                    w.setCell(x, y, new Cell(CellElementType.HORIZONTAL_WALL, id));
-                else w.setCell(x, y, new Cell(CellElementType.EMPTY, id)); // ==> empty cell <-> in room
+                    lab[x][y] = new Cell(CellElementType.HORIZONTAL_WALL, id);
+                else lab[x][y] = new Cell(CellElementType.EMPTY, id); // ==> empty cell <-> in room
             }
         }
     }

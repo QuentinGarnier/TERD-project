@@ -14,17 +14,17 @@ public class Corridor {
     public Room startRoom;
     private final Random gen;
 
-    public Corridor(WorldMap w, Room r, List<Room> rooms, List<Corridor> corridors){
+    public Corridor(Cell[][] lab, Room r, List<Room> rooms, List<Corridor> corridors){
         positionList = new ArrayList<>();
         gen = new Random();
         this.id = corridors.size();
         this.startRoom = r;
         if (r.id == 0 || r.getLowestRoomNeighbor() != 0){
-            createCorridor(w, r, rooms, corridors);
+            createCorridor(lab, r, rooms, corridors);
         }
     }
 
-    private void createCorridor(WorldMap w, Room r, List<Room> rooms, List<Corridor> corridors){
+    private void createCorridor(Cell[][] w, Room r, List<Room> rooms, List<Corridor> corridors){
         Position start = openDoor(r);
         List<Position> Q = new ArrayList<>();
         Position[][] P = new Position[WorldMap.MAX_X][WorldMap.MAX_Y];
@@ -34,7 +34,7 @@ public class Corridor {
             for (Position x : getNeighbor(z)){
                 if (x != null && P[x.getX()][x.getY()] == null){
                     P[x.getX()][x.getY()] = z;
-                    Cell cell = w.getCell(x);
+                    Cell cell = w[x.getX()][x.getY()];
                     CellElementType ct = cell.getBaseContent();
                     if ((ct == CellElementType.HORIZONTAL_WALL ||
                             ct == CellElementType.VERTICAL_WALL) &&
@@ -72,23 +72,23 @@ public class Corridor {
         updateRooms(rooms, c.startRoom);
     }
 
-    private void createPath(WorldMap w, Position[][] P, Position start, Position end, boolean endIsRoom, List<Corridor> corridors){
-        int iStart = w.getCell(start).getBaseId();
-        int iEnd = w.getCell(end).getBaseId();
+    private void createPath(Cell[][] w, Position[][] P, Position start, Position end, boolean endIsRoom, List<Corridor> corridors){
+        int iStart = w[start.getX()][start.getY()].getBaseId();
+        int iEnd = w[end.getX()][end.getY()].getBaseId();
         int cellId = endIsRoom ? id : iEnd;
         // System.out.println(cellId);
         Position current = P[end.getX()][end.getY()];
         while (!current.equals(start)){
             positionList.add(current);
-            w.setCell(current, new Cell(CellElementType.CORRIDOR, cellId));
+            w[current.getX()][current.getY()] = new Cell(CellElementType.CORRIDOR, cellId);
             current = P[current.getX()][current.getY()];
         }
-        w.setCell(start, new Cell(CellElementType.EMPTY, iStart));
+        w[start.getX()][start.getY()] = new Cell(CellElementType.EMPTY, iStart);
         if (endIsRoom) {
-            w.setCell(end, new Cell(CellElementType.EMPTY, iEnd));
+            w[end.getX()][end.getY()] = new Cell(CellElementType.EMPTY, iEnd);
             corridors.add(this);
         } else {
-            w.setCell(end, new Cell(CellElementType.CORRIDOR, iEnd));
+            w[end.getX()][end.getY()] = new Cell(CellElementType.CORRIDOR, iEnd);
             corridors.get(iEnd).positionList.addAll(positionList);
         }
     }
