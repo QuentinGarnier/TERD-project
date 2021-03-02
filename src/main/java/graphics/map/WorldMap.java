@@ -50,7 +50,7 @@ public class WorldMap {
 
     private void createRooms() {
         for (int i = 0; i < maxRandomRoom; i++) {
-            new Room(rooms, this);
+            new Room(rooms, lab);
         }
         if (rooms.size() == 0) createRooms();
     }
@@ -61,7 +61,7 @@ public class WorldMap {
 
     private void createCorridors() {
         for (Room r : rooms) {
-            new Corridor(this, r, rooms, corridors);
+            new Corridor(lab, r, rooms, corridors);
         }
         for (Room room : rooms) {
             if (room.getLowestRoomNeighbor() != 0) {
@@ -88,10 +88,6 @@ public class WorldMap {
         return instanceWorld;
     }
 
-    public Cell[][] getLab() {
-        return lab;
-    }
-
     public Cell getCell(int x, int y) {
         return lab[x][y];
     }
@@ -99,12 +95,6 @@ public class WorldMap {
     public Cell getCell(Position p) {
         return getCell(p.getX(), p.getY());
     }
-
-    public void setCell(int x, int y, Cell c) {
-        lab[x][y] = c;
-    }
-
-    public void setCell(Position p, Cell c){ setCell(p.getX(), p.getY(), c); }
 
     private void placePlayer() {
         Random rnd = new Random();
