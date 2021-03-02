@@ -75,15 +75,19 @@ public class Cell {
         return entityContent;
     }
 
+    public CellElementType getMainContentType() {
+        if (entityContent != null) return entityContent;
+        if (itemContent != null) return itemContent;
+        return baseContent;
+    }
+
     public boolean isAccessible() {
         return baseContent.isAccessible();
     }
 
     @Override
     public String toString() {
-        if (entityContent != null) return entityContent.toString();
-        if (itemContent != null) return itemContent.toString();
-        return baseContent.toString();
+        return this.getMainContentType().toString();
     }
 
     @Override
