@@ -88,10 +88,6 @@ public class WorldMap {
         return instanceWorld;
     }
 
-    public Cell[][] getLab() {
-        return lab;
-    }
-
     public Cell getCell(int x, int y) {
         return lab[x][y];
     }
