@@ -2,25 +2,30 @@ package graphics.elements.cells;
 
 import graphics.ColorStr;
 
+import javax.swing.*;
+
 public enum CellElementType {
-    VERTICAL_WALL('|', false),
-    HORIZONTAL_WALL('—', false),
-    CORNER('┼', false), // TODO there are 4 types of corners?
-    MONSTER('O', false),
-    OUTSIDE_ROOM(' ', false),
-    CORRIDOR('#', true),
-    TREE('&',false),
-    HERO('@', false),
-    ITEM('%', true),
-    COIN('●', true),
-    EMPTY('.', true); // work also for doors
+    VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
+    HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
+    CORNER('┼', false, "map/walls/stone_corner"), // TODO there are 4 types of corners?
+    MONSTER('O', false, ""),
+    OUTSIDE_ROOM(' ', false, "map/grounds/water"),
+    CORRIDOR('#', true, "map/grounds/wood"),
+    TREE('&',false, "map/miscellaneous/tree"),
+    STONE('&',false, "map/miscellaneous/stone"),
+    HERO('@', false, "entities/hero/hero_01"),
+    ITEM('%', true, "map/miscellaneous/item"),
+    COIN('●', true, "map/miscellaneous/coin"),
+    EMPTY('.', true, "map/grounds/stone"); // work also for doors
 
     private final char symbol;
     private final boolean isAccessible;
+    private final ImageIcon icon;
 
-    CellElementType(char c, boolean isAccessible) {
+    CellElementType(char c, boolean isAccessible, String pathEnd) {
         this.symbol = c;
         this.isAccessible = isAccessible;
+        this.icon = new ImageIcon("data/images/" + pathEnd + ".png");
     }
 
     public char getSymbol() {
@@ -29,6 +34,10 @@ public enum CellElementType {
 
     public boolean isAccessible() {
         return isAccessible;
+    }
+
+    public ImageIcon getIcon() {
+        return icon;
     }
 
     @Override
