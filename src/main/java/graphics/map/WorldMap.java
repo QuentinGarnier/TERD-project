@@ -117,13 +117,16 @@ public class WorldMap {
     }
 
     public void showATH(){
+        String row0 = Player.getInstancePlayer().getSpecialty().toString() + " " + Player.getInstancePlayer().getState().getText();
+        int padRow0 = padding(row0);
         String row1 = "  >>> Level : " + ColorStr.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
         int padRow1 = padding(row1);
         String row2 = "Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + ColorStr.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getMaxHP() + " ♥") + " " +
                 "| Attack : " + ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔");
         int padRow2 = padding(row2);
-        System.out.println(padRow1 + " " + padRow2);
-        String ATH = "-".repeat(MAX_X) + System.lineSeparator() +
+        //System.out.println(padRow1 + " " + padRow2);
+        String ATH = " ".repeat(padRow0) + row0 + System.lineSeparator() +
+                "-".repeat(MAX_X) + System.lineSeparator() +
                 " ".repeat(padRow1 + 1) + row1 + System.lineSeparator() +
                 "-".repeat(MAX_X) + System.lineSeparator() +
                 "|" + " ".repeat(padRow2) + row2 + " ".repeat(padRow2) + "|"+ System.lineSeparator() +

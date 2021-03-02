@@ -34,7 +34,7 @@ public class Player extends AbstractEntity {
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
-        state = PlayerState.BURNT;
+        state = PlayerState.POISONED;
         specialty = new WarriorStrategy(); //default: warrior
     }
 
@@ -66,6 +66,8 @@ public class Player extends AbstractEntity {
     }
 
     public PlayerState getState() { return state; }
+
+    public PlayerStrategy getSpecialty() { return specialty; }
 
     public boolean spendMoney(int cost) {
         if (cost > money){

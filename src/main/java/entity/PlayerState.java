@@ -1,5 +1,7 @@
 package entity;
 
+import graphics.ColorStr;
+
 /**
  * List all different types of states you can be affected
  *      NEUTRAL -> white, Player is affected by nothing
@@ -13,14 +15,17 @@ package entity;
 
 public enum PlayerState {
 
-    NEUTRAL(-1), FROZEN(5), BURNT(10), POISONED(10), PARALYSED(10);
+    NEUTRAL("", -1), FROZEN(ColorStr.blueBG("Frozen"), 5), BURNT(ColorStr.redBG("Burnt"),10), POISONED(ColorStr.magentaBG("Poisoned"), 10), PARALYSED(ColorStr.yellowBG("Paralysed"), 10);
 
+    private final String text;
     private final int duration;
 
-    PlayerState(int duration){
+    PlayerState(String text, int duration){
+        this.text = text;
         this.duration = duration;
     }
 
     public int getDuration() { return duration; }
 
+    public String getText() { return text; }
 }

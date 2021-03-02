@@ -62,6 +62,11 @@ public abstract class AbstractEntity{
         return attack;
     }
 
+    public void modifyAttack(int att) {
+        attack = att;
+        if(attack < 0) attack = 0;
+    }
+
     /**
      * Modify the value of the current HP.
      * @param x number of HP added or substituted (can be positive or negative).
@@ -85,6 +90,6 @@ public abstract class AbstractEntity{
     }
 
     public boolean withinReach(AbstractEntity entity, int range){
-        return Position.calculateRange(this.getPos(), entity.getPos()) == range;
+        return Position.calculateRange(this.getPos(), entity.getPos()) <= range;
     }
 }

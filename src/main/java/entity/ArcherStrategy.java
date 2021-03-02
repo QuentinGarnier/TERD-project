@@ -15,15 +15,20 @@ public class ArcherStrategy implements PlayerStrategy {
 
     @Override
     public boolean attack(Monster monster) {
-        System.out.println("[archer] null_monster");
-        if (monster == null) return false;
+
+        if (monster == null){//monster not yet implemented
+            System.out.println(ColorStr.encircled(" Specialty : Archer ") + " A vain archery (no monster within your reach");
+            return false;
+        }
+
         if (Player.getInstancePlayer().withinReach(monster, 5)) {
             if (Math.random() > arrowProba) { //to simulate a archer shooting
                 monster.takeDamage(4);
                 return true;
             } else System.out.println(ColorStr.red("Missed target"));
-        }
+        } else System.out.println(ColorStr.encircled(" Specialty : Archer ") + " A vain archery (no monster within your reach");
         return false;
+
     }
 
     @Override
@@ -44,5 +49,10 @@ public class ArcherStrategy implements PlayerStrategy {
             case PARALYSED: break;
             default: resetAccuracy(); break;
         }
+    }
+
+    @Override
+    public String toString() {
+        return ColorStr.green(ColorStr.encircled(" Specialty : Archer "));
     }
 }
