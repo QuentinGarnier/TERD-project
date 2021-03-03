@@ -2,6 +2,8 @@ package graphics.elements;
 
 import graphics.map.WorldMap;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -48,8 +50,8 @@ public class Position {
     }
 
     public static boolean insideWorld(int x, int y){
-        return x > 0 && x < WorldMap.MAX_X &&
-                y > 0 && y < WorldMap.MAX_Y;
+        return x >= 0 && x < WorldMap.MAX_X &&
+                y >= 0 && y < WorldMap.MAX_Y;
     }
 
     public boolean insideWorld() {
@@ -57,23 +59,28 @@ public class Position {
     }
 
     public static int calculateRange(Position p1, Position p2){
-        return Math.max(Math.abs(p2.x- p1.x), Math.abs(p2.y - p1.y));
+        if (p1.x == p2.x) return Math.abs(p1.y - p2.y);
+        if (p1.y == p2.y) return Math.abs(p1.x - p2.x);
+        return Integer.MAX_VALUE;
+        //return Math.max(Math.abs(p2.x- p1.x), Math.abs(p2.y - p1.y));
     }
 
     public double distance(Position p){
         return distance(this, p);
     }
 
-    Position[] getNeighbor(){
-        Position[] ps = new Position[4];
-        ps[0] = Position.sumPos(this, Move.UP);
-        ps[1] = Position.sumPos(this, Move.LEFT);
-        ps[2] = Position.sumPos(this,Move.DOWN);
-        ps[3] = Position.sumPos(this, Move.RIGHT);
-        return ps;
+    public Position[] getNeighbor(){
+        List<Position> positionList = new ArrayList<>();
+        Position pos;
+        for (Move m : Move.values()) {
+            pos = Position.sumPos(this, m);
+            if (pos != null) positionList.add(pos);
+        }
+        return positionList.toArray(new Position[0]);
     }
 
     public static double distance(Position p1, Position p2){
+        if (p1 == null || p2 == null) return Double.MAX_VALUE;
         return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
     }
 

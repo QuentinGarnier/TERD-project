@@ -1,10 +1,10 @@
 package entity;
 
 import graphics.ColorStr;
+import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
-import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import items.AbstractItem;
 
@@ -16,7 +16,15 @@ import java.util.Locale;
 
 
 public class Player extends AbstractEntity {
-    private static final Player instancePlayer = new Player();
+    private static Player instancePlayer;
+
+    static {
+        try {
+            instancePlayer = new Player();
+        } catch (ErrorPositionOutOfBound errorPositionOutOfBound) {
+            errorPositionOutOfBound.printStackTrace();
+        }
+    }
 
     private int level;
     private int hunger; //max: 100
@@ -28,8 +36,8 @@ public class Player extends AbstractEntity {
     private boolean isRoom;
     private int id;
 
-    private Player() {
-        super(new Position(0, 0), 100, 10, CellElementType.HERO, -1);
+    private Player() throws ErrorPositionOutOfBound {
+        super(new Position(0, 0), 100, 10, -1, EntityType.HERO);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();

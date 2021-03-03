@@ -1,7 +1,7 @@
 package entity;
 
+import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
-import graphics.elements.cells.CellElementType;
 
 public class Monster extends AbstractEntity{
     private boolean isRoom;
@@ -9,8 +9,8 @@ public class Monster extends AbstractEntity{
 
     //private MonsterStrategy race;
 
-    private Monster() {
-        super(new Position(0, 0), 100, 10, CellElementType.MONSTER, -2);
+    Monster(Position p, int hp, int attack, int id, EntityType et) throws ErrorPositionOutOfBound {
+        super(p, hp, attack, id, et);
     }
 
     /*

@@ -60,10 +60,10 @@ public class GamePanel extends JPanel {
 
     void moveHero(Move move) {
         //Should be a "canMoveToward(Move move)" function in Player.java to have a better code:
-        Position p = new Position(Player.getInstancePlayer().getPos().getX(), Player.getInstancePlayer().getPos().getY());
+        Position p = new Position(Player.getInstancePlayer().getPosition().getX(), Player.getInstancePlayer().getPosition().getY());
         if(Player.getInstancePlayer().canMove()) {
             Player.getInstancePlayer().moveEntity(move);
-            if(!Player.getInstancePlayer().getPos().equals(p))
+            if(!Player.getInstancePlayer().getPosition().equals(p))
                 heroLabel.setLocation(heroLabel.getX() + (move==Move.LEFT?-32:(move==Move.RIGHT?32:0)), heroLabel.getY() + (move==Move.UP?-32:(move==Move.DOWN?32:0)));
         }
     }

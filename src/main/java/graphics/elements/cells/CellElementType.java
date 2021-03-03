@@ -16,7 +16,11 @@ public enum CellElementType {
     HERO('@', false, "entities/hero/hero_01"),
     ITEM('%', true, "map/miscellaneous/item"),
     COIN('●', true, "map/miscellaneous/coin"),
-    EMPTY('.', true, "map/grounds/stone"); // work also for doors
+    EMPTY('.', true, "map/grounds/stone"), // work also for doors
+    GOBLIN('G', false, ""),
+    SPIDER('S', false, ""),
+    ORC('O', false, ""),
+    WIZARD('W', false, "");
 
     private final char symbol;
     private final boolean isAccessible;

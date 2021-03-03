@@ -13,7 +13,7 @@ public class PositionTest {
     @Test
     public void testNextPosition() {
         WorldMap w = WorldMap.getInstanceWorld();
-        Position p0 = Player.getInstancePlayer().getPos();
+        Position p0 = Player.getInstancePlayer().getPosition();
         Position p1 = new Position(p0.getX(), p0.getY());
         Random rnd = new Random();
 

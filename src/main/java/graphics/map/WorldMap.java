@@ -1,7 +1,6 @@
 package graphics.map;
 
 import entity.Player;
-import entity.PlayerState;
 import graphics.ColorStr;
 import graphics.elements.Corridor;
 import graphics.elements.Move;
@@ -184,7 +183,7 @@ public class WorldMap {
 
     @Override
     public String toString() {
-        Cell hero = getCell(Player.getInstancePlayer().getPos());
+        Cell hero = getCell(Player.getInstancePlayer().getPosition());
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++) {
             for(int i = 0; i < MAX_X; i++) {
