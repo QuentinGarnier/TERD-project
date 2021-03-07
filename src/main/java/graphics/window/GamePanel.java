@@ -63,6 +63,10 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Should be in WorldMap class.
+     * @param move direction for the movement.
+     */
     void moveHero(Move move) {
         Position pos = move.getMove();
         //Should be a "canMoveToward(Move move)" function in Player.java to have a better code:
@@ -71,7 +75,7 @@ public class GamePanel extends JPanel {
         if(Player.getInstancePlayer().canMove()) {
             if(Player.getInstancePlayer().moveEntity(move)) {
                 heroLabel.setLocation(heroLabel.getX() + pos.getX() * size , heroLabel.getY() + pos.getY() * size);
-                if (cell.getBaseContent().equals(CellElementType.EMPTY)) {
+                if(cell.getBaseContent().equals(CellElementType.EMPTY)) {
                     worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(e -> {
                         JLabel currentLabel =
                                 (JLabel) (monsterLabels.stream().filter(x ->

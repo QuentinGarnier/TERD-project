@@ -21,7 +21,6 @@ public abstract class AbstractItem {
 
         this.price = 0; // -> prix à ajouter dans la lecture du fichier etc (pour l'achat/vente)
         //this.effectLine = e; //à ajouter quand la dernière ligne sera parse (actuellement les 'undefined')
-        if (immediateUse) use();
     }
 
     public static AbstractItem generateRandomItem(int id) {

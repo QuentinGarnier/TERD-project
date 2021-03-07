@@ -86,7 +86,7 @@ public class Room {
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom(lab);
             AbstractItem m = AbstractItem.generateRandomItem(items.size());
-            lab[topLeft.getX() + 1 + pos.getX()][topLeft.getY() + 1 + pos.getY()].setItem(m.type.ct, m.getId());
+            lab[topLeft.getX() + 1 + pos.getX()][topLeft.getY() + 1 + pos.getY()].setItem(m);
             items.add(m);
             nbOfElt--;
         }

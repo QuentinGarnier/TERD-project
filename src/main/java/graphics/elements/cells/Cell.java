@@ -1,5 +1,7 @@
 package graphics.elements.cells;
 
+import items.AbstractItem;
+
 import java.util.Objects;
 
 public class Cell {
@@ -17,6 +19,7 @@ public class Cell {
     // item
     private int itemId;
     private CellElementType itemContent;
+    private AbstractItem item;
 
     // entity
     private int entityId;
@@ -33,17 +36,18 @@ public class Cell {
         setEntity(null, -1);
     }
 
-    public void heroPickItem(){
-        setItem(null, -1);
+    public void heroPickItem() {
+        setItem(null);
     }
 
     public CellElementType getBaseContent() {
         return baseContent;
     }
 
-    public void setItem(CellElementType ct, int id) {
-        this.itemId = id;
-        this.itemContent = ct;
+    public void setItem(AbstractItem it) {
+        this.item = it;
+        this.itemId = (it == null? -1 : it.getId());
+        this.itemContent = (it == null? null : it.type.ct);
     }
 
     public void setEntity(CellElementType ct, int id) {
@@ -61,6 +65,10 @@ public class Cell {
 
     public int getItemId() {
         return itemId;
+    }
+
+    public AbstractItem getItem() {
+        return item;
     }
 
     public CellElementType getItemContent() {

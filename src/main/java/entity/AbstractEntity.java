@@ -30,16 +30,17 @@ public abstract class AbstractEntity {
         if (!p.insideWorld()) throw new ErrorPositionOutOfBound(p);
     }
 
-    public boolean moveEntity(Position p){
+    public boolean moveEntity(Position p) {
         CellElementType ct = entityType.cellElementType;
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
         boolean moved = position.nextPosition(p);
         worldMap.getCell(position).setEntity(ct, id);
         Cell currentCell = worldMap.getCell(position);
-        if (ct == CellElementType.HERO && currentCell.getItemContent() == CellElementType.COIN){
-           // System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
-            Player.getInstancePlayer().incrementMoney();
+        if (ct == CellElementType.HERO && currentCell.getItemContent() != null) {
+            //System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
+            if(currentCell.getItem().immediateUse) currentCell.getItem().use();
+            else Player.addItem(currentCell.getItemId()); //ne marche probablement pas comme voulu vu que les ID sont désormais dépendant des salles
             currentCell.heroPickItem();
         }
         return moved;

@@ -96,7 +96,6 @@ public class GameWindow extends JFrame {
                 case 'a' -> gamePanel.moveHero(Move.LEFT);
             }
             window.setScrollFrameBar();
-            System.out.println(Player.getInstancePlayer().getMoney());
         }
     }
 }
