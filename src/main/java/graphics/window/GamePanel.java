@@ -26,6 +26,7 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(WorldMap.MAX_X * size,WorldMap.MAX_Y * size));
         worldMap = WorldMap.getInstanceWorld();
         monsterLabels = new ArrayList<>();
+        System.out.println(worldMap);
     }
 
     void clear() {
@@ -88,6 +89,7 @@ public class GamePanel extends JPanel {
                 }
             }
         }
+        System.out.println(worldMap);
     }
 
     public Point getHeroPosition() {
