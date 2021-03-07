@@ -24,19 +24,22 @@ public abstract class AbstractItem {
         if (immediateUse) use();
     }
 
-    public static AbstractItem generateRandomItem(int id){
-        ItemType[] itemTypes = ItemType.values();
-        int rndElt = new Random().nextInt(itemTypes.length);
-        AbstractItem res;
-        ItemType itemType = itemTypes[rndElt];
-        switch (itemType){
-            case COIN -> res = new ItemCoin(id, "Coin " + id);
-            case CONSUMABLE -> res = new ItemConsumable(id, "Consumable " + id);
-            case EQUIP -> res = new ItemEquip(id, "Equip " + id);
-            case FOOD -> res = new ItemFood(id, "Food " + id);
-            default -> res = null;
+    public static AbstractItem generateRandomItem(int id) {
+        if(new Random().nextInt(2) == 0) return new ItemCoin(id, "Coin " + id);
+        else {
+            ItemType[] itemTypes = ItemType.values();
+            int rndElt = new Random().nextInt(itemTypes.length);
+            AbstractItem res;
+            ItemType itemType = itemTypes[rndElt];
+            switch (itemType) {
+                case COIN -> res = new ItemCoin(id, "Coin " + id);
+                case CONSUMABLE -> res = new ItemConsumable(id, "Consumable " + id);
+                case EQUIP -> res = new ItemEquip(id, "Equip " + id);
+                case FOOD -> res = new ItemFood(id, "Food " + id);
+                default -> res = null;
+            }
+            return res;
         }
-        return res;
     }
 
     public int getId() {
