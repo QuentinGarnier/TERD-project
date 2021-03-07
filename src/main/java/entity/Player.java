@@ -87,7 +87,7 @@ public class Player extends AbstractEntity {
     }
 
     public static AbstractItem getItemByID(int id) {
-        for(AbstractItem i : instancePlayer.inventory) if(i.getID() == id) return i;
+        for(AbstractItem i : instancePlayer.inventory) if(i.getId() == id) return i;
         return null;
     }
 
@@ -111,6 +111,10 @@ public class Player extends AbstractEntity {
         char top = 'w', left = 'a', attack = 'q';
         if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; attack = 'a';}
         System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
+    }
+
+    public void incrementMoney(int x){
+        money += x;
     }
 
     public void incrementMoney() {
@@ -144,7 +148,7 @@ public class Player extends AbstractEntity {
      * @param itemID ID of the item (do nothing if it's not in the inventory)
      */
     public void useItem(int itemID) {
-        for(int i=0; i<inventory.size(); i++) if(inventory.get(i).getID() == itemID) {
+        for(int i=0; i<inventory.size(); i++) if(inventory.get(i).getId() == itemID) {
             if(!inventory.get(i).use()) inventory.remove(i); //use the item then remove it if it returns false (see use() functions)
             break;
         }

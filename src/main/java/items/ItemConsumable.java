@@ -7,7 +7,7 @@ public class ItemConsumable extends AbstractItem {
     private int[] amounts;
 
     public ItemConsumable(int id, String name) {
-        super(id, name, ItemType.CONSUMABLE);
+        super(id, name, ItemType.CONSUMABLE, false);
     }
 
     @Override

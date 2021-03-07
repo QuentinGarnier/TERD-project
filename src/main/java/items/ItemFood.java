@@ -8,7 +8,7 @@ public class ItemFood extends AbstractItem {
     private int[] effects;
 
     public ItemFood(int id, String name) {
-        super(id, name, ItemType.FOOD);
+        super(id, name, ItemType.FOOD, false);
         this.hungerGain = 0;
         this.hpGain = 0;
     }

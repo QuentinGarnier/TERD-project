@@ -22,7 +22,6 @@ public class WorldMap {
     public static final int MAX_X = 70; // to be verified
     public static final int MAX_Y = 20; // to be verified
     private static final int maxRandomRoom = 100;
-    private static final int maxRandomCoinByWorld = 50; // test
     private final Cell[][] lab;
     private final List<Room> rooms;
     private final List<Corridor> corridors;
@@ -42,7 +41,6 @@ public class WorldMap {
         createRooms();
         createCorridors();
         placePlayer();
-        generateMoney();//just to test
     }
 
     private void initializeLab() {
@@ -72,19 +70,6 @@ public class WorldMap {
             if (room.getLowestRoomNeighbor() != 0) {
                 createCorridors();
                 break;
-            }
-        }
-    }
-
-    private void generateMoney() {
-        Random gen = new Random();
-        int randomX, randomY;
-        for (int i = 0; i < maxRandomCoinByWorld; i++){
-            randomX = gen.nextInt(MAX_X);
-            randomY = gen.nextInt(MAX_Y);
-            Cell cell = getCell(randomX, randomY);
-            if (cell.getBaseContent() == CellElementType.EMPTY){
-                cell.setItem(CellElementType.COIN, 0);
             }
         }
     }

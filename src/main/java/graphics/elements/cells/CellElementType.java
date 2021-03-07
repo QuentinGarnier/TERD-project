@@ -5,6 +5,7 @@ import graphics.ColorStr;
 import javax.swing.*;
 
 public enum CellElementType {
+    BURGER('B', true, "items/consumable/big_burger"),
     VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
     HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
     CORNER('┼', false, "map/walls/stone_corner"), // TODO there are 4 types of corners?
@@ -19,9 +20,9 @@ public enum CellElementType {
     COIN('●', true, "map/miscellaneous/coin"),
     EMPTY('.', true, "map/grounds/stone"), // work also for doors
     GOBLIN('G', false, "entities/monsters/goblin"),
-    SPIDER('S', false, ""),
-    ORC('O', false, ""),
-    WIZARD('W', false, "");
+    SPIDER('S', false, "entities/monsters/spider"),
+    ORC('O', false, "entities/monsters/orc"),
+    WIZARD('W', false, "entities/monsters/wizard");
 
     private final char symbol;
     private final boolean isAccessible;

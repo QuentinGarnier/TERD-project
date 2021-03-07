@@ -4,7 +4,7 @@ public class ItemEquip extends AbstractItem {
     private boolean isEquipped;
 
     public ItemEquip(int id, String name) {
-        super(id, name, ItemType.EQUIP);
+        super(id, name, ItemType.EQUIP, false);
         isEquipped = false;
     }
 

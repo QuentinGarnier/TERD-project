@@ -2,34 +2,49 @@ package items;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 
 public abstract class AbstractItem {
+    public final ItemType type;
     private final int id;
     private final String name;
-    private final ItemType type;
     private final int price;
     protected String effectLine;
+    public final boolean immediateUse;
 
-    AbstractItem(int i, String n, ItemType t) {
+    AbstractItem(int i, String n, ItemType t, boolean immediateUse) {
         this.id = i;
         this.name = n;
         this.type = t;
+        this.immediateUse = immediateUse;
 
         this.price = 0; // -> prix à ajouter dans la lecture du fichier etc (pour l'achat/vente)
         //this.effectLine = e; //à ajouter quand la dernière ligne sera parse (actuellement les 'undefined')
+        if (immediateUse) use();
     }
 
-    public int getID() {
+    public static AbstractItem generateRandomItem(int id){
+        ItemType[] itemTypes = ItemType.values();
+        int rndElt = new Random().nextInt(itemTypes.length);
+        AbstractItem res;
+        ItemType itemType = itemTypes[rndElt];
+        switch (itemType){
+            case COIN -> res = new ItemCoin(id, "Coin " + id);
+            case CONSUMABLE -> res = new ItemConsumable(id, "Consumable " + id);
+            case EQUIP -> res = new ItemEquip(id, "Equip " + id);
+            case FOOD -> res = new ItemFood(id, "Food " + id);
+            default -> res = null;
+        }
+        return res;
+    }
+
+    public int getId() {
         return this.id;
     }
 
     public String getName() {
         return this.name;
-    }
-
-    public ItemType getType() {
-        return this.type;
     }
 
     public int getPrice() {

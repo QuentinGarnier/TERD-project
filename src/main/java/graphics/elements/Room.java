@@ -1,6 +1,5 @@
 package graphics.elements;
 
-import entity.EntityType;
 import entity.Monster;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
@@ -17,6 +16,8 @@ public class Room {
     public static final int MAX_WIDTH = 7;
     public static final int MIN_HEIGHT = 5;
     public static final int MAX_HEIGHT = 7;
+    private static final double MAX_ITEMS = 0.4;
+    private static final double MAX_MONSTERS = 0.4;
     private final List<AbstractItem> items;
     private final List<Monster> monsters;
     private final Position topLeft;
@@ -76,13 +77,28 @@ public class Room {
     }
 
     private void putRandomEltInRoom(Cell[][] lab) throws ErrorPositionOutOfBound {
-        int nbOfElt = gen.nextInt(getArea() * 30 / 100);
-        nbOfElt = 1; // to erase
+        putMonsters(lab);
+        putItems(lab);
+    }
+
+    private void putItems(Cell[][] lab){
+        int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_ITEMS));
         while (nbOfElt > 0) {
-            //Position pos = getRandomPosInRoom(lab);
-            Position pos = new Position(getTopLeft().getX() + 1 , getTopLeft().getY() + 1); // to erase
-            Monster m = new Monster(pos, 10,15,monsters.size(), EntityType.GOBLIN);
-            lab[pos.getX()][pos.getY()].setEntity(m.entityType.getCellElementType(), m.getId());
+            Position pos = getRandomPosInRoom(lab);
+            AbstractItem m = AbstractItem.generateRandomItem(items.size());
+            lab[topLeft.getX() + 1 + pos.getX()][topLeft.getY() + 1 + pos.getY()].setItem(m.type.ct, m.getId());
+            items.add(m);
+            nbOfElt--;
+        }
+    }
+
+    private void putMonsters(Cell[][] lab) throws ErrorPositionOutOfBound {
+        int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_MONSTERS));
+        while (nbOfElt > 0) {
+            Position pos = getRandomPosInRoom(lab);
+            Monster m = Monster.generateRandomMonster(pos, monsters.size());
+            //Monster m = new Monster(pos, 100, 100, monsters.size(), EntityType.GOBLIN);
+            lab[topLeft.getX() + 1 + pos.getX()][topLeft.getY() + 1 + pos.getY()].setEntity(m.entityType.getCellElementType(), m.getId());
             monsters.add(m);
             nbOfElt--;
         }
@@ -121,7 +137,7 @@ public class Room {
     }
 
     public int getArea(){
-        return getHeight() * getWidth();
+        return (getHeight() - 2) * (getWidth() - 2);
     }
 
     public int getLowestRoomNeighbor() {
