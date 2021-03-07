@@ -14,13 +14,16 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-    public final void nextPosition(Position p) {
+
+    public final boolean nextPosition(Position p) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         int newX = p.getX() + this.x;
         int newY = p.y + y;
         if (insideWorld(newX, newY) && worldMap.getCell(newX, newY).getBaseContent().isAccessible()) {
             x = newX; y = newY;
+            return true;
         }
+        return false;
     }
 
     public int getX() {

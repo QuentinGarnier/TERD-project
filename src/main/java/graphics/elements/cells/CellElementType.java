@@ -17,7 +17,7 @@ public enum CellElementType {
     ITEM('%', true, "map/miscellaneous/item"),
     COIN('●', true, "map/miscellaneous/coin"),
     EMPTY('.', true, "map/grounds/stone"), // work also for doors
-    GOBLIN('G', false, ""),
+    GOBLIN('G', false, "entities/monsters/goblin"),
     SPIDER('S', false, ""),
     ORC('O', false, ""),
     WIZARD('W', false, "");

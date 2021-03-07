@@ -9,15 +9,23 @@ import graphics.map.WorldMap;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamePanel extends JPanel {
-    private JLabel heroLabel = new JLabel(CellElementType.HERO.getIcon());
+    private final JLabel heroLabel = new JLabel(CellElementType.HERO.getIcon());
+    private final List<JLabel> monsterLabels;
+    private final WorldMap worldMap;
+    private final int size = 32;
 
     GamePanel() {
         super();
         setLayout(null);
         setFocusable(true);
         setBackground(Color.DARK_GRAY);
+        setPreferredSize(new Dimension(WorldMap.MAX_X * size,WorldMap.MAX_Y * size));
+        worldMap = WorldMap.getInstanceWorld();
+        monsterLabels = new ArrayList<>();
     }
 
     void clear() {
@@ -35,17 +43,18 @@ public class GamePanel extends JPanel {
             Cell cell = WorldMap.getInstanceWorld().getCell(x, y);
 
             if(cell.getEntityContent() == CellElementType.HERO) {
-                heroLabel.setBounds(x * 32, y * 32, 32, 32);
+                heroLabel.setBounds(x * size, y * size, size, size);
             } else {
                 JLabel label = new JLabel(cell.getMainContentType().getIcon());
-                label.setBounds(x * 32, y * 32, 32, 32);
+                label.setBounds(x * size, y * size, size, size);
+                monsterLabels.add(label);
                 add(label);
             }
 
             //Display background when there is something else on:
             if(cell.getMainContentType() != cell.getBaseContent()) {
                 JLabel label2 = new JLabel(cell.getBaseContent().getIcon());
-                label2.setBounds(x*32, y*32, 32, 32);
+                label2.setBounds(x*size, y*size, size, size);
                 add(label2);
             }
         }
@@ -54,17 +63,34 @@ public class GamePanel extends JPanel {
     private void displayInterface() {
         JPanel playerInfo = new JPanel();
         add(playerInfo);
-        playerInfo.setBounds(0,WorldMap.MAX_Y * 32, 800, 80);  //Dimensions test -> à modifier
+        playerInfo.setBounds(0,WorldMap.MAX_Y * size, 800, 80);  //Dimensions test -> à modifier
         setBackground(Color.LIGHT_GRAY);
     }
 
     void moveHero(Move move) {
+        Position pos = move.getMove();
         //Should be a "canMoveToward(Move move)" function in Player.java to have a better code:
-        Position p = new Position(Player.getInstancePlayer().getPosition().getX(), Player.getInstancePlayer().getPosition().getY());
+        Player player = Player.getInstancePlayer();
+        Cell cell = worldMap.getCell(player.getPosition());
         if(Player.getInstancePlayer().canMove()) {
-            Player.getInstancePlayer().moveEntity(move);
-            if(!Player.getInstancePlayer().getPosition().equals(p))
-                heroLabel.setLocation(heroLabel.getX() + (move==Move.LEFT?-32:(move==Move.RIGHT?32:0)), heroLabel.getY() + (move==Move.UP?-32:(move==Move.DOWN?32:0)));
+            if(Player.getInstancePlayer().moveEntity(move)/*!Player.getInstancePlayer().getPosition().equals(p)*/) {
+                heroLabel.setLocation(heroLabel.getX() + pos.getX() * size , heroLabel.getY() + pos.getY() * size);
+                if (cell.getBaseContent().equals(CellElementType.EMPTY)) {
+                    worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(e -> {
+                        System.out.println(e.getPosition());
+                        JLabel currentLabel =
+                                (JLabel) (monsterLabels.stream().filter(x ->
+                                        x.getBounds().getLocation().equals(new Point(e.getPosition().getX() * size, e.getPosition().getY() * size)))).toArray()[0];
+                        e.applyStrategy();
+                        currentLabel.setBounds(e.getPosition().getX() * size, e.getPosition().getY() * size, size, size);
+                        System.out.println(e.getPosition());
+                    });
+                }
+            }
         }
+    }
+
+    public Point getHeroPosition() {
+        return heroLabel.getLocation();
     }
 }

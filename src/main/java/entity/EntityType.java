@@ -13,4 +13,8 @@ public enum EntityType {
     EntityType(CellElementType ct){
         cellElementType = ct;
     }
+
+    public CellElementType getCellElementType(){
+        return cellElementType;
+    }
 }

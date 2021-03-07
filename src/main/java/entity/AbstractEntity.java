@@ -1,6 +1,5 @@
 package entity;
 
-import graphics.ColorStr;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
 import graphics.elements.Position;
@@ -12,14 +11,14 @@ public abstract class AbstractEntity {
     private Position position;
     private final Strategy strategy;
     public final EntityType entityType;
-    private int HP, HPmax;
+    private int HP, HPMax;
     private int attack;
     private final int id;
 
     public AbstractEntity(Position position, int hp, int attack, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         checkPosition(position);
         this.position = position;
-        this.HPmax = hp;
+        this.HPMax = hp;
         this.HP = hp;
         this.attack = attack;
         this.id = id;
@@ -31,22 +30,23 @@ public abstract class AbstractEntity {
         if (!p.insideWorld()) throw new ErrorPositionOutOfBound(p);
     }
 
-    public void moveEntity(Position p){
+    public boolean moveEntity(Position p){
         CellElementType ct = entityType.cellElementType;
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
-        position.nextPosition(p);
+        boolean moved = position.nextPosition(p);
         worldMap.getCell(position).setEntity(ct, id);
         Cell currentCell = worldMap.getCell(position);
         if (ct == CellElementType.HERO && currentCell.getItemContent() == CellElementType.COIN){
-            System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
+           // System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
             Player.getInstancePlayer().incrementMoney();
             currentCell.heroPickItem();
         }
+        return moved;
     }
 
-    public void moveEntity(Move m){
-        moveEntity(m.getMove());
+    public boolean moveEntity(Move m){
+        return moveEntity(m.getMove());
     }
 
     public Position getPosition() {
@@ -65,7 +65,7 @@ public abstract class AbstractEntity {
         position.setPosition(p.getX(), p.getY());
     }
 
-    public int getMaxHP() { return HPmax; }
+    public int getMaxHP() { return HPMax; }
 
     public int getHP() { return HP; }
 
@@ -84,7 +84,7 @@ public abstract class AbstractEntity {
 
 
     public void modifyHP(int x) {
-        if(HP + x > HPmax) HP = HPmax;
+        if(HP + x > HPMax) HP = HPMax;
         else if(HP + x < 0) HP = 0;
         else HP += x;
     }
@@ -93,11 +93,11 @@ public abstract class AbstractEntity {
 
     public void toHeal(int health){ modifyHP(health); }
 
-    public void setHPmax(int x) {
-        HPmax = x;
+    public void setHPMax(int x) {
+        HPMax = x;
     }
 
-    public void fullHeal() { HP = HPmax; }
+    public void fullHeal() { HP = HPMax; }
 
     public boolean withinReach(AbstractEntity entity, int range){
         return Position.calculateRange(this.getPosition(), entity.getPosition()) <= range;
@@ -108,6 +108,9 @@ public abstract class AbstractEntity {
     }
 
     public void goTo(Position p){
+        WorldMap worldMap = WorldMap.getInstanceWorld();
+        worldMap.getCell(position).entityLeft();
         this.position = p;
+        worldMap.getCell(position).setEntity(entityType.cellElementType, id);
     }
 }

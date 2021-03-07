@@ -1,5 +1,6 @@
 package graphics.map;
 
+import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
@@ -10,7 +11,7 @@ import static org.junit.Assert.*;
 public class WorldMapTest {
     WorldMap w = WorldMap.getInstanceWorld();
     @Test
-    public void testProgrammeStrongConnected() {
+    public void testProgrammeStrongConnected() throws ErrorPositionOutOfBound {
         for (int i = 0; i < 100; i++) {
             System.out.println();
             for (Room r : w.getRooms()) {

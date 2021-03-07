@@ -82,7 +82,7 @@ public class Cell {
     }
 
     public boolean isAccessible() {
-        return baseContent.isAccessible();
+        return getMainContentType().isAccessible();
     }
 
     @Override

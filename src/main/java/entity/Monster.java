@@ -9,7 +9,7 @@ public class Monster extends AbstractEntity{
 
     //private MonsterStrategy race;
 
-    Monster(Position p, int hp, int attack, int id, EntityType et) throws ErrorPositionOutOfBound {
+    public Monster(Position p, int hp, int attack, int id, EntityType et) throws ErrorPositionOutOfBound {
         super(p, hp, attack, id, et);
     }
 

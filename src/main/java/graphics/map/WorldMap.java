@@ -2,17 +2,22 @@ package graphics.map;
 
 import entity.Player;
 import graphics.ColorStr;
-import graphics.elements.Corridor;
-import graphics.elements.Move;
-import graphics.elements.Position;
+import graphics.elements.*;
 import graphics.elements.cells.Cell;
-import graphics.elements.Room;
 import graphics.elements.cells.CellElementType;
 
 import java.util.*;
 
 public class WorldMap {
-    private static final WorldMap instanceWorld = new WorldMap();
+    private static WorldMap instanceWorld;
+
+    static {
+        try {
+            instanceWorld = new WorldMap();
+        } catch (ErrorPositionOutOfBound errorPositionOutOfBound) {
+            errorPositionOutOfBound.printStackTrace();
+        }
+    }
 
     public static final int MAX_X = 70; // to be verified
     public static final int MAX_Y = 20; // to be verified
@@ -23,14 +28,14 @@ public class WorldMap {
     private final List<Corridor> corridors;
 
 
-    private WorldMap() {
+    private WorldMap() throws ErrorPositionOutOfBound {
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         generateWorld();
     }
 
-    public void generateWorld(){
+    public void generateWorld() throws ErrorPositionOutOfBound {
         rooms.clear();
         corridors.clear();
         initializeLab();
@@ -48,7 +53,7 @@ public class WorldMap {
         }
     }
 
-    private void createRooms() {
+    private void createRooms() throws ErrorPositionOutOfBound {
         for (int i = 0; i < maxRandomRoom; i++) {
             new Room(rooms, lab);
         }
