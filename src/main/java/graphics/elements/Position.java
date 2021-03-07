@@ -19,7 +19,7 @@ public class Position {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         int newX = p.getX() + this.x;
         int newY = p.y + y;
-        if (insideWorld(newX, newY) && worldMap.getCell(newX, newY).getBaseContent().isAccessible()) {
+        if (insideWorld(newX, newY) && worldMap.getCell(newX, newY).isAccessible()) {
             x = newX; y = newY;
             return true;
         }
@@ -73,11 +73,12 @@ public class Position {
     }
 
     public Position[] getNeighbor(){
+        WorldMap worldMap = WorldMap.getInstanceWorld();
         List<Position> positionList = new ArrayList<>();
         Position pos;
         for (Move m : Move.values()) {
             pos = Position.sumPos(this, m);
-            if (pos != null) positionList.add(pos);
+            if (pos != null && (worldMap == null || worldMap.getCell(pos).isAccessible())) positionList.add(pos);
         }
         return positionList.toArray(new Position[0]);
     }
