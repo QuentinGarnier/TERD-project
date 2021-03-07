@@ -59,10 +59,10 @@ public class GameWindow extends JFrame {
         public void keyTyped(KeyEvent e) {}
 
         @Override
-        public void keyReleased(KeyEvent e) {}
+        public void keyPressed(KeyEvent e) {}
 
         @Override
-        public void keyPressed(KeyEvent e) {
+        public void keyReleased(KeyEvent e) {
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_UP -> gamePanel.moveHero(Move.UP);
