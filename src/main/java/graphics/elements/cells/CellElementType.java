@@ -14,6 +14,7 @@ public enum CellElementType {
     TREE('&',false, "map/miscellaneous/tree"),
     STONE('&',false, "map/miscellaneous/stone"),
     HERO('@', false, "entities/hero/hero_01"),
+    MERCHANT('M', false, ""),
     ITEM('%', true, "map/miscellaneous/item"),
     COIN('●', true, "map/miscellaneous/coin"),
     EMPTY('.', true, "map/grounds/stone"), // work also for doors
