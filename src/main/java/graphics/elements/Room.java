@@ -86,7 +86,7 @@ public class Room {
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom(lab);
             AbstractItem m = AbstractItem.generateRandomItem(items.size());
-            lab[topLeft.getX() + 1 + pos.getX()][topLeft.getY() + 1 + pos.getY()].setItem(m);
+            lab[pos.getX()][pos.getY()].setItem(m);
             items.add(m);
             nbOfElt--;
         }
@@ -98,15 +98,15 @@ public class Room {
             Position pos = getRandomPosInRoom(lab);
             Monster m = Monster.generateRandomMonster(pos, monsters.size());
             //Monster m = new Monster(pos, 100, 100, monsters.size(), EntityType.GOBLIN);
-            lab[topLeft.getX() + 1 + pos.getX()][topLeft.getY() + 1 + pos.getY()].setEntity(m.entityType.getCellElementType(), m.getId());
+            lab[pos.getX()][pos.getY()].setEntity(m.entityType.getCellElementType(), m.getId());
             monsters.add(m);
             nbOfElt--;
         }
     }
 
     private Position getRandomPosInRoom(Cell[][] lab){
-        int x = gen.nextInt(getWidth() - 2);
-        int y = gen.nextInt(getHeight() - 2);
+        int x = gen.nextInt(getWidth() - 2) + topLeft.getX() + 1;
+        int y = gen.nextInt(getHeight() - 2) + topLeft.getY() + 1;
         if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
             return new Position(x, y);
         else return getRandomPosInRoom(lab);
