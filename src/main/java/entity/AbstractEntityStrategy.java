@@ -4,11 +4,13 @@ public abstract class AbstractEntityStrategy {
 
     private int attack;
     private int HP, HPmax;
+    private int range;
 
-    AbstractEntityStrategy(int att, int hp){
+    AbstractEntityStrategy(int att, int hp, int r){
         attack = att;
         HP = hp;
         HPmax = hp;
+        range = r;
     }
 
     public int getAttack() { return attack; }
@@ -16,6 +18,8 @@ public abstract class AbstractEntityStrategy {
     public int getHP() { return HP; }
 
     public int getHPmax() { return HPmax; }
+
+    public int getRange() { return range; }
 
     public void modifyAttack(int att) {
         attack = att;

@@ -4,7 +4,7 @@ import graphics.ColorStr;
 
 public class WarriorStrategy extends AbstractPlayerStrategy {
     WarriorStrategy(){
-        super(10, 100);
+        super(10, 100, 1);
     }
 
     private void inhibitAttack(){ modifyAttack(2); }
@@ -13,20 +13,17 @@ public class WarriorStrategy extends AbstractPlayerStrategy {
 
     @Override
     public boolean attack(AbstractEntity entity) {
-        if (entity == Player.getInstancePlayer()) return false;
+        Player player = Player.getInstancePlayer();
+
+        if (entity == player) return false;
 
         Monster monster = (Monster) entity;
 
-        if (monster == null) {//monster not yet implemented
-            System.out.println("[monster not implemented]");
-            return false;
-        }
+        if (monster == null) return false;
 
-        if (Player.getInstancePlayer().withinReach(monster, 1)){
-            //monster.takeDamage(getAttack());
-            return true;
-        } else System.out.println("Warrior : A vain blow (no monster in your range (> 1 <))");
-        return false;
+        if (player.withinReach(monster, getRange())){
+            monster.takeDamage(getAttack()); return true;
+        } else System.out.printf("Warrior : A vain blow (no monster in your range (> %d <))", getRange()); return false;
     }
 
     @Override

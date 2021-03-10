@@ -6,8 +6,8 @@ package entity;
 
 public abstract class AbstractPlayerStrategy extends AbstractEntityStrategy{
 
-    AbstractPlayerStrategy(int att, int hp){
-        super(att, hp);
+    AbstractPlayerStrategy(int att, int hp, int range){
+        super(att, hp, range);
     }
 
     public abstract void applyStateEffect();

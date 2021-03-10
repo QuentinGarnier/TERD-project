@@ -14,7 +14,7 @@ public class StrategyTest {
         Player hero = Player.getInstancePlayer();
         Position validPos = w.getRooms().get(0).getTopLeft();
         validPos.setPosition(validPos.getX() + 1, validPos.getY() + 1);
-        Monster m = new Monster(validPos, 100, 10, -2, EntityType.GOBLIN);
+        Monster m = new Monster(validPos, 100, 10, -2, EntityType.MONSTER_GOBLIN);
         Position oldPos = m.getPosition();
         int oldHeroHp = hero.getHP();
         System.out.println("HERO POSITION = " + hero.getPosition());

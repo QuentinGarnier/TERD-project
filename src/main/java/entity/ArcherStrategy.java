@@ -6,7 +6,7 @@ public class ArcherStrategy extends AbstractPlayerStrategy {
     private double arrowProba;
 
     public ArcherStrategy(){
-        super(4, 50);
+        super(4, 50, 5);
         arrowProba = 0.75;
 
     }
@@ -17,19 +17,17 @@ public class ArcherStrategy extends AbstractPlayerStrategy {
 
     @Override
     public boolean attack(AbstractEntity entity) {
+        Player player = Player.getInstancePlayer();
 
         if (entity == Player.getInstancePlayer()) return false;
 
         Monster monster = (Monster) entity;
 
-        if (monster == null){//monster not yet implemented
-            System.out.println("[monster not implemented]");
-            return false;
-        }
+        if (monster == null) return false;
 
-        if (Player.getInstancePlayer().withinReach(monster, 5)) {
+        if (Player.getInstancePlayer().withinReach(monster, getRange())) {
             if (Math.random() > arrowProba) { //to simulate a archer shooting
-                //monster.takeDamage(getAttack());
+                monster.takeDamage(getAttack());
                 return true;
             } else System.out.println(ColorStr.red("Missed target"));
         } else System.out.println("Archer : A vain archery (no monster in your range (> 5 <))");
@@ -38,7 +36,7 @@ public class ArcherStrategy extends AbstractPlayerStrategy {
     }
 
     @Override
-    public void applyStateEffect() { // to call before the player action
+    public void applyStateEffect() {
         Player player = Player.getInstancePlayer();
         PlayerState state = player.getState();
         switch (state){//TODO : to complete

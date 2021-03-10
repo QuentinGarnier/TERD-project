@@ -12,9 +12,9 @@ public class Strategy {
 
     public void applyStrategy(){
         switch (currentEntity.entityType){
-            case GOBLIN -> Goblin();
-            case ORC, SPIDER -> OrcSpider();
-            case WIZARD -> Wizard();
+            case MONSTER_GOBLIN -> Goblin();
+            case MONSTER_ORC, MONSTER_SPIDER -> OrcSpider();
+            case MONSTER_WIZARD -> Wizard();
         }
     }
 
