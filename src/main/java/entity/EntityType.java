@@ -11,8 +11,8 @@ public enum EntityType {
     HERO_WITCHER(CellElementType.HERO),
 
     MONSTER_GOBLIN(CellElementType.GOBLIN),
-    MONSTER_SPIDER(CellElementType.SPIDER),
     MONSTER_ORC(CellElementType.ORC),
+    MONSTER_SPIDER(CellElementType.SPIDER),
     MONSTER_WIZARD(CellElementType.WIZARD);
 
     CellElementType cellElementType;
