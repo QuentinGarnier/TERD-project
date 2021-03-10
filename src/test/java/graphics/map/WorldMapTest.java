@@ -47,6 +47,7 @@ public class WorldMapTest {
         for (int i = 0; i < 100; i++) {
             int oneHero = 0;
             w.generateWorld();
+            w.repaint();
             System.out.println(i);
             for (int x = 0; x < WorldMap.MAX_X; x++)
                 for (int y = 0; y < WorldMap.MAX_Y; y++) {
