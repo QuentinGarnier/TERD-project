@@ -39,7 +39,7 @@ public class WorldMap {
         corridors.clear();
         initializeLab();
         createRooms();
-        createCorridors();
+        createCorridors(true);
         placePlayer();
     }
 
@@ -62,13 +62,13 @@ public class WorldMap {
         return Collections.unmodifiableList(rooms);
     }
 
-    private void createCorridors() {
+    private void createCorridors(boolean firstTime) {
         for (Room r : rooms) {
-            new Corridor(lab, r, rooms, corridors);
+            new Corridor(lab, r, rooms, corridors, firstTime);
         }
         for (Room room : rooms) {
             if (room.getLowestRoomNeighbor() != 0) {
-                createCorridors();
+                createCorridors(false);
                 break;
             }
         }

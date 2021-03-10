@@ -4,10 +4,7 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Corridor {
     private final List<Position> positionList;
@@ -15,12 +12,12 @@ public class Corridor {
     public Room startRoom;
     private final Random gen;
 
-    public Corridor(Cell[][] lab, Room r, List<Room> rooms, List<Corridor> corridors){
+    public Corridor(Cell[][] lab, Room r, List<Room> rooms, List<Corridor> corridors, boolean firstTime){
         positionList = new ArrayList<>();
         gen = new Random();
         this.id = corridors.size();
         this.startRoom = r;
-        if (r.id == 0 || r.getLowestRoomNeighbor() != 0){
+        if ((r.id == 0 && firstTime) || r.getLowestRoomNeighbor() != 0){
             createCorridor(lab, r, rooms, corridors);
         }
     }
@@ -32,7 +29,7 @@ public class Corridor {
         Q.add(start);
         while (Q.size() != 0){
             Position z = eject(Q);
-            for (Position x : Objects.requireNonNull(z).getNeighbor()){
+            for (Position x : Objects.requireNonNull(z).getNeighbor(true)){
                 if (x != null && P[x.getX()][x.getY()] == null){
                     P[x.getX()][x.getY()] = z;
                     Cell cell = w[x.getX()][x.getY()];

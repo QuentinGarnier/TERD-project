@@ -40,7 +40,7 @@ public class Strategy {
     }
 
     public void makeMove(boolean goClose, Position p){
-        Position[] neighbors = currentEntity.getPosition().getNeighbor();
+        Position[] neighbors = currentEntity.getPosition().getNeighbor(false);
         if (neighbors.length == 0) return;
         Position res = neighbors[0];
         double oldDist = res.distance(p);

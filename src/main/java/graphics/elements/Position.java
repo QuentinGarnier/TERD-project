@@ -72,13 +72,13 @@ public class Position {
         return distance(this, p);
     }
 
-    public Position[] getNeighbor(){
+    public Position[] getNeighbor(boolean worldCreation){
         WorldMap worldMap = WorldMap.getInstanceWorld();
         List<Position> positionList = new ArrayList<>();
         Position pos;
         for (Move m : Move.values()) {
             pos = Position.sumPos(this, m);
-            if (pos != null && (worldMap == null || worldMap.getCell(pos).isAccessible())) positionList.add(pos);
+            if (pos != null && (worldCreation || worldMap.getCell(pos).isAccessible())) positionList.add(pos);
         }
         return positionList.toArray(new Position[0]);
     }
