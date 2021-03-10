@@ -30,7 +30,7 @@ public class ArcherStrategy extends AbstractPlayerStrategy {
                 monster.takeDamage(getAttack());
                 return true;
             } else System.out.println(ColorStr.red("Missed target"));
-        } else System.out.println("Archer : A vain archery (no monster in your range (> 5 <))");
+        } else System.out.printf("Archer : A vain archery (no monster in your range (> % <))", getRange());
         return false;
 
     }

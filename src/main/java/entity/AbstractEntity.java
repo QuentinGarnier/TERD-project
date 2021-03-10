@@ -13,14 +13,16 @@ public abstract class AbstractEntity {
     public final EntityType entityType;
     private int HP, HPMax;
     private int attack;
+    private int range;
     private final int id;
 
-    public AbstractEntity(Position position, int hp, int attack, int id, EntityType entityType) throws ErrorPositionOutOfBound {
+    public AbstractEntity(Position position, int hp, int attack, int range, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         checkPosition(position);
         this.position = position;
         this.HPMax = hp;
         this.HP = hp;
         this.attack = attack;
+        this.range = range;
         this.id = id;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
