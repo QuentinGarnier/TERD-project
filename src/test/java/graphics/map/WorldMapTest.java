@@ -44,15 +44,15 @@ public class WorldMapTest {
 
     @Test
     public void onlyOneHero() throws ErrorPositionOutOfBound {
-        int oneHero = 0;
         for (int i = 0; i < 100; i++) {
+            int oneHero = 0;
+            w.generateWorld();
             System.out.println(i);
             for (int x = 0; x < WorldMap.MAX_X; x++)
                 for (int y = 0; y < WorldMap.MAX_Y; y++) {
                     if (w.getCell(x, y).getMainContentType().equals(CellElementType.HERO)) oneHero++;
                     assertTrue(oneHero < 2);
                 }
-            w.generateWorld();
         }
     }
 }
