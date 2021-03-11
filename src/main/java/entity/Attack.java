@@ -1,6 +1,6 @@
 package entity;
 
-import graphics.ColorStr;
+import graphics.Tools;
 
 public class Attack {
     public static boolean attack(AbstractEntity entity1, AbstractEntity entity2){
@@ -13,7 +13,7 @@ public class Attack {
                 if (Math.random() > (entity1.getState() == EntityState.POISONED ? 0.35 : 0.25)) {
                     entity2.takeDamage(entity1.getAttack());
                     return true;
-                } System.out.println(ColorStr.red("Missed target")); return false;
+                } System.out.println(Tools.TextEffects.red("Missed target")); return false;
             case HERO_WARRIOR:
                     entity2.takeDamage(entity1.getAttack());
                     ((Player) entity1).modifyHunger(-1);

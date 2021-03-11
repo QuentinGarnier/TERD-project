@@ -1,6 +1,6 @@
 package entity;
 
-import graphics.ColorStr;
+import graphics.Tools;
 
 /**
  * List all different types of states
@@ -22,10 +22,10 @@ public enum EntityState {
 
     NEUTRAL("", -1),
 
-    FROZEN(ColorStr.blue("Frozen"), 2),
-    BURNT(ColorStr.red("Burnt"), 8),
-    POISONED(ColorStr.magenta("Poisoned"), 8),
-    PARALYSED(ColorStr.yellow("Paralysed"), 3),
+    FROZEN(Tools.TextEffects.blue("Frozen"), 2),
+    BURNT(Tools.TextEffects.red("Burnt"), 8),
+    POISONED(Tools.TextEffects.magenta("Poisoned"), 8),
+    PARALYSED(Tools.TextEffects.yellow("Paralysed"), 3),
 
     INVULNERABLE("Invulnerable", 4),
     ENRAGED("Enraged", 5),
@@ -51,20 +51,20 @@ public enum EntityState {
     private static void applyState(AbstractEntity entity) {
         switch (entity.getState()){
             case FROZEN:
-                System.out.println(ColorStr.blue("The freezes immobilizes you"));
+                System.out.println(Tools.TextEffects.blue("The freezes immobilizes you"));
                 break;
             case BURNT:
                 entity.takeDamage(2);
-                System.out.println(ColorStr.red("The burn inflicted 2 damages"));
+                System.out.println(Tools.TextEffects.red("The burn inflicted 2 damages"));
                 break;
             case POISONED:
                 entity.takeDamage(1);
                 if (entity instanceof Player){
                     ((Player) entity).modifyHunger(-1);
-                    System.out.println(ColorStr.magenta("You are suffering from poisoning (-1 HP, -1 Hunger (+ Archer : decreasing accuracy))"));
+                    System.out.println(Tools.TextEffects.magenta("You are suffering from poisoning (-1 HP, -1 Hunger (+ Archer : decreasing accuracy))"));
                 } break;
             case PARALYSED:
-                System.out.println(ColorStr.yellow("You are paralized" ));
+                System.out.println(Tools.TextEffects.yellow("You are paralized" ));
             default: break;
         }
     }

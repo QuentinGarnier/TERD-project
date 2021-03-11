@@ -2,6 +2,7 @@ package graphics.window;
 
 import entity.EntityState;
 import entity.Player;
+import graphics.Tools;
 import graphics.elements.Move;
 
 import javax.swing.*;
@@ -72,17 +73,6 @@ public class GameWindow extends JFrame {
 
     private static class KeysActions implements KeyListener {
 
-        private char universalCharOf(char c) {
-            return switch (c) {
-                case 'z' -> 'w';
-                case 'q' -> 'a';
-                case 'a' -> 'q';
-                case 'w' -> 'z';
-                case 'm' -> ';';
-                case ',' -> 'm';
-                default -> c;
-            };
-        }
 
         @Override
         public void keyTyped(KeyEvent e) {}
@@ -93,7 +83,7 @@ public class GameWindow extends JFrame {
         @Override
         public void keyReleased(KeyEvent e) {
             int keyCode = e.getKeyCode();
-            char key = (Player.getKeyboard().equals("fr_FR")? universalCharOf(e.getKeyChar()) : e.getKeyChar());
+            char key = (Tools.getKeyboard().equals("fr_FR")? Tools.universalCharOf(e.getKeyChar()) : e.getKeyChar());
 
             switch (key) {
                 case 'w' -> applyCommand(Move.UP);

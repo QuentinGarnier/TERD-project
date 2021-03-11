@@ -1,6 +1,6 @@
 package entity;
 
-import graphics.ColorStr;
+import graphics.Tools;
 import graphics.elements.cells.CellElementType;
 
 import java.util.Arrays;
@@ -33,14 +33,14 @@ public enum EntityType {
     public String toString2() {
         switch (this){
 
-            case HERO_ARCHER: return ColorStr.encircled(ColorStr.green(" " + toString().split("_")[1] + " "));
-            case HERO_WARRIOR: return ColorStr.encircled(ColorStr.red(" " + toString().split("_")[1] + " "));
-            case HERO_WITCHER: return ColorStr.encircled(ColorStr.blue(" " + toString().split("_")[1] + " "));
+            case HERO_ARCHER: return Tools.TextEffects.encircled(Tools.TextEffects.green(" " + toString().split("_")[1] + " "));
+            case HERO_WARRIOR: return Tools.TextEffects.encircled(Tools.TextEffects.red(" " + toString().split("_")[1] + " "));
+            case HERO_WITCHER: return Tools.TextEffects.encircled(Tools.TextEffects.blue(" " + toString().split("_")[1] + " "));
 
             case MONSTER_GOBLIN:
             case MONSTER_ORC:
             case MONSTER_SPIDER:
-            case MONSTER_WIZARD: return ColorStr.encircled(toString());
+            case MONSTER_WIZARD: return Tools.TextEffects.encircled(toString());
 
             default: return "";
         }

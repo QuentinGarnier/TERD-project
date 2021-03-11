@@ -1,9 +1,8 @@
 package graphics.map;
 
 import entity.Attack;
-import entity.EntityState;
 import entity.Player;
-import graphics.ColorStr;
+import graphics.Tools;
 import graphics.elements.*;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
@@ -109,17 +108,17 @@ public class WorldMap {
     }
 
     private int padding(String str) {
-        String s1 = str.replaceAll("\\033\\[..m", "").replace(ColorStr.DEFAULT, "");
+        String s1 = str.replaceAll("\\033\\[..m", "").replace(Tools.TextEffects.DEFAULT, "");
         return (MAX_X - s1.length())/2;
     }
 
     public void showATH() {
         String row0 = Player.getInstancePlayer().getEntityType().toString2() + " " + Player.getInstancePlayer().getState().getText();
         int padRow0 = padding(row0);
-        String row1 = "  >>> Level : " + ColorStr.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
+        String row1 = "  >>> Level : " + Tools.TextEffects.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + Tools.TextEffects.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
         int padRow1 = padding(row1);
-        String row2 = "Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + ColorStr.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getHPMax() + " ♥") + " " +
-                "| Attack : " + ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔");
+        String row2 = "Money : " + Tools.TextEffects.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + Tools.TextEffects.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getHPMax() + " ♥") + " " +
+                "| Attack : " + Tools.TextEffects.blue(Player.getInstancePlayer().getAttack() + " ⚔");
         int padRow2 = padding(row2);
         //System.out.println(padRow1 + " " + padRow2);
         String ATH = " ".repeat(padRow0) + row0 + System.lineSeparator() +
@@ -131,15 +130,6 @@ public class WorldMap {
         System.out.println(ATH);
     }
 
-    public static char charConverterToUniversal(char c) {
-        return switch (c) {
-            case 'z' -> 'w';
-            case 'q' -> 'a';
-            case 'a' -> 'q';
-            case 'w' -> '_';
-            default -> c;
-        };
-    }
 
     private static void applyCommand(Move m){
         Player player = Player.getInstancePlayer();
@@ -159,7 +149,7 @@ public class WorldMap {
             if(buffer.length() == 1) {
                 key = buffer.charAt(0);
 
-                if(Player.getKeyboard().equals("fr_FR")) key = charConverterToUniversal(key);
+                if(Tools.getKeyboard().equals("fr_FR")) key = Tools.universalCharOf(key);
 
                 switch (key) {
                     case 'w': applyCommand(Move.UP); break;
@@ -186,7 +176,7 @@ public class WorldMap {
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++) {
             for(int i = 0; i < MAX_X; i++) {
-                sb.append(getCell(i, j).equals(hero) ? ColorStr.yellow(lab[i][j].toString()) : lab[i][j].toString());
+                sb.append(getCell(i, j).equals(hero) ? Tools.TextEffects.yellow(lab[i][j].toString()) : lab[i][j].toString());
             }
             sb.append(System.lineSeparator());
         }

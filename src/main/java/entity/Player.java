@@ -1,6 +1,6 @@
 package entity;
 
-import graphics.ColorStr;
+import graphics.Tools;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
 import graphics.elements.Position;
@@ -73,7 +73,7 @@ public class Player extends AbstractEntity {
 
     public boolean spendMoney(int cost) {
         if (cost > money){
-            System.out.println(ColorStr.red("Not enough money"));
+            System.out.println(Tools.TextEffects.red("Not enough money"));
             return false;
         }
         money -= cost;
@@ -92,19 +92,6 @@ public class Player extends AbstractEntity {
     public static void addItem(int id) {
         AbstractItem item = AbstractItem.getItemByID(id);
         if (item != null) instancePlayer.inventory.add(item);
-    }
-
-
-    public static String getKeyboard() {
-        InputContext context = InputContext.getInstance();
-        Locale country = context.getLocale();
-        return country.toString();
-    }
-
-    public static void showCommands() {
-        char top = 'w', left = 'a', attack = 'q';
-        if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; attack = 'a';}
-        System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
     }
 
     public void incrementMoney(int x){
