@@ -30,18 +30,17 @@ public class Player extends AbstractEntity {
     private int hunger; //max: 100
     private List<AbstractItem> inventory;
     private int money;
-    private EntityState state;
 
     private boolean isRoom;
     private int id;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), 100, 10, 1, EntityState.NEUTRAL,  -1, EntityType.HERO_WARRIOR);
+        super(new Position(0, 0), 100, 10, 1, -1, EntityType.HERO_WARRIOR);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
-        state = EntityState.POISONED;
+        setState(EntityState.POISONED);//to test
     }
 
     public static Player getInstancePlayer() {
@@ -71,7 +70,7 @@ public class Player extends AbstractEntity {
         return level;
     }
 
-    public EntityState getState() { return state; }
+    public EntityState getState() { return super.getState(); }
 
     public boolean spendMoney(int cost) {
         if (cost > money){

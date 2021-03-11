@@ -17,7 +17,7 @@ public abstract class AbstractEntity {
     private EntityState state;
     private final int id;
 
-    public AbstractEntity(Position position, int hp, int attack, int range, EntityState state, int id, EntityType entityType) throws ErrorPositionOutOfBound {
+    public AbstractEntity(Position position, int hp, int attack, int range, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         checkPosition(position);
         this.position = position;
         this.entityType = entityType;
@@ -26,7 +26,7 @@ public abstract class AbstractEntity {
         this.HPMax = hp;
         this.attack = attack;
         this.range = range;
-        this.state = state;
+        this.state = EntityState.NEUTRAL;
         this.id = id;
     }
 

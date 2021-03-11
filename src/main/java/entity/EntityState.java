@@ -22,10 +22,10 @@ public enum EntityState {
 
     NEUTRAL("", -1),
 
-    FROZEN("Frozen", 2),
-    BURNT("Burnt", 8),
-    POISONED("Poisoned", 8),
-    PARALYSED("Paralysed", 3),
+    FROZEN(ColorStr.blue("Frozen"), 2),
+    BURNT(ColorStr.red("Burnt"), 8),
+    POISONED(ColorStr.magenta("Poisoned"), 8),
+    PARALYSED(ColorStr.yellow("Paralysed"), 3),
 
     INVULNERABLE("Invulnerable", 4),
     ENRAGED("Enraged", 5),
