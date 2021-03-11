@@ -39,12 +39,14 @@ public abstract class AbstractEntity {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
         boolean moved = position.nextPosition(p);
-        worldMap.getCell(position).setEntity(ct, id);
+        worldMap.getCell(position).setEntity(this);
         Cell currentCell = worldMap.getCell(position);
-        if (ct == CellElementType.HERO && currentCell.getItemContent() != null) {
+        if (ct == CellElementType.HERO && currentCell.getItem() != null) {
             //System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
             if(currentCell.getItem().immediateUse) currentCell.getItem().use();
             else Player.addItem(currentCell.getItemId()); //ne marche probablement pas comme voulu vu que les ID sont désormais dépendant des salles
+
+            currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();
         }
         return moved;
@@ -123,6 +125,6 @@ public abstract class AbstractEntity {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
         this.position = p;
-        worldMap.getCell(position).setEntity(entityType.cellElementType, id);
+        worldMap.getCell(position).setEntity(this);
     }
 }

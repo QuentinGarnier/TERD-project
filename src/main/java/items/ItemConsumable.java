@@ -1,13 +1,14 @@
 package items;
 
 import entity.Player;
+import graphics.elements.Position;
 
 public class ItemConsumable extends AbstractItem {
     private int effectID;
     private int[] amounts;
 
-    public ItemConsumable(int id, String name) {
-        super(id, name, ItemType.CONSUMABLE, false);
+    public ItemConsumable(int id, String name, Position p) {
+        super(id, name, ItemType.CONSUMABLE, p, false);
     }
 
     @Override

@@ -1,14 +1,15 @@
 package items;
 
 import entity.Player;
+import graphics.elements.Position;
 
 public class ItemFood extends AbstractItem {
     private int hungerGain;
     private int hpGain;
     private int[] effects;
 
-    public ItemFood(int id, String name) {
-        super(id, name, ItemType.FOOD, false);
+    public ItemFood(int id, String name, Position p) {
+        super(id, name, ItemType.FOOD, p,false);
         this.hungerGain = 0;
         this.hpGain = 0;
     }

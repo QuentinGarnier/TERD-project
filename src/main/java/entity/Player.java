@@ -2,9 +2,11 @@ package entity;
 
 import graphics.ColorStr;
 import graphics.elements.ErrorPositionOutOfBound;
+import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
+import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import items.AbstractItem;
 
@@ -31,9 +33,6 @@ public class Player extends AbstractEntity {
     private List<AbstractItem> inventory;
     private int money;
 
-    private boolean isRoom;
-    private int id;
-
     private Player() throws ErrorPositionOutOfBound {
         super(new Position(0, 0), 100, 10, 1, -1, EntityType.HERO_ARCHER);
         level = 1;
@@ -54,7 +53,7 @@ public class Player extends AbstractEntity {
     public void pickElement(Position p){
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell c = worldMap.getCell(p);
-        if (c.getItemContent() != null){
+        if (c.getItem() != null){
             Room r = worldMap.getRooms().get(c.getBaseId());
             inventory.add(r.getItems().get(c.getItemId()));
         } else {
@@ -82,7 +81,7 @@ public class Player extends AbstractEntity {
     }
 
     public static AbstractItem getItemByID(int id) {
-        for(AbstractItem i : instancePlayer.inventory) if(i.getId() == id) return i;
+        for(AbstractItem i : instancePlayer.inventory) if(i.getIdPosRoom() == id) return i;
         return null;
     }
 
@@ -143,7 +142,7 @@ public class Player extends AbstractEntity {
      * @param itemID ID of the item (do nothing if it's not in the inventory)
      */
     public void useItem(int itemID) {
-        for(int i=0; i<inventory.size(); i++) if(inventory.get(i).getId() == itemID) {
+        for(int i=0; i<inventory.size(); i++) if(inventory.get(i).getIdPosRoom() == itemID) {
             if(!inventory.get(i).use()) inventory.remove(i); //use the item then remove it if it returns false (see use() functions)
             break;
         }
@@ -151,5 +150,43 @@ public class Player extends AbstractEntity {
 
     public boolean canMove() {
         return Player.getInstancePlayer().getState() != EntityState.FROZEN;
+    }
+
+    private void moveMonsters(){
+        WorldMap worldMap = WorldMap.getInstanceWorld();
+        Cell cell = worldMap.getCell(getPosition());
+        if (cell.getBaseContent().equals(CellElementType.EMPTY)) {
+            worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(e -> {
+                e.applyStrategy();
+            });
+        }
+    }
+
+    public boolean makeAction(boolean isAttacking, Move m, Position p){
+        return isAttacking ? attackHero(p) : moveHero(m);
+    }
+
+    private boolean moveHero(Move move) {
+        if(canMove()) {
+            if (moveEntity(move)) {
+                moveMonsters();
+                return true;
+            }
+            return false;
+        }
+        moveMonsters();
+        // TODO : decrementer l'état du joueur
+        return true;
+    }
+
+    private boolean attackHero(Position position){
+        WorldMap worldMap = WorldMap.getInstanceWorld();
+        Cell cell = worldMap.getCell(position);
+        if (cell.getEntity() != null){
+            Monster m = (Monster) cell.getEntity();
+            Attack.attack(this, m);
+            return true;
+        }
+        return false;
     }
 }

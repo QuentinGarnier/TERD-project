@@ -1,7 +1,7 @@
 package graphics.window;
 
+import entity.Monster;
 import entity.Player;
-import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
@@ -14,8 +14,9 @@ import java.util.List;
 
 public class GamePanel extends JPanel {
     private final JLabel heroLabel = new JLabel(CellElementType.HERO.getIcon());
-    private final List<JLabel> monsterLabels;
-    private final List<JLabel> treasuresLabels; //Items and coins
+    private final List<MonsterLabel> monsterLabels;
+    private final List<ItemLabel> treasuresLabels; //Items and coins
+    private final List<JLabel> baseLabels;
     private final WorldMap worldMap = WorldMap.getInstanceWorld();
     public static final int size = 32;
 
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(WorldMap.MAX_X * size,WorldMap.MAX_Y * size));
         monsterLabels = new ArrayList<>();
         treasuresLabels = new ArrayList<>();
+        baseLabels = new ArrayList<>();
     }
 
     void clear() {
@@ -39,60 +41,59 @@ public class GamePanel extends JPanel {
 
     private void displayMap() {
         add(heroLabel);
-        worldMap.getRooms().forEach(room -> {
-            room.getMonsters().forEach(monster -> {
-                JLabel label = new JLabel(monster.getEntityType().getCellElementType().getIcon());
-                Position p = monster.getPosition();
-                label.setBounds(p.getX() * size, p.getY() * size, size, size);
-                monsterLabels.add(label);
-                add(label);
-            });
-        });
-
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
             Cell cell = WorldMap.getInstanceWorld().getCell(x, y);
 
-            if(cell.getEntityContent() == CellElementType.HERO) heroLabel.setBounds(x * size, y * size, size, size);
-            else if(cell.getMainContentType() != cell.getEntityContent()) {
+            if(cell.getEntity() != null && cell.getEntity().entityType.getCellElementType() == CellElementType.HERO) {
+                heroLabel.setBounds(x * size, y * size, size, size);
+            } else if (cell.getEntity() != null && cell.getEntity() instanceof Monster) {
+                MonsterLabel label = new MonsterLabel((Monster) cell.getEntity());
+                monsterLabels.add(label);
+            } else if(cell.getItem() != null){
+                ItemLabel label = new ItemLabel(cell.getItem());
+                treasuresLabels.add(label);
+            } else {
                 JLabel label = new JLabel(cell.getMainContentType().getIcon());
                 label.setBounds(x * size, y * size, size, size);
-                if(cell.getItemContent() != null) treasuresLabels.add(label);
-                add(label);
+                baseLabels.add(label);
             }
 
             //Display background when there is something else on:
             if(cell.getMainContentType() != cell.getBaseContent()) {
                 JLabel label2 = new JLabel(cell.getBaseContent().getIcon());
                 label2.setBounds(x*size, y*size, size, size);
-                add(label2);
+                baseLabels.add(label2);
             }
         }
+        monsterLabels.forEach(this::add);
+        treasuresLabels.forEach(this::add);
+        baseLabels.forEach(this::add);
     }
 
-    /**
-     * Should be in WorldMap class.
-     * @param move direction for the movement.
-     */
-    void moveHero(Move move) {
-        Position pos = move.getMove();
-        //Should be a "canMoveToward(Move move)" function in Player.java to have a better code:
+    public void moveEntities() {
+        worldMap.repaint();
         Player player = Player.getInstancePlayer();
-        Cell cell = worldMap.getCell(player.getPosition());
-        if(Player.getInstancePlayer().canMove()) {
-            if(Player.getInstancePlayer().moveEntity(move)) {
-                heroLabel.setLocation(heroLabel.getX() + pos.getX() * size , heroLabel.getY() + pos.getY() * size);
-                if(cell.getBaseContent().equals(CellElementType.EMPTY)) {
-                    worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(e -> {
-                        JLabel currentLabel =
-                                (JLabel) (monsterLabels.stream().filter(x ->
-                                        x.getBounds().getLocation().equals(new Point(e.getPosition().getX() * size, e.getPosition().getY() * size)))).toArray()[0];
-                        e.applyStrategy();
-                        currentLabel.setBounds(e.getPosition().getX() * size, e.getPosition().getY() * size, size, size);
-                        System.out.println(e.getPosition());
-                    });
-                }
+        heroLabel.setLocation(player.getPosition().getX() * size , player.getPosition().getY() * size);
+        Cell cell = worldMap.getCell(Player.getInstancePlayer().getPosition());
+        worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(monster -> {
+            JLabel currentLabel =
+                    (JLabel) (monsterLabels.stream().filter(x -> x.equals(monster))).toArray()[0];
+            Position p = monster.getPosition();
+            currentLabel.setLocation(p.getX() * size, p.getY() * size);
+        });
+        worldMap.getRooms().get(cell.getBaseId()).getItems().forEach(item -> {
+            ArrayList<ItemLabel> currentLabel = new ArrayList<>();
+            treasuresLabels.forEach(x -> {
+                        if (x.getLocation().equals(heroLabel.getLocation())){
+                            currentLabel.add(x);
+                        }
+
+            });
+            if (currentLabel.size() != 0){
+                currentLabel.get(0).setLocation(-size, -size);
+                treasuresLabels.remove(currentLabel.get(0));
             }
-        }
+        });
     }
 
     Point getHeroPosition() {

@@ -63,9 +63,14 @@ public class GameWindow extends JFrame {
         jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 300);
     }
 
+    private static void applyCommand(Move m){
+        boolean b = Player.getInstancePlayer().makeAction(false, m, null);
+        if (b) gamePanel.moveEntities();
+    }
 
 
     private static class KeysActions implements KeyListener {
+
         private char universalCharOf(char c) {
             return switch (c) {
                 case 'z' -> 'w';
@@ -90,10 +95,10 @@ public class GameWindow extends JFrame {
             char key = (Player.getKeyboard().equals("fr_FR")? universalCharOf(e.getKeyChar()) : e.getKeyChar());
 
             switch (key) {
-                case 'w' -> gamePanel.moveHero(Move.UP);
-                case 'd' -> gamePanel.moveHero(Move.RIGHT);
-                case 's' -> gamePanel.moveHero(Move.DOWN);
-                case 'a' -> gamePanel.moveHero(Move.LEFT);
+                case 'w' -> applyCommand(Move.UP);
+                case 'd' -> applyCommand(Move.RIGHT);
+                case 's' -> applyCommand(Move.DOWN);
+                case 'a' -> applyCommand(Move.LEFT);
             }
             window.setScrollFrameBar();
         }

@@ -85,7 +85,7 @@ public class Room {
         int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_ITEMS));
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom(lab);
-            AbstractItem m = AbstractItem.generateRandomItem(items.size());
+            AbstractItem m = AbstractItem.generateRandomItem(items.size(), pos);
             lab[pos.getX()][pos.getY()].setItem(m);
             items.add(m);
             nbOfElt--;
@@ -98,7 +98,7 @@ public class Room {
             Position pos = getRandomPosInRoom(lab);
             Monster m = Monster.generateRandomMonster(pos, monsters.size());
             //Monster m = new Monster(pos, 100, 100, monsters.size(), EntityType.GOBLIN);
-            lab[pos.getX()][pos.getY()].setEntity(m.entityType.getCellElementType(), m.getId());
+            lab[pos.getX()][pos.getY()].setEntity(m);
             monsters.add(m);
             nbOfElt--;
         }

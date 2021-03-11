@@ -99,7 +99,7 @@ public class WorldMap {
         if (!getCell(x,y).isAccessible()) placePlayer();
         else {
             Player.getInstancePlayer().setPosition(x, y);
-            getCell(x, y).setEntity(CellElementType.HERO, 0);
+            getCell(x, y).setEntity(Player.getInstancePlayer());
         }
     }
 
@@ -141,7 +141,12 @@ public class WorldMap {
         };
     }
 
+    private static void applyCommand(Move m){
+        boolean b = Player.getInstancePlayer().makeAction(false, m, null);
+    }
+
     public static void gamePlayer() {
+
         Scanner sc = new Scanner(System.in);
         String buffer;
         char key;
@@ -158,10 +163,10 @@ public class WorldMap {
                 EntityState.applyStateEffect(instancePlayer);
 
                 switch (key) {
-                    case 'w': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.UP); break;
-                    case 'a': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.LEFT); break;
-                    case 's': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.DOWN); break;
-                    case 'd': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.RIGHT); break;
+                    case 'w': applyCommand(Move.UP); break;
+                    case 'a': applyCommand(Move.LEFT); break;
+                    case 's': applyCommand(Move.DOWN); break;
+                    case 'd': applyCommand(Move.RIGHT); break;
                     case 'q': Attack.attack(instancePlayer, null); break;
                     case 'p':
                         gameState = false;
