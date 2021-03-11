@@ -1,5 +1,6 @@
 package entity;
 
+import graphics.ColorStr;
 import graphics.elements.cells.CellElementType;
 
 import java.util.Arrays;
@@ -27,5 +28,21 @@ public enum EntityType {
 
     public static EntityType[] monsters(){
         return Arrays.stream(EntityType.values()).filter(e -> e.cellElementType != CellElementType.HERO).toArray(EntityType[]::new);
+    }
+
+    public String toString2() {
+        switch (this){
+
+            case HERO_ARCHER: return ColorStr.encircled(ColorStr.blue(" " + toString() + " "));
+            case HERO_WARRIOR: return ColorStr.encircled(ColorStr.red(" " + toString() + " "));
+            case HERO_WITCHER: return ColorStr.encircled(ColorStr.green(" " + toString() + " "));
+
+            case MONSTER_GOBLIN:
+            case MONSTER_ORC:
+            case MONSTER_SPIDER:
+            case MONSTER_WIZARD: return ColorStr.encircled(toString());
+
+            default: return "";
+        }
     }
 }
