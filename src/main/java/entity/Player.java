@@ -36,7 +36,7 @@ public class Player extends AbstractEntity {
     private int id;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), 100, 10, 1, -1, EntityType.HERO_WARRIOR);
+        super(new Position(0, 0), 100, 10, 1, EntityState.NEUTRAL,  -1, EntityType.HERO_WARRIOR);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();

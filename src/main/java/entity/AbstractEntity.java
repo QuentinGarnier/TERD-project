@@ -9,24 +9,25 @@ import graphics.map.WorldMap;
 
 public abstract class AbstractEntity {
     private Position position;
-    private final Strategy strategy;
     public final EntityType entityType;
+    private final Strategy strategy;
     private int HP, HPMax;
     private int attack;
     private int range;
     private EntityState state;
     private final int id;
 
-    public AbstractEntity(Position position, int hp, int attack, int range, int id, EntityType entityType) throws ErrorPositionOutOfBound {
+    public AbstractEntity(Position position, int hp, int attack, int range, EntityState state, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         checkPosition(position);
         this.position = position;
-        this.HPMax = hp;
-        this.HP = hp;
-        this.attack = attack;
-        this.range = range;
-        this.id = id;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
+        this.HP = hp;
+        this.HPMax = hp;
+        this.attack = attack;
+        this.range = range;
+        this.state = state;
+        this.id = id;
     }
 
     public void checkPosition(Position p) throws ErrorPositionOutOfBound {
