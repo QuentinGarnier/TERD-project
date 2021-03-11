@@ -27,4 +27,18 @@ public class Monster extends AbstractEntity{
         }
         return res;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Monster){
+            Monster m = (Monster) obj;
+            return m.getPosition().equals(getPosition());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

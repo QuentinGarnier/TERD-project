@@ -1,10 +1,12 @@
 package items;
 
+import graphics.elements.Position;
+
 public class ItemEquip extends AbstractItem {
     private boolean isEquipped;
 
-    public ItemEquip(int id, String name) {
-        super(id, name, ItemType.EQUIP, false);
+    public ItemEquip(int id, String name, Position p) {
+        super(id, name, ItemType.EQUIP, p, false);
         isEquipped = false;
     }
 

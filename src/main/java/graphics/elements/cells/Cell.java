@@ -1,5 +1,6 @@
 package graphics.elements.cells;
 
+import entity.AbstractEntity;
 import items.AbstractItem;
 
 import java.util.Objects;
@@ -17,23 +18,18 @@ public class Cell {
     private final CellElementType baseContent;
 
     // item
-    private int itemId;
-    private CellElementType itemContent;
     private AbstractItem item;
 
     // entity
-    private int entityId;
-    private CellElementType entityContent;
+    private AbstractEntity entity;
 
     public Cell(CellElementType e, int id) {
         this.baseContent = e;
         this.baseId = id;
-        this.itemId = -1;
-        this.entityId = -1;
     }
 
     public void entityLeft(){
-        setEntity(null, -1);
+        setEntity(null);
     }
 
     public void heroPickItem() {
@@ -46,17 +42,10 @@ public class Cell {
 
     public void setItem(AbstractItem it) {
         this.item = it;
-        this.itemId = (it == null? -1 : it.getId());
-        this.itemContent = (it == null? null : it.type.ct);
     }
 
-    public void setEntity(CellElementType ct, int id) {
-        this.entityId = id;
-        this.entityContent = ct;
-    }
-
-    public int getCurrentId() {
-        return baseId;
+    public void setEntity(AbstractEntity entity) {
+        this.entity = entity;
     }
 
     public int getBaseId() {
@@ -64,28 +53,20 @@ public class Cell {
     }
 
     public int getItemId() {
-        return itemId;
+        return item.getIdPosRoom();
     }
 
     public AbstractItem getItem() {
         return item;
     }
 
-    public CellElementType getItemContent() {
-        return itemContent;
-    }
-
-    public int getEntityId() {
-        return entityId;
-    }
-
-    public CellElementType getEntityContent() {
-        return entityContent;
+    public AbstractEntity getEntity(){
+        return entity;
     }
 
     public CellElementType getMainContentType() {
-        if (entityContent != null) return entityContent;
-        if (itemContent != null) return itemContent;
+        if (entity != null) return entity.getEntityType().getCellElementType();
+        if (item != null) return item.type.ct;
         return baseContent;
     }
 
