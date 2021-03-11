@@ -109,8 +109,8 @@ public class WorldMap {
     }
 
     private int padding(String str) {
-        String s1 = str.replaceAll("\\033\\[3.m", "").replace(ColorStr.DEFAULT, "");
-        return (MAX_X - s1.length())/2 - 1;
+        String s1 = str.replaceAll("\\033\\[..m", "").replace(ColorStr.DEFAULT, "");
+        return (MAX_X - s1.length())/2;
     }
 
     public void showATH() {
@@ -124,9 +124,9 @@ public class WorldMap {
         //System.out.println(padRow1 + " " + padRow2);
         String ATH = " ".repeat(padRow0) + row0 + System.lineSeparator() +
                 "-".repeat(MAX_X) + System.lineSeparator() +
-                " ".repeat(padRow1 + 1) + row1 + System.lineSeparator() +
+                " ".repeat(padRow1) + row1 + System.lineSeparator() +
                 "-".repeat(MAX_X) + System.lineSeparator() +
-                "|" + " ".repeat(padRow2) + row2 + " ".repeat(padRow2) + "|"+ System.lineSeparator() +
+                "|" + " ".repeat(padRow2 - 1) + row2 + " ".repeat(padRow2 - 1) + "|"+ System.lineSeparator() +
                 "-".repeat(MAX_X) + System.lineSeparator();
         System.out.println(ATH);
     }
