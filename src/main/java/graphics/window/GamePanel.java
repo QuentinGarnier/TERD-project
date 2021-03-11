@@ -39,19 +39,25 @@ public class GamePanel extends JPanel {
 
     private void displayMap() {
         add(heroLabel);
+        worldMap.getRooms().forEach(room -> {
+            room.getMonsters().forEach(monster -> {
+                JLabel label = new JLabel(monster.getEntityType().getCellElementType().getIcon());
+                Position p = monster.getPosition();
+                label.setBounds(p.getX() * size, p.getY() * size, size, size);
+                monsterLabels.add(label);
+                add(label);
+            });
+        });
+
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
             Cell cell = WorldMap.getInstanceWorld().getCell(x, y);
 
-            if(cell.getEntityContent() == CellElementType.HERO) {
-                heroLabel.setBounds(x * size, y * size, size, size);
-            } else {
+            if(cell.getEntityContent() == CellElementType.HERO) heroLabel.setBounds(x * size, y * size, size, size);
+            else if(cell.getMainContentType() != cell.getEntityContent()) {
                 JLabel label = new JLabel(cell.getMainContentType().getIcon());
                 label.setBounds(x * size, y * size, size, size);
-                if(cell.getEntityContent() != null && cell.getEntityContent() != CellElementType.HERO && cell.getEntityContent() != CellElementType.MERCHANT)
-                    monsterLabels.add(label);
                 if(cell.getItemContent() != null) treasuresLabels.add(label);
                 add(label);
-
             }
 
             //Display background when there is something else on:
