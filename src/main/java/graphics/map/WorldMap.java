@@ -1,5 +1,7 @@
 package graphics.map;
 
+import entity.Attack;
+import entity.EntityState;
 import entity.Player;
 import graphics.ColorStr;
 import graphics.elements.*;
@@ -112,12 +114,12 @@ public class WorldMap {
     }
 
     public void showATH() {
-        String row0 = Player.getInstancePlayer().getSpecialty().toString() + " " + Player.getInstancePlayer().getState().getText();
+        String row0 = Player.getInstancePlayer().getEntityType().toString() + " " + Player.getInstancePlayer().getState().getText();
         int padRow0 = padding(row0);
         String row1 = "  >>> Level : " + ColorStr.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + ColorStr.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
         int padRow1 = padding(row1);
-        String row2 = "Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + ColorStr.red(Player.getInstancePlayer().getSpecialty().getHP() + "/" + Player.getInstancePlayer().getSpecialty().getHPmax() + " ♥") + " " +
-                "| Attack : " + ColorStr.blue(Player.getInstancePlayer().getSpecialty().getAttack() + " ⚔");
+        String row2 = "Money : " + ColorStr.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + ColorStr.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getHPMax() + " ♥") + " " +
+                "| Attack : " + ColorStr.blue(Player.getInstancePlayer().getAttack() + " ⚔");
         int padRow2 = padding(row2);
         //System.out.println(padRow1 + " " + padRow2);
         String ATH = " ".repeat(padRow0) + row0 + System.lineSeparator() +
@@ -153,14 +155,14 @@ public class WorldMap {
 
                 if(Player.getKeyboard().equals("fr_FR")) key = charConverterToUniversal(key);
 
-                instancePlayer.applyStateEffect();
+                EntityState.applyStateEffect(instancePlayer);
 
                 switch (key) {
                     case 'w': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.UP); break;
                     case 'a': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.LEFT); break;
                     case 's': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.DOWN); break;
                     case 'd': if (instancePlayer.canMove()) instancePlayer.moveEntity(Move.RIGHT); break;
-                    case 'q': instancePlayer.attack(null); break;
+                    case 'q': Attack.attack(instancePlayer, null); break;
                     case 'p':
                         gameState = false;
                         System.out.println("You left the game.");

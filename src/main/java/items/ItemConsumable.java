@@ -15,7 +15,7 @@ public class ItemConsumable extends AbstractItem {
         switch (effectID) {
             case 1:
                 //[001] Regain HP by amounts[0]
-                Player.getInstancePlayer().getSpecialty().modifyHP(amounts[0]);
+                Player.getInstancePlayer().modifyHP(amounts[0]);
                 break;
 
             default: break;

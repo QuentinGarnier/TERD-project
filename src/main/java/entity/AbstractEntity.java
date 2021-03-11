@@ -14,6 +14,7 @@ public abstract class AbstractEntity {
     private int HP, HPMax;
     private int attack;
     private int range;
+    private EntityState state;
     private final int id;
 
     public AbstractEntity(Position position, int hp, int attack, int range, int id, EntityType entityType) throws ErrorPositionOutOfBound {
@@ -68,12 +69,19 @@ public abstract class AbstractEntity {
         position.setPosition(p.getX(), p.getY());
     }
 
-    public int getMaxHP() { return HPMax; }
+    public int getHPMax() { return HPMax; }
 
     public int getHP() { return HP; }
 
     public int getAttack() { return attack; }
 
+    public int getRange() { return range; }
+
+    public EntityState getState(){ return state;}
+
+    public void setState(EntityState state){ this.state = state;}
+
+    public EntityType getEntityType() { return entityType; }
 
     public void modifyAttack(int att) {
         attack = att;

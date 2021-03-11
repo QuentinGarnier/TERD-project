@@ -2,6 +2,8 @@ package entity;
 
 public class Movement {
     public static boolean move(AbstractEntity entity){
+        if (entity.getState() == EntityState.FROZEN) return false;
+
         switch (entity.entityType){
 
             case HERO_ARCHER:

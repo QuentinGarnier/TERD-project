@@ -16,7 +16,7 @@ public class ItemFood extends AbstractItem {
     @Override
     public boolean use() {
         Player.getInstancePlayer().modifyHunger(this.hungerGain);
-        Player.getInstancePlayer().getSpecialty().modifyHP(this.hpGain);
+        Player.getInstancePlayer().modifyHP(this.hpGain);
 
         if(this.effects.length > 0) {
             //Here, add special effect in the switch case whenever you want to add one (effect's ID in the items.data file)

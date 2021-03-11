@@ -19,7 +19,7 @@ public class Strategy {
     }
 
     private void Goblin() {
-        if (currentEntity.getHP() > currentEntity.getMaxHP() / 2 ) {
+        if (currentEntity.getHP() > currentEntity.getHPMax() / 2 ) {
             if (currentEntity.withinReach(hero, 1)) attack(hero);
             else goCloseHero();
         } else {

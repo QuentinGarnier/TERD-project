@@ -30,8 +30,7 @@ public class Player extends AbstractEntity {
     private int hunger; //max: 100
     private List<AbstractItem> inventory;
     private int money;
-    private PlayerState state;
-    private AbstractPlayerStrategy specialty;
+    private EntityState state;
 
     private boolean isRoom;
     private int id;
@@ -42,8 +41,7 @@ public class Player extends AbstractEntity {
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
-        state = PlayerState.POISONED;
-        specialty = new WarriorStrategy(); //default: warrior
+        state = EntityState.POISONED;
     }
 
     public static Player getInstancePlayer() {
@@ -73,9 +71,7 @@ public class Player extends AbstractEntity {
         return level;
     }
 
-    public PlayerState getState() { return state; }
-
-    public AbstractPlayerStrategy getSpecialty() { return specialty; }
+    public EntityState getState() { return state; }
 
     public boolean spendMoney(int cost) {
         if (cost > money){
@@ -154,15 +150,7 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public void attack(Monster monster){
-        specialty.attack(monster);
-    }
-
-    public void applyStateEffect(){
-        specialty.applyStateEffect();
-    }
-
     public boolean canMove() {
-        return Player.getInstancePlayer().getState() != PlayerState.FROZEN;
+        return Player.getInstancePlayer().getState() != EntityState.FROZEN;
     }
 }
