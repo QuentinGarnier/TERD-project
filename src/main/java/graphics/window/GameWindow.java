@@ -87,7 +87,7 @@ public class GameWindow extends JFrame {
         @Override
         public void keyReleased(KeyEvent e) {
             int keyCode = e.getKeyCode();
-            char key = universalCharOf(e.getKeyChar());
+            char key = (Player.getKeyboard().equals("fr_FR")? universalCharOf(e.getKeyChar()) : e.getKeyChar());
 
             switch (key) {
                 case 'w' -> gamePanel.moveHero(Move.UP);
