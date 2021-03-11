@@ -10,7 +10,7 @@ public class Attack {
         switch (entity1.entityType){
             case HERO_ARCHER:
                 if (entity1.getState() == EntityState.PARALYSED) return false;
-                if (Math.random() > (entity1.getState() == EntityState.POISONED ? 0.25 : 0.35)) {
+                if (Math.random() > (entity1.getState() == EntityState.POISONED ? 0.35 : 0.25)) {
                     entity2.takeDamage(entity1.getAttack());
                     return true;
                 } System.out.println(ColorStr.red("Missed target")); return false;
