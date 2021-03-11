@@ -15,6 +15,7 @@ public abstract class AbstractEntity {
     private int attack;
     private int range;
     private EntityState state;
+    private int remainingTime;
     private final int id;
 
     public AbstractEntity(Position position, int hp, int attack, int range, int id, EntityType entityType) throws ErrorPositionOutOfBound {
@@ -27,6 +28,7 @@ public abstract class AbstractEntity {
         this.attack = attack;
         this.range = range;
         this.state = EntityState.NEUTRAL;
+        this.remainingTime = EntityState.NEUTRAL.getDuration();
         this.id = id;
     }
 
@@ -82,7 +84,17 @@ public abstract class AbstractEntity {
 
     public EntityState getState(){ return state;}
 
-    public void setState(EntityState state){ this.state = state;}
+    public void setState(EntityState state){
+        this.state = state;
+        updateRemainingTime();
+    }
+
+    public void updateRemainingTime(){ remainingTime = getState().getDuration(); }
+
+    public void decrementRemainingTime(){
+        if (getState() != EntityState.NEUTRAL ) remainingTime--;
+        if (remainingTime == 0) setState(EntityState.NEUTRAL);
+    }
 
     public EntityType getEntityType() { return entityType; }
 

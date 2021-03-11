@@ -142,7 +142,9 @@ public class WorldMap {
     }
 
     private static void applyCommand(Move m){
-        boolean b = Player.getInstancePlayer().makeAction(false, m, null);
+        Player player = Player.getInstancePlayer();
+        EntityState.applyStateEffects(Player.getInstancePlayer());
+        boolean b = player.makeAction(false, m, null);
     }
 
     public static void gamePlayer() {
@@ -159,8 +161,6 @@ public class WorldMap {
                 key = buffer.charAt(0);
 
                 if(Player.getKeyboard().equals("fr_FR")) key = charConverterToUniversal(key);
-
-                EntityState.applyStateEffect(instancePlayer);
 
                 switch (key) {
                     case 'w': applyCommand(Move.UP); break;

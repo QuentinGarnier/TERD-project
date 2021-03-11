@@ -175,7 +175,6 @@ public class Player extends AbstractEntity {
             return false;
         }
         moveMonsters();
-        // TODO : decrementer l'état du joueur
         return true;
     }
 

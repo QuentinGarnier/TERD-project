@@ -1,5 +1,6 @@
 package graphics.window;
 
+import entity.EntityState;
 import entity.Player;
 import graphics.elements.Move;
 
@@ -64,6 +65,7 @@ public class GameWindow extends JFrame {
     }
 
     private static void applyCommand(Move m){
+        EntityState.applyStateEffects(Player.getInstancePlayer());
         boolean b = Player.getInstancePlayer().makeAction(false, m, null);
         if (b) gamePanel.moveEntities();
     }

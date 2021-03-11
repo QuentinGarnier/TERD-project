@@ -33,9 +33,9 @@ public enum EntityType {
     public String toString2() {
         switch (this){
 
-            case HERO_ARCHER: return ColorStr.encircled(ColorStr.green(" " + toString() + " "));
-            case HERO_WARRIOR: return ColorStr.encircled(ColorStr.red(" " + toString() + " "));
-            case HERO_WITCHER: return ColorStr.encircled(ColorStr.blue(" " + toString() + " "));
+            case HERO_ARCHER: return ColorStr.encircled(ColorStr.green(" " + toString().split("_")[1] + " "));
+            case HERO_WARRIOR: return ColorStr.encircled(ColorStr.red(" " + toString().split("_")[1] + " "));
+            case HERO_WITCHER: return ColorStr.encircled(ColorStr.blue(" " + toString().split("_")[1] + " "));
 
             case MONSTER_GOBLIN:
             case MONSTER_ORC:

@@ -43,7 +43,12 @@ public enum EntityState {
 
     public int getDuration() { return duration; }
 
-    public static void applyStateEffect(AbstractEntity entity) {
+    public static void applyStateEffects(AbstractEntity entity){
+        applyState(entity);
+        decrementRemainingTime(entity);
+    }
+
+    private static void applyState(AbstractEntity entity) {
         switch (entity.getState()){
             case FROZEN:
                 System.out.println(ColorStr.blue("The freezes immobilizes you"));
@@ -62,6 +67,10 @@ public enum EntityState {
                 System.out.println(ColorStr.yellow("You are paralized" ));
             default: break;
         }
+    }
+
+    private static void decrementRemainingTime(AbstractEntity entity){
+        entity.decrementRemainingTime();
     }
 
 
