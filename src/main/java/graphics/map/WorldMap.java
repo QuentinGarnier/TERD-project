@@ -143,7 +143,6 @@ public class WorldMap {
 
     private static void applyCommand(Move m){
         Player player = Player.getInstancePlayer();
-        EntityState.applyStateEffects(Player.getInstancePlayer());
         boolean b = player.makeAction(false, m, null);
     }
 

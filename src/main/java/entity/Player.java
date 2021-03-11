@@ -170,11 +170,13 @@ public class Player extends AbstractEntity {
         if(canMove()) {
             if (moveEntity(move)) {
                 moveMonsters();
+                EntityState.applyStateEffects(Player.getInstancePlayer());
                 return true;
             }
             return false;
         }
         moveMonsters();
+        EntityState.applyStateEffects(Player.getInstancePlayer());
         return true;
     }
 
@@ -184,6 +186,7 @@ public class Player extends AbstractEntity {
         if (cell.getEntity() != null){
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
+            EntityState.applyStateEffects(Player.getInstancePlayer());
             return true;
         }
         return false;

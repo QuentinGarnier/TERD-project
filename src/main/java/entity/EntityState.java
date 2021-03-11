@@ -61,7 +61,7 @@ public enum EntityState {
                 entity.takeDamage(1);
                 if (entity instanceof Player){
                     ((Player) entity).modifyHunger(-1);
-                    System.out.println(ColorStr.magenta("You are suffering from poisoning (-1 HP, -1 Hunger (+ Archer : decreasing accuracy)"));
+                    System.out.println(ColorStr.magenta("You are suffering from poisoning (-1 HP, -1 Hunger (+ Archer : decreasing accuracy))"));
                 } break;
             case PARALYSED:
                 System.out.println(ColorStr.yellow("You are paralized" ));
