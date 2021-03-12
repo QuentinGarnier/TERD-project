@@ -5,7 +5,7 @@ import graphics.Tools;
 public class Attack {
 
     public static void attack(AbstractEntity entity1, AbstractEntity entity2){
-        if (entity2 == null || !entity1.withinReach(entity2, entity1.getRange()) || entity2.getState() == EntityState.INVULNERABLE)
+        if (entity2 == null || !entity1.withinReach(entity2, entity1.getRange()) || entity2.getState() == EntityState.INVULNERABLE) return;
 
         switch (entity1.entityType){
             case HERO_ARCHER:
@@ -14,11 +14,12 @@ public class Attack {
                     entity2.takeDamage(entity1.getAttack());
                 } System.out.println(Tools.TextEffects.red("Missed target"));
             case HERO_WARRIOR:
-                    entity2.takeDamage(entity1.getAttack());
-                    ((Player) entity1).modifyHunger(-1);
+                entity2.takeDamage(entity1.getAttack());
+                ((Player) entity1).modifyHunger(-1);
             case HERO_MAGE:
-                    entity2.setState(EntityState.BURNT);
-                    entity1.modifyHP(1);
+                entity2.takeDamage(entity1.getAttack());
+                entity2.setState(EntityState.BURNT);
+                entity1.modifyHP(1);
 
             case MONSTER_GOBLIN:
             case MONSTER_ORC:
