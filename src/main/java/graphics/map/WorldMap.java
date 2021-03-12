@@ -132,8 +132,11 @@ public class WorldMap {
 
 
     private static void applyCommand(Move m){
-        Player player = Player.getInstancePlayer();
-        boolean b = player.makeAction(false, m, null);
+        Player.getInstancePlayer().makeAction(false, m, null);
+    }
+
+    private static void applyCommand2(Position p){
+        Player.getInstancePlayer().makeAction(true, null, p);
     }
 
     public static void gamePlayer() {
@@ -156,7 +159,7 @@ public class WorldMap {
                     case 'a': applyCommand(Move.LEFT); break;
                     case 's': applyCommand(Move.DOWN); break;
                     case 'd': applyCommand(Move.RIGHT); break;
-                    case 'q': Attack.attack(instancePlayer, null); break;
+                    case 'q': applyCommand2(null); break;
                     case 'p':
                         gameState = false;
                         System.out.println("You left the game.");

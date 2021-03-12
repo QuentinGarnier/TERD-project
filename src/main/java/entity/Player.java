@@ -150,6 +150,7 @@ public class Player extends AbstractEntity {
     }
 
     public boolean makeAction(boolean isAttacking, Move m, Position p){
+        if (m == null && p == null) return false;
         return isAttacking ? attackHero(p) : moveHero(m);
     }
 

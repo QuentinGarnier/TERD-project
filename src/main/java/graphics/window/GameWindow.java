@@ -4,6 +4,7 @@ import entity.EntityState;
 import entity.Player;
 import graphics.Tools;
 import graphics.elements.Move;
+import graphics.elements.Position;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,6 +71,11 @@ public class GameWindow extends JFrame {
         if (b) gamePanel.moveEntities();
     }
 
+    private static void applyCommand2(Position p){
+        boolean b = Player.getInstancePlayer().makeAction(true, null, p);
+        if (b) gamePanel.moveEntities();
+    }
+
 
     private static class KeysActions implements KeyListener {
 
@@ -90,6 +96,7 @@ public class GameWindow extends JFrame {
                 case 'd' -> applyCommand(Move.RIGHT);
                 case 's' -> applyCommand(Move.DOWN);
                 case 'a' -> applyCommand(Move.LEFT);
+                case 'q' -> applyCommand2(null); //here the position selected by user (instead of null)
             }
             window.setScrollFrameBar();
         }
