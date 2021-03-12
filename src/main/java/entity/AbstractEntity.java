@@ -18,15 +18,15 @@ public abstract class AbstractEntity {
     private int remainingTime;
     private final int id;
 
-    public AbstractEntity(Position position, int hp, int attack, int range, int id, EntityType entityType) throws ErrorPositionOutOfBound {
+    public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         checkPosition(position);
         this.position = position;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
-        this.HP = hp;
-        this.HPMax = hp;
-        this.attack = attack;
-        this.range = range;
+        this.HP = entityType.HPByType;
+        this.HPMax = entityType.HPByType;
+        this.attack = entityType.attackByType;
+        this.range = entityType.rangeByType;
         this.state = EntityState.NEUTRAL;
         this.remainingTime = EntityState.NEUTRAL.getDuration();
         this.id = id;

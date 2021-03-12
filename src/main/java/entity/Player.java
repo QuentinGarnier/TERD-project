@@ -34,7 +34,7 @@ public class Player extends AbstractEntity {
     private int money;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), 100, 10, 1, -1, EntityType.HERO_ARCHER);
+        super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();

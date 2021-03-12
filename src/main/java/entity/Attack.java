@@ -16,7 +16,7 @@ public class Attack {
             case HERO_WARRIOR:
                     entity2.takeDamage(entity1.getAttack());
                     ((Player) entity1).modifyHunger(-1);
-            case HERO_WITCHER:
+            case HERO_MAGE:
                     entity2.setState(EntityState.BURNT);
                     entity1.modifyHP(1);
 
