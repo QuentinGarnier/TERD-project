@@ -22,7 +22,8 @@ public enum CellElementType {
     GOBLIN('G', false, "entities/monsters/goblin"),
     SPIDER('S', false, "entities/monsters/spider"),
     ORC('O', false, "entities/monsters/orc"),
-    WIZARD('W', false, "entities/monsters/wizard");
+    WIZARD('W', false, "entities/monsters/wizard"),
+    TRAP('x', true, "");
 
     private final char symbol;
     private final boolean isAccessible;

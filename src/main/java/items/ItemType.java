@@ -10,9 +10,11 @@ public enum ItemType {
     COIN(CellElementType.COIN),
     FOOD(CellElementType.BURGER),  //food to restore hunger
     CONSUMABLE(CellElementType.ITEM),  //potions, scrolls...
-    EQUIP(CellElementType.ITEM);  //weapons and armors
+    EQUIP(CellElementType.ITEM),  //weapons and armors
+    TRAP(CellElementType.TRAP);     //traps
 
     public final CellElementType ct;
+
     ItemType(CellElementType ct){
         this.ct = ct;
     }
