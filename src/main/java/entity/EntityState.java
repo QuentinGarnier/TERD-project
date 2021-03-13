@@ -12,8 +12,8 @@ import graphics.Tools;
  *      PARALYSED -> yellow, Player can't attack during 3 turns
  *
  *      INVULNERABLE (can't take damage during 4 turns)
- *      ENRAGED (make +5 damage more during 5 turns)
- *      HEALED (regain +2 hp/turns during 6 turns)
+ *      ENRAGED (make +10 damage more during 5 turns)
+ *      HEALED (regain +3 hp/turns during 6 turns)
  *
  *      -1 == null
  */
@@ -27,9 +27,9 @@ public enum EntityState {
     POISONED(Tools.TextEffects.magenta("Poisoned"), 8),
     PARALYSED(Tools.TextEffects.yellow("Paralysed"), 3),
 
-    INVULNERABLE("Invulnerable", 4),
-    ENRAGED("Enraged", 5),
-    HEALED("Healed", 6);
+    INVULNERABLE(Tools.TextEffects.cyan("Invulnerable"), 4),
+    ENRAGED(Tools.TextEffects.red("Enraged"), 5),
+    HEALED(Tools.TextEffects.green("Healed"), 6);
 
     private final String text;
     private final int duration;
@@ -43,16 +43,23 @@ public enum EntityState {
 
     public int getDuration() { return duration; }
 
-    public static void applyStateEffects(AbstractEntity entity){
+    public static void applyStateImmediateEffects(AbstractEntity entity){
+        switch (entity.getState()){
+            case PARALYSED: if (entity.entityType == EntityType.HERO_WARRIOR || entity.entityType == EntityType.MONSTER_ORC) entity.modifyAttack((int) (entity.getAttackMax() * 0.20)); System.out.println(Tools.TextEffects.yellow("You are paralized ([Warrior] : -80% Attack [Mage] : Don't burn monsters)" )); break;
+            case ENRAGED: entity.modifyAttack(entity.getAttack() + 10); System.out.println(Tools.TextEffects.red("Rage makes you stronger (+10 attack)")); break;
+            case FROZEN: System.out.println(Tools.TextEffects.blue("Freeze immobilizes you"));
+            case POISONED: if (entity.entityType == EntityType.HERO_ARCHER) System.out.println(Tools.TextEffects.magenta("Poison makes you imprecise"));
+            default: entity.modifyAttack(entity.getAttackMax()); break;
+        }
+    }
+
+    public static void applyStateTurnEffects(AbstractEntity entity){
         applyState(entity);
         decrementRemainingTime(entity);
     }
 
     private static void applyState(AbstractEntity entity) {
         switch (entity.getState()){
-            case FROZEN:
-                System.out.println(Tools.TextEffects.blue("The freezes immobilizes you"));
-                break;
             case BURNT:
                 entity.takeDamage(2);
                 System.out.println(Tools.TextEffects.red("The burn inflicted 2 damages"));
@@ -61,10 +68,12 @@ public enum EntityState {
                 entity.takeDamage(1);
                 if (entity instanceof Player){
                     ((Player) entity).modifyHunger(-1);
-                    System.out.println(Tools.TextEffects.magenta("You are suffering from poisoning (-1 HP, -1 Hunger (+ Archer : decreasing accuracy))"));
+                    System.out.println(Tools.TextEffects.magenta("You are suffering from poisoning (-1 HP, -1 Hunger ([Archer] : decreasing accuracy))"));
                 } break;
-            case PARALYSED:
-                System.out.println(Tools.TextEffects.yellow("You are paralized" ));
+            case HEALED:
+                entity.modifyHP(3);
+                System.out.println(Tools.TextEffects.green("Cared for : +3 HP"));
+                break;
             default: break;
         }
     }

@@ -12,7 +12,7 @@ public abstract class AbstractEntity {
     public final EntityType entityType;
     private final Strategy strategy;
     private int HP, HPMax;
-    private int attack;
+    private int attack, attackMax;
     private int range;
     private EntityState state;
     private int remainingTime;
@@ -26,6 +26,7 @@ public abstract class AbstractEntity {
         this.HP = entityType.HPByType;
         this.HPMax = entityType.HPByType;
         this.attack = entityType.attackByType;
+        this.attackMax = entityType.attackByType;
         this.range = entityType.rangeByType;
         this.state = EntityState.NEUTRAL;
         this.remainingTime = EntityState.NEUTRAL.getDuration();
@@ -80,12 +81,16 @@ public abstract class AbstractEntity {
 
     public int getAttack() { return attack; }
 
+    public int getAttackMax() { return attackMax; }
+
     public int getRange() { return range; }
 
-    public EntityState getState(){ return state;}
+    public EntityState getState() { return state;}
 
     public void setState(EntityState state){
         this.state = state;
+
+        EntityState.applyStateImmediateEffects(this);
         updateRemainingTime();
     }
 

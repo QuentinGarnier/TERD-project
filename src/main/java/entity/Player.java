@@ -10,11 +10,9 @@ import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import items.AbstractItem;
 
-import java.awt.im.InputContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 
 public class Player extends AbstractEntity {
@@ -29,7 +27,7 @@ public class Player extends AbstractEntity {
     }
 
     private int level;
-    private int hunger; //max: 100
+    private int hunger;
     private List<AbstractItem> inventory;
     private int money;
 
@@ -39,7 +37,7 @@ public class Player extends AbstractEntity {
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
-        setState(EntityState.POISONED);//to test
+        setState(EntityState.ENRAGED);
     }
 
     public static Player getInstancePlayer() {
@@ -114,7 +112,7 @@ public class Player extends AbstractEntity {
         if(hunger > 75) return "Sated";        //100 to 76
         else if(hunger > 50) return "Peckish"; //75 to 51
         else if(hunger > 30) return "Hungry";  //50 to 26
-        else return "Starving";                     //25 to 0 (0 = you die)
+        else return "Starving";                //25 to 0 (0 = you die)
     }
 
     //Hunger is capped at 100.
@@ -158,13 +156,13 @@ public class Player extends AbstractEntity {
         if(canMove()) {
             if (moveEntity(move)) {
                 moveMonsters();
-                EntityState.applyStateEffects(Player.getInstancePlayer());
+                EntityState.applyStateTurnEffects(Player.getInstancePlayer());
                 return true;
             }
             return false;
         }
         moveMonsters();
-        EntityState.applyStateEffects(Player.getInstancePlayer());
+        EntityState.applyStateTurnEffects(Player.getInstancePlayer());
         return true;
     }
 
@@ -174,7 +172,7 @@ public class Player extends AbstractEntity {
         if (cell.getEntity() != null){
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
-            EntityState.applyStateEffects(Player.getInstancePlayer());
+            EntityState.applyStateTurnEffects(Player.getInstancePlayer());
             return true;
         }
         return false;
