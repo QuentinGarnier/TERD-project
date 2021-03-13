@@ -8,6 +8,7 @@ import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
+import graphics.window.GameWindow;
 import items.AbstractItem;
 
 import java.util.ArrayList;
@@ -48,15 +49,14 @@ public class Player extends AbstractEntity {
         return Collections.unmodifiableList(instancePlayer.inventory);
     }
 
-    public void pickElement(Position p){
+    public void pickElement(Position p) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell c = worldMap.getCell(p);
-        if (c.getItem() != null){
+        if(c.getItem() != null) {
             Room r = worldMap.getRooms().get(c.getBaseId());
             inventory.add(r.getItems().get(c.getItemId()));
-        } else {
-            System.out.println("Nothing to pick");
         }
+        else System.out.println("Nothing to pick");
     }
 
     public int getMoney() {
@@ -67,10 +67,12 @@ public class Player extends AbstractEntity {
         return level;
     }
 
-    public EntityState getState() { return super.getState(); }
+    public EntityState getState() {
+        return super.getState();
+    }
 
     public boolean spendMoney(int cost) {
-        if (cost > money){
+        if (cost > money) {
             System.out.println(Tools.TextEffects.red("Not enough money"));
             return false;
         }
@@ -92,7 +94,7 @@ public class Player extends AbstractEntity {
         if (item != null) instancePlayer.inventory.add(item);
     }
 
-    public void incrementMoney(int x){
+    public void incrementMoney(int x) {
         money += x;
     }
 
@@ -120,6 +122,13 @@ public class Player extends AbstractEntity {
         if(hunger + x > 100) hunger = 100;
         else if(hunger + x < 0) hunger = 0;
         else hunger += x;
+        GameWindow.refreshInventory();
+    }
+
+    @Override
+    public void modifyHP(int x) {
+        super.modifyHP(x);
+        GameWindow.refreshInventory();
     }
 
     /**
@@ -137,7 +146,7 @@ public class Player extends AbstractEntity {
         return Player.getInstancePlayer().getState() != EntityState.FROZEN;
     }
 
-    private void moveMonsters(){
+    private void moveMonsters() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(getPosition());
         if (cell.getBaseContent().equals(CellElementType.EMPTY)) {
@@ -147,8 +156,8 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public boolean makeAction(boolean isAttacking, Move m, Position p){
-        if (m == null && p == null) return false;
+    public boolean makeAction(boolean isAttacking, Move m, Position p) {
+        if(m == null && p == null) return false;
         return isAttacking ? attackHero(p) : moveHero(m);
     }
 
@@ -166,10 +175,10 @@ public class Player extends AbstractEntity {
         return true;
     }
 
-    private boolean attackHero(Position position){
+    private boolean attackHero(Position position) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
-        if (cell.getEntity() != null){
+        if (cell.getEntity() != null) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
             EntityState.applyStateTurnEffects(Player.getInstancePlayer());

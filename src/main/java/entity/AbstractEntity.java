@@ -6,6 +6,7 @@ import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
+import graphics.window.GameWindow;
 
 public abstract class AbstractEntity {
     private Position position;
@@ -45,17 +46,16 @@ public abstract class AbstractEntity {
         worldMap.getCell(position).setEntity(this);
         Cell currentCell = worldMap.getCell(position);
         if (ct == CellElementType.HERO && currentCell.getItem() != null) {
-            //System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
             if(currentCell.getItem().immediateUse) currentCell.getItem().use();
-            else Player.addItem(currentCell.getItemId()); //ne marche probablement pas comme voulu vu que les ID sont désormais dépendant des salles
-
+            else Player.addItem(currentCell.getItemId());
             currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();
+            GameWindow.refreshInventory();
         }
         return moved;
     }
 
-    public boolean moveEntity(Move m){
+    public boolean moveEntity(Move m) {
         return moveEntity(m.getMove());
     }
 

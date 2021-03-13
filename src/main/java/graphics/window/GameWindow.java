@@ -1,6 +1,5 @@
 package graphics.window;
 
-import entity.EntityState;
 import entity.Player;
 import graphics.Tools;
 import graphics.elements.Move;
@@ -52,13 +51,14 @@ public class GameWindow extends JFrame {
         getContentPane().setBackground(Color.DARK_GRAY);
     }
 
+    private static void refresh() {
+        window.setSize(window.getWidth() + 1,window.getHeight() + 1);
+        window.setSize(window.getWidth() - 1,window.getHeight() - 1);
+    }
+
     private void displayGamePanels() {
         gamePanel.display();
         gameInterfacePanel.display();
-    }
-
-    private void clear() {
-        gamePanel.clear();
     }
 
     private void setScrollFrameBar() {
@@ -66,14 +66,19 @@ public class GameWindow extends JFrame {
         jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 300);
     }
 
-    private static void applyCommand(Move m){
+    private static void applyCommand(Move m) {
         boolean b = Player.getInstancePlayer().makeAction(false, m, null);
-        if (b) gamePanel.moveEntities();
+        if(b) gamePanel.moveEntities();
     }
 
-    private static void applyCommand2(Position p){
+    private static void applyCommand2(Position p) {
         boolean b = Player.getInstancePlayer().makeAction(true, null, p);
-        if (b) gamePanel.moveEntities();
+        if(b) gamePanel.moveEntities();
+    }
+
+    public static void refreshInventory() {
+        gameInterfacePanel.refresh();
+        refresh();
     }
 
 

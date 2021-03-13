@@ -21,7 +21,7 @@ public enum EntityType {
     final int attackByType;
     final int rangeByType;
 
-    EntityType(CellElementType ct, int hp, int attack,int range){
+    EntityType(CellElementType ct, int hp, int attack,int range) {
         cellElementType = ct;
         HPByType = hp;
         attackByType = attack;
@@ -32,16 +32,20 @@ public enum EntityType {
         return cellElementType;
     }
 
-    public static EntityType[] monsters(){
+    public static EntityType[] monsters() {
         return Arrays.stream(EntityType.values()).filter(e -> e.cellElementType != CellElementType.HERO).toArray(EntityType[]::new);
     }
 
-    public String toString2() {
-        switch (this){
+    @Override
+    public String toString() {
+        return super.toString().split("_")[1];
+    }
 
-            case HERO_ARCHER: return Tools.TextEffects.encircled(Tools.TextEffects.green(" " + toString().split("_")[1] + " "));
-            case HERO_WARRIOR: return Tools.TextEffects.encircled(Tools.TextEffects.red(" " + toString().split("_")[1] + " "));
-            case HERO_MAGE: return Tools.TextEffects.encircled(Tools.TextEffects.blue(" " + toString().split("_")[1] + " "));
+    public String toString2() {
+        switch (this) {
+            case HERO_ARCHER: return Tools.TextEffects.encircled(Tools.TextEffects.green(" " + toString() + " "));
+            case HERO_WARRIOR: return Tools.TextEffects.encircled(Tools.TextEffects.red(" " + toString() + " "));
+            case HERO_MAGE: return Tools.TextEffects.encircled(Tools.TextEffects.blue(" " + toString() + " "));
 
             case MONSTER_GOBLIN:
             case MONSTER_ORC:
