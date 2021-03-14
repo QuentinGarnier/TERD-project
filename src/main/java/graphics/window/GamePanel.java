@@ -99,6 +99,7 @@ public class GamePanel extends JPanel {
         WhatHeroDoes whatHeroDoes = Player.getInstancePlayer().getWhatHeroDoes();
         if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK)
             squareLabel.setLocation(whatHeroDoes.getP().getX() * size, whatHeroDoes.getP().getY() * size);
+        else squareLabel.setLocation(-size, -size);
     }
 
     Point getHeroPosition() {

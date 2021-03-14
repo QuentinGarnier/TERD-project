@@ -97,9 +97,7 @@ public class GameWindow extends JFrame {
                 }
             }
             if (b) gamePanel.moveEntities();
-            else {
-                gamePanel.setObjective();
-            }
+            else gamePanel.setObjective();
         }
 
         @Override
