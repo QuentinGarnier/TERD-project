@@ -62,10 +62,10 @@ public class Position {
     }
 
     public static int calculateRange(Position p1, Position p2){
-        if (p1.x == p2.x) return Math.abs(p1.y - p2.y);
+        /*if (p1.x == p2.x) return Math.abs(p1.y - p2.y);
         if (p1.y == p2.y) return Math.abs(p1.x - p2.x);
-        return Integer.MAX_VALUE;
-        //return Math.max(Math.abs(p2.x- p1.x), Math.abs(p2.y - p1.y));
+        return Integer.MAX_VALUE;*/
+        return Math.max(Math.abs(p2.x- p1.x), Math.abs(p2.y - p1.y));
     }
 
     public double distance(Position p){

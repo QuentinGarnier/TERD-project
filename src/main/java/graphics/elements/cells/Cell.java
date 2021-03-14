@@ -1,6 +1,7 @@
 package graphics.elements.cells;
 
 import entity.AbstractEntity;
+import graphics.Tools;
 import items.AbstractItem;
 
 import java.util.Objects;
@@ -22,6 +23,8 @@ public class Cell {
 
     // entity
     private AbstractEntity entity;
+
+    private boolean isAimed;
 
     public Cell(CellElementType e, int id) {
         this.baseContent = e;
@@ -70,13 +73,21 @@ public class Cell {
         return baseContent;
     }
 
+    public boolean isAimed(){
+        return isAimed;
+    }
+
+    public void setAimed(boolean b){
+        isAimed = b;
+    }
+
     public boolean isAccessible() {
         return getMainContentType().isAccessible();
     }
 
     @Override
     public String toString() {
-        return this.getMainContentType().toString();
+        return isAimed? Tools.TextEffects.encircled(getMainContentType().toString()) : getMainContentType().toString();
     }
 
     @Override

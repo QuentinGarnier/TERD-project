@@ -1,9 +1,11 @@
 package graphics.window;
 
 import entity.Player;
+import graphics.ChooseAttackCell;
 import graphics.Tools;
 import graphics.elements.Move;
 import graphics.elements.Position;
+import graphics.WhatHeroDoes;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,16 +68,6 @@ public class GameWindow extends JFrame {
         jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 300);
     }
 
-    private static void applyCommand(Move m) {
-        boolean b = Player.getInstancePlayer().makeAction(false, m, null);
-        if(b) gamePanel.moveEntities();
-    }
-
-    private static void applyCommand2(Position p) {
-        boolean b = Player.getInstancePlayer().makeAction(true, null, p);
-        if(b) gamePanel.moveEntities();
-    }
-
     public static void refreshInventory() {
         gameInterfacePanel.refresh();
         refresh();
@@ -83,7 +75,26 @@ public class GameWindow extends JFrame {
 
 
     private static class KeysActions implements KeyListener {
+        WhatHeroDoes choice = WhatHeroDoes.MOVING;
+        Position pos = null;
 
+        private void applyCommand(WhatHeroDoes choice, Move m, Position pos){
+            boolean b = false;
+            switch (choice){
+                case MOVING -> {
+                    b = Player.getInstancePlayer().makeAction(false, m, null);
+                }
+                case CHOOSING_ATTACK -> {
+                    this.pos = ChooseAttackCell.selectCase(pos, m);
+                }
+                case ATTACKING -> {
+                    Player.getInstancePlayer().makeAction(true, null, pos);
+                    ChooseAttackCell.unselectCase(pos);
+                    this.pos = Player.getInstancePlayer().getPosition();
+                }
+            }
+            if (b) gamePanel.moveEntities();
+        }
 
         @Override
         public void keyTyped(KeyEvent e) {}
@@ -93,15 +104,27 @@ public class GameWindow extends JFrame {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            int keyCode = e.getKeyCode();
             char key = (Tools.getKeyboard().equals("fr_FR")? Tools.universalCharOf(e.getKeyChar()) : e.getKeyChar());
 
+
             switch (key) {
-                case 'w' -> applyCommand(Move.UP);
-                case 'd' -> applyCommand(Move.RIGHT);
-                case 's' -> applyCommand(Move.DOWN);
-                case 'a' -> applyCommand(Move.LEFT);
-                case 'q' -> applyCommand2(null); //here the position selected by user (instead of null)
+                case 'w' -> applyCommand(choice, Move.UP, pos);
+                case 'd' -> applyCommand(choice, Move.RIGHT, pos);
+                case 's' -> applyCommand(choice, Move.DOWN, pos);
+                case 'a' -> applyCommand(choice, Move.LEFT, pos);
+                case 'q' -> {
+                    switch (choice){
+                        case MOVING -> {
+                            System.out.println("SELECTING");
+                            choice = WhatHeroDoes.CHOOSING_ATTACK;
+                            applyCommand(WhatHeroDoes.CHOOSING_ATTACK, null, pos);
+                        }
+                        case CHOOSING_ATTACK -> {
+                            choice = WhatHeroDoes.MOVING;
+                            applyCommand(WhatHeroDoes.ATTACKING, null, pos);
+                        }
+                    }
+                }
             }
             window.setScrollFrameBar();
         }

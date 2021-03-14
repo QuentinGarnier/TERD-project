@@ -1,11 +1,12 @@
 package graphics.map;
 
-import entity.Attack;
 import entity.Player;
+import graphics.ChooseAttackCell;
 import graphics.Tools;
 import graphics.elements.*;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
+import graphics.WhatHeroDoes;
 
 import java.util.*;
 
@@ -130,45 +131,60 @@ public class WorldMap {
         System.out.println(ATH);
     }
 
-
-    private static void applyCommand(Move m){
-        Player.getInstancePlayer().makeAction(false, m, null);
+    private static void applyCommand(WhatHeroDoes choice, Move m, Position pos){
+        switch (choice){
+            case MOVING -> {
+                Player.getInstancePlayer().makeAction(false, m, null);
+                gamePlayer(choice, null);
+            }
+            case CHOOSING_ATTACK -> {
+                Position p = ChooseAttackCell.selectCase(pos, m);
+                gamePlayer(choice, p);
+            }
+            case ATTACKING -> {
+                Player.getInstancePlayer().makeAction(true, null, pos);
+                ChooseAttackCell.unselectCase(pos);
+                gamePlayer(WhatHeroDoes.MOVING, null);
+            }
+        }
     }
 
-    private static void applyCommand2(Position p){
-        Player.getInstancePlayer().makeAction(true, null, p);
+    public static void gamePlayer(){
+        gamePlayer(WhatHeroDoes.MOVING, null);
     }
 
-    public static void gamePlayer() {
+    public static void gamePlayer(WhatHeroDoes choice, Position pos) {
 
         Scanner sc = new Scanner(System.in);
         String buffer;
         char key;
-        boolean gameState = true;
-        Player instancePlayer = Player.getInstancePlayer();
+        WorldMap.getInstanceWorld().repaint();
 
-        while(gameState) {
-            buffer = sc.nextLine();
-            if(buffer.length() == 1) {
-                key = buffer.charAt(0);
+        buffer = sc.nextLine();
+        if(buffer.length() == 1) {
+            key = buffer.charAt(0);
 
-                if(Tools.getKeyboard().equals("fr_FR")) key = Tools.universalCharOf(key);
+            if(Tools.getKeyboard().equals("fr_FR")) key = Tools.universalCharOf(key);
 
-                switch (key) {
-                    case 'w': applyCommand(Move.UP); break;
-                    case 'a': applyCommand(Move.LEFT); break;
-                    case 's': applyCommand(Move.DOWN); break;
-                    case 'd': applyCommand(Move.RIGHT); break;
-                    case 'q': applyCommand2(null); break;
-                    case 'p':
-                        gameState = false;
-                        System.out.println("You left the game.");
-                        break;
-                    default: break;
+            switch (key) {
+                case 'w': applyCommand(choice, Move.UP, pos); break;
+                case 'a': applyCommand(choice, Move.LEFT, pos); break;
+                case 's': applyCommand(choice, Move.DOWN, pos); break;
+                case 'd': applyCommand(choice, Move.RIGHT, pos); break;
+                case 'q': {
+                    switch (choice){
+                        case MOVING -> applyCommand(WhatHeroDoes.CHOOSING_ATTACK, null, pos);
+                        case CHOOSING_ATTACK -> applyCommand(WhatHeroDoes.ATTACKING, null, pos);
+                    }
+                    break;
                 }
-
-                WorldMap.getInstanceWorld().repaint();
+                case 'p':
+                    System.out.println("You left the game.");
+                    break;
+                default: gamePlayer(choice, pos);
             }
+
+            WorldMap.getInstanceWorld().repaint();
         }
         sc.close();
     }

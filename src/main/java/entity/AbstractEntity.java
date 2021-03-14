@@ -118,6 +118,14 @@ public abstract class AbstractEntity {
         if(HP + x > HPMax) HP = HPMax;
         else if(HP + x < 0) HP = 0;
         else HP += x;
+        if (HP == 0) removeEntity();
+    }
+
+    private void removeEntity() {
+        WorldMap worldMap = WorldMap.getInstanceWorld();
+        Cell cell = worldMap.getCell(position);
+        //if (this instanceof Monster)worldMap.getRooms().get(cell.getBaseId()).removeEntity((Monster)this);
+        worldMap.getCell(position).entityLeft();
     }
 
     public void takeDamage(int damage){ modifyHP(-damage); }
@@ -135,7 +143,7 @@ public abstract class AbstractEntity {
     }
 
     public void applyStrategy(){
-        strategy.applyStrategy();
+        if (HP > 0) strategy.applyStrategy();
     }
 
     public void goTo(Position p){

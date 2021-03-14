@@ -4,7 +4,7 @@ import graphics.Tools;
 
 public class Attack {
 
-    public static void attack(AbstractEntity entity1, AbstractEntity entity2){
+    public static void attack(AbstractEntity entity1, AbstractEntity entity2) {
         if (entity2 == null || !entity1.withinReach(entity2, entity1.getRange()) || entity2.getState() == EntityState.INVULNERABLE) return;
 
         switch (entity1.entityType){

@@ -162,4 +162,8 @@ public class Room {
         return p.getX() >= topLeft.getX() && p.getX() <= bottomRight.getX() &&
                 p.getY() >= topLeft.getY() && p.getY() <= bottomRight.getY();
     }
+
+    public void removeEntity(Monster m){
+        monsters.remove(m);
+    }
 }

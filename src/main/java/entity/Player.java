@@ -158,10 +158,10 @@ public class Player extends AbstractEntity {
 
     public boolean makeAction(boolean isAttacking, Move m, Position p) {
         if(m == null && p == null) return false;
-        return isAttacking ? attackHero(p) : moveHero(m);
+        return isAttacking ? attack(p) : move(m);
     }
 
-    private boolean moveHero(Move move) {
+    private boolean move(Move move) {
         if(canMove()) {
             if (moveEntity(move)) {
                 moveMonsters();
@@ -175,13 +175,14 @@ public class Player extends AbstractEntity {
         return true;
     }
 
-    private boolean attackHero(Position position) {
+    private boolean attack(Position position) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
-        if (cell.getEntity() != null) {
+        if (cell.getEntity() instanceof Monster && Position.calculateRange(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
             EntityState.applyStateTurnEffects(Player.getInstancePlayer());
+            moveMonsters();
             return true;
         }
         return false;
