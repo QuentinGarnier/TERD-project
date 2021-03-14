@@ -20,7 +20,7 @@ public class Strategy {
 
     private void Goblin() {
         if (currentEntity.getHP() > currentEntity.getHPMax() / 2 ) {
-            if (currentEntity.withinReach(hero, 1)) attack(hero);
+            if (currentEntity.withinReach(hero, 1)) Attack.attack(currentEntity, hero);
             else goCloseHero();
         } else {
             if (!currentEntity.withinReach(hero, 2)) increaseHP(2);
@@ -28,15 +28,15 @@ public class Strategy {
         }
     }
 
+    private void OrcSpider(){
+        if (currentEntity.withinReach(hero, 1)) Attack.attack(currentEntity, hero);
+        else goCloseHero();
+    }
+
     private void Wizard(){
         if (currentEntity.withinReach(hero, 1)) fleeHero();
         else if (!currentEntity.withinReach(hero, 3)) goCloseHero();
-        else attack(hero);
-    }
-
-    private void OrcSpider(){
-        if (currentEntity.withinReach(hero, 1)) attack(hero);
-        else goCloseHero();
+        else Attack.attack(currentEntity, hero);
     }
 
     public void makeMove(boolean goClose, Position p){
@@ -62,9 +62,7 @@ public class Strategy {
         makeMove(true, hero.getPosition());
     }
 
-    public void attack(AbstractEntity entity){
-        entity.takeDamage(currentEntity.getAttack());
-    }
+    //public void attack(AbstractEntity entity){entity.takeDamage(currentEntity.getAttack());}
 
     public void increaseHP(int x){
         currentEntity.toHeal(x);

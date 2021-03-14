@@ -9,7 +9,7 @@ public class Movement {
 
             case HERO_ARCHER:
             case HERO_WARRIOR:
-            case HERO_WITCHER:
+            case HERO_MAGE:
 
             case MONSTER_GOBLIN:
             case MONSTER_ORC:

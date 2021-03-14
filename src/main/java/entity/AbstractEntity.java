@@ -6,27 +6,31 @@ import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
+import graphics.window.GameWindow;
 
 public abstract class AbstractEntity {
     private Position position;
     public final EntityType entityType;
     private final Strategy strategy;
     private int HP, HPMax;
-    private int attack;
+    private int attack, attackMax;
     private int range;
     private EntityState state;
+    private int remainingTime;
     private final int id;
 
-    public AbstractEntity(Position position, int hp, int attack, int range, int id, EntityType entityType) throws ErrorPositionOutOfBound {
+    public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         checkPosition(position);
         this.position = position;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
-        this.HP = hp;
-        this.HPMax = hp;
-        this.attack = attack;
-        this.range = range;
+        this.HP = entityType.HPByType;
+        this.HPMax = entityType.HPByType;
+        this.attack = entityType.attackByType;
+        this.attackMax = entityType.attackByType;
+        this.range = entityType.rangeByType;
         this.state = EntityState.NEUTRAL;
+        this.remainingTime = EntityState.NEUTRAL.getDuration();
         this.id = id;
     }
 
@@ -42,17 +46,16 @@ public abstract class AbstractEntity {
         worldMap.getCell(position).setEntity(this);
         Cell currentCell = worldMap.getCell(position);
         if (ct == CellElementType.HERO && currentCell.getItem() != null) {
-            //System.out.println("You have earned " + ColorStr.yellow("+1 coin") + "!" + System.lineSeparator());
             if(currentCell.getItem().immediateUse) currentCell.getItem().use();
-            else Player.addItem(currentCell.getItemId()); //ne marche probablement pas comme voulu vu que les ID sont désormais dépendant des salles
-
+            else Player.addItem(currentCell.getItemId());
             currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();
+            GameWindow.refreshInventory();
         }
         return moved;
     }
 
-    public boolean moveEntity(Move m){
+    public boolean moveEntity(Move m) {
         return moveEntity(m.getMove());
     }
 
@@ -78,11 +81,25 @@ public abstract class AbstractEntity {
 
     public int getAttack() { return attack; }
 
+    public int getAttackMax() { return attackMax; }
+
     public int getRange() { return range; }
 
-    public EntityState getState(){ return state;}
+    public EntityState getState() { return state;}
 
-    public void setState(EntityState state){ this.state = state;}
+    public void setState(EntityState state){
+        this.state = state;
+
+        EntityState.applyStateImmediateEffects(this);
+        updateRemainingTime();
+    }
+
+    public void updateRemainingTime(){ remainingTime = getState().getDuration(); }
+
+    public void decrementRemainingTime(){
+        if (getState() != EntityState.NEUTRAL ) remainingTime--;
+        if (remainingTime == 0) setState(EntityState.NEUTRAL);
+    }
 
     public EntityType getEntityType() { return entityType; }
 

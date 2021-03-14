@@ -1,6 +1,6 @@
 package graphics.elements.cells;
 
-import graphics.ColorStr;
+import graphics.Tools;
 
 import javax.swing.*;
 
@@ -22,7 +22,8 @@ public enum CellElementType {
     GOBLIN('G', false, "entities/monsters/goblin"),
     SPIDER('S', false, "entities/monsters/spider"),
     ORC('O', false, "entities/monsters/orc"),
-    WIZARD('W', false, "entities/monsters/wizard");
+    WIZARD('W', false, "entities/monsters/wizard"),
+    TRAP('x', true, "");
 
     private final char symbol;
     private final boolean isAccessible;
@@ -49,10 +50,10 @@ public enum CellElementType {
     @Override
     public String toString() {
         switch (this) {
-            case HERO: return ColorStr.cyan("" + symbol);
-            case MONSTER: return ColorStr.red("" + symbol);
-            case ITEM: return ColorStr.green("" + symbol);
-            case COIN: return ColorStr.yellow("" + symbol);
+            case HERO: return Tools.TextEffects.cyan("" + symbol);
+            case MONSTER: return Tools.TextEffects.red("" + symbol);
+            case ITEM: return Tools.TextEffects.green("" + symbol);
+            case COIN: return Tools.TextEffects.yellow("" + symbol);
             default: return "" + symbol;
         }
     }

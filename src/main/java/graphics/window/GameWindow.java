@@ -1,7 +1,9 @@
 package graphics.window;
 
 import entity.Player;
+import graphics.Tools;
 import graphics.elements.Move;
+import graphics.elements.Position;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,13 +51,14 @@ public class GameWindow extends JFrame {
         getContentPane().setBackground(Color.DARK_GRAY);
     }
 
+    private static void refresh() {
+        window.setSize(window.getWidth() + 1,window.getHeight() + 1);
+        window.setSize(window.getWidth() - 1,window.getHeight() - 1);
+    }
+
     private void displayGamePanels() {
         gamePanel.display();
         gameInterfacePanel.display();
-    }
-
-    private void clear() {
-        gamePanel.clear();
     }
 
     private void setScrollFrameBar() {
@@ -63,25 +66,24 @@ public class GameWindow extends JFrame {
         jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 300);
     }
 
-    private static void applyCommand(Move m){
+    private static void applyCommand(Move m) {
         boolean b = Player.getInstancePlayer().makeAction(false, m, null);
-        if (b) gamePanel.moveEntities();
+        if(b) gamePanel.moveEntities();
+    }
+
+    private static void applyCommand2(Position p) {
+        boolean b = Player.getInstancePlayer().makeAction(true, null, p);
+        if(b) gamePanel.moveEntities();
+    }
+
+    public static void refreshInventory() {
+        gameInterfacePanel.refresh();
+        refresh();
     }
 
 
     private static class KeysActions implements KeyListener {
 
-        private char universalCharOf(char c) {
-            return switch (c) {
-                case 'z' -> 'w';
-                case 'q' -> 'a';
-                case 'a' -> 'q';
-                case 'w' -> 'z';
-                case 'm' -> ';';
-                case ',' -> 'm';
-                default -> c;
-            };
-        }
 
         @Override
         public void keyTyped(KeyEvent e) {}
@@ -92,13 +94,14 @@ public class GameWindow extends JFrame {
         @Override
         public void keyReleased(KeyEvent e) {
             int keyCode = e.getKeyCode();
-            char key = (Player.getKeyboard().equals("fr_FR")? universalCharOf(e.getKeyChar()) : e.getKeyChar());
+            char key = (Tools.getKeyboard().equals("fr_FR")? Tools.universalCharOf(e.getKeyChar()) : e.getKeyChar());
 
             switch (key) {
                 case 'w' -> applyCommand(Move.UP);
                 case 'd' -> applyCommand(Move.RIGHT);
                 case 's' -> applyCommand(Move.DOWN);
                 case 'a' -> applyCommand(Move.LEFT);
+                case 'q' -> applyCommand2(null); //here the position selected by user (instead of null)
             }
             window.setScrollFrameBar();
         }

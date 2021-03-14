@@ -1,6 +1,6 @@
 package entity;
 
-import graphics.ColorStr;
+import graphics.Tools;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
 import graphics.elements.Position;
@@ -8,13 +8,12 @@ import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
+import graphics.window.GameWindow;
 import items.AbstractItem;
 
-import java.awt.im.InputContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 
 public class Player extends AbstractEntity {
@@ -29,17 +28,17 @@ public class Player extends AbstractEntity {
     }
 
     private int level;
-    private int hunger; //max: 100
+    private int hunger;
     private List<AbstractItem> inventory;
     private int money;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), 100, 10, 1, -1, EntityType.HERO_ARCHER);
+        super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
-        setState(EntityState.POISONED);//to test
+        setState(EntityState.ENRAGED);
     }
 
     public static Player getInstancePlayer() {
@@ -50,15 +49,14 @@ public class Player extends AbstractEntity {
         return Collections.unmodifiableList(instancePlayer.inventory);
     }
 
-    public void pickElement(Position p){
+    public void pickElement(Position p) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell c = worldMap.getCell(p);
-        if (c.getItem() != null){
+        if(c.getItem() != null) {
             Room r = worldMap.getRooms().get(c.getBaseId());
             inventory.add(r.getItems().get(c.getItemId()));
-        } else {
-            System.out.println("Nothing to pick");
         }
+        else System.out.println("Nothing to pick");
     }
 
     public int getMoney() {
@@ -69,11 +67,13 @@ public class Player extends AbstractEntity {
         return level;
     }
 
-    public EntityState getState() { return super.getState(); }
+    public EntityState getState() {
+        return super.getState();
+    }
 
     public boolean spendMoney(int cost) {
-        if (cost > money){
-            System.out.println(ColorStr.red("Not enough money"));
+        if (cost > money) {
+            System.out.println(Tools.TextEffects.red("Not enough money"));
             return false;
         }
         money -= cost;
@@ -94,20 +94,7 @@ public class Player extends AbstractEntity {
         if (item != null) instancePlayer.inventory.add(item);
     }
 
-
-    public static String getKeyboard() {
-        InputContext context = InputContext.getInstance();
-        Locale country = context.getLocale();
-        return country.toString();
-    }
-
-    public static void showCommands() {
-        char top = 'w', left = 'a', attack = 'q';
-        if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; attack = 'a';}
-        System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
-    }
-
-    public void incrementMoney(int x){
+    public void incrementMoney(int x) {
         money += x;
     }
 
@@ -127,7 +114,7 @@ public class Player extends AbstractEntity {
         if(hunger > 75) return "Sated";        //100 to 76
         else if(hunger > 50) return "Peckish"; //75 to 51
         else if(hunger > 30) return "Hungry";  //50 to 26
-        else return "Starving";                     //25 to 0 (0 = you die)
+        else return "Starving";                //25 to 0 (0 = you die)
     }
 
     //Hunger is capped at 100.
@@ -135,6 +122,13 @@ public class Player extends AbstractEntity {
         if(hunger + x > 100) hunger = 100;
         else if(hunger + x < 0) hunger = 0;
         else hunger += x;
+        GameWindow.refreshInventory();
+    }
+
+    @Override
+    public void modifyHP(int x) {
+        super.modifyHP(x);
+        GameWindow.refreshInventory();
     }
 
     /**
@@ -152,7 +146,7 @@ public class Player extends AbstractEntity {
         return Player.getInstancePlayer().getState() != EntityState.FROZEN;
     }
 
-    private void moveMonsters(){
+    private void moveMonsters() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(getPosition());
         if (cell.getBaseContent().equals(CellElementType.EMPTY)) {
@@ -162,7 +156,8 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public boolean makeAction(boolean isAttacking, Move m, Position p){
+    public boolean makeAction(boolean isAttacking, Move m, Position p) {
+        if(m == null && p == null) return false;
         return isAttacking ? attackHero(p) : moveHero(m);
     }
 
@@ -170,21 +165,23 @@ public class Player extends AbstractEntity {
         if(canMove()) {
             if (moveEntity(move)) {
                 moveMonsters();
+                EntityState.applyStateTurnEffects(Player.getInstancePlayer());
                 return true;
             }
             return false;
         }
         moveMonsters();
-        // TODO : decrementer l'état du joueur
+        EntityState.applyStateTurnEffects(Player.getInstancePlayer());
         return true;
     }
 
-    private boolean attackHero(Position position){
+    private boolean attackHero(Position position) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
-        if (cell.getEntity() != null){
+        if (cell.getEntity() != null) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
+            EntityState.applyStateTurnEffects(Player.getInstancePlayer());
             return true;
         }
         return false;
