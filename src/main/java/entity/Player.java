@@ -31,6 +31,7 @@ public class Player extends AbstractEntity {
     private int hunger;
     private List<AbstractItem> inventory;
     private int money;
+    private WhatHeroDoes whatHeroDoes;
 
     private Player() throws ErrorPositionOutOfBound {
         super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
@@ -39,6 +40,15 @@ public class Player extends AbstractEntity {
         inventory = new ArrayList<>();
         money = 0;
         setState(EntityState.ENRAGED);
+        whatHeroDoes = WhatHeroDoes.MOVING;
+    }
+
+    public WhatHeroDoes getWhatHeroDoes() {
+        return whatHeroDoes;
+    }
+
+    public void setWhatHeroDoes(WhatHeroDoes whatHeroDoes) {
+        this.whatHeroDoes = whatHeroDoes;
     }
 
     public static Player getInstancePlayer() {

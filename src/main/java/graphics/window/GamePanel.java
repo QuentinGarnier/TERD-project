@@ -2,6 +2,7 @@ package graphics.window;
 
 import entity.Monster;
 import entity.Player;
+import entity.WhatHeroDoes;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class GamePanel extends JPanel {
     private final JLabel heroLabel = new JLabel(CellElementType.HERO.getIcon());
+    private final JLabel squareLabel = new JLabel(new ImageIcon("data/images/map/miscellaneous/square.png"));
     private final List<MonsterLabel> monsterLabels;
     private final List<ItemLabel> treasuresLabels; //Items and coins
     private final List<JLabel> baseLabels;
@@ -42,6 +44,8 @@ public class GamePanel extends JPanel {
     private void displayMap() {
         Position pos = Player.getInstancePlayer().getPosition();
         add(heroLabel);
+        add(squareLabel);
+        squareLabel.setBounds(-size,-size, size, size);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
             Cell cell = WorldMap.getInstanceWorld().getCell(x, y);
@@ -60,6 +64,7 @@ public class GamePanel extends JPanel {
 
     public void moveEntities() {
         repaint();
+        squareLabel.setLocation(-size, -size);
         WorldMap.getInstanceWorld().repaint();
         Player player = Player.getInstancePlayer();
         heroLabel.setLocation(player.getPosition().getX() * size , player.getPosition().getY() * size);
@@ -88,6 +93,12 @@ public class GamePanel extends JPanel {
                 treasuresLabels.remove(currentLabel.get(0));
             }
         });
+    }
+
+    public void setObjective(){
+        WhatHeroDoes whatHeroDoes = Player.getInstancePlayer().getWhatHeroDoes();
+        if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK)
+            squareLabel.setLocation(whatHeroDoes.getP().getX() * size, whatHeroDoes.getP().getY() * size);
     }
 
     Point getHeroPosition() {

@@ -6,7 +6,7 @@ import graphics.Tools;
 import graphics.elements.*;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
-import graphics.WhatHeroDoes;
+import entity.WhatHeroDoes;
 
 import java.util.*;
 
@@ -100,6 +100,7 @@ public class WorldMap {
         else {
             Player.getInstancePlayer().setPosition(x, y);
             getCell(x, y).setEntity(Player.getInstancePlayer());
+            Player.getInstancePlayer().getWhatHeroDoes().setP(new Position(x, y));
         }
     }
 
@@ -131,29 +132,31 @@ public class WorldMap {
         System.out.println(ATH);
     }
 
-    private static void applyCommand(WhatHeroDoes choice, Move m, Position pos){
+    private static void applyCommand(Move m){
+        Player player = Player.getInstancePlayer();
+        WhatHeroDoes choice = player.getWhatHeroDoes();
+        Position pos = player.getWhatHeroDoes().getP();
         switch (choice){
             case MOVING -> {
-                Player.getInstancePlayer().makeAction(false, m, null);
-                gamePlayer(choice, null);
+                player.makeAction(false, m, null);
+                gamePlayer();
             }
             case CHOOSING_ATTACK -> {
                 Position p = ChooseAttackCell.selectCase(pos, m);
-                gamePlayer(choice, p);
+                player.getWhatHeroDoes().setP(p);
+                gamePlayer();
             }
             case ATTACKING -> {
-                Player.getInstancePlayer().makeAction(true, null, pos);
+                player.makeAction(true, null, player.getWhatHeroDoes().getP());
                 ChooseAttackCell.unselectCase(pos);
-                gamePlayer(WhatHeroDoes.MOVING, null);
+                player.setWhatHeroDoes(WhatHeroDoes.MOVING);
+                player.getWhatHeroDoes().setP(player.getPosition());
+                gamePlayer();
             }
         }
     }
 
-    public static void gamePlayer(){
-        gamePlayer(WhatHeroDoes.MOVING, null);
-    }
-
-    public static void gamePlayer(WhatHeroDoes choice, Position pos) {
+    public static void gamePlayer() {
 
         Scanner sc = new Scanner(System.in);
         String buffer;
@@ -165,23 +168,25 @@ public class WorldMap {
             key = buffer.charAt(0);
 
             if(Tools.getKeyboard().equals("fr_FR")) key = Tools.universalCharOf(key);
-
+            Player player = Player.getInstancePlayer();
+            WhatHeroDoes choice = player.getWhatHeroDoes();
             switch (key) {
-                case 'w': applyCommand(choice, Move.UP, pos); break;
-                case 'a': applyCommand(choice, Move.LEFT, pos); break;
-                case 's': applyCommand(choice, Move.DOWN, pos); break;
-                case 'd': applyCommand(choice, Move.RIGHT, pos); break;
-                case 'q': {
-                    switch (choice){
-                        case MOVING -> applyCommand(WhatHeroDoes.CHOOSING_ATTACK, null, pos);
-                        case CHOOSING_ATTACK -> applyCommand(WhatHeroDoes.ATTACKING, null, pos);
+                case 'w' -> applyCommand(Move.UP);
+                case 'a' -> applyCommand(Move.LEFT);
+                case 's' -> applyCommand(Move.DOWN);
+                case 'd' -> applyCommand(Move.RIGHT);
+                case 'q' -> {
+                    Position oldPos = player.getWhatHeroDoes().getP();
+                    switch (choice) {
+                        case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
+                        case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
                     }
+                    player.getWhatHeroDoes().setP(oldPos);
+                    applyCommand(null);
                     break;
                 }
-                case 'p':
-                    System.out.println("You left the game.");
-                    break;
-                default: gamePlayer(choice, pos);
+                case 'p' -> System.out.println("You left the game.");
+                default -> gamePlayer();
             }
 
             WorldMap.getInstanceWorld().repaint();
