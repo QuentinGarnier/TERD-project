@@ -174,6 +174,7 @@ public class Player extends AbstractEntity {
     private boolean move(Move move) {
         if(canMove()) {
             if (moveEntity(move)) {
+                whatHeroDoes.setP(getPosition());
                 moveMonsters();
                 EntityState.applyStateTurnEffects(Player.getInstancePlayer());
                 return true;
