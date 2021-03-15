@@ -9,7 +9,6 @@ public class Attack {
 
         switch (entity1.entityType){
             case HERO_ARCHER:
-                if (entity1.getState() == EntityState.PARALYSED) return;
                 if (Math.random() < (entity1.getState() == EntityState.POISONED ? 0.35 : 0.25)) {System.out.println(Tools.TextEffects.red("Missed target")); return;}
 
             case HERO_WARRIOR:
@@ -25,9 +24,7 @@ public class Attack {
             case MONSTER_GOBLIN: break;
             case MONSTER_ORC: entity2.setState(EntityState.PARALYSED); break;
             case MONSTER_SPIDER: entity2.setState(EntityState.POISONED); break;
-            case MONSTER_WIZARD:
-                if (Math.random() > 0.80) entity2.setState(EntityState.FROZEN);
-                break;
+            case MONSTER_WIZARD: if (Math.random() > 0.80) entity2.setState(EntityState.FROZEN); break;
             default: break;
         }
 

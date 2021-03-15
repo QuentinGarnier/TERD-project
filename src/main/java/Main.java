@@ -1,3 +1,5 @@
+import graphics.Tools;
+import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 
 public class Main {

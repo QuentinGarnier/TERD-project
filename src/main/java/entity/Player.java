@@ -40,6 +40,7 @@ public class Player extends AbstractEntity {
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
+        setState(EntityState.PARALYSED);
     }
 
     public WhatHeroDoes getWhatHeroDoes() {
@@ -122,15 +123,13 @@ public class Player extends AbstractEntity {
     public String getHungerState() {
         if(hunger > 75) return "Sated";        //100 to 76
         else if(hunger > 50) return "Peckish"; //75 to 51
-        else if(hunger > 30) return "Hungry";  //50 to 26
-        else return "Starving";                //25 to 0 (0 = you die)
+        else if(hunger > 30) return "Hungry";  //50 to 31
+        else return "Starving";                //30 to 0 (0 = you die)
     }
 
     //Hunger is capped at 100.
-    public void modifyHunger(int x) {
-        if(hunger + x > 100) hunger = 100;
-        else if(hunger + x < 0) hunger = 0;
-        else hunger += x;
+    public void modifyHunger(int x) {/*if(hunger + x > 100) hunger = 100; else if(hunger + x < 0) hunger = 0; else hunger += x;*/
+        hunger = Math.max(Math.min(hunger + x, 100), 0);
         GameWindow.refreshInventory();
     }
 
@@ -175,13 +174,13 @@ public class Player extends AbstractEntity {
             if (moveEntity(move)) {
                 whatHeroDoes.setP(getPosition());
                 moveMonsters();
-                EntityState.applyStateTurnEffects(Player.getInstancePlayer());
+                EntityState.turnEffects(this);
                 return true;
             }
             return false;
         }
         moveMonsters();
-        EntityState.applyStateTurnEffects(Player.getInstancePlayer());
+        EntityState.turnEffects(this);
         return true;
     }
 
@@ -191,7 +190,7 @@ public class Player extends AbstractEntity {
         if (cell.getEntity() instanceof Monster && Position.calculateRange(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
-            EntityState.applyStateTurnEffects(Player.getInstancePlayer());
+            EntityState.turnEffects(this);
             moveMonsters();
             return true;
         }

@@ -85,12 +85,14 @@ public abstract class AbstractEntity {
 
     public int getRange() { return range; }
 
+    public void setRange(int r) { range = Math.max(r, 0); }
+
     public EntityState getState() { return state;}
 
     public void setState(EntityState state){
         this.state = state;
 
-        EntityState.applyStateImmediateEffects(this);
+        EntityState.immediateEffects(this);
         updateRemainingTime();
     }
 
@@ -103,10 +105,7 @@ public abstract class AbstractEntity {
 
     public EntityType getEntityType() { return entityType; }
 
-    public void modifyAttack(int att) {
-        attack = att;
-        if(attack < 0) attack = 0;
-    }
+    public void modifyAttack(int att) { attack = Math.max(att, 0);}/*attack = att; if(attack < 0) attack = 0;*/
 
     /*
      * Modify the value of the current HP.
@@ -114,10 +113,8 @@ public abstract class AbstractEntity {
      */
 
 
-    public void modifyHP(int x) {
-        if(HP + x > HPMax) HP = HPMax;
-        else if(HP + x < 0) HP = 0;
-        else HP += x;
+    public void modifyHP(int x) {/*if(HP + x > HPMax) HP = HPMax; else if(HP + x < 0) HP = 0; else HP += x;*/
+        HP = Math.max(Math.min(HP + x, HPMax), 0);
         if (HP == 0) removeEntity();
     }
 
