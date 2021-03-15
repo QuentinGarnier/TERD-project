@@ -34,13 +34,12 @@ public class Player extends AbstractEntity {
     private WhatHeroDoes whatHeroDoes;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), -1, EntityType.HERO_ARCHER);
+        super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
-        setState(EntityState.PARALYSED);
     }
 
     public WhatHeroDoes getWhatHeroDoes() {

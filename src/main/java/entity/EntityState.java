@@ -46,14 +46,14 @@ public enum EntityState {
     public static void immediateEffects(AbstractEntity entity){
         switch (entity.getState()){
             case PARALYSED:
-                if (entity.entityType == EntityType.HERO_WARRIOR) entity.modifyAttack((int) (entity.getAttackMax() * 0.80));
+                if (entity.entityType == EntityType.HERO_WARRIOR) entity.setAttack((int) (entity.getAttackMax() * 0.80));
                 if (entity.entityType == EntityType.HERO_ARCHER) entity.setRange(5 - 2);
                 System.out.println(Tools.TextEffects.yellow("You are paralized ([Warrior] : -20% Attack [Archer] : -2 range [Mage] : Don't burn monsters)" )); break;
-            case ENRAGED: entity.modifyAttack(entity.getAttack() + 10); System.out.println(Tools.TextEffects.red("Rage makes you stronger (+10 attack)")); break;
+            case ENRAGED: entity.setAttack(entity.getAttack() + 10); System.out.println(Tools.TextEffects.red("Rage makes you stronger (+10 attack)")); break;
             case FROZEN: System.out.println(Tools.TextEffects.blue("Freeze immobilizes you"));
             case POISONED: if (entity.entityType == EntityType.HERO_ARCHER) System.out.println(Tools.TextEffects.magenta("Poison makes you imprecise"));
             default:
-                entity.modifyAttack(entity.getAttackMax());
+                entity.setAttack(entity.getAttackMax());
                 if (entity.entityType == EntityType.HERO_ARCHER) entity.setRange(5);
             break;
         }

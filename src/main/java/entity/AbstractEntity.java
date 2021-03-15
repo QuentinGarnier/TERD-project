@@ -105,7 +105,7 @@ public abstract class AbstractEntity {
 
     public EntityType getEntityType() { return entityType; }
 
-    public void modifyAttack(int att) { attack = Math.max(att, 0);}/*attack = att; if(attack < 0) attack = 0;*/
+    public void setAttack(int att) { attack = Math.max(att, 0);}/*attack = att; if(attack < 0) attack = 0;*/
 
     /*
      * Modify the value of the current HP.
