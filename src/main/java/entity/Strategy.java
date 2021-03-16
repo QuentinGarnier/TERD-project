@@ -62,9 +62,5 @@ public class Strategy {
         makeMove(true, hero.getPosition());
     }
 
-    //public void attack(AbstractEntity entity){entity.takeDamage(currentEntity.getAttack());}
-
-    public void increaseHP(int x){
-        currentEntity.toHeal(x);
-    }
+    public void increaseHP(int x){ currentEntity.modifyHP(x); }
 }

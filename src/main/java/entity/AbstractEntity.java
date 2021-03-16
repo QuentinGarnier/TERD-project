@@ -64,12 +64,12 @@ public abstract class AbstractEntity {
         return moveEntity(m.getMove());
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     public int getId() {
         return id;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public void setPosition(int x, int y) {
@@ -80,9 +80,22 @@ public abstract class AbstractEntity {
         position.setPosition(p.getX(), p.getY());
     }
 
+    public int getHP() { return HP; }
+
     public int getHPMax() { return HPMax; }
 
-    public int getHP() { return HP; }
+    public void setHPMax(int x) {
+        HPMax = x;
+    }
+
+    public void modifyHP(int health) {
+        HP = Math.max(Math.min(HP + health, HPMax), 0);
+        if (HP == 0) removeEntity();
+        GameWindow.refreshInventory();
+    }
+    public void fullHeal() {
+        HP = HPMax;
+    }
 
     public int getAttack() { return attack; }
 
@@ -94,13 +107,18 @@ public abstract class AbstractEntity {
 
     public EntityState getState() { return state; }
 
-    public void setState(EntityState state) {
+    public void setState(EntityState state){
         this.state = state;
-        EntityState.immediateEffects(this);
         updateRemainingTime();
-        GameWindow.addToLogs(toString() + " is now " + state.toString() + "!", new Color(120,60,160));
+    }
+
+    public void updateState(EntityState state) {
+        setState(state);
+        EntityState.immediateEffects(this);
         GameWindow.refreshInventory();
     }
+
+    public int getRemainingTime() { return remainingTime; }
 
     public void updateRemainingTime() {
         remainingTime = getState().getDuration();
@@ -119,16 +137,6 @@ public abstract class AbstractEntity {
         attack = Math.max(att, 0);
     }
 
-    /**
-     * Modify the value of the current HP.
-     * @param x number of HP added or substituted (can be positive or negative).
-     */
-    public void modifyHP(int x) {
-        HP = Math.max(Math.min(HP + x, HPMax), 0);
-        if (HP == 0) removeEntity();
-        GameWindow.refreshInventory();
-    }
-
     private void removeEntity() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
@@ -138,18 +146,6 @@ public abstract class AbstractEntity {
 
     public void takeDamage(int damage) {
         modifyHP(-damage);
-    }
-
-    public void toHeal(int health) {
-        modifyHP(health);
-    }
-
-    public void setHPMax(int x) {
-        HPMax = x;
-    }
-
-    public void fullHeal() {
-        HP = HPMax;
     }
 
     public boolean withinReach(AbstractEntity entity, int range) {
@@ -166,6 +162,8 @@ public abstract class AbstractEntity {
         this.position = p;
         worldMap.getCell(position).setEntity(this);
     }
+
+    public boolean isHero(){ return this == Player.getInstancePlayer();}
 
     @Override
     public String toString() {

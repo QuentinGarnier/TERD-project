@@ -35,7 +35,7 @@ public class Player extends AbstractEntity {
     private WhatHeroDoes whatHeroDoes;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
+        super(new Position(0, 0), -1, EntityType.HERO_MAGE);
         level = 1;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
@@ -108,10 +108,6 @@ public class Player extends AbstractEntity {
         money += x;
     }
 
-    public void incrementMoney() {
-        money++;
-    }
-
     public void levelUp() {
         level ++;
         //Add stats upgrade here (before the heal)
@@ -133,7 +129,7 @@ public class Player extends AbstractEntity {
     //Hunger is capped at 100.
     public void modifyHunger(int x) {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
-        GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : "") + ". You are " + getHungerState() + ".", new Color(100,60,120));
+        //GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : ""), new Color(100,60,120));
         GameWindow.refreshInventory();
     }
 
@@ -164,6 +160,7 @@ public class Player extends AbstractEntity {
         if (cell.getBaseContent().equals(CellElementType.EMPTY)) {
             worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(e -> {
                 e.applyStrategy();
+                EntityState.turnEffects(e);
             });
         }
     }
