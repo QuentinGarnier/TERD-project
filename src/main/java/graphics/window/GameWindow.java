@@ -73,6 +73,10 @@ public class GameWindow extends JFrame {
         refresh();
     }
 
+    public static void addToLogs(String txt, Color c) {
+        gameInterfacePanel.addToLogs(txt, c);
+    }
+
 
     private static class KeysActions implements KeyListener {
 

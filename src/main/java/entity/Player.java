@@ -11,6 +11,7 @@ import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -113,6 +114,9 @@ public class Player extends AbstractEntity {
 
     public void levelUp() {
         level ++;
+        //Add stats upgrade here (before the heal)
+        fullHeal();
+        GameWindow.refreshInventory();
     }
 
     public int getHunger() {
@@ -127,14 +131,15 @@ public class Player extends AbstractEntity {
     }
 
     //Hunger is capped at 100.
-    public void modifyHunger(int x) {/*if(hunger + x > 100) hunger = 100; else if(hunger + x < 0) hunger = 0; else hunger += x;*/
+    public void modifyHunger(int x) {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
+        GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : "") + ". You are " + getHungerState() + ".", new Color(100,60,120));
         GameWindow.refreshInventory();
     }
 
     @Override
-    public void modifyHP(int x) {
-        super.modifyHP(x);
+    public void setAttack(int att) {
+        super.setAttack(att);
         GameWindow.refreshInventory();
     }
 

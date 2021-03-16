@@ -2,7 +2,9 @@ package items;
 
 import entity.Player;
 import graphics.elements.Position;
+import graphics.window.GameWindow;
 
+import java.awt.*;
 import java.util.Random;
 
 public class ItemCoin extends AbstractItem{
@@ -15,6 +17,7 @@ public class ItemCoin extends AbstractItem{
     @Override
     public boolean use() {
         Player.getInstancePlayer().incrementMoney(value);
+        GameWindow.addToLogs("You have found: " + value + " coins!", new Color(210,170,60));
         return true;
     }
 

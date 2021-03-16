@@ -8,6 +8,8 @@ import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 
+import java.awt.*;
+
 public abstract class AbstractEntity {
     private Position position;
     public final EntityType entityType;
@@ -47,7 +49,10 @@ public abstract class AbstractEntity {
         Cell currentCell = worldMap.getCell(position);
         if (ct == CellElementType.HERO && currentCell.getItem() != null) {
             if(currentCell.getItem().immediateUse) currentCell.getItem().use();
-            else Player.addItem(currentCell.getItemId());
+            else {
+                Player.addItem(currentCell.getItemId());
+                GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", new Color(210,170,60));
+            }
             currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();
             GameWindow.refreshInventory();
@@ -87,35 +92,41 @@ public abstract class AbstractEntity {
 
     public void setRange(int r) { range = Math.max(r, 0); }
 
-    public EntityState getState() { return state;}
+    public EntityState getState() { return state; }
 
-    public void setState(EntityState state){
+    public void setState(EntityState state) {
         this.state = state;
-
         EntityState.immediateEffects(this);
         updateRemainingTime();
+        GameWindow.addToLogs(toString() + " is now " + state.toString() + "!", new Color(120,60,160));
+        GameWindow.refreshInventory();
     }
 
-    public void updateRemainingTime(){ remainingTime = getState().getDuration(); }
+    public void updateRemainingTime() {
+        remainingTime = getState().getDuration();
+    }
 
-    public void decrementRemainingTime(){
+    public void decrementRemainingTime() {
         if (getState() != EntityState.NEUTRAL ) remainingTime--;
         if (remainingTime == 0) setState(EntityState.NEUTRAL);
     }
 
-    public EntityType getEntityType() { return entityType; }
+    public EntityType getEntityType() {
+        return entityType;
+    }
 
-    public void setAttack(int att) { attack = Math.max(att, 0);}/*attack = att; if(attack < 0) attack = 0;*/
+    public void setAttack(int att) {
+        attack = Math.max(att, 0);
+    }
 
-    /*
+    /**
      * Modify the value of the current HP.
      * @param x number of HP added or substituted (can be positive or negative).
      */
-
-
-    public void modifyHP(int x) {/*if(HP + x > HPMax) HP = HPMax; else if(HP + x < 0) HP = 0; else HP += x;*/
+    public void modifyHP(int x) {
         HP = Math.max(Math.min(HP + x, HPMax), 0);
         if (HP == 0) removeEntity();
+        GameWindow.refreshInventory();
     }
 
     private void removeEntity() {
@@ -125,28 +136,42 @@ public abstract class AbstractEntity {
         worldMap.getCell(position).entityLeft();
     }
 
-    public void takeDamage(int damage){ modifyHP(-damage); }
+    public void takeDamage(int damage) {
+        modifyHP(-damage);
+    }
 
-    public void toHeal(int health){ modifyHP(health); }
+    public void toHeal(int health) {
+        modifyHP(health);
+    }
 
     public void setHPMax(int x) {
         HPMax = x;
     }
 
-    public void fullHeal() { HP = HPMax; }
+    public void fullHeal() {
+        HP = HPMax;
+    }
 
-    public boolean withinReach(AbstractEntity entity, int range){
+    public boolean withinReach(AbstractEntity entity, int range) {
         return Position.calculateRange(this.getPosition(), entity.getPosition()) <= range;
     }
 
-    public void applyStrategy(){
+    public void applyStrategy() {
         if (HP > 0) strategy.applyStrategy();
     }
 
-    public void goTo(Position p){
+    public void goTo(Position p) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
         this.position = p;
         worldMap.getCell(position).setEntity(this);
+    }
+
+    @Override
+    public String toString() {
+        return switch (entityType) {
+            case HERO_ARCHER, HERO_MAGE, HERO_WARRIOR -> "HERO";
+            default -> entityType.toString();
+        };
     }
 }

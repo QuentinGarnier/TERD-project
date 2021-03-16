@@ -4,9 +4,9 @@ import entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class GameInterfacePanel extends JPanel {
+    private final JPanel logsPanel;
     private final JPanel statsPanel;
     private final JPanel inventoryPanel;
 
@@ -18,10 +18,13 @@ public class GameInterfacePanel extends JPanel {
 
     GameInterfacePanel() {
         super();
-        setLayout(new GridLayout(1,2));
+        setLayout(new BorderLayout());
         setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(800,200));
 
+        logsPanel = new JPanel(new GridLayout(4,1));
+        logsPanel.setBackground(Color.BLACK);
+        logsPanel.setPreferredSize(new Dimension(800,70));
         statsPanel = new JPanel(new GridLayout(3,2));
         statsPanel.setBackground(Color.LIGHT_GRAY);
         inventoryPanel = new JPanel(new BorderLayout());
@@ -42,8 +45,12 @@ public class GameInterfacePanel extends JPanel {
     }
 
     private void setup() {
-        add(statsPanel);
-        add(inventoryPanel);
+        JPanel mainPanel = new JPanel(new GridLayout(1,2));
+        mainPanel.add(statsPanel);
+        mainPanel.add(inventoryPanel);
+
+        add(logsPanel, BorderLayout.NORTH);
+        add(mainPanel);
     }
 
     private void displayStats() {
@@ -99,5 +106,13 @@ public class GameInterfacePanel extends JPanel {
 
     private String getInfo() {
         return "";
+    }
+
+    public void addToLogs(String txt, Color c) {
+        JLabel log = new JLabel(txt);
+        if(c != null) log.setForeground(c);
+        log.setHorizontalAlignment(SwingConstants.CENTER);
+        if(logsPanel.getComponentCount() == 4) logsPanel.remove(0);
+        logsPanel.add(log);
     }
 }
