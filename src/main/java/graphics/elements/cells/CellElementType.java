@@ -14,7 +14,9 @@ public enum CellElementType {
     CORRIDOR('#', true, "map/grounds/wood"),
     TREE('&',false, "map/miscellaneous/tree"),
     STONE('&',false, "map/miscellaneous/stone"),
-    HERO('@', false, "entities/hero/hero_01"),
+    HERO_W('@', false, "entities/hero/hero_01"),
+    HERO_A('@', false, "entities/hero/hero_02"),
+    HERO_M('@', false, "entities/hero/hero_03"),
     MERCHANT('M', false, ""),
     ITEM('%', true, "map/miscellaneous/item"),
     COIN('●', true, "map/miscellaneous/coin"),
@@ -27,7 +29,7 @@ public enum CellElementType {
 
     private final char symbol;
     private final boolean isAccessible;
-    private final ImageIcon icon;
+    private ImageIcon icon;
 
     CellElementType(char c, boolean isAccessible, String pathEnd) {
         this.symbol = c;
@@ -47,14 +49,25 @@ public enum CellElementType {
         return icon;
     }
 
+    public void setIcon(ImageIcon i) {
+        this.icon = i;
+    }
+
+    public boolean isHero() {
+        return switch (this) {
+            case HERO_W, HERO_A, HERO_M -> true;
+            default -> false;
+        };
+    }
+
     @Override
     public String toString() {
-        switch (this) {
-            case HERO: return Tools.TextEffects.cyan("" + symbol);
-            case MONSTER: return Tools.TextEffects.red("" + symbol);
-            case ITEM: return Tools.TextEffects.green("" + symbol);
-            case COIN: return Tools.TextEffects.yellow("" + symbol);
-            default: return "" + symbol;
-        }
+        return switch (this) {
+            case HERO_W, HERO_A, HERO_M -> Tools.TextEffects.cyan("" + symbol);
+            case MONSTER -> Tools.TextEffects.red("" + symbol);
+            case ITEM -> Tools.TextEffects.green("" + symbol);
+            case COIN -> Tools.TextEffects.yellow("" + symbol);
+            default -> "" + symbol;
+        };
     }
 }

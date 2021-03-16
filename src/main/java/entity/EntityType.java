@@ -3,13 +3,14 @@ package entity;
 import graphics.Tools;
 import graphics.elements.cells.CellElementType;
 
+import javax.swing.*;
 import java.util.Arrays;
 
 public enum EntityType {
 
-    HERO_ARCHER(CellElementType.HERO, 60, 25, 5),
-    HERO_WARRIOR(CellElementType.HERO, 100, 30, 1),
-    HERO_MAGE(CellElementType.HERO, 75, 15, 3),
+    HERO_ARCHER(CellElementType.HERO_A, 60, 25, 5),
+    HERO_WARRIOR(CellElementType.HERO_W, 100, 30, 1),
+    HERO_MAGE(CellElementType.HERO_M, 75, 15, 3),
 
     MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1),
     MONSTER_ORC(CellElementType.ORC, 55, 20, 1),
@@ -21,7 +22,7 @@ public enum EntityType {
     final int attackByType;
     final int rangeByType;
 
-    EntityType(CellElementType ct, int hp, int attack,int range) {
+    EntityType(CellElementType ct, int hp, int attack, int range) {
         cellElementType = ct;
         HPByType = hp;
         attackByType = attack;
@@ -33,7 +34,7 @@ public enum EntityType {
     }
 
     public static EntityType[] monsters() {
-        return Arrays.stream(EntityType.values()).filter(e -> e.cellElementType != CellElementType.HERO).toArray(EntityType[]::new);
+        return Arrays.stream(EntityType.values()).filter(e -> !e.cellElementType.isHero()).toArray(EntityType[]::new);
     }
 
     @Override
@@ -42,17 +43,17 @@ public enum EntityType {
     }
 
     public String toString2() {
-        switch (this) {
-            case HERO_ARCHER: return Tools.TextEffects.encircled(Tools.TextEffects.green(" " + toString() + " "));
-            case HERO_WARRIOR: return Tools.TextEffects.encircled(Tools.TextEffects.red(" " + toString() + " "));
-            case HERO_MAGE: return Tools.TextEffects.encircled(Tools.TextEffects.blue(" " + toString() + " "));
+        return switch (this) {
+            case HERO_ARCHER -> Tools.TextEffects.encircled(Tools.TextEffects.green(" " + toString() + " "));
+            case HERO_WARRIOR -> Tools.TextEffects.encircled(Tools.TextEffects.red(" " + toString() + " "));
+            case HERO_MAGE -> Tools.TextEffects.encircled(Tools.TextEffects.blue(" " + toString() + " "));
 
-            case MONSTER_GOBLIN:
-            case MONSTER_ORC:
-            case MONSTER_SPIDER:
-            case MONSTER_WIZARD: return Tools.TextEffects.encircled(toString());
+            case MONSTER_GOBLIN -> "";
+            case MONSTER_ORC -> "";
+            case MONSTER_SPIDER -> "";
+            case MONSTER_WIZARD -> Tools.TextEffects.encircled(toString());
 
-            default: return "";
-        }
+            default -> "";
+        };
     }
 }

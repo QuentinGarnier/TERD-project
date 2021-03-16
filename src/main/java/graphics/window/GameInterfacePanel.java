@@ -1,5 +1,6 @@
 package graphics.window;
 
+import entity.EntityState;
 import entity.Player;
 
 import javax.swing.*;
@@ -72,7 +73,7 @@ public class GameInterfacePanel extends JPanel {
         createLabelForStats("Attack: " + player.getAttack() + " ⚔", cyan);
 
         //State:
-        createLabelForStats(player.getState().toString(), violet);
+        createLabelForStats(player.getState().toString() + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""), violet);
 
         //Blank:
         statsPanel.add(new JLabel());

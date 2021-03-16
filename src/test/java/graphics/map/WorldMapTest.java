@@ -51,7 +51,8 @@ public class WorldMapTest {
             System.out.println(i);
             for (int x = 0; x < WorldMap.MAX_X; x++)
                 for (int y = 0; y < WorldMap.MAX_Y; y++) {
-                    if (w.getCell(x, y).getMainContentType().equals(CellElementType.HERO)) oneHero++;
+                    CellElementType cet = w.getCell(x, y).getMainContentType();
+                    if (cet.equals(CellElementType.HERO_W) || cet.equals(CellElementType.HERO_A) || cet.equals(CellElementType.HERO_M)) oneHero++;
                     assertTrue(oneHero < 2);
                 }
         }

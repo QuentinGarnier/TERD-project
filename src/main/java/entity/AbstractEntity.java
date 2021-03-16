@@ -47,7 +47,7 @@ public abstract class AbstractEntity {
         boolean moved = position.nextPosition(p);
         worldMap.getCell(position).setEntity(this);
         Cell currentCell = worldMap.getCell(position);
-        if (ct == CellElementType.HERO && currentCell.getItem() != null) {
+        if (ct.isHero() && currentCell.getItem() != null) {
             if(currentCell.getItem().immediateUse) currentCell.getItem().use();
             else {
                 Player.addItem(currentCell.getItemId());
@@ -118,7 +118,9 @@ public abstract class AbstractEntity {
         GameWindow.refreshInventory();
     }
 
-    public int getRemainingTime() { return remainingTime; }
+    public int getRemainingTime() {
+        return remainingTime;
+    }
 
     public void updateRemainingTime() {
         remainingTime = getState().getDuration();

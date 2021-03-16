@@ -139,6 +139,12 @@ public class Player extends AbstractEntity {
         GameWindow.refreshInventory();
     }
 
+    @Override
+    public void decrementRemainingTime() {
+        super.decrementRemainingTime();
+        GameWindow.refreshInventory();
+    }
+
     /**
      * Use an item of the inventory.
      * @param itemID ID of the item (do nothing if it's not in the inventory)

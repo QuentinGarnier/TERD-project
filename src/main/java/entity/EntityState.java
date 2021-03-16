@@ -37,33 +37,37 @@ public enum EntityState {
     private final String text;
     private final int duration;
 
-    EntityState(String text, int duration){
+    EntityState(String text, int duration) {
         this.text = text;
         this.duration = duration;
     }
 
-    public String getText() { return text; }
+    public String getText() {
+        return text;
+    }
 
-    public int getDuration() { return duration; }
+    public int getDuration() {
+        return duration;
+    }
 
-    public static void immediateEffects(AbstractEntity entity){
-        String text = "you don't burn monsters";
+    public static void immediateEffects(AbstractEntity entity) {
+        String text = "you don't burn monsters anymore.";
         switch (entity.getState()){
             case PARALYSED:
-                if (entity.entityType == EntityType.HERO_WARRIOR) {entity.setAttack((int) (entity.getAttackMax() * 0.80)); text = "-20% Attack";}
-                if (entity.entityType == EntityType.HERO_ARCHER) {entity.setRange(5 - 2); text = "-2 range";}
-                if (entity.isHero()) GameWindow.addToLogs("HERO is paralized: " + text, new Color(210,170,60));
-                else GameWindow.addToLogs("MONSTER is paralized : " + text, new Color(210,170,60));
+                if (entity.entityType == EntityType.HERO_WARRIOR) { entity.setAttack((int) (entity.getAttackMax() * 0.80)); text = "-20% Attack."; }
+                if (entity.entityType == EntityType.HERO_ARCHER) { entity.setRange(5 - 2); text = "-2 range."; }
+                if (entity.isHero()) GameWindow.addToLogs("HERO is paralysed: " + text, new Color(210,170,60));
+                else GameWindow.addToLogs("MONSTER is paralysed: " + text, new Color(210,170,60));
                 break;
             case ENRAGED:
                 entity.setAttack(entity.getAttackMax() + 10);
-                GameWindow.addToLogs("Rage makes " + entity.toString() + " stronger (+10 attack)", new Color(140,30,30));
+                GameWindow.addToLogs("Rage makes " + entity.toString() + " stronger! [+10 attack]", new Color(140,30,30));
                 break;
-            case FROZEN: GameWindow.addToLogs(entity.toString() + " is frozen", new Color(80,140,180)); break;
-            case POISONED: GameWindow.addToLogs(entity.toString() + " is poisonned", new Color(100,60,120)); break;
-            case BURNT: GameWindow.addToLogs(entity.toString() + " is burning", new Color(140,30,30)); break;
-            case HEALED: GameWindow.addToLogs(entity.toString() + " is healed", new Color(80, 140, 50)); break;
-            case INVULNERABLE:  GameWindow.addToLogs(entity.toString() + " can't take damage", new Color(80,140,180)); break;
+            case FROZEN: GameWindow.addToLogs(entity.toString() + " is frozen!", new Color(80,140,180)); break;
+            case POISONED: GameWindow.addToLogs(entity.toString() + " is poisoned!", new Color(140,60,160)); break;
+            case BURNT: GameWindow.addToLogs(entity.toString() + " is burning!", new Color(160,60,30)); break;
+            case HEALED: GameWindow.addToLogs(entity.toString() + " is healed!", new Color(80, 140, 50)); break;
+            case INVULNERABLE:  GameWindow.addToLogs(entity.toString() + " can't take damage!", new Color(80,140,180)); break;
             default: break;
         }
         if (entity.entityType == EntityType.HERO_WARRIOR && (entity.getState() == PARALYSED || entity.getState() == ENRAGED)) return;
@@ -71,32 +75,36 @@ public enum EntityState {
         if (entity.getState() != ENRAGED) entity.setAttack(entity.getAttackMax());
     }
 
-    public static void turnEffects(AbstractEntity entity){
+    public static void turnEffects(AbstractEntity entity) {
         applyState(entity);
         decrementRemainingTime(entity);
     }
 
     private static void applyState(AbstractEntity entity) {
-        switch (entity.getState()){
+        int amount;
+        switch (entity.getState()) {
             case BURNT:
-                entity.takeDamage(2);
-                if (entity.isHero()) GameWindow.addToLogs("The burn inflicted you 2 damages", new Color(140,30,30));
+                amount = 2;
+                entity.takeDamage(amount);
+                if (entity.isHero()) GameWindow.addToLogs("The burn inflicts you " + amount + " damage.", new Color(140,30,30));
                 break;
             case POISONED:
-                entity.takeDamage(1);
+                amount = 1;
+                entity.takeDamage(amount);
                 if (entity instanceof Player){
                     ((Player) entity).modifyHunger(-1);
-                    GameWindow.addToLogs("You are suffering from poisoning (-1 HP, -1 Hunger)", new Color(100,60,120));
+                    GameWindow.addToLogs("You are suffering from poisoning. [-" + amount + " HP, -1 Hunger]", new Color(100,60,120));
                 } break;
             case HEALED:
-                entity.modifyHP(3);
-                if (entity.isHero()) GameWindow.addToLogs("Cared for (+3 HP)", new Color(80, 140, 50));
+                amount = 3;
+                entity.modifyHP(amount);
+                if (entity.isHero()) GameWindow.addToLogs("You are healed for " + amount + " HP.", new Color(80, 140, 50));
                 break;
             default: break;
         }
     }
 
-    private static void decrementRemainingTime(AbstractEntity entity){
+    private static void decrementRemainingTime(AbstractEntity entity) {
         entity.decrementRemainingTime();
     }
 

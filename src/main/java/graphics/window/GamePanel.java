@@ -5,7 +5,6 @@ import entity.Player;
 import entity.WhatHeroDoes;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
-import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 
 import javax.swing.*;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePanel extends JPanel {
-    private final JLabel heroLabel = new JLabel(CellElementType.HERO.getIcon());
+    private final JLabel heroLabel = new JLabel(Player.getInstancePlayer().getEntityType().getCellElementType().getIcon());
     private final JLabel squareLabel = new JLabel(new ImageIcon("data/images/map/miscellaneous/square.png"));
     private final List<MonsterLabel> monsterLabels;
     private final List<ItemLabel> treasuresLabels; //Items and coins
