@@ -1,6 +1,7 @@
 package graphics.window;
 
 import entity.EntityState;
+import entity.EntityType;
 import entity.Player;
 
 import javax.swing.*;
@@ -17,18 +18,19 @@ public class GameInterfacePanel extends JPanel {
     private final Color red = new Color(140,30,30);
     private final Color golden = new Color(210,170,60);
 
+    private final int maxLog = 10;
+
     GameInterfacePanel() {
         super();
-        setLayout(new BorderLayout());
+        setLayout(new GridLayout(1,3));
         setBackground(Color.LIGHT_GRAY);
-        setPreferredSize(new Dimension(800,200));
+        setPreferredSize(new Dimension(800,160));
 
-        logsPanel = new JPanel(new GridLayout(4,1));
+        logsPanel = new JPanel(new GridLayout(maxLog,1));
         logsPanel.setBackground(Color.BLACK);
-        logsPanel.setPreferredSize(new Dimension(800,70));
-        statsPanel = new JPanel(new GridLayout(3,2));
+        statsPanel = new JPanel(new GridLayout(2,2));
         statsPanel.setBackground(Color.LIGHT_GRAY);
-        inventoryPanel = new JPanel(new BorderLayout());
+        inventoryPanel = new JPanel(new GridLayout(1,3));
         inventoryPanel.setBackground(Color.GRAY);
 
         setup();
@@ -46,41 +48,42 @@ public class GameInterfacePanel extends JPanel {
     }
 
     private void setup() {
-        JPanel mainPanel = new JPanel(new GridLayout(1,2));
+        JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(statsPanel);
-        mainPanel.add(inventoryPanel);
+        mainPanel.add(inventoryPanel, BorderLayout.SOUTH);
 
-        add(logsPanel, BorderLayout.NORTH);
         add(mainPanel);
+        add(logsPanel);
     }
 
     private void displayStats() {
         Player player = Player.getInstancePlayer();
 
-        //Speciality:
-        createLabelForStats(player.getEntityType().toString(), null);
+        //Speciality & level:
+        JPanel spec = new JPanel(new GridLayout(2,1));
+        spec.setBackground(Color.LIGHT_GRAY);
+        createTxtLabel(spec, player.getEntityType().toString(), (player.getEntityType() == EntityType.HERO_WARRIOR? red: (player.getEntityType() == EntityType.HERO_ARCHER? green: cyan)), 16);
+        createTxtLabel(spec, "Level: " + player.getLvl(), null);
+        statsPanel.add(spec);
 
-        //Level:
-        createLabelForStats("Level: " + player.getLvl(), green);
+        //HP (add bar in the future and group it with this label):
+        createBarGroup(statsPanel,"HP: " + player.getHP() + "/" + player.getHPMax() + " ♥", red, "bar_red.png", player.getHPMax(), player.getHP());
 
-        //Hunger:
-        createLabelForStats("Hunger: " + player.getHungerState(), violet);
-
-        //HP:
-        createLabelForStats("HP: " + player.getHP() + "/" + player.getHPMax() + " ♥", red);
-
-        //Attack:
-        createLabelForStats("Attack: " + player.getAttack() + " ⚔", cyan);
+        //Hunger (add bar in the future and group it with this label):
+        createBarGroup(statsPanel,"Hunger: " + player.getHungerState(), violet, "bar_violet.png", 100, player.getHunger());
 
         //State:
-        createLabelForStats(player.getState().toString() + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""), violet);
+        createLabelForStats(player.getState().toString() + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""), violet, 14);
 
-        //Blank:
-        statsPanel.add(new JLabel());
+        //Attack:
+        createLabelForStats("Attack: " + player.getAttack() + " ⚔", cyan, 14);
+
+        //Range:
+        createLabelForStats("Range: " + player.getRange() + " ◎", green, 14);
     }
 
     private void displayInventory() {
-        createLabelForInventory("INVENTORY (press [i] to open)", null);
+        createLabelForInventory("Press [i] to open INVENTORY", null);
 
         //Money:
         JLabel moneyLabel = new JLabel("Money: " + Player.getInstancePlayer().getMoney() + " ●");
@@ -90,11 +93,23 @@ public class GameInterfacePanel extends JPanel {
         inventoryPanel.add(moneyLabel, BorderLayout.SOUTH);
     }
 
-    private void createTxtLabel(JPanel p, String str, Color c) {
+    private void createTxtLabel(JPanel p, String str, Color c, int fontSize) {
         JLabel label = new JLabel(str);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         if(c != null) label.setForeground(c);
+        if(fontSize > 0) {
+            Font font = label.getFont();
+            label.setFont(new Font(font.getName(), Font.BOLD, fontSize));
+        }
         p.add(label);
+    }
+
+    private void createTxtLabel(JPanel p, String str, Color c) {
+        createTxtLabel(p, str, c, 0);
+    }
+
+    private void createLabelForStats(String str, Color c, int fontSize) {
+        createTxtLabel(statsPanel, str, c, fontSize);
     }
 
     private void createLabelForStats(String str, Color c) {
@@ -105,6 +120,19 @@ public class GameInterfacePanel extends JPanel {
         createTxtLabel(inventoryPanel, str, c);
     }
 
+    private void createBarGroup(JPanel p, String str, Color c, String imageName, float maxVal, float val) {
+        JPanel group = new JPanel(new GridLayout(2,1));
+        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/" + imageName);
+        Image image = imageIcon.getImage().getScaledInstance(val==0?1:(int)(imageIcon.getIconWidth() * 0.8 * (val/maxVal)), imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(image);
+        JLabel bar = new JLabel(imageIcon);
+        bar.setHorizontalAlignment(SwingConstants.LEFT);
+        group.setBackground(Color.LIGHT_GRAY);
+        group.add(bar);
+        createTxtLabel(group,str, c);
+        p.add(group);
+    }
+
     private String getInfo() {
         return "";
     }
@@ -113,7 +141,7 @@ public class GameInterfacePanel extends JPanel {
         JLabel log = new JLabel(txt);
         if(c != null) log.setForeground(c);
         log.setHorizontalAlignment(SwingConstants.CENTER);
-        if(logsPanel.getComponentCount() == 4) logsPanel.remove(0);
+        if(logsPanel.getComponentCount() == maxLog) logsPanel.remove(0);
         logsPanel.add(log);
     }
 }

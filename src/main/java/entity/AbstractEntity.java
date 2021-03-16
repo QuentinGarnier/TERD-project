@@ -128,7 +128,7 @@ public abstract class AbstractEntity {
 
     public void decrementRemainingTime() {
         if (getState() != EntityState.NEUTRAL ) remainingTime--;
-        if (remainingTime == 0) setState(EntityState.NEUTRAL);
+        if (remainingTime == 0) updateState(EntityState.NEUTRAL);
     }
 
     public EntityType getEntityType() {

@@ -52,7 +52,7 @@ public enum EntityState {
 
     public static void immediateEffects(AbstractEntity entity) {
         String text = "you don't burn monsters anymore.";
-        switch (entity.getState()){
+        switch (entity.getState()) {
             case PARALYSED:
                 if (entity.entityType == EntityType.HERO_WARRIOR) { entity.setAttack((int) (entity.getAttackMax() * 0.80)); text = "-20% Attack."; }
                 if (entity.entityType == EntityType.HERO_ARCHER) { entity.setRange(5 - 2); text = "-2 range."; }
@@ -68,6 +68,7 @@ public enum EntityState {
             case BURNT: GameWindow.addToLogs(entity.toString() + " is burning!", new Color(160,60,30)); break;
             case HEALED: GameWindow.addToLogs(entity.toString() + " is healed!", new Color(80, 140, 50)); break;
             case INVULNERABLE:  GameWindow.addToLogs(entity.toString() + " can't take damage!", new Color(80,140,180)); break;
+            case NEUTRAL: GameWindow.addToLogs("The effect that affected " + entity.toString() + " dissipated.", Color.LIGHT_GRAY); break;
             default: break;
         }
         if (entity.entityType == EntityType.HERO_WARRIOR && (entity.getState() == PARALYSED || entity.getState() == ENRAGED)) return;
