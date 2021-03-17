@@ -7,25 +7,27 @@ import java.util.Arrays;
 
 public enum EntityType {
 
-    HERO_ARCHER(CellElementType.HERO_A, 60, 25, 5),
-    HERO_WARRIOR(CellElementType.HERO_W, 100, 30, 1),
-    HERO_MAGE(CellElementType.HERO_M, 75, 15, 3),
+    HERO_ARCHER(CellElementType.HERO_A, 60, 25, 5, 0),
+    HERO_WARRIOR(CellElementType.HERO_W, 100, 30, 1, 0),
+    HERO_MAGE(CellElementType.HERO_M, 75, 15, 3, 0),
 
-    MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1),
-    MONSTER_ORC(CellElementType.ORC, 55, 20, 1),
-    MONSTER_SPIDER(CellElementType.SPIDER, 34, 5, 1),
-    MONSTER_WIZARD(CellElementType.WIZARD, 20, 12, 3);
+    MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1, 135),
+    MONSTER_ORC(CellElementType.ORC, 55, 20, 1, 80),
+    MONSTER_SPIDER(CellElementType.SPIDER, 34, 5, 1, 40),
+    MONSTER_WIZARD(CellElementType.WIZARD, 20, 12, 3, 45);
 
-    final CellElementType cellElementType;
-    final int HPByType;
-    final int attackByType;
-    final int rangeByType;
+    public final CellElementType cellElementType;
+    public final int HPByType;
+    public final int attackByType;
+    public final int rangeByType;
+    public final int experienceByType;
 
-    EntityType(CellElementType ct, int hp, int attack, int range) {
+    EntityType(CellElementType ct, int hp, int attack, int range, int xp) {
         cellElementType = ct;
         HPByType = hp;
         attackByType = attack;
         rangeByType = range;
+        experienceByType = xp;
     }
 
     public CellElementType getCellElementType(){

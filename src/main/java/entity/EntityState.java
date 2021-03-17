@@ -69,7 +69,7 @@ public enum EntityState {
             case BURNT: GameWindow.addToLogs(entity.toString() + " is burning!", Tools.WindowText.orange); break;
             case HEALED: GameWindow.addToLogs(entity.toString() + " is healed!", Tools.WindowText.green); break;
             case INVULNERABLE:  GameWindow.addToLogs(entity.toString() + " can't take damage!", Tools.WindowText.cyan); break;
-            case NEUTRAL: GameWindow.addToLogs("The effect that affected " + entity.toString() + " dissipated.", Color.LIGHT_GRAY); break;
+            //case NEUTRAL: GameWindow.addToLogs("The effect that affected " + entity.toString() + " dissipated.", Color.LIGHT_GRAY); break; even if monster is die, or if hero level up, printed
             default: break;
         }
 

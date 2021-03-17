@@ -28,6 +28,7 @@ public class Player extends AbstractEntity {
     }
 
     private int level;
+    private int experiencePoints;
     private int hunger;
     private List<AbstractItem> inventory;
     private int money;
@@ -36,6 +37,7 @@ public class Player extends AbstractEntity {
     private Player() throws ErrorPositionOutOfBound {
         super(new Position(0, 0), -1, EntityType.HERO_MAGE);
         level = 1;
+        experiencePoints = 0;
         hunger = 100; //default: full bar
         inventory = new ArrayList<>();
         money = 0;
@@ -68,12 +70,32 @@ public class Player extends AbstractEntity {
         else System.out.println("Nothing to pick");
     }
 
-    public int getMoney() {
-        return money;
+    public void earnXP(int xp){
+        int rate = (100 + (level - 1));
+        experiencePoints += xp;
+        GameWindow.addToLogs("+" + xp + " xp", Tools.WindowText.green);
+        while (experiencePoints/rate >= 1){
+            experiencePoints -= rate;
+            levelUp();
+        }
     }
 
     public int getLvl() {
         return level;
+    }
+
+    public void levelUp() {
+        level ++;
+        GameWindow.addToLogs(">>> LEVEL UP +1! <<<", Tools.WindowText.green);
+        setAttackMax((int) (getAttackMax() * 1.10));
+        setAttack(getAttackMax());
+        setHPMax((int) (getHPMax() *  1.10));
+        fullHeal();
+        setState(EntityState.NEUTRAL);
+    }
+
+    public int getMoney() {
+        return money;
     }
 
     public EntityState getState() {
@@ -105,13 +127,6 @@ public class Player extends AbstractEntity {
 
     public void incrementMoney(int x) {
         money += x;
-    }
-
-    public void levelUp() {
-        level ++;
-        //Add stats upgrade here (before the heal)
-        fullHeal();
-        GameWindow.refreshInventory();
     }
 
     public int getHunger() {

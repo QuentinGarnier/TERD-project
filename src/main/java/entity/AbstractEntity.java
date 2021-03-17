@@ -100,7 +100,13 @@ public abstract class AbstractEntity {
 
     public int getAttack() { return attack; }
 
+    public void setAttack(int att) {
+        attack = Math.max(att, 0);
+    }
+
     public int getAttackMax() { return attackMax; }
+
+    public void setAttackMax(int attMax) { attackMax = Math.max(attMax, 0); }
 
     public int getRange() { return range; }
 
@@ -136,10 +142,6 @@ public abstract class AbstractEntity {
         return entityType;
     }
 
-    public void setAttack(int att) {
-        attack = Math.max(att, 0);
-    }
-
     private void removeEntity() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
@@ -167,6 +169,8 @@ public abstract class AbstractEntity {
     }
 
     public boolean isHero(){ return this == Player.getInstancePlayer();}
+
+    public boolean isMonster(){return !isHero();}
 
     @Override
     public String toString() {
