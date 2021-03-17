@@ -5,27 +5,27 @@ import graphics.Tools;
 import javax.swing.*;
 
 public enum CellElementType {
-    BURGER('B', true, "items/consumable/big_burger"),
-    VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
-    HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
-    CORNER('┼', false, "map/walls/stone_corner"), // TODO there are 4 types of corners?
-    MONSTER('O', false, ""),
-    OUTSIDE_ROOM(' ', false, "map/grounds/water"),
+    BURGER('B', true, "items/food/big_burger"),
+    COIN('●', true, "map/miscellaneous/coin"),
+    CORNER_BOT('┼', false, "map/walls/stone_corner_bot"),
+    CORNER_TOP('┼', false, "map/walls/stone_corner_top"),
     CORRIDOR('#', true, "map/grounds/wood"),
-    TREE('&',false, "map/miscellaneous/tree"),
-    STONE('&',false, "map/miscellaneous/stone"),
-    HERO_W('@', false, "entities/hero/hero_01"),
+    EMPTY('.', true, "map/grounds/grass"), // work also for doors
+    GOBLIN('G', false, "entities/monsters/goblin"),
+    HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
+    ITEM('%', true, "items/consumable/bag"),
+    MERCHANT('M', false, ""),
     HERO_A('@', false, "entities/hero/hero_02"),
     HERO_M('@', false, "entities/hero/hero_03"),
-    MERCHANT('M', false, ""),
-    ITEM('%', true, "map/miscellaneous/item"),
-    COIN('●', true, "map/miscellaneous/coin"),
-    EMPTY('.', true, "map/grounds/stone"), // work also for doors
-    GOBLIN('G', false, "entities/monsters/goblin"),
-    SPIDER('S', false, "entities/monsters/spider"),
+    HERO_W('@', false, "entities/hero/hero_01"),
     ORC('O', false, "entities/monsters/orc"),
-    WIZARD('W', false, "entities/monsters/wizard"),
-    TRAP('x', true, "");
+    OUTSIDE_ROOM(' ', false, "map/grounds/water"),
+    SPIDER('S', false, "entities/monsters/spider"),
+    STONE('&',false, "map/miscellaneous/stone"),
+    TRAP('x', true, ""),
+    TREE('&',false, "map/miscellaneous/tree"),
+    VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
+    WIZARD('W', false, "entities/monsters/wizard");
 
     private final char symbol;
     private final boolean isAccessible;
@@ -64,7 +64,6 @@ public enum CellElementType {
     public String toString() {
         return switch (this) {
             case HERO_W, HERO_A, HERO_M -> Tools.TerminalText.cyan("" + symbol);
-            case MONSTER -> Tools.TerminalText.red("" + symbol);
             case ITEM -> Tools.TerminalText.green("" + symbol);
             case COIN -> Tools.TerminalText.yellow("" + symbol);
             default -> "" + symbol;

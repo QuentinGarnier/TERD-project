@@ -64,9 +64,10 @@ public class Room {
     public void updateLab(Cell[][] lab) {
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
-                if ((x == topLeft.getX() && (y == bottomRight.getY() || y == topLeft.getY())) ||
-                        (x == bottomRight.getX() && (y == bottomRight.getY() || y == topLeft.getY())))
-                    lab[x][y] = new Cell(CellElementType.CORNER, id);
+                if ((x == topLeft.getX() || x == bottomRight.getX()) && y == topLeft.getY())
+                    lab[x][y] = new Cell((CellElementType.CORNER_TOP), id);
+                else if ((x == bottomRight.getX() || x == topLeft.getX()) && y == bottomRight.getY())
+                    lab[x][y] = new Cell((CellElementType.CORNER_BOT), id);
                 else if (x == topLeft.getX() || x == bottomRight.getX())
                    lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id);
                 else if (y == topLeft.getY() || y == bottomRight.getY())
@@ -104,7 +105,7 @@ public class Room {
         }
     }
 
-    private Position getRandomPosInRoom(Cell[][] lab){
+    private Position getRandomPosInRoom(Cell[][] lab) {
         int x = gen.nextInt(getWidth() - 2) + topLeft.getX() + 1;
         int y = gen.nextInt(getHeight() - 2) + topLeft.getY() + 1;
         if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
@@ -144,26 +145,29 @@ public class Room {
         return lowestRoomNeighbor;
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public List<Monster> getMonsters(){
+    public List<Monster> getMonsters() {
         return Collections.unmodifiableList(monsters);
     }
 
-    public static boolean isRoom(Cell c){
+    public static boolean isRoom(Cell c) {
         CellElementType ct = c.getBaseContent();
         return ct == CellElementType.HORIZONTAL_WALL ||
                 ct == CellElementType.VERTICAL_WALL ||
-                ct == CellElementType.CORNER ||
+                ct == CellElementType.CORNER_BOT ||
+                ct == CellElementType.CORNER_TOP ||
                 ct == CellElementType.EMPTY;
     }
 
-    public boolean isPositionInsideRoom(Position p){
+    public boolean isPositionInsideRoom(Position p) {
         return p.getX() >= topLeft.getX() && p.getX() <= bottomRight.getX() &&
                 p.getY() >= topLeft.getY() && p.getY() <= bottomRight.getY();
     }
 
-    public void removeEntity(Monster m){
+    public void removeEntity(Monster m) {
         monsters.remove(m);
     }
 }

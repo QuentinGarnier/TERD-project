@@ -97,7 +97,7 @@ public class Cell {
             if (cell.baseId == baseId) {
                 return switch (baseContent) {
                     case CORRIDOR -> cell.baseContent == CellElementType.CORRIDOR;
-                    case HORIZONTAL_WALL, VERTICAL_WALL, CORNER, EMPTY -> cell.baseContent == CellElementType.EMPTY;
+                    case HORIZONTAL_WALL, VERTICAL_WALL, CORNER_BOT, CORNER_TOP, EMPTY -> cell.baseContent == CellElementType.EMPTY;
                     default -> false;
                 };
             }
