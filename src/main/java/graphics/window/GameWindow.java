@@ -26,6 +26,7 @@ public class GameWindow extends JFrame {
         setup();
         jScrollPane = new JScrollPane(gamePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setPreferredSize(new Dimension(800,600));
+        jScrollPane.setBorder(null);
 
         add(jScrollPane);
         add(gameInterfacePanel, BorderLayout.SOUTH);
@@ -37,8 +38,12 @@ public class GameWindow extends JFrame {
     }
 
     public static void display() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage("data/images/system/cursor.png");
+        Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
         window.setScrollFrameBar(); //The window is centered (on the Player) at the start
         window.setVisible(true);
+        window.setCursor(cursor);
     }
 
     private void setup() {

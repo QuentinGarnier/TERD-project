@@ -5,6 +5,7 @@ import entity.EntityType;
 import entity.Player;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 public class GameInterfacePanel extends JPanel {
@@ -22,9 +23,6 @@ public class GameInterfacePanel extends JPanel {
 
     GameInterfacePanel() {
         super();
-        setLayout(new GridLayout(1,3));
-        setBackground(Color.LIGHT_GRAY);
-        setPreferredSize(new Dimension(800,160));
 
         logsPanel = new JPanel(new GridLayout(maxLog,1));
         logsPanel.setBackground(Color.BLACK);
@@ -48,12 +46,27 @@ public class GameInterfacePanel extends JPanel {
     }
 
     private void setup() {
+        Dimension dim = new Dimension(800,160);
+        setPreferredSize(new Dimension(800, 170));
+        setBackground(Color.DARK_GRAY);
+
+        JPanel centerP = new JPanel(new GridLayout(1,3));
+        centerP.setPreferredSize(dim);
+        centerP.setMinimumSize(dim);
+        centerP.setMaximumSize(dim);
+        centerP.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+
+        Box box = new Box(BoxLayout.Y_AXIS);
+        box.add(centerP);
+        box.add(Box.createVerticalGlue());
+        add(box);
+
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(statsPanel);
         mainPanel.add(inventoryPanel, BorderLayout.SOUTH);
 
-        add(mainPanel);
-        add(logsPanel);
+        centerP.add(mainPanel);
+        centerP.add(logsPanel);
     }
 
     private void displayStats() {
