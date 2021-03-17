@@ -110,17 +110,17 @@ public class WorldMap {
     }
 
     private int padding(String str) {
-        String s1 = str.replaceAll("\\033\\[..m", "").replace(Tools.TextEffects.DEFAULT, "");
+        String s1 = str.replaceAll("\\033\\[..m", "").replace(Tools.TerminalText.DEFAULT, "");
         return (MAX_X - s1.length())/2;
     }
 
     public void showATH() {
         String row0 = Player.getInstancePlayer().getEntityType().toString2() + " " + Player.getInstancePlayer().getState().getText();
         int padRow0 = padding(row0);
-        String row1 = "  >>> Level : " + Tools.TextEffects.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + Tools.TextEffects.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
+        String row1 = "  >>> Level : " + Tools.TerminalText.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + Tools.TerminalText.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
         int padRow1 = padding(row1);
-        String row2 = "Money : " + Tools.TextEffects.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + Tools.TextEffects.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getHPMax() + " ♥") + " " +
-                "| Attack : " + Tools.TextEffects.blue(Player.getInstancePlayer().getAttack() + " ⚔");
+        String row2 = "Money : " + Tools.TerminalText.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + Tools.TerminalText.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getHPMax() + " ♥") + " " +
+                "| Attack : " + Tools.TerminalText.blue(Player.getInstancePlayer().getAttack() + " ⚔");
         int padRow2 = padding(row2);
         //System.out.println(padRow1 + " " + padRow2);
         String ATH = " ".repeat(padRow0) + row0 + System.lineSeparator() +
@@ -200,7 +200,7 @@ public class WorldMap {
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < MAX_Y; j++) {
             for(int i = 0; i < MAX_X; i++) {
-                sb.append(getCell(i, j).equals(hero) ? Tools.TextEffects.yellow(lab[i][j].toString()) : lab[i][j].toString());
+                sb.append(getCell(i, j).equals(hero) ? Tools.TerminalText.yellow(lab[i][j].toString()) : lab[i][j].toString());
             }
             sb.append(System.lineSeparator());
         }

@@ -87,7 +87,7 @@ public class Cell {
 
     @Override
     public String toString() {
-        return isAimed? Tools.TextEffects.encircled(getMainContentType().toString()) : getMainContentType().toString();
+        return isAimed? Tools.TerminalText.encircled(getMainContentType().toString()) : getMainContentType().toString();
     }
 
     @Override

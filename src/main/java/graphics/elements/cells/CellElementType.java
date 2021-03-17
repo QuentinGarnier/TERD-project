@@ -63,10 +63,10 @@ public enum CellElementType {
     @Override
     public String toString() {
         return switch (this) {
-            case HERO_W, HERO_A, HERO_M -> Tools.TextEffects.cyan("" + symbol);
-            case MONSTER -> Tools.TextEffects.red("" + symbol);
-            case ITEM -> Tools.TextEffects.green("" + symbol);
-            case COIN -> Tools.TextEffects.yellow("" + symbol);
+            case HERO_W, HERO_A, HERO_M -> Tools.TerminalText.cyan("" + symbol);
+            case MONSTER -> Tools.TerminalText.red("" + symbol);
+            case ITEM -> Tools.TerminalText.green("" + symbol);
+            case COIN -> Tools.TerminalText.yellow("" + symbol);
             default -> "" + symbol;
         };
     }

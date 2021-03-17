@@ -1,5 +1,6 @@
 package entity;
 
+import graphics.Tools;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
 import graphics.elements.Position;
@@ -51,7 +52,7 @@ public abstract class AbstractEntity {
             if(currentCell.getItem().immediateUse) currentCell.getItem().use();
             else {
                 Player.addItem(currentCell.getItemId());
-                GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", new Color(210,170,60));
+                GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", Tools.WindowText.golden);
             }
             currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();

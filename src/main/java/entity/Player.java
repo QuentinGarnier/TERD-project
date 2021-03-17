@@ -11,7 +11,6 @@ import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +82,7 @@ public class Player extends AbstractEntity {
 
     public boolean spendMoney(int cost) {
         if (cost > money) {
-            System.out.println(Tools.TextEffects.red("Not enough money"));
+            System.out.println(Tools.TerminalText.red("Not enough money"));
             return false;
         }
         money -= cost;
@@ -156,8 +155,8 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public boolean canMove() {
-        return Player.getInstancePlayer().getState() != EntityState.FROZEN;
+    public boolean notFrozen() {
+        return getState() != EntityState.FROZEN;
     }
 
     private void moveMonsters() {
@@ -177,7 +176,7 @@ public class Player extends AbstractEntity {
     }
 
     private boolean move(Move move) {
-        if(canMove()) {
+        if(notFrozen()) {
             if (moveEntity(move)) {
                 whatHeroDoes.setP(getPosition());
                 moveMonsters();

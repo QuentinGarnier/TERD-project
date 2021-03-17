@@ -3,7 +3,6 @@ package entity;
 import graphics.Tools;
 import graphics.elements.cells.CellElementType;
 
-import javax.swing.*;
 import java.util.Arrays;
 
 public enum EntityType {
@@ -44,14 +43,14 @@ public enum EntityType {
 
     public String toString2() {
         return switch (this) {
-            case HERO_ARCHER -> Tools.TextEffects.encircled(Tools.TextEffects.green(" " + toString() + " "));
-            case HERO_WARRIOR -> Tools.TextEffects.encircled(Tools.TextEffects.red(" " + toString() + " "));
-            case HERO_MAGE -> Tools.TextEffects.encircled(Tools.TextEffects.blue(" " + toString() + " "));
+            case HERO_ARCHER -> Tools.TerminalText.encircled(Tools.TerminalText.green(" " + toString() + " "));
+            case HERO_WARRIOR -> Tools.TerminalText.encircled(Tools.TerminalText.red(" " + toString() + " "));
+            case HERO_MAGE -> Tools.TerminalText.encircled(Tools.TerminalText.blue(" " + toString() + " "));
 
             case MONSTER_GOBLIN -> "";
             case MONSTER_ORC -> "";
             case MONSTER_SPIDER -> "";
-            case MONSTER_WIZARD -> Tools.TextEffects.encircled(toString());
+            case MONSTER_WIZARD -> Tools.TerminalText.encircled(toString());
 
             default -> "";
         };

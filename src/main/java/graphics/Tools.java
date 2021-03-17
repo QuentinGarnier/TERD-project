@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.*;
 import java.awt.im.InputContext;
 import java.util.Locale;
 
@@ -27,7 +28,7 @@ public class Tools {
         System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
     }
 
-    public static class TextEffects {
+    public static class TerminalText {
 
         public static final String DEFAULT = "\033[0m";
         public static String black(String txt) { return "\033[30m" + txt + DEFAULT; }
@@ -49,5 +50,14 @@ public class Tools {
         public static String whiteBG(String txt) { return "\033[47m" + txt + DEFAULT; }
 
         public static String encircled(String txt) { return "\033[52m" + txt + DEFAULT; }
+    }
+    public static class WindowText {
+
+        public static final Color green = new Color(80, 140, 50);
+        public static final Color purple = new Color(100,60,120);
+        public static final Color cyan = new Color(80,140,180);
+        public static final Color red = new Color(140,30,30);
+        public static final Color golden = new Color(210,170,60);
+        public static final Color orange = new Color(160,60,30);
     }
 }
