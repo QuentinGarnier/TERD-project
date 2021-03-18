@@ -17,8 +17,7 @@ public class ItemTrap extends AbstractItem{
 
     ItemTrap(int i, String n, Position position) {
         super(i, n, ItemType.TRAP, position, true);
-        effect = 3;
-        //this.effect = rndTrap.nextInt(5);
+        this.effect = rndTrap.nextInt(5);
     }
 
     @Override
