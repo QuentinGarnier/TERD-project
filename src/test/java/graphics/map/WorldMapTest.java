@@ -1,5 +1,7 @@
 package graphics.map;
 
+import entity.AbstractEntity;
+import entity.Player;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
@@ -51,8 +53,8 @@ public class WorldMapTest {
             System.out.println(i);
             for (int x = 0; x < WorldMap.MAX_X; x++)
                 for (int y = 0; y < WorldMap.MAX_Y; y++) {
-                    CellElementType cet = w.getCell(x, y).getMainContentType();
-                    if (cet.equals(CellElementType.HERO_W) || cet.equals(CellElementType.HERO_A) || cet.equals(CellElementType.HERO_M)) oneHero++;
+                    AbstractEntity entity = w.getCell(x, y).getEntity();
+                    if (entity instanceof Player) oneHero++;
                     assertTrue(oneHero < 2);
                 }
         }

@@ -14,7 +14,9 @@ import java.util.List;
 
 public class GamePanel extends JPanel {
     private final JLabel heroLabel = new JLabel(Player.getInstancePlayer().getEntityType().getCellElementType().getIcon());
-    private final JLabel squareLabel = new JLabel(new ImageIcon("data/images/map/miscellaneous/square.png"));
+    private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
+    private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
+    private final JLabel squareLabel = new JLabel(green);
     private final List<MonsterLabel> monsterLabels;
     private final List<ItemLabel> treasuresLabels; //Items and coins
     private final List<JLabel> baseLabels;
@@ -43,7 +45,6 @@ public class GamePanel extends JPanel {
     private void displayMap() {
         Position pos = Player.getInstancePlayer().getPosition();
         add(heroLabel);
-        add(squareLabel);
         squareLabel.setBounds(-size,-size, size, size);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
@@ -58,6 +59,7 @@ public class GamePanel extends JPanel {
         }
         monsterLabels.forEach(this::add);
         treasuresLabels.forEach(this::add);
+        add(squareLabel);
         baseLabels.forEach(this::add);
     }
 
@@ -96,8 +98,10 @@ public class GamePanel extends JPanel {
 
     public void setObjective(){
         WhatHeroDoes whatHeroDoes = Player.getInstancePlayer().getWhatHeroDoes();
-        if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK)
+        if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK) {
+            squareLabel.setIcon(worldMap.getCell(whatHeroDoes.getP()).getEntity() instanceof Monster ? red : green);
             squareLabel.setLocation(whatHeroDoes.getP().getX() * size, whatHeroDoes.getP().getY() * size);
+        }
         else squareLabel.setLocation(-size, -size);
     }
 

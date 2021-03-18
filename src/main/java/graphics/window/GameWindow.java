@@ -6,6 +6,8 @@ import graphics.Tools;
 import graphics.elements.Move;
 import graphics.elements.Position;
 import entity.WhatHeroDoes;
+import graphics.elements.cells.CellElementType;
+import graphics.map.WorldMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -120,6 +122,7 @@ public class GameWindow extends JFrame {
             char key = (Tools.getKeyboard().equals("fr_FR")? Tools.universalCharOf(e.getKeyChar()) : e.getKeyChar());
 
             Player player = Player.getInstancePlayer();
+            WorldMap worldMap = WorldMap.getInstanceWorld();
             WhatHeroDoes choice = player.getWhatHeroDoes();
             switch (key) {
                 case 'w' -> applyCommand(Move.UP);
@@ -127,14 +130,15 @@ public class GameWindow extends JFrame {
                 case 's' -> applyCommand(Move.DOWN);
                 case 'a' -> applyCommand(Move.LEFT);
                 case 'q' -> {
-                    Position oldPos = player.getWhatHeroDoes().getP();
-                    switch (choice) {
-                        case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
-                        case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
+                    if (worldMap.getCell(player.getPosition()).getBaseContent().equals(CellElementType.EMPTY)) {
+                        Position oldPos = player.getWhatHeroDoes().getP();
+                        switch (choice) {
+                            case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
+                            case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
+                        }
+                        player.getWhatHeroDoes().setP(oldPos);
+                        applyCommand(null);
                     }
-                    player.getWhatHeroDoes().setP(oldPos);
-                    applyCommand(null);
-                    break;
                 }
             }
             window.setScrollFrameBar();

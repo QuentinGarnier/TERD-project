@@ -16,7 +16,11 @@ public class ChooseAttackCell {
             Cell cell = worldMap.getCell(pos);
             cell.setAimed(false);
             Position newPos = Position.sumPos(pos, m);
-            if (newPos != null) pos = newPos;
+            if (newPos == null ||
+                    hero.getPosition().distance(newPos) > hero.getRange() ||
+                    !worldMap.getCell(newPos).getBaseContent().isAccessible()
+            ) return pos;
+            pos = newPos;
         }
         worldMap.getCell(pos).setAimed(true);
         return pos;
