@@ -17,7 +17,7 @@ public class ItemCoin extends AbstractItem{
     @Override
     public boolean use() {
         Player.getInstancePlayer().incrementMoney(value);
-        GameWindow.addToLogs("You have found: " + value + " coins!", new Color(210,170,60));
+        GameWindow.addToLogs("You have found: " + value + " coin" + (value>1? "s": "") + "!", new Color(210,170,60));
         return true;
     }
 
