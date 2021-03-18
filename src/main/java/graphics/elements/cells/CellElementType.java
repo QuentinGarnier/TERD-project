@@ -66,6 +66,7 @@ public enum CellElementType {
             case HERO_W, HERO_A, HERO_M -> Tools.TerminalText.cyan("" + symbol);
             case ITEM -> Tools.TerminalText.green("" + symbol);
             case COIN -> Tools.TerminalText.yellow("" + symbol);
+            case TRAP -> Tools.TerminalText.red("" + symbol);
             default -> "" + symbol;
         };
     }
