@@ -12,7 +12,6 @@ public enum WhatHeroDoes {
     }
 
     public void setP(Position p) {
-        System.out.println(p);
         this.p = p;
     }
 }

@@ -63,6 +63,9 @@ public class WorldMap {
     public List<Room> getRooms() {
         return Collections.unmodifiableList(rooms);
     }
+    public List<Corridor> getCorridor(){
+        return Collections.unmodifiableList(corridors);
+    }
 
     private void createCorridors(boolean firstTime) {
         for (Room r : rooms) {
@@ -101,7 +104,20 @@ public class WorldMap {
             Player.getInstancePlayer().setPosition(x, y);
             getCell(x, y).setEntity(Player.getInstancePlayer());
             Player.getInstancePlayer().getWhatHeroDoes().setP(new Position(x, y));
+            room.setVisited();
         }
+    }
+
+    public Corridor getCurrentCorridor(int x, int y){
+        Cell c = getCell(x, y);
+        return c.getBaseContent().equals(CellElementType.CORRIDOR) ?
+                corridors.get(c.getBaseId()) : null;
+    }
+
+    public Room getCurrentRoom(int x, int y){
+        Cell c = getCell(x, y);
+        CellElementType ct = c.getBaseContent();
+        return ct.isWall() || ct.equals(CellElementType.EMPTY)? rooms.get(c.getBaseId()) : null;
     }
 
     public void repaint() {

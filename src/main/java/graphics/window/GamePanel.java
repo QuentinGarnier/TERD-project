@@ -5,6 +5,7 @@ import entity.Player;
 import entity.WhatHeroDoes;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
+import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel {
     private final List<ItemLabel> treasuresLabels; //Items and coins
     private final List<JLabel> baseLabels;
     private final List<JLabel> opaqueLabels;
+    private final List<FogLabel> fogLabels;
     private final WorldMap worldMap = WorldMap.getInstanceWorld();
     public static final int size = 32;
 
@@ -35,6 +37,7 @@ public class GamePanel extends JPanel {
         treasuresLabels = new ArrayList<>();
         baseLabels = new ArrayList<>();
         opaqueLabels = new ArrayList<>();
+        fogLabels = new ArrayList<>();
     }
 
     void clear() {
@@ -52,6 +55,9 @@ public class GamePanel extends JPanel {
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
         makeOpaqueLabel();
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
+            FogLabel l = new FogLabel(worldMap.getCurrentCorridor(x, y), worldMap.getCurrentRoom(x, y), x,  y);
+            add(l);
+            fogLabels.add(l);
             Cell cell = WorldMap.getInstanceWorld().getCell(x, y);
             if (cell.getEntity() instanceof Monster)
                 monsterLabels.add(new MonsterLabel((Monster) cell.getEntity()));
@@ -65,6 +71,7 @@ public class GamePanel extends JPanel {
         treasuresLabels.forEach(this::add);
         add(squareLabel);
         baseLabels.forEach(this::add);
+        removeFog();
     }
 
     private void makeOpaqueLabel(){
@@ -78,18 +85,44 @@ public class GamePanel extends JPanel {
         }
     }
 
+    private void removeFog(){
+        FogLabel[] f = fogLabels.stream().filter(FogLabel::updatePosition).toArray(FogLabel[]::new);
+        for (FogLabel currentF : f) fogLabels.remove(currentF);
+        Cell c = worldMap.getCell(Player.getInstancePlayer().getPosition());
+        if (c.getBaseContent().equals(CellElementType.CORRIDOR))
+        removeFog(worldMap.getCorridor().get(c.getBaseId()).getDoorList());
+    }
+
+    public void removeFog(List<Position> listDoor){
+        List<FogLabel> removeFog = new ArrayList<>();
+        for (Position p: listDoor){
+            System.out.println(p);
+        }
+        fogLabels.forEach(fl -> {
+            listDoor.forEach(door ->{
+                if (fl.getLocation().getX() == door.getX() * size &&
+                    fl.getLocation().getY() == door.getY() * size) {
+                    fl.setLocation(-size, -size);
+                    removeFog.add(fl);
+                }
+            });
+        });
+        for (FogLabel currentF : removeFog) fogLabels.remove(currentF);
+    }
+
     public void moveEntities() {
         repaint();
+        removeFog();
         squareLabel.setLocation(-size, -size);
-        WorldMap.getInstanceWorld().repaint();
+       // WorldMap.getInstanceWorld().repaint();
         Player player = Player.getInstancePlayer();
         heroLabel.setLocation(player.getPosition().getX() * size , player.getPosition().getY() * size);
+
         Cell cell = worldMap.getCell(Player.getInstancePlayer().getPosition());
         worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(monster -> {
             JLabel currentLabel =
                     (JLabel) (monsterLabels.stream().filter(x -> x.equals(monster))).toArray()[0];
             Position p = monster.getPosition();
-            //System.out.println(monster.getHP());
             if (monster.getHP() > 0)currentLabel.setLocation(p.getX() * size, p.getY() * size);
             else {
                 currentLabel.setLocation(-size, -size);
@@ -119,7 +152,6 @@ public class GamePanel extends JPanel {
             for (int i = 0; i < opaquePos.size(); i++){
                 Position current = opaquePos.get(i);
                 opaqueLabels.get(i).setLocation(current.getX() * size, current.getY() * size);
-                System.out.println("CIAO");
             }
             squareLabel.setIcon(worldMap.getCell(whatHeroDoes.getP()).getEntity() instanceof Monster ? green : red);
             squareLabel.setLocation(whatHeroDoes.getP().getX() * size, whatHeroDoes.getP().getY() * size);

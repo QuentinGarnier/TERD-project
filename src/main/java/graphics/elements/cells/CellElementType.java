@@ -60,6 +60,12 @@ public enum CellElementType {
         };
     }
 
+    public boolean isWall(){
+         return this.equals(CellElementType.VERTICAL_WALL)
+                || this.equals(CellElementType.HORIZONTAL_WALL) || this.equals(CellElementType.CORNER_BOT)
+                || this.equals(CellElementType.CORNER_TOP);
+    }
+
     @Override
     public String toString() {
         return switch (this) {

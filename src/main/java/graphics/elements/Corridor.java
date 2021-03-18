@@ -7,17 +7,21 @@ import graphics.map.WorldMap;
 import java.util.*;
 
 public class Corridor {
+    private boolean hasBeenVisited;
     private final List<Position> positionList;
+    private final List<Position> doorList;
     public final int id;
     public Room startRoom;
     private final Random gen;
 
     public Corridor(Cell[][] lab, Room r, List<Room> rooms, List<Corridor> corridors, boolean firstTime) {
         positionList = new ArrayList<>();
+        doorList = new ArrayList<>();
         gen = new Random();
         this.id = corridors.size();
         this.startRoom = r;
         if ((r.id == 0 && firstTime) || r.getLowestRoomNeighbor() != 0) createCorridor(lab, r, rooms, corridors);
+        hasBeenVisited = false;
     }
 
     private void createCorridor(Cell[][] w, Room r, List<Room> rooms, List<Corridor> corridors) {
@@ -71,6 +75,8 @@ public class Corridor {
         int iStart = w[start.getX()][start.getY()].getBaseId();
         int iEnd = w[end.getX()][end.getY()].getBaseId();
         int cellId = endIsRoom ? id : iEnd;
+        doorList.add(start);
+        doorList.add(end);
         Position current = P[end.getX()][end.getY()];
         while (!current.equals(start)){
             positionList.add(current);
@@ -121,6 +127,18 @@ public class Corridor {
         if (res.getX() == 0 || res.getX() == WorldMap.MAX_X - 1 ||
                 res.getY() == 0 || res.getY() == WorldMap.MAX_Y - 1) return openDoor(r);
         return res;
+    }
+
+    public boolean isHasBeenVisited() {
+        return hasBeenVisited;
+    }
+
+    public void setVisited(){
+        this.hasBeenVisited = true;
+    }
+
+    public List<Position> getDoorList() {
+        return Collections.unmodifiableList(doorList);
     }
 }
 

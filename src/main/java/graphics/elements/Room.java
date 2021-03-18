@@ -18,6 +18,7 @@ public class Room {
     public static final int MAX_HEIGHT = 7;
     private static final double MAX_ITEMS = 0.4;
     private static final double MAX_MONSTERS = 0.4;
+    private boolean hasBeenVisited;
     private final List<AbstractItem> items;
     private final List<Monster> monsters;
     private final Position topLeft;
@@ -34,6 +35,7 @@ public class Room {
         this.gen = new Random();
         this.topLeft = findTopLeft();
         this.bottomRight = findBottomRight();
+        this.hasBeenVisited = false;
         if (!checkCollision(lab)){
             updateLab(lab);
             roomList.add(this);
@@ -169,5 +171,13 @@ public class Room {
 
     public void removeEntity(Monster m) {
         monsters.remove(m);
+    }
+
+    public boolean isHasBeenVisited() {
+        return hasBeenVisited;
+    }
+
+    public void setVisited(){
+        this.hasBeenVisited = true;
     }
 }

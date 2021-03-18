@@ -191,11 +191,21 @@ public class Player extends AbstractEntity {
     }
 
     private boolean move(Move move) {
+        WorldMap worldMap = WorldMap.getInstanceWorld();
         if(notFrozen()) {
+            Cell oldCell = worldMap.getCell(getPosition());
             if (moveEntity(move)) {
+                Cell currentCell = worldMap.getCell(getPosition());
                 whatHeroDoes.setP(getPosition());
                 moveMonsters();
                 EntityState.turnEffects(this);
+                if (!currentCell.equals(oldCell)){
+                    if (currentCell.getBaseContent().equals(CellElementType.CORRIDOR)){
+                        worldMap.getCorridor().get(currentCell.getBaseId()).setVisited();
+                    } else {
+                        worldMap.getRooms().get(currentCell.getBaseId()).setVisited();
+                    }
+                }
                 return true;
             }
             return false;
