@@ -208,7 +208,7 @@ public class Player extends AbstractEntity {
     private boolean attack(Position position) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
-        if (cell.getEntity() instanceof Monster && Position.calculateRange(getPosition(), position) <= getRange()) {
+        if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
             EntityState.turnEffects(this);
