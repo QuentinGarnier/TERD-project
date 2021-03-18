@@ -11,7 +11,7 @@ public enum EntityType {
     HERO_WARRIOR(CellElementType.HERO_W, 100, 30, 1, 0),
     HERO_MAGE(CellElementType.HERO_M, 75, 15, 3, 0),
 
-    MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1, 135),
+    MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1, 35),
     MONSTER_ORC(CellElementType.ORC, 55, 20, 1, 80),
     MONSTER_SPIDER(CellElementType.SPIDER, 34, 5, 1, 40),
     MONSTER_WIZARD(CellElementType.WIZARD, 20, 12, 3, 45);

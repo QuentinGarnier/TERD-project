@@ -44,6 +44,7 @@ public abstract class AbstractItem {
                 case CONSUMABLE -> res = new ItemConsumable(id, "Consumable " + id, p);
                 case EQUIP -> res = new ItemEquip(id, "Equip " + id, p);
                 case FOOD -> res = new ItemFood(id, "Food " + id, p);
+                case TRAP -> res = new ItemTrap(id, "Trap" + id, p);
                 default -> res = null;
             }
             return res;
