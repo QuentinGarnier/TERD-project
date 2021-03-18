@@ -9,8 +9,6 @@ import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 
-import java.awt.*;
-
 public abstract class AbstractEntity {
     private Position position;
     public final EntityType entityType;
@@ -154,7 +152,7 @@ public abstract class AbstractEntity {
     }
 
     public boolean withinReach(AbstractEntity entity, int range) {
-        return Position.calculateRange(this.getPosition(), entity.getPosition()) <= range;
+        return Position.distance(this.getPosition(), entity.getPosition()) <= range;
     }
 
     public void applyStrategy() {
