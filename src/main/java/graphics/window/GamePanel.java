@@ -16,10 +16,12 @@ public class GamePanel extends JPanel {
     private final JLabel heroLabel = new JLabel(Player.getInstancePlayer().getEntityType().getCellElementType().getIcon());
     private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
     private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
+    private final ImageIcon black = new ImageIcon("data/images/map/miscellaneous/square_black.png");
     private final JLabel squareLabel = new JLabel(green);
     private final List<MonsterLabel> monsterLabels;
     private final List<ItemLabel> treasuresLabels; //Items and coins
     private final List<JLabel> baseLabels;
+    private final List<JLabel> opaqueLabels;
     private final WorldMap worldMap = WorldMap.getInstanceWorld();
     public static final int size = 32;
 
@@ -32,6 +34,7 @@ public class GamePanel extends JPanel {
         monsterLabels = new ArrayList<>();
         treasuresLabels = new ArrayList<>();
         baseLabels = new ArrayList<>();
+        opaqueLabels = new ArrayList<>();
     }
 
     void clear() {
@@ -47,6 +50,7 @@ public class GamePanel extends JPanel {
         add(heroLabel);
         squareLabel.setBounds(-size,-size, size, size);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
+        makeOpaqueLabel();
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
             Cell cell = WorldMap.getInstanceWorld().getCell(x, y);
             if (cell.getEntity() instanceof Monster)
@@ -63,6 +67,17 @@ public class GamePanel extends JPanel {
         baseLabels.forEach(this::add);
     }
 
+    private void makeOpaqueLabel(){
+        for (int i = 0; i < Math.pow(Player.getInstancePlayer().getRange() * 2, 2); i++) {
+            JLabel l = new JLabel();
+            l.setOpaque(true);
+            l.setBounds(-size, -size, size, size);
+            l.setBackground(new Color(0, 0, 0, 120));
+            opaqueLabels.add(l);
+            add(l);
+        }
+    }
+
     public void moveEntities() {
         repaint();
         squareLabel.setLocation(-size, -size);
@@ -74,7 +89,7 @@ public class GamePanel extends JPanel {
             JLabel currentLabel =
                     (JLabel) (monsterLabels.stream().filter(x -> x.equals(monster))).toArray()[0];
             Position p = monster.getPosition();
-            System.out.println(monster.getHP());
+            //System.out.println(monster.getHP());
             if (monster.getHP() > 0)currentLabel.setLocation(p.getX() * size, p.getY() * size);
             else {
                 currentLabel.setLocation(-size, -size);
@@ -97,12 +112,22 @@ public class GamePanel extends JPanel {
     }
 
     public void setObjective(){
-        WhatHeroDoes whatHeroDoes = Player.getInstancePlayer().getWhatHeroDoes();
+        Player player = Player.getInstancePlayer();
+        WhatHeroDoes whatHeroDoes = player.getWhatHeroDoes();
         if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK) {
-            squareLabel.setIcon(worldMap.getCell(whatHeroDoes.getP()).getEntity() instanceof Monster ? red : green);
+            ArrayList<Position> opaquePos = Position.calcRangePosition();
+            for (int i = 0; i < opaquePos.size(); i++){
+                Position current = opaquePos.get(i);
+                opaqueLabels.get(i).setLocation(current.getX() * size, current.getY() * size);
+                System.out.println("CIAO");
+            }
+            squareLabel.setIcon(worldMap.getCell(whatHeroDoes.getP()).getEntity() instanceof Monster ? green : red);
             squareLabel.setLocation(whatHeroDoes.getP().getX() * size, whatHeroDoes.getP().getY() * size);
         }
-        else squareLabel.setLocation(-size, -size);
+        else {
+            opaqueLabels.forEach(x -> x.setLocation(-size, -size));
+            squareLabel.setLocation(-size, -size);
+        }
     }
 
     Point getHeroPosition() {

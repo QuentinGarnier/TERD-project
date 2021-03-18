@@ -4,6 +4,7 @@ import entity.Player;
 import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
+import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 
 public class ChooseAttackCell {
@@ -18,7 +19,7 @@ public class ChooseAttackCell {
             Position newPos = Position.sumPos(pos, m);
             if (newPos == null ||
                     hero.getPosition().distance(newPos) > hero.getRange() ||
-                    !worldMap.getCell(newPos).getBaseContent().isAccessible()
+                    !worldMap.getCell(newPos).getBaseContent().equals(CellElementType.EMPTY)
             ) return pos;
             pos = newPos;
         }
