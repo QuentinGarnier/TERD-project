@@ -34,6 +34,7 @@ public abstract class AbstractItem {
 
     public static AbstractItem generateRandomItem(int id, Position p) {
         if(new Random().nextInt(2) == 0) return new ItemCoin(id, "Coin " + id, p);
+        if(new Random().nextInt(2) == 0) return new ItemTrap(id, "Trap " + id, p);
         else {
             ItemType[] itemTypes = ItemType.values();
             int rndElt = new Random().nextInt(itemTypes.length);
