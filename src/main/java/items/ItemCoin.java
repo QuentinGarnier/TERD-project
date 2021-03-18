@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class ItemCoin extends AbstractItem{
     private final int value;
-    public ItemCoin(int id, String name, Position p) {
-        super(id, name, ItemType.COIN, p, true);
+    public ItemCoin(int id, Position p) {
+        super(id, ItemType.COIN, p, true);
         value = new Random().nextInt(10) + 1;
     }
 
@@ -19,10 +19,5 @@ public class ItemCoin extends AbstractItem{
         Player.getInstancePlayer().incrementMoney(value);
         GameWindow.addToLogs("You have found: " + value + " coin" + (value>1? "s": "") + "!", new Color(210,170,60));
         return true;
-    }
-
-    @Override
-    void parseEffectLine() {
-
     }
 }

@@ -36,7 +36,7 @@ public class Cell {
     }
 
     public void heroPickItem() {
-        setItem(null);
+        this.item = null;
     }
 
     public CellElementType getBaseContent() {

@@ -10,7 +10,9 @@ import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 import items.AbstractItem;
+import items.ItemEquip;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,10 +29,13 @@ public class Player extends AbstractEntity {
         }
     }
 
+    public final static int MAX_INVENTORY_SIZE = 10;
     private int level;
     private int experiencePoints;
     private int hunger;
-    private List<AbstractItem> inventory;
+    private final List<AbstractItem> inventory;
+    private ItemEquip attackItem;
+    private ItemEquip defenceItem;
     private int money;
     private WhatHeroDoes whatHeroDoes;
 
@@ -111,18 +116,25 @@ public class Player extends AbstractEntity {
         return true;
     }
 
-    public static AbstractItem getItemByID(int id) {
-        for(AbstractItem i : instancePlayer.inventory) if(i.getIdPosRoom() == id) return i;
-        return null;
+    public void throwItem(int index){
+        AbstractItem ai = inventory.get(index);
+        Cell currentCell = WorldMap.getInstanceWorld().getCell(getPosition());
+        if (currentCell.getItem() != null){
+            GameWindow.addToLogs("Can't drop item here.", Color.RED);
+        } else {
+            currentCell.setItem(ai);
+            inventory.remove(index);
+            GameWindow.refreshInventory();
+        }
     }
 
-    /**
-     * Function when you gain an item:
-     * @param id is the ID of the item in the items.data file (data/items/items.data)
-     */
-    public static void addItem(int id) {
-        AbstractItem item = AbstractItem.getItemByID(id);
-        if (item != null) instancePlayer.inventory.add(item);
+    public static void addItem() {
+        if (instancePlayer.inventory.size() < MAX_INVENTORY_SIZE) {
+            AbstractItem item = WorldMap.getInstanceWorld().getCell(getInstancePlayer().getPosition()).getItem();
+            if (item != null) instancePlayer.inventory.add(item);
+        } else {
+            GameWindow.addToLogs("!! Full inventory !!", Color.RED);
+        }
     }
 
     public void incrementMoney(int x) {
@@ -157,17 +169,6 @@ public class Player extends AbstractEntity {
     public void decrementRemainingTime() {
         super.decrementRemainingTime();
         GameWindow.refreshInventory();
-    }
-
-    /**
-     * Use an item of the inventory.
-     * @param itemID ID of the item (do nothing if it's not in the inventory)
-     */
-    public void useItem(int itemID) {
-        for(int i=0; i<inventory.size(); i++) if(inventory.get(i).getIdPosRoom() == itemID) {
-            if(!inventory.get(i).use()) inventory.remove(i); //use the item then remove it if it returns false (see use() functions)
-            break;
-        }
     }
 
     public boolean notFrozen() {
@@ -222,9 +223,31 @@ public class Player extends AbstractEntity {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
             EntityState.turnEffects(this);
+            attackItem.applyEffect(m);
             moveMonsters();
             return true;
         }
         return false;
+    }
+
+    public void setAttackItem(ItemEquip attackItem) {
+        this.attackItem = attackItem;
+    }
+
+    public void setDefenceItem(ItemEquip defenceItem) {
+        this.defenceItem = defenceItem;
+    }
+
+    public ItemEquip getAttackItem() {
+        return attackItem;
+    }
+
+    public ItemEquip getDefenceItem() {
+        return defenceItem;
+    }
+
+    @Override
+    public int getAttack() {
+        return super.getAttack() + (attackItem == null ? 0 : attackItem.getEquipmentType().getEffect());
     }
 }

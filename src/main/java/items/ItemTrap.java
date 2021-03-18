@@ -15,8 +15,8 @@ public class ItemTrap extends AbstractItem{
     private final int effect;
     private final Random rndTrap = new Random();
 
-    ItemTrap(int i, String n, Position position) {
-        super(i, n, ItemType.TRAP, position, true);
+    ItemTrap(int i, Position position) {
+        super(i, ItemType.TRAP, position, true);
         this.effect = rndTrap.nextInt(5);
     }
 
@@ -32,10 +32,5 @@ public class ItemTrap extends AbstractItem{
             default: return false;
         }
         return true;
-    }
-
-    @Override
-    void parseEffectLine() {
-
     }
 }

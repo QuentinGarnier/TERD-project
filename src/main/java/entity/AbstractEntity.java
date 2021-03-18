@@ -49,7 +49,7 @@ public abstract class AbstractEntity {
         if (ct.isHero() && currentCell.getItem() != null) {
             if(currentCell.getItem().immediateUse) currentCell.getItem().use();
             else {
-                Player.addItem(currentCell.getItemId());
+                Player.addItem();
                 GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", Tools.WindowText.golden);
             }
             currentCell.getItem().setPosition(null);

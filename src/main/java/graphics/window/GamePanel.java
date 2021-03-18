@@ -66,6 +66,7 @@ public class GamePanel extends JPanel {
             JLabel label = new JLabel(cell.getBaseContent().getIcon());
             label.setBounds(x * size, y * size, size, size);
             baseLabels.add(label);
+            add(label);
         }
         monsterLabels.forEach(this::add);
         treasuresLabels.forEach(this::add);
@@ -95,9 +96,6 @@ public class GamePanel extends JPanel {
 
     public void removeFog(List<Position> listDoor){
         List<FogLabel> removeFog = new ArrayList<>();
-        for (Position p: listDoor){
-            System.out.println(p);
-        }
         fogLabels.forEach(fl -> {
             listDoor.forEach(door ->{
                 if (fl.getLocation().getX() == door.getX() * size &&

@@ -1,38 +1,40 @@
 package items;
 
+import entity.Monster;
+import entity.Player;
 import graphics.elements.Position;
 
 public class ItemEquip extends AbstractItem {
     private boolean isEquipped;
+    private final EquipmentTypes et;
 
-    public ItemEquip(int id, String name, Position p) {
-        super(id, name, ItemType.EQUIP, p, false);
+    public ItemEquip(int id, Position p) {
+        super(id, ItemType.EQUIP, p, false);
         isEquipped = false;
-    }
-
-    public void equip(boolean equip) {
-        this.isEquipped = equip;
-    }
-
-    public boolean isEquipped() {
-        return this.isEquipped;
+        et = EquipmentTypes.createRandomEquip();
     }
 
     @Override
     public boolean use() {
-        this.isEquipped = !this.isEquipped;
-
-        /*
-        AJOUTER ICI GAINS/PERTE DE STATS (si equip/désequip)
-         */
-
+        Player player = Player.getInstancePlayer();
+        ItemEquip oldEquip = player.getAttackItem();
+        if (oldEquip != null) oldEquip.isEquipped = false;
+        boolean res = this.equals(oldEquip);
+        if (et.isOffensive) player.setAttackItem(res ? null : this);
+        else player.setDefenceItem(res ? null : this);
+        isEquipped = !res;
         return true;
     }
 
-    @Override
-    void parseEffectLine() {
-        String[] strSplit = this.effectLine.split("@");
+    public void applyEffect(Monster monster) {
+        monster.setState(et.getMagicEffect());
+    }
 
-        /* AJOUTER LE PARSER ICI */
+    public EquipmentTypes getEquipmentType() {
+        return et;
+    }
+
+    public boolean isEquipped() {
+        return isEquipped;
     }
 }
