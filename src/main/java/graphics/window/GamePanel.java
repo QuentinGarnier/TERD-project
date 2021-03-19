@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePanel extends JPanel {
-    private final JLabel heroLabel = Player.getInstancePlayer();
+    private final JPanel heroLabel = Player.getInstancePlayer();
     private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
     private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
     private final JLabel squareLabel = new JLabel(green);

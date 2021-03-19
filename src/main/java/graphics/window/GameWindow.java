@@ -91,6 +91,7 @@ public class GameWindow extends JFrame {
             gamePanel.repaint();
             boolean b = false;
             Player player = Player.getInstancePlayer();
+            if (player.getHP() == 0) return;
             WhatHeroDoes choice = player.getWhatHeroDoes();
             Position pos = player.getWhatHeroDoes().getP();
             switch (choice){
@@ -142,7 +143,7 @@ public class GameWindow extends JFrame {
                     }
                 }
             }
-            if (player.getHP() != 0)window.setScrollFrameBar();
+            if (player.getHP() != 0) window.setScrollFrameBar();
             gamePanel.repaint();
         }
     }

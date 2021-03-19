@@ -11,8 +11,9 @@ import graphics.window.GamePanel;
 import graphics.window.GameWindow;
 
 import javax.swing.*;
+import java.awt.*;
 
-public abstract class AbstractEntity extends JLabel {
+public abstract class AbstractEntity extends JPanel {
     private Position position;
     public final EntityType entityType;
     private final Strategy strategy;
@@ -23,6 +24,8 @@ public abstract class AbstractEntity extends JLabel {
     private int remainingTime;
     private final int id;
     private final int size;
+    private final ImageIcon barIcon;
+    private final JLabel barLabel;
 
     public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         super();
@@ -40,8 +43,43 @@ public abstract class AbstractEntity extends JLabel {
         this.id = id;
 
         // Graphics
+        setLayout(new BorderLayout());
         this.size = GamePanel.size;
-        setIcon(entityType.cellElementType.getIcon());
+        this.barLabel = new JLabel();
+        this.barIcon = new ImageIcon("data/images/interfaces/" + "bar_violet.png");
+
+        barLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        /*setIcon(entityType.cellElementType.getIcon());
+        setSize(size, size);
+        setLocation();*/
+        setup();
+    }
+
+    private JLabel image(){
+        ImageIcon orc = new ImageIcon(entityType.cellElementType.getIcon().getImage());
+        Image imageOrc = orc.getImage().getScaledInstance(size - 4, size - 4, Image.SCALE_SMOOTH);
+        orc.setImage(imageOrc);
+        JLabel orcP = new JLabel(orc);
+        orcP.setSize(size - 4, size - 4);
+        return orcP;
+    }
+
+    private JLabel bar(){
+        updateBar();
+        barLabel.setIcon(barIcon);
+        return barLabel;
+    }
+
+    private void updateBar(){
+        Image image = barIcon.getImage().getScaledInstance(
+                HP==0 ? 1 : (int) (size * (HP / (float) HPMax)), 3, Image.SCALE_SMOOTH);
+        barIcon.setImage(image);
+    }
+
+    private void setup(){
+        setOpaque(false);
+        add(bar(), BorderLayout.NORTH);
+        add(image());
         setSize(size, size);
         setLocation();
     }
@@ -109,6 +147,7 @@ public abstract class AbstractEntity extends JLabel {
 
     public void setHPMax(int x) {
         HPMax = x;
+        updateBar();
     }
 
     public void modifyHP(int health) {
@@ -117,6 +156,7 @@ public abstract class AbstractEntity extends JLabel {
             removeEntity();
         }
         GameWindow.refreshInventory();
+        updateBar();
     }
     public void fullHeal() {
         HP = HPMax;
