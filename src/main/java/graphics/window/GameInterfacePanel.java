@@ -136,7 +136,8 @@ public class GameInterfacePanel extends JPanel {
     private void createBarGroup(JPanel p, String str, Color c, String imageName, float maxVal, float val) {
         JPanel group = new JPanel(new GridLayout(2,1));
         ImageIcon imageIcon = new ImageIcon("data/images/interfaces/" + imageName);
-        Image image = imageIcon.getImage().getScaledInstance(val==0?1:(int)(imageIcon.getIconWidth() * 0.8 * (val/maxVal)), imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
+        int length = (int)(imageIcon.getIconWidth() * 0.8 * (val/maxVal));
+        Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(image);
         JLabel bar = new JLabel(imageIcon);
         bar.setHorizontalAlignment(SwingConstants.LEFT);
