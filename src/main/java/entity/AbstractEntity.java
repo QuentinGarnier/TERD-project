@@ -46,7 +46,7 @@ public abstract class AbstractEntity extends JPanel {
         setLayout(new BorderLayout());
         this.size = GamePanel.size;
         this.barLabel = new JLabel();
-        this.barIcon = new ImageIcon("data/images/interfaces/" + "bar_violet.png");
+        this.barIcon = new ImageIcon("data/images/interfaces/" + "bar_red.png");
 
         barLabel.setHorizontalAlignment(SwingConstants.LEFT);
         /*setIcon(entityType.cellElementType.getIcon());
