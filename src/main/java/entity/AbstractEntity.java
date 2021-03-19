@@ -71,8 +71,9 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     private void updateBar(){
+        int length = (int) (size * (HP / (float) HPMax));
         Image image = barIcon.getImage().getScaledInstance(
-                HP==0 ? 1 : (int) (size * (HP / (float) HPMax)), 3, Image.SCALE_SMOOTH);
+                length == 0 ? 1 : length, 3, Image.SCALE_SMOOTH);
         barIcon.setImage(image);
     }
 
