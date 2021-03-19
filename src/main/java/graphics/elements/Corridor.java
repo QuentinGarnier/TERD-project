@@ -13,18 +13,20 @@ public class Corridor {
     public final int id;
     public Room startRoom;
     private final Random gen;
+    private final Cell[][] lab;
 
     public Corridor(Cell[][] lab, Room r, List<Room> rooms, List<Corridor> corridors, boolean firstTime) {
         positionList = new ArrayList<>();
         doorList = new ArrayList<>();
         gen = new Random();
         this.id = corridors.size();
+        this.lab = lab;
         this.startRoom = r;
-        if ((r.id == 0 && firstTime) || r.getLowestRoomNeighbor() != 0) createCorridor(lab, r, rooms, corridors);
+        if ((r.id == 0 && firstTime) || r.getLowestRoomNeighbor() != 0) createCorridor(r, rooms, corridors);
         hasBeenVisited = false;
     }
 
-    private void createCorridor(Cell[][] w, Room r, List<Room> rooms, List<Corridor> corridors) {
+    private void createCorridor(Room r, List<Room> rooms, List<Corridor> corridors) {
         Position start = openDoor(r);
         List<Position> Q = new ArrayList<>();
         Position[][] P = new Position[WorldMap.MAX_X][WorldMap.MAX_Y];
@@ -34,19 +36,19 @@ public class Corridor {
             for (Position x : Objects.requireNonNull(z).getNeighbor(true)) {
                 if (x != null && P[x.getX()][x.getY()] == null){
                     P[x.getX()][x.getY()] = z;
-                    Cell cell = w[x.getX()][x.getY()];
+                    Cell cell = lab[x.getX()][x.getY()];
                     CellElementType ct = cell.getBaseContent();
                     if ((ct == CellElementType.HORIZONTAL_WALL ||
                             ct == CellElementType.VERTICAL_WALL) &&
                             rooms.get(cell.getBaseId()).getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
                         updateRooms(rooms, rooms.get(cell.getBaseId()));
-                        createPath(w, P, start, x, true, corridors);
+                        createPath(P, start, x, true, corridors);
                         return;
                     }
                     else if (ct == CellElementType.CORRIDOR &&
                             corridors.get(cell.getBaseId()).startRoom.getLowestRoomNeighbor() != startRoom.getLowestRoomNeighbor()) {
                         updateCorridors(rooms, corridors.get(cell.getBaseId()));
-                        createPath(w, P, start, x, false, corridors);
+                        createPath(P, start, x, false, corridors);
                         return;
                     }
                     else if (ct == CellElementType.OUTSIDE_ROOM) Q.add(x);
@@ -71,36 +73,38 @@ public class Corridor {
         updateRooms(rooms, c.startRoom);
     }
 
-    private void createPath(Cell[][] w, Position[][] P, Position start, Position end, boolean endIsRoom, List<Corridor> corridors) {
-        int iStart = w[start.getX()][start.getY()].getBaseId();
-        int iEnd = w[end.getX()][end.getY()].getBaseId();
+    private void createPath(Position[][] P, Position start, Position end, boolean endIsRoom, List<Corridor> corridors) {
+        int iStart = lab[start.getX()][start.getY()].getBaseId();
+        int iEnd = lab[end.getX()][end.getY()].getBaseId();
         int cellId = endIsRoom ? id : iEnd;
         doorList.add(start);
         doorList.add(end);
         Position current = P[end.getX()][end.getY()];
         while (!current.equals(start)){
             positionList.add(current);
-            w[current.getX()][current.getY()] = new Cell(CellElementType.CORRIDOR, cellId);
+            lab[current.getX()][current.getY()] = new Cell(CellElementType.CORRIDOR, cellId, current);
             current = P[current.getX()][current.getY()];
         }
-        w[start.getX()][start.getY()] = new Cell(CellElementType.EMPTY, iStart);
+        lab[start.getX()][start.getY()] = new Cell(CellElementType.EMPTY, iStart, start);
         if(start.getY() - 1 >= 0) {
-            if(w[start.getX()][start.getY() - 1].getBaseContent() == CellElementType.VERTICAL_WALL)
-                w[start.getX()][start.getY() - 1] = new Cell(CellElementType.CORNER_BOT, w[start.getX()][start.getY() - 1].getBaseId());
-            else if(w[start.getX()][start.getY() - 1].getBaseContent() == CellElementType.CORNER_TOP)
-                w[start.getX()][start.getY() - 1] = new Cell(CellElementType.CORNER_BOT, w[start.getX()][start.getY() - 1].getBaseId());
+            Position pos = new Position(start.getX(), start.getY() - 1);
+            if(lab[start.getX()][start.getY() - 1].getBaseContent() == CellElementType.VERTICAL_WALL)
+                lab[start.getX()][start.getY() - 1] = new Cell(CellElementType.CORNER_BOT, lab[start.getX()][start.getY() - 1].getBaseId(), pos);
+            else if(lab[start.getX()][start.getY() - 1].getBaseContent() == CellElementType.CORNER_TOP)
+                lab[start.getX()][start.getY() - 1] = new Cell(CellElementType.CORNER_BOT, lab[start.getX()][start.getY() - 1].getBaseId(), pos);
         }
         if (endIsRoom) {
-            w[end.getX()][end.getY()] = new Cell(CellElementType.EMPTY, iEnd);
+            lab[end.getX()][end.getY()] = new Cell(CellElementType.EMPTY, iEnd, end);
+            Position pos = new Position(end.getX(), end.getY() - 1);
             if(end.getY() - 1 >= 0) {
-                if(w[end.getX()][end.getY() - 1].getBaseContent() == CellElementType.VERTICAL_WALL)
-                    w[end.getX()][end.getY() - 1] = new Cell(CellElementType.CORNER_BOT, w[end.getX()][end.getY() - 1].getBaseId());
-                else if(w[end.getX()][end.getY() - 1].getBaseContent() == CellElementType.CORNER_TOP)
-                    w[end.getX()][end.getY() - 1] = new Cell(CellElementType.CORNER_BOT, w[end.getX()][end.getY() - 1].getBaseId());
+                if(lab[end.getX()][end.getY() - 1].getBaseContent() == CellElementType.VERTICAL_WALL)
+                    lab[end.getX()][end.getY() - 1] = new Cell(CellElementType.CORNER_BOT, lab[end.getX()][end.getY() - 1].getBaseId(), pos);
+                else if(lab[end.getX()][end.getY() - 1].getBaseContent() == CellElementType.CORNER_TOP)
+                    lab[end.getX()][end.getY() - 1] = new Cell(CellElementType.CORNER_BOT, lab[end.getX()][end.getY() - 1].getBaseId(), pos);
             }
             corridors.add(this);
         } else {
-            w[end.getX()][end.getY()] = new Cell(CellElementType.CORRIDOR, iEnd);
+            lab[end.getX()][end.getY()] = new Cell(CellElementType.CORRIDOR, iEnd, end);
             corridors.get(iEnd).positionList.addAll(positionList);
         }
     }
@@ -134,7 +138,11 @@ public class Corridor {
     }
 
     public void setVisited(){
-        this.hasBeenVisited = true;
+        if (!hasBeenVisited) {
+            hasBeenVisited = true;
+            positionList.forEach(p-> lab[p.getX()][p.getY()].removeFog());
+            doorList.forEach(p-> lab[p.getX()][p.getY()].removeFog());
+        }
     }
 
     public List<Position> getDoorList() {

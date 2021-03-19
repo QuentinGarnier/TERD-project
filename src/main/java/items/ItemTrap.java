@@ -21,7 +21,7 @@ public class ItemTrap extends AbstractItem{
     }
 
     @Override
-    public boolean use() {
+    public boolean usePrivate() {
         Player player = Player.getInstancePlayer();
         switch (effect){
             case 0: GameWindow.addToLogs("You stepped on a burning trap!", Tools.WindowText.orange); player.updateState(EntityState.BURNT); break;

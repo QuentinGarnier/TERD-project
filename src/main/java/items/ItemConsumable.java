@@ -13,7 +13,7 @@ public class ItemConsumable extends AbstractItem {
     }
 
     @Override
-    public boolean use() {
+    public boolean usePrivate() {
         ct.applyEffect();
         return false;
     }

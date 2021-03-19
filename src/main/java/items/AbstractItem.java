@@ -1,11 +1,13 @@
 package items;
 
 import graphics.elements.Position;
+import graphics.window.GamePanel;
 
+import javax.swing.*;
 import java.util.Objects;
 import java.util.Random;
 
-public abstract class AbstractItem {
+public abstract class AbstractItem extends JLabel {
     private static int idCounter = 0;
     public final ItemType type;
     private final int idPosRoom;
@@ -15,6 +17,8 @@ public abstract class AbstractItem {
     public final boolean immediateUse;
     private Position position;
 
+    private final int size;
+
     AbstractItem(int i, ItemType t, Position position, boolean immediateUse) {
         this.idPosRoom = i;
         this.type = t;
@@ -23,6 +27,18 @@ public abstract class AbstractItem {
         this.id = idCounter++;
         this.price = 0; // -> prix à ajouter dans la lecture du fichier etc (pour l'achat/vente)
         //this.effectLine = e; //à ajouter quand la dernière ligne sera parse (actuellement les 'undefined')
+
+        // Graphics
+        this.size = GamePanel.size;
+        setIcon(type.cellElementType.getIcon());
+        setSize(size, size);
+        setLocation();
+    }
+
+    // Graphics
+    public void setLocation() {
+        if (position == null) super.setLocation(-size, -size);
+        else super.setLocation(position.getX() * size, position.getY() * size);
     }
 
     public static AbstractItem generateRandomItem(int id, Position p) {
@@ -56,7 +72,13 @@ public abstract class AbstractItem {
         return position;
     }
 
-    public abstract boolean use();  //return true if not consumed (equip), else return false (food, consumable)
+    public boolean use(){
+        this.position = null;
+        setLocation();
+        return usePrivate();
+    }
+
+    public abstract boolean usePrivate();  //return true if not consumed (equip), else return false (food, consumable)
 
     public void setPosition(Position position) {
         this.position = position;

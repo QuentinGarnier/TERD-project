@@ -5,8 +5,8 @@ import entity.Player;
 import entity.WhatHeroDoes;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
-import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
+import items.AbstractItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,16 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePanel extends JPanel {
-    private final JLabel heroLabel = new JLabel(Player.getInstancePlayer().getEntityType().getCellElementType().getIcon());
+    private final JLabel heroLabel = Player.getInstancePlayer();
     private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
     private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
-    private final ImageIcon black = new ImageIcon("data/images/map/miscellaneous/square_black.png");
     private final JLabel squareLabel = new JLabel(green);
-    private final List<MonsterLabel> monsterLabels;
-    private final List<ItemLabel> treasuresLabels; //Items and coins
+    private final List<Monster> monsterLabels;
+    private final List<AbstractItem> treasuresLabels; //Items and coins
     private final List<JLabel> baseLabels;
     private final List<JLabel> opaqueLabels;
-    private final List<FogLabel> fogLabels;
+    private final List<Cell> fogLabels;
     private final WorldMap worldMap = WorldMap.getInstanceWorld();
     public static final int size = 32;
 
@@ -49,12 +48,36 @@ public class GamePanel extends JPanel {
     }
 
     private void displayMap() {
+        // HERO
         Position pos = Player.getInstancePlayer().getPosition();
         add(heroLabel);
-        squareLabel.setBounds(-size,-size, size, size);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
-        makeOpaqueLabel();
+
+        // FOG
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
+            add(worldMap.getCell(x, y));
+        }
+
+        // OBJECTIVE SHADOW
+        makeOpaqueLabel();
+
+        // MONSTERS
+        worldMap.getRooms().forEach(room -> room.getMonsters().forEach(this::add));
+
+        // ITEMS
+        worldMap.getItems().forEach(this::add);
+
+        // AIMS
+        add(squareLabel);
+        squareLabel.setBounds(-size,-size, size, size);
+
+        // BASE CONTENT
+        for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
+            JLabel jLabel = new JLabel(new ImageIcon(worldMap.getCell(x, y).getBaseContent().getIcon().getImage()));
+            jLabel.setBounds(x * size, y * size, size, size);
+            add(jLabel);
+        }
+       /* for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
             FogLabel l = new FogLabel(worldMap.getCurrentCorridor(x, y), worldMap.getCurrentRoom(x, y), x,  y);
             add(l);
             fogLabels.add(l);
@@ -67,12 +90,12 @@ public class GamePanel extends JPanel {
             label.setBounds(x * size, y * size, size, size);
             baseLabels.add(label);
             add(label);
-        }
-        monsterLabels.forEach(this::add);
-        treasuresLabels.forEach(this::add);
-        add(squareLabel);
-        baseLabels.forEach(this::add);
-        removeFog();
+        }*/
+        //monsterLabels.forEach(this::add);
+        //treasuresLabels.forEach(this::add);
+        //add(squareLabel);
+        //baseLabels.forEach(this::add);
+        //removeFog();
     }
 
     private void makeOpaqueLabel(){
@@ -86,15 +109,15 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void removeFog(){
+   /* private void removeFog(){
         FogLabel[] f = fogLabels.stream().filter(FogLabel::updatePosition).toArray(FogLabel[]::new);
         for (FogLabel currentF : f) fogLabels.remove(currentF);
         Cell c = worldMap.getCell(Player.getInstancePlayer().getPosition());
         if (c.getBaseContent().equals(CellElementType.CORRIDOR))
         removeFog(worldMap.getCorridor().get(c.getBaseId()).getDoorList());
-    }
+    }*/
 
-    public void removeFog(List<Position> listDoor){
+   /* public void removeFog(List<Position> listDoor){
         List<FogLabel> removeFog = new ArrayList<>();
         fogLabels.forEach(fl -> {
             listDoor.forEach(door ->{
@@ -106,9 +129,9 @@ public class GamePanel extends JPanel {
             });
         });
         for (FogLabel currentF : removeFog) fogLabels.remove(currentF);
-    }
+    }*/
 
-    public void moveEntities() {
+    /*public void moveEntities() {
         repaint();
         removeFog();
         squareLabel.setLocation(-size, -size);
@@ -140,7 +163,7 @@ public class GamePanel extends JPanel {
                 treasuresLabels.remove(currentLabel.get(0));
             }
         });
-    }
+    }*/
 
     public void setObjective(){
         Player player = Player.getInstancePlayer();

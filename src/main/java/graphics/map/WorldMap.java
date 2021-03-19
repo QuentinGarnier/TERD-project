@@ -7,6 +7,7 @@ import graphics.elements.*;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import entity.WhatHeroDoes;
+import items.AbstractItem;
 
 import java.util.*;
 
@@ -27,12 +28,14 @@ public class WorldMap {
     private final Cell[][] lab;
     private final List<Room> rooms;
     private final List<Corridor> corridors;
+    private final List<AbstractItem> items;
 
 
     private WorldMap() throws ErrorPositionOutOfBound {
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
+        items = new ArrayList<>();
         generateWorld();
     }
 
@@ -48,14 +51,14 @@ public class WorldMap {
     private void initializeLab() {
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                lab[x][y] = new Cell(CellElementType.OUTSIDE_ROOM, 0);
+                lab[x][y] = new Cell(CellElementType.OUTSIDE_ROOM, 0, new Position(x, y));
             }
         }
     }
 
     private void createRooms() throws ErrorPositionOutOfBound {
         for (int i = 0; i < maxRandomRoom; i++) {
-            new Room(rooms, lab);
+            new Room(rooms, lab, items);
         }
         if (rooms.size() == 0) createRooms();
     }
@@ -118,6 +121,10 @@ public class WorldMap {
         Cell c = getCell(x, y);
         CellElementType ct = c.getBaseContent();
         return ct.isWall() || ct.equals(CellElementType.EMPTY)? rooms.get(c.getBaseId()) : null;
+    }
+
+    public List<AbstractItem> getItems() {
+        return Collections.unmodifiableList(items);
     }
 
     public void repaint() {

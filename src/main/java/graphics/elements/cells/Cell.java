@@ -2,11 +2,14 @@ package graphics.elements.cells;
 
 import entity.AbstractEntity;
 import graphics.Tools;
+import graphics.elements.Position;
+import graphics.window.GamePanel;
 import items.AbstractItem;
 
+import javax.swing.*;
 import java.util.Objects;
 
-public class Cell {
+public class Cell extends JLabel {
 
     /**
      * In the cell there can be either:
@@ -26,9 +29,25 @@ public class Cell {
 
     private boolean isAimed;
 
-    public Cell(CellElementType e, int id) {
+    private final int size;
+    private final Position position;
+
+    public Cell(CellElementType e, int id, Position position) {
+        super();
         this.baseContent = e;
         this.baseId = id;
+        this.position = position;
+
+        // Graphics
+        this.size = GamePanel.size;
+        setIcon(new ImageIcon("data/images/map/grounds/fog.png"));
+        setSize(size, size);
+        super.setLocation(position.getX() * size, position.getY() * size);
+    }
+
+    // Graphics
+    public void removeFog() {
+        setLocation(-size, -size);
     }
 
     public void entityLeft(){
@@ -69,7 +88,7 @@ public class Cell {
 
     public CellElementType getMainContentType() {
         if (entity != null) return entity.getEntityType().getCellElementType();
-        if (item != null) return item.type.ct;
+        if (item != null) return item.type.cellElementType;
         return baseContent;
     }
 

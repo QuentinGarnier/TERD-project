@@ -7,9 +7,12 @@ import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
+import graphics.window.GamePanel;
 import graphics.window.GameWindow;
 
-public abstract class AbstractEntity {
+import javax.swing.*;
+
+public abstract class AbstractEntity extends JLabel {
     private Position position;
     public final EntityType entityType;
     private final Strategy strategy;
@@ -19,8 +22,10 @@ public abstract class AbstractEntity {
     private EntityState state;
     private int remainingTime;
     private final int id;
+    private final int size;
 
     public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
+        super();
         checkPosition(position);
         this.position = position;
         this.entityType = entityType;
@@ -33,7 +38,21 @@ public abstract class AbstractEntity {
         this.state = EntityState.NEUTRAL;
         this.remainingTime = EntityState.NEUTRAL.getDuration();
         this.id = id;
+
+        // Graphics
+        this.size = GamePanel.size;
+        setIcon(entityType.cellElementType.getIcon());
+        setSize(size, size);
+        setLocation();
     }
+
+    // Graphics
+    public void setLocation() {
+       // System.out.println(getLocation());
+        super.setLocation(position.getX() * size, position.getY() * size);
+       // System.out.println(getLocation());
+    }
+
 
     public void checkPosition(Position p) throws ErrorPositionOutOfBound {
         if (!p.insideWorld()) throw new ErrorPositionOutOfBound(p);
@@ -44,10 +63,14 @@ public abstract class AbstractEntity {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
         boolean moved = position.nextPosition(p);
+        setLocation();
         worldMap.getCell(position).setEntity(this);
         Cell currentCell = worldMap.getCell(position);
         if (ct.isHero() && currentCell.getItem() != null) {
-            if(currentCell.getItem().immediateUse) currentCell.getItem().use();
+            if(currentCell.getItem().immediateUse) {
+                currentCell.getItem().setPosition(null);
+                currentCell.getItem().use();
+            }
             else {
                 Player.addItem();
                 GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", Tools.WindowText.golden);
@@ -58,6 +81,7 @@ public abstract class AbstractEntity {
         }
         return moved;
     }
+
 
     public boolean moveEntity(Move m) {
         return moveEntity(m.getMove());
@@ -89,7 +113,9 @@ public abstract class AbstractEntity {
 
     public void modifyHP(int health) {
         HP = Math.max(Math.min(HP + health, HPMax), 0);
-        if (HP == 0) removeEntity();
+        if (HP == 0) {
+            removeEntity();
+        }
         GameWindow.refreshInventory();
     }
     public void fullHeal() {
@@ -142,7 +168,7 @@ public abstract class AbstractEntity {
 
     private void removeEntity() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
-        Cell cell = worldMap.getCell(position);
+        setLocation(-size, -size);
         //if (this instanceof Monster)worldMap.getRooms().get(cell.getBaseId()).removeEntity((Monster)this);
         worldMap.getCell(position).entityLeft();
     }
@@ -163,10 +189,11 @@ public abstract class AbstractEntity {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
         this.position = p;
+        setLocation();
         worldMap.getCell(position).setEntity(this);
     }
 
-    public boolean isHero(){ return this == Player.getInstancePlayer();}
+    public boolean isHero(){ return this instanceof Player;}
 
     public boolean isMonster(){return !isHero();}
 

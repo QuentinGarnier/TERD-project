@@ -3,6 +3,7 @@ package graphics.map;
 import entity.AbstractEntity;
 import entity.Player;
 import graphics.elements.ErrorPositionOutOfBound;
+import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
@@ -29,7 +30,7 @@ public class WorldMapTest {
         for (int i = 0; i < WorldMap.MAX_X; i++){
             for (int j = 0; j < WorldMap.MAX_Y; j++){
                 Cell c = w.getCell(i, j);
-                c =  new Cell(CellElementType.OUTSIDE_ROOM, -1);
+                c =  new Cell(CellElementType.OUTSIDE_ROOM, -1, new Position(i, j));
             }
         }
         boolean allAtZero = true;

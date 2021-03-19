@@ -88,6 +88,7 @@ public class GameWindow extends JFrame {
     private static class KeysActions implements KeyListener {
 
         private void applyCommand(Move m){
+            gamePanel.repaint();
             boolean b = false;
             Player player = Player.getInstancePlayer();
             WhatHeroDoes choice = player.getWhatHeroDoes();
@@ -107,7 +108,6 @@ public class GameWindow extends JFrame {
                     player.getWhatHeroDoes().setP(player.getPosition());
                 }
             }
-            if (b) gamePanel.moveEntities();
             gamePanel.setObjective();
         }
 
@@ -142,7 +142,8 @@ public class GameWindow extends JFrame {
                     }
                 }
             }
-            window.setScrollFrameBar();
+            if (player.getHP() != 0)window.setScrollFrameBar();
+            gamePanel.repaint();
         }
     }
 }

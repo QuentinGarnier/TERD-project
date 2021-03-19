@@ -15,7 +15,7 @@ public class ItemFood extends AbstractItem {
     }
 
     @Override
-    public boolean use() {
+    public boolean usePrivate() {
         Player.getInstancePlayer().modifyHunger(this.hungerGain);
         Player.getInstancePlayer().modifyHP(this.hpGain);
         return false;

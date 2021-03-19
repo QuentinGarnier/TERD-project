@@ -60,6 +60,10 @@ public class Position {
                 y >= 0 && y < WorldMap.MAX_Y;
     }
 
+    public int posToInt(){
+        return WorldMap.MAX_Y * y + x;
+    }
+
     public boolean insideWorld() {
         return insideWorld(x, y);
     }

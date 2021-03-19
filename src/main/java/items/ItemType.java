@@ -13,9 +13,9 @@ public enum ItemType {
     EQUIP(CellElementType.ITEM),  //weapons and armors
     TRAP(CellElementType.TRAP);     //traps
 
-    public final CellElementType ct;
+    public final CellElementType cellElementType;
 
     ItemType(CellElementType ct){
-        this.ct = ct;
+        this.cellElementType = ct;
     }
 }

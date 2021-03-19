@@ -131,7 +131,11 @@ public class Player extends AbstractEntity {
     public static void addItem() {
         if (instancePlayer.inventory.size() < MAX_INVENTORY_SIZE) {
             AbstractItem item = WorldMap.getInstanceWorld().getCell(getInstancePlayer().getPosition()).getItem();
-            if (item != null) instancePlayer.inventory.add(item);
+            if (item != null){
+                item.setPosition(null);
+                instancePlayer.inventory.add(item);
+                item.setLocation();
+            }
         } else {
             GameWindow.addToLogs("!! Full inventory !!", Color.RED);
         }
@@ -180,14 +184,17 @@ public class Player extends AbstractEntity {
         Cell cell = worldMap.getCell(getPosition());
         if (cell.getBaseContent().equals(CellElementType.EMPTY)) {
             worldMap.getRooms().get(cell.getBaseId()).getMonsters().forEach(e -> {
-                e.applyStrategy();
-                EntityState.turnEffects(e);
+                if (getHP() != 0) {
+                    e.applyStrategy();
+                    EntityState.turnEffects(e);
+                }
             });
         }
+        if (getHP() == 0) GameWindow.addToLogs("HERO IS DEAD", Color.RED);
     }
 
     public boolean makeAction(boolean isAttacking, Move m, Position p) {
-        if(m == null && p == null) return false;
+        if((m == null && p == null) || getHP() == 0) return false;
         return isAttacking ? attack(p) : move(m);
     }
 
@@ -223,7 +230,7 @@ public class Player extends AbstractEntity {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
             EntityState.turnEffects(this);
-            attackItem.applyEffect(m);
+            if (attackItem != null) attackItem.applyEffect(m);
             moveMonsters();
             return true;
         }

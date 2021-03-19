@@ -3,8 +3,6 @@ package entity;
 import graphics.Tools;
 import graphics.window.GameWindow;
 
-import java.awt.*;
-
 /**
  * List all different types of states
  *      NEUTRAL -> white, Entity is affected by nothing
@@ -84,6 +82,7 @@ public enum EntityState {
     }
 
     private static void applyState(AbstractEntity entity) {
+        if (entity.getHP() == 0) return;
         int amount;
         switch (entity.getState()) {
             case BURNT:

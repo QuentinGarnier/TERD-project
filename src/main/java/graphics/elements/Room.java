@@ -26,20 +26,22 @@ public class Room {
     public final int id;
     private int lowestRoomNeighbor;
     private final Random gen;
+    private final Cell[][] lab;
 
-    public Room(List<Room> roomList, Cell[][] lab) throws ErrorPositionOutOfBound {
+    public Room(List<Room> roomList, Cell[][] lab, List<AbstractItem> items) throws ErrorPositionOutOfBound {
         this.id = roomList.size();
-        this.items = new ArrayList<>();
+        this.items = items;
         this.monsters = new ArrayList<>();
         this.lowestRoomNeighbor = this.id;
         this.gen = new Random();
         this.topLeft = findTopLeft();
         this.bottomRight = findBottomRight();
         this.hasBeenVisited = false;
-        if (!checkCollision(lab)){
-            updateLab(lab);
+        this.lab = lab;
+        if (!checkCollision()){
+            updateLab();
             roomList.add(this);
-            putRandomEltInRoom(lab);
+            putRandomEltInRoom();
         }
     }
 
@@ -53,7 +55,7 @@ public class Room {
                 topLeft.getY() + MIN_HEIGHT + gen.nextInt(MAX_HEIGHT - MIN_HEIGHT));
     }
 
-    public boolean checkCollision(Cell[][] lab) {
+    private boolean checkCollision() {
         if (!topLeft.insideWorld() || !bottomRight.insideWorld()) return true;
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
@@ -63,31 +65,32 @@ public class Room {
         return false;
     }
 
-    public void updateLab(Cell[][] lab) {
+    private void updateLab() {
         for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
+                Position pos = new Position(x, y);
                 if ((x == topLeft.getX() || x == bottomRight.getX()) && y == topLeft.getY())
-                    lab[x][y] = new Cell((CellElementType.CORNER_TOP), id);
+                    lab[x][y] = new Cell((CellElementType.CORNER_TOP), id, pos);
                 else if ((x == bottomRight.getX() || x == topLeft.getX()) && y == bottomRight.getY())
-                    lab[x][y] = new Cell((CellElementType.CORNER_BOT), id);
+                    lab[x][y] = new Cell((CellElementType.CORNER_BOT), id, pos);
                 else if (x == topLeft.getX() || x == bottomRight.getX())
-                   lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id);
+                   lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id, pos);
                 else if (y == topLeft.getY() || y == bottomRight.getY())
-                    lab[x][y] = new Cell(CellElementType.HORIZONTAL_WALL, id);
-                else lab[x][y] = new Cell(CellElementType.EMPTY, id); // ==> empty cell <-> in room
+                    lab[x][y] = new Cell(CellElementType.HORIZONTAL_WALL, id, pos);
+                else lab[x][y] = new Cell(CellElementType.EMPTY, id, pos); // ==> empty cell <-> in room
             }
         }
     }
 
-    private void putRandomEltInRoom(Cell[][] lab) throws ErrorPositionOutOfBound {
-        putMonsters(lab);
-        putItems(lab);
+    private void putRandomEltInRoom() throws ErrorPositionOutOfBound {
+        putMonsters();
+        putItems();
     }
 
-    private void putItems(Cell[][] lab){
+    private void putItems(){
         int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_ITEMS));
         while (nbOfElt > 0) {
-            Position pos = getRandomPosInRoom(lab);
+            Position pos = getRandomPosInRoom();
             AbstractItem m = AbstractItem.generateRandomItem(items.size(), pos);
             lab[pos.getX()][pos.getY()].setItem(m);
             items.add(m);
@@ -95,10 +98,10 @@ public class Room {
         }
     }
 
-    private void putMonsters(Cell[][] lab) throws ErrorPositionOutOfBound {
+    private void putMonsters() throws ErrorPositionOutOfBound {
         int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_MONSTERS));
         while (nbOfElt > 0) {
-            Position pos = getRandomPosInRoom(lab);
+            Position pos = getRandomPosInRoom();
             Monster m = Monster.generateRandomMonster(pos, monsters.size());
             //Monster m = new Monster(pos, 100, 100, monsters.size(), EntityType.GOBLIN);
             lab[pos.getX()][pos.getY()].setEntity(m);
@@ -107,12 +110,12 @@ public class Room {
         }
     }
 
-    private Position getRandomPosInRoom(Cell[][] lab) {
+    private Position getRandomPosInRoom() {
         int x = gen.nextInt(getWidth() - 2) + topLeft.getX() + 1;
         int y = gen.nextInt(getHeight() - 2) + topLeft.getY() + 1;
         if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
             return new Position(x, y);
-        else return getRandomPosInRoom(lab);
+        else return getRandomPosInRoom();
     }
 
     public List<AbstractItem> getItems() {
@@ -178,6 +181,11 @@ public class Room {
     }
 
     public void setVisited(){
-        this.hasBeenVisited = true;
+        if (!hasBeenVisited) {
+            hasBeenVisited = true;
+            for (int x = 0; x < getWidth() + 1; x++) for (int y = 0; y < getHeight() + 1; y++){
+                lab[topLeft.getX() + x][topLeft.getY() + y].removeFog();
+            }
+        }
     }
 }

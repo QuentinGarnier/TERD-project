@@ -15,7 +15,7 @@ public class ItemEquip extends AbstractItem {
     }
 
     @Override
-    public boolean use() {
+    public boolean usePrivate() {
         Player player = Player.getInstancePlayer();
         ItemEquip oldEquip = player.getAttackItem();
         if (oldEquip != null) oldEquip.isEquipped = false;
