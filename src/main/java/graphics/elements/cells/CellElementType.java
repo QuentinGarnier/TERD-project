@@ -22,7 +22,7 @@ public enum CellElementType {
     OUTSIDE_ROOM(' ', false, "map/grounds/water"),
     SPIDER('S', false, "entities/monsters/spider"),
     STONE('&',false, "map/miscellaneous/stone"),
-    TRAP('x', true, ""),
+    TRAP('x', true, "map/miscellaneous/trap"),
     TREE('&',false, "map/miscellaneous/tree"),
     VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
     WIZARD('W', false, "entities/monsters/wizard");

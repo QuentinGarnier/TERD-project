@@ -106,6 +106,8 @@ public class Corridor {
         } else {
             lab[end.getX()][end.getY()] = new Cell(CellElementType.CORRIDOR, iEnd, end);
             corridors.get(iEnd).positionList.addAll(positionList);
+            corridors.get(iEnd).doorList.add(start);
+            corridors.get(iEnd).doorList.add(end);
         }
     }
 
