@@ -16,16 +16,21 @@ import java.awt.event.KeyListener;
 
 public class GameWindow extends JFrame {
     public static GameWindow window = new GameWindow();
+    private static GameMenuPanel gameMenuPanel;
     private static GamePanel gamePanel;
     private static GameInterfacePanel gameInterfacePanel;
     private final JScrollPane jScrollPane;
+    private static boolean inGame;
 
     private GameWindow() {
         super();
+        setup();
+
+        inGame = true; //à mettre en false
+        gameMenuPanel = new GameMenuPanel();
         gamePanel = new GamePanel();
         gameInterfacePanel = new GameInterfacePanel();
 
-        setup();
         jScrollPane = new JScrollPane(gamePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setPreferredSize(new Dimension(800,600));
         jScrollPane.setBorder(null);
@@ -34,18 +39,17 @@ public class GameWindow extends JFrame {
         add(gameInterfacePanel, BorderLayout.SOUTH);
 
         gamePanel.addKeyListener(new KeysActions());
-
-        displayGamePanels();
-        setScrollFrameBar();
     }
 
     public static void display() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage("data/images/system/cursor.png");
-        Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
+        if(inGame) {
+            window.displayGamePanels();
+            window.setScrollFrameBar();
+        } else {
+
+        }
         window.setScrollFrameBar(); //The window is centered (on the Player) at the start
         window.setVisible(true);
-        window.setCursor(cursor);
     }
 
     private void setup() {
@@ -57,6 +61,10 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ImageIcon icon = new ImageIcon("data/images/system/icon.png");
         setIconImage(icon.getImage());
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage("data/images/system/cursor.png");
+        Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
+        setCursor(cursor);
         getContentPane().setBackground(Color.DARK_GRAY);
     }
 
