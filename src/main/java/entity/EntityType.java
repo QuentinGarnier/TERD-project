@@ -38,6 +38,10 @@ public enum EntityType {
         return Arrays.stream(EntityType.values()).filter(e -> !e.cellElementType.isHero()).toArray(EntityType[]::new);
     }
 
+    public boolean isHeroType() {
+        return this.cellElementType.isHero();
+    }
+
     @Override
     public String toString() {
         return super.toString().split("_")[1];
