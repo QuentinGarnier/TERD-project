@@ -102,7 +102,7 @@ public class WorldMap {
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
         getCell(Player.getInstancePlayer().getPosition()).entityLeft();
-        if (!getCell(x,y).isAccessible() && getCell(x,y).getItem() == null) placePlayer();
+        if (!getCell(x,y).isAccessible() && getCell(x,y).getItem() != null) placePlayer();
         else {
             Player.getInstancePlayer().setPosition(x, y);
             getCell(x, y).setEntity(Player.getInstancePlayer());

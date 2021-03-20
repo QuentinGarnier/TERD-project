@@ -102,8 +102,8 @@ public class Position {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         ArrayList<Position> res = new ArrayList<>();
         int roomId = worldMap.getCell(pos).getBaseId();
-        for (int x = 0; x < 2 * range; x++)
-            for (int y = 0; y < 2 * range; y++){
+        for (int x = 0; x < 2 * range + 1; x++)
+            for (int y = 0; y < 2 * range + 1; y++){
                 Position p = new Position(pos.getX() - range + x, pos.getY() - range + y);
                 if (!p.insideWorld()) continue;
                 Cell c = worldMap.getCell(p);
