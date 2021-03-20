@@ -49,35 +49,32 @@ public abstract class AbstractEntity extends JPanel {
         this.barIcon = new ImageIcon("data/images/interfaces/" + "bar_red.png");
 
         barLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        /*setIcon(entityType.cellElementType.getIcon());
-        setSize(size, size);
-        setLocation();*/
         setup();
     }
 
-    private JLabel image(){
-        ImageIcon orc = new ImageIcon(entityType.cellElementType.getIcon().getImage());
-        Image imageOrc = orc.getImage().getScaledInstance(size - 4, size - 4, Image.SCALE_SMOOTH);
-        orc.setImage(imageOrc);
-        JLabel orcP = new JLabel(orc);
-        orcP.setSize(size - 4, size - 4);
-        return orcP;
+    private JLabel image() {
+        ImageIcon entityImg = new ImageIcon(entityType.cellElementType.getIcon().getImage());
+        Image img = entityImg.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+        entityImg.setImage(img);
+        JLabel entityP = new JLabel(entityImg);
+        entityP.setSize(size, size);
+        return entityP;
     }
 
-    private JLabel bar(){
+    private JLabel bar() {
         updateBar();
         barLabel.setIcon(barIcon);
         return barLabel;
     }
 
-    private void updateBar(){
+    private void updateBar() {
         int length = (int) (size * (HP / (float) HPMax));
         Image image = barIcon.getImage().getScaledInstance(
                 length == 0 ? 1 : length, 3, Image.SCALE_SMOOTH);
         barIcon.setImage(image);
     }
 
-    private void setup(){
+    private void setup() {
         setOpaque(false);
         add(bar(), BorderLayout.NORTH);
         add(image());
@@ -87,9 +84,7 @@ public abstract class AbstractEntity extends JPanel {
 
     // Graphics
     public void setLocation() {
-       // System.out.println(getLocation());
         super.setLocation(position.getX() * size, position.getY() * size);
-       // System.out.println(getLocation());
     }
 
 
@@ -142,9 +137,13 @@ public abstract class AbstractEntity extends JPanel {
         position.setPosition(p.getX(), p.getY());
     }
 
-    public int getHP() { return HP; }
+    public int getHP() {
+        return HP;
+    }
 
-    public int getHPMax() { return HPMax; }
+    public int getHPMax() {
+        return HPMax;
+    }
 
     public void setHPMax(int x) {
         HPMax = x;
@@ -153,9 +152,7 @@ public abstract class AbstractEntity extends JPanel {
 
     public void modifyHP(int health) {
         HP = Math.max(Math.min(HP + health, HPMax), 0);
-        if (HP == 0) {
-            removeEntity();
-        }
+        if(HP == 0) removeEntity();
         GameWindow.refreshInventory();
         updateBar();
     }
@@ -169,17 +166,27 @@ public abstract class AbstractEntity extends JPanel {
         attack = Math.max(att, 0);
     }
 
-    public int getAttackMax() { return attackMax; }
+    public int getAttackMax() {
+        return attackMax;
+    }
 
-    public void setAttackMax(int attMax) { attackMax = Math.max(attMax, 0); }
+    public void setAttackMax(int attMax) {
+        attackMax = Math.max(attMax, 0);
+    }
 
-    public int getRange() { return range; }
+    public int getRange() {
+        return range;
+    }
 
-    public void setRange(int r) { range = Math.max(r, 0); }
+    public void setRange(int r) {
+        range = Math.max(r, 0);
+    }
 
-    public EntityState getState() { return state; }
+    public EntityState getState() {
+        return state;
+    }
 
-    public void setState(EntityState state){
+    public void setState(EntityState state) {
         this.state = state;
         updateRemainingTime();
     }
@@ -210,7 +217,6 @@ public abstract class AbstractEntity extends JPanel {
     private void removeEntity() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         setLocation(-size, -size);
-        //if (this instanceof Monster)worldMap.getRooms().get(cell.getBaseId()).removeEntity((Monster)this);
         worldMap.getCell(position).entityLeft();
     }
 
@@ -234,9 +240,13 @@ public abstract class AbstractEntity extends JPanel {
         worldMap.getCell(position).setEntity(this);
     }
 
-    public boolean isHero(){ return this instanceof Player;}
+    public boolean isHero() {
+        return this instanceof Player;
+    }
 
-    public boolean isMonster(){return !isHero();}
+    public boolean isMonster() {
+        return !isHero();
+    }
 
     @Override
     public String toString() {
