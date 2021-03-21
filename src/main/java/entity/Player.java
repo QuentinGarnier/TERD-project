@@ -158,7 +158,7 @@ public class Player extends AbstractEntity {
     //Hunger is capped at 100.
     public void modifyHunger(int x) {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
-        //GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : ""), new Color(100,60,120));
+        if (getState() != EntityState.POISONED) GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : ""), new Color(100,60,120));
         if (hunger == 0) GameWindow.addToLogs("HERO DIED OF HUNGER", Color.RED);
         GameWindow.refreshInventory();
         //TODO: add death by hunger
