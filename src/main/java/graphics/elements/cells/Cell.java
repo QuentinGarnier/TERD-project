@@ -97,6 +97,12 @@ public class Cell extends JLabel {
         return baseContent.isWall();
     }
 
+    public boolean isDoor(Cell[][] lab){
+        int x = position.getX(), y = position.getY();
+        return (lab[x + 1][y].isWall() && lab[x - 1][y].isWall()) ||
+                (lab[x][y + 1].isWall() && lab[x][y - 1].isWall());
+    }
+
     public boolean isDoor(){
         WorldMap worldMap = WorldMap.getInstanceWorld();
         int x = position.getX(), y = position.getY();

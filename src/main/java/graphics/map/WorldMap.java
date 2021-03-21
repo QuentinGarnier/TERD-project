@@ -51,9 +51,9 @@ public class WorldMap {
         int y = /*Player.getInstancePlayer().getPosition().getY();*/ room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
         Position pos = new Position(x, y);
         if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
-            Position[] neighbors = pos.getNeighbor(false);
+            Position[] neighbors = pos.getNeighbor(true);
             for (Position p : neighbors){
-                if (getCell(p).isDoor()) {
+                if (lab[p.getX()][p.getY()].isDoor(lab)) {
                     placeEnd();
                     return;
                 }
