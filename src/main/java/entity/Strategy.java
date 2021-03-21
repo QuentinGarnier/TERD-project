@@ -1,6 +1,7 @@
 package entity;
 
 import graphics.elements.Position;
+import graphics.map.WorldMap;
 
 public class Strategy {
     private final AbstractEntity hero = Player.getInstancePlayer();
@@ -41,14 +42,17 @@ public class Strategy {
 
     public void makeMove(boolean goClose, Position p){
         Position[] neighbors = currentEntity.getPosition().getNeighbor(false);
+        WorldMap worldMap = WorldMap.getInstanceWorld();
         if (neighbors.length == 0) return;
-        Position res = neighbors[0];
+        Position res = currentEntity.getPosition();
         double oldDist = res.distance(p);
         for (Position ps : neighbors){
-            double currentDist = ps.distance(p);
-            if (goClose ? currentDist < oldDist : currentDist > oldDist){
-                res = ps;
-                oldDist = currentDist;
+            if (!worldMap.getCell(ps).isDoor()) {
+                double currentDist = ps.distance(p);
+                if (goClose ? currentDist < oldDist : currentDist > oldDist) {
+                    res = ps;
+                    oldDist = currentDist;
+                }
             }
         }
         currentEntity.goTo(res);

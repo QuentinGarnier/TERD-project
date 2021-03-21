@@ -3,6 +3,7 @@ package graphics.elements.cells;
 import entity.AbstractEntity;
 import graphics.Tools;
 import graphics.elements.Position;
+import graphics.map.WorldMap;
 import graphics.window.GamePanel;
 import items.AbstractItem;
 
@@ -90,6 +91,17 @@ public class Cell extends JLabel {
         if (entity != null) return entity.getEntityType().getCellElementType();
         if (item != null) return item.type.cellElementType;
         return baseContent;
+    }
+
+    public boolean isWall(){
+        return baseContent.isWall();
+    }
+
+    public boolean isDoor(){
+        WorldMap worldMap = WorldMap.getInstanceWorld();
+        int x = position.getX(), y = position.getY();
+        return (worldMap.getCell(x + 1, y).isWall() && worldMap.getCell(x - 1, y).isWall()) ||
+                (worldMap.getCell(x, y + 1).isWall() && worldMap.getCell(x, y - 1).isWall());
     }
 
     public boolean isAimed(){

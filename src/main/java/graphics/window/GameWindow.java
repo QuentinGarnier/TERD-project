@@ -133,7 +133,6 @@ public class GameWindow extends JFrame {
             Player player = Player.getInstancePlayer();
             WorldMap worldMap = WorldMap.getInstanceWorld();
             WhatHeroDoes choice = player.getWhatHeroDoes();
-            worldMap.repaint();
             switch (key) {
                 case 'w' -> applyCommand(Move.UP);
                 case 'd' -> applyCommand(Move.RIGHT);
