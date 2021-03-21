@@ -43,7 +43,7 @@ public class Player extends AbstractEntity {
         super(new Position(0, 0), -1, EntityType.HERO_MAGE);
         level = 1;
         experiencePoints = 0;
-        hunger = 100; //default: full bar
+        hunger = 100;  //100 is the max value for the Hunger Bar
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
@@ -75,7 +75,7 @@ public class Player extends AbstractEntity {
         else System.out.println("Nothing to pick");
     }
 
-    public void earnXP(int xp){
+    public void earnXP(int xp) {
         int rate = (100 + (level - 1) * 50);
         experiencePoints += xp;
         GameWindow.addToLogs("+" + xp + " xp", Tools.WindowText.green);
@@ -116,12 +116,11 @@ public class Player extends AbstractEntity {
         return true;
     }
 
-    public void throwItem(int index){
+    public void throwItem(int index) {
         AbstractItem ai = inventory.get(index);
         Cell currentCell = WorldMap.getInstanceWorld().getCell(getPosition());
-        if (currentCell.getItem() != null){
-            GameWindow.addToLogs("Can't drop item here.", Color.RED);
-        } else {
+        if (currentCell.getItem() != null) GameWindow.addToLogs("Can't drop item here.", Color.RED);
+        else {
             currentCell.setItem(ai);
             inventory.remove(index);
             GameWindow.refreshInventory();
@@ -160,7 +159,9 @@ public class Player extends AbstractEntity {
     public void modifyHunger(int x) {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
         //GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : ""), new Color(100,60,120));
+        if (hunger == 0) GameWindow.addToLogs("HERO DIED OF HUNGER", Color.RED);
         GameWindow.refreshInventory();
+        //TODO: add death by hunger
     }
 
     @Override
