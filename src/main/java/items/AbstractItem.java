@@ -15,7 +15,7 @@ public abstract class AbstractItem extends JLabel {
     public final static AbstractItem end = new AbstractItem(0, ItemType.END, null, true) {
         @Override
         public boolean usePrivate() throws ErrorPositionOutOfBound {
-            GameWindow.addToLogs("PASSING NEW GAME", Color.GREEN);
+            GameWindow.addToLogs("You enter the lower floor...", Color.GREEN);
             WorldMap worldMap = WorldMap.getInstanceWorld();
             worldMap.generateWorld();
             GameWindow.display();
