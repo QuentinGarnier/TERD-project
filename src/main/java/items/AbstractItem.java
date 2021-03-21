@@ -90,7 +90,6 @@ public abstract class AbstractItem extends JLabel {
     public boolean use() throws ErrorPositionOutOfBound {
         this.position = null;
         setLocation();
-        GameWindow.display();
         return usePrivate();
     }
 
