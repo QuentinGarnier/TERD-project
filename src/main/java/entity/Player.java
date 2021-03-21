@@ -230,9 +230,9 @@ public class Player extends AbstractEntity {
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
-            EntityState.turnEffects(this);
             if (attackItem != null) attackItem.applyEffect(m);
             moveMonsters();
+            EntityState.turnEffects(this);
             return true;
         }
         return false;
