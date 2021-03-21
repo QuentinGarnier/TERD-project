@@ -3,7 +3,7 @@ package items;
 import graphics.elements.Position;
 
 
-// POTION, TELEPORTATION -> extends ITEMCUNSUMMABLE --> @
+// POTION, TELEPORTATION -> extends ITEMCONSUMABLE --> @
 public class ItemConsumable extends AbstractItem {
     private final ConsumableTypes ct;
 
@@ -16,5 +16,10 @@ public class ItemConsumable extends AbstractItem {
     public boolean usePrivate() {
         ct.applyEffect();
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return ct.toString();
     }
 }

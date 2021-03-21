@@ -9,7 +9,7 @@ public class ItemFood extends AbstractItem {
 
     public ItemFood(int id, Position p) {
         super(id, ItemType.FOOD, p,false);
-        // TODO put correct hp et hunger
+        // TODO put correct hp and hunger -> maybe a class 'FoodTypes' can be useful for the diversity
         this.hungerGain = 0;
         this.hpGain = 0;
     }
@@ -19,5 +19,10 @@ public class ItemFood extends AbstractItem {
         Player.getInstancePlayer().modifyHunger(this.hungerGain);
         Player.getInstancePlayer().modifyHP(this.hpGain);
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Food";
     }
 }

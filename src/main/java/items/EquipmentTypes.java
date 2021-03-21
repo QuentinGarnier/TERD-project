@@ -43,8 +43,6 @@ public enum EquipmentTypes {
 
     @Override
     public String toString() {
-        // TODO
-        String res = this.name().replace("_", " ").toLowerCase(Locale.ROOT);
-        return res;
+        return this.name().charAt(0) + this.name().substring(1).replace("_", " ").toLowerCase(Locale.ROOT);
     }
 }

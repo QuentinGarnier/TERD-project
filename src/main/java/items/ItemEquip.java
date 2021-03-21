@@ -37,4 +37,9 @@ public class ItemEquip extends AbstractItem {
     public boolean isEquipped() {
         return isEquipped;
     }
+
+    @Override
+    public String toString() {
+        return et.toString();
+    }
 }

@@ -1,20 +1,28 @@
 package items;
 
+import java.util.Locale;
 import java.util.Random;
 
 public enum ConsumableTypes {
-    POTION, TELEPORTATION;
+    HEALTH_POTION("Restores part of your HP."),
+    TELEPORTATION_SCROLL("Teleports you in the last Merchant Room visited.");
 
-    public static ConsumableTypes createConsumableTypes(){
+    private String effect;  //Useful for description in the inventory.
+
+    ConsumableTypes(String effect) {
+        this.effect = effect;
+    }
+
+    public static ConsumableTypes createConsumableTypes() {
         ConsumableTypes[] consumableTypes = ConsumableTypes.values();
         int rndElt = new Random().nextInt(consumableTypes.length);
         return ConsumableTypes.values()[rndElt];
     }
 
-    public boolean applyEffect(){
-        switch (this){
-            case POTION:        // TODO
-            case TELEPORTATION: // TODO
+    public boolean applyEffect() {
+        switch (this) {
+            case HEALTH_POTION:        // TODO
+            case TELEPORTATION_SCROLL: // TODO
         }
         return true;
     }
@@ -24,5 +32,10 @@ public enum ConsumableTypes {
     }
     private void potion(){
 
+    }
+
+    @Override
+    public String toString() {
+        return this.name().charAt(0) + this.name().substring(1).replace("_", " ").toLowerCase(Locale.ROOT);
     }
 }
