@@ -40,7 +40,7 @@ public class Player extends AbstractEntity {
     private WhatHeroDoes whatHeroDoes;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
+        super(new Position(0, 0), -1, EntityType.HERO_MAGE);
         level = 1;
         experiencePoints = 0;
         hunger = 100; //default: full bar

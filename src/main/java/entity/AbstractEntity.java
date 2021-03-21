@@ -154,7 +154,10 @@ public abstract class AbstractEntity extends JPanel {
         HP = Math.max(Math.min(HP + health, HPMax), 0);
         if(HP == 0) {
             removeEntity();
-            if (this instanceof Monster) Player.getInstancePlayer().earnXP(entityType.experienceByType);
+            if (this instanceof Monster) {
+                GameWindow.addToLogs(this + " die!", Tools.WindowText.red);
+                Player.getInstancePlayer().earnXP(entityType.experienceByType);
+            }
         }
         GameWindow.refreshInventory();
         updateBar();
