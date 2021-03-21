@@ -12,9 +12,9 @@ public enum EntityType {
     HERO_MAGE(CellElementType.HERO_M, 140, 15, 3, 0),
 
     MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1, 35),
-    MONSTER_ORC(CellElementType.ORC, 55, 20, 1, 80),
-    MONSTER_SPIDER(CellElementType.SPIDER, 34, 5, 1, 40),
-    MONSTER_WIZARD(CellElementType.WIZARD, 20, 12, 3, 45);
+    MONSTER_ORC(CellElementType.ORC, 54, 20, 1, 80),
+    MONSTER_SPIDER(CellElementType.SPIDER, 32, 5, 1, 40),
+    MONSTER_WIZARD(CellElementType.WIZARD, 20, 10, 3, 45);
 
     public final CellElementType cellElementType;
     public final int HPByType;

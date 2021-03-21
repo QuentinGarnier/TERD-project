@@ -19,7 +19,7 @@ public class Attack {
         }
         switch (entity1.entityType) {
             case HERO_ARCHER:
-                if (Math.random() < (entity1.getState() == EntityState.POISONED ? 0.35 : 0.25)) {
+                if (Math.random() < (entity1.getState() == EntityState.POISONED ? 0.25 : 0.15)) {
                     GameWindow.addToLogs("Missed target.", red);
                     return;
                 } else {
