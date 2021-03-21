@@ -33,7 +33,6 @@ public class Attack {
                 return;
 
             case HERO_MAGE:
-                ((Player) entity1).earnXP(entity2.entityType.experienceByType);
                 entity1.modifyHP(2);
                 if (entity1.getState() != EntityState.PARALYSED) entity2.updateState(EntityState.BURNT);
                 return;

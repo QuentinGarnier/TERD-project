@@ -152,7 +152,10 @@ public abstract class AbstractEntity extends JPanel {
 
     public void modifyHP(int health) {
         HP = Math.max(Math.min(HP + health, HPMax), 0);
-        if(HP == 0) removeEntity();
+        if(HP == 0) {
+            removeEntity();
+            if (this instanceof Monster) Player.getInstancePlayer().earnXP(entityType.experienceByType);
+        }
         GameWindow.refreshInventory();
         updateBar();
     }
