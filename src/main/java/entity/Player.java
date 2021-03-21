@@ -76,7 +76,7 @@ public class Player extends AbstractEntity {
     }
 
     public void earnXP(int xp){
-        int rate = (100 + (level - 1));
+        int rate = (100 + (level - 1) * 50);
         experiencePoints += xp;
         GameWindow.addToLogs("+" + xp + " xp", Tools.WindowText.green);
         while (experiencePoints/rate >= 1){
@@ -92,9 +92,9 @@ public class Player extends AbstractEntity {
     public void levelUp() {
         level ++;
         GameWindow.addToLogs(">>> LEVEL UP +1! <<<", Tools.WindowText.green);
-        setAttackMax((int) (getAttackMax() * 1.10));
+        setAttackMax((int) (getAttackMax() * 1.08));
         setAttack(getAttackMax());
-        setHPMax((int) (getHPMax() *  1.10));
+        setHPMax((int) (getHPMax() *  1.07));
         fullHeal();
         setState(EntityState.NEUTRAL);
     }
