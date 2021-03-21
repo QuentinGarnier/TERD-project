@@ -37,15 +37,15 @@ public class GamePanel extends JPanel {
         removeAll();
         repaint();
         revalidate();
+
         // HERO
         Position pos = Player.getInstancePlayer().getPosition();
         add(heroLabel);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
 
         // FOG
-        for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
-            add(worldMap.getCell(x, y));
-        }
+        for(int x = 0; x < WorldMap.MAX_X; x++)
+            for(int y = 0; y < WorldMap.MAX_Y; y++) add(worldMap.getCell(x, y));
 
         // OBJECTIVE SHADOW
         makeOpaqueLabel();
@@ -68,7 +68,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void makeOpaqueLabel(){
+    private void makeOpaqueLabel() {
         opaqueLabels.clear();
         for (int i = 0; i < Math.pow((Player.getInstancePlayer().getRange() + 1) * 2, 2); i++) {
             JLabel l = new JLabel();
@@ -80,21 +80,18 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void setObjective(){
+    public void setObjective() {
         Player player = Player.getInstancePlayer();
         WhatHeroDoes whatHeroDoes = player.getWhatHeroDoes();
         if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK) {
             ArrayList<Position> opaquePos = player.getPosition().calcRangePosition();
-            System.out.println("ATTACKING");
             for (int i = 0; i < opaquePos.size(); i++){
                 Position current = opaquePos.get(i);
-                System.out.println(current);
                 opaqueLabels.get(i).setLocation(current.getX() * size, current.getY() * size);
             }
             squareLabel.setIcon(worldMap.getCell(whatHeroDoes.getP()).getEntity() instanceof Monster ? green : red);
             squareLabel.setLocation(whatHeroDoes.getP().getX() * size, whatHeroDoes.getP().getY() * size);
-        }
-        else {
+        } else {
             opaqueLabels.forEach(x -> x.setLocation(-size, -size));
             squareLabel.setLocation(-size, -size);
         }

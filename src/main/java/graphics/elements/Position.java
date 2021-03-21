@@ -55,12 +55,12 @@ public class Position {
         return res.insideWorld() ? res : null;
     }
 
-    public static boolean insideWorld(int x, int y){
+    public static boolean insideWorld(int x, int y) {
         return x >= 0 && x < WorldMap.MAX_X &&
                 y >= 0 && y < WorldMap.MAX_Y;
     }
 
-    public int posToInt(){
+    public int posToInt() {
         return WorldMap.MAX_Y * y + x;
     }
 
@@ -68,14 +68,7 @@ public class Position {
         return insideWorld(x, y);
     }
 
-   /* public static int calculateRange(Position p1, Position p2){
-        /*if (p1.x == p2.x) return Math.abs(p1.y - p2.y);
-        if (p1.y == p2.y) return Math.abs(p1.x - p2.x);
-        return Integer.MAX_VALUE;
-        return Math.max(Math.abs(p2.x - p1.x), Math.abs(p2.y - p1.y));
-    }*/
-
-    public double distance(Position p){
+    public double distance(Position p) {
         return distance(this, p);
     }
 
@@ -95,11 +88,10 @@ public class Position {
         return Math.round(Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
     }
 
-    public ArrayList<Position> calcRangePosition(){
+    public ArrayList<Position> calcRangePosition() {
         Player player = Player.getInstancePlayer();
         int range = player.getRange();
         Position pos = player.getPosition();
-        System.out.println(pos);
         WorldMap worldMap = WorldMap.getInstanceWorld();
         ArrayList<Position> res = new ArrayList<>();
         int roomId = worldMap.getCell(pos).getBaseId();
