@@ -193,17 +193,18 @@ public class Player extends AbstractEntity {
         if (getHP() == 0) GameWindow.addToLogs("HERO IS DEAD", Color.RED);
     }
 
-    public boolean makeAction(boolean isAttacking, Move m, Position p) {
+    public boolean makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
         if((m == null && p == null) || getHP() == 0) return false;
         return isAttacking ? attack(p) : move(m);
     }
 
-    private boolean move(Move move) {
+    private boolean move(Move move) throws ErrorPositionOutOfBound {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         if(notFrozen()) {
             Cell oldCell = worldMap.getCell(getPosition());
             if (moveEntity(move)) {
                 Cell currentCell = worldMap.getCell(getPosition());
+                if (currentCell.getBaseContent().equals(CellElementType.END)) return false;
                 whatHeroDoes.setP(getPosition());
                 moveMonsters();
                 EntityState.turnEffects(this);

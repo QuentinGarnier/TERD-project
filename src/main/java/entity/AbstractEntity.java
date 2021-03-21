@@ -92,7 +92,7 @@ public abstract class AbstractEntity extends JPanel {
         if (!p.insideWorld()) throw new ErrorPositionOutOfBound(p);
     }
 
-    public boolean moveEntity(Position p) {
+    public boolean moveEntity(Position p) throws ErrorPositionOutOfBound {
         CellElementType ct = entityType.cellElementType;
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
@@ -117,7 +117,7 @@ public abstract class AbstractEntity extends JPanel {
     }
 
 
-    public boolean moveEntity(Move m) {
+    public boolean moveEntity(Move m) throws ErrorPositionOutOfBound {
         return moveEntity(m.getMove());
     }
 

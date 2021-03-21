@@ -1,13 +1,28 @@
 package items;
 
+import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
+import graphics.map.WorldMap;
 import graphics.window.GamePanel;
+import graphics.window.GameWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
 public abstract class AbstractItem extends JLabel {
+    public final static AbstractItem end = new AbstractItem(0, ItemType.END, null, true) {
+        @Override
+        public boolean usePrivate() throws ErrorPositionOutOfBound {
+            GameWindow.addToLogs("PASSING NEW GAME", Color.GREEN);
+            WorldMap worldMap = WorldMap.getInstanceWorld();
+            worldMap.generateWorld();
+            GameWindow.display();
+            // TODO
+            return false;
+        }
+    };
     private static int idCounter = 0;
     public final ItemType type;
     private final int idPosRoom;
@@ -46,7 +61,7 @@ public abstract class AbstractItem extends JLabel {
         else {
             ItemType[] itemTypes = ItemType.values();
             int rndElt = new Random().nextInt(itemTypes.length);
-            AbstractItem res;
+            AbstractItem res = null;
             ItemType itemType = itemTypes[rndElt];
             switch (itemType) {
                 case COIN -> res = new ItemCoin(id, p);
@@ -54,7 +69,7 @@ public abstract class AbstractItem extends JLabel {
                 case EQUIP -> res = new ItemEquip(id, p);
                 case FOOD -> res = new ItemFood(id, p);
                 case TRAP -> res = new ItemTrap(id, p);
-                default -> res = null;
+                case END -> res = generateRandomItem(id, p);
             }
             return res;
         }
@@ -72,13 +87,14 @@ public abstract class AbstractItem extends JLabel {
         return position;
     }
 
-    public boolean use(){
+    public boolean use() throws ErrorPositionOutOfBound {
         this.position = null;
         setLocation();
+        GameWindow.display();
         return usePrivate();
     }
 
-    public abstract boolean usePrivate();  //return true if not consumed (equip), else return false (food, consumable)
+    public abstract boolean usePrivate() throws ErrorPositionOutOfBound;  //return true if not consumed (equip), else return false (food, consumable)
 
     public void setPosition(Position position) {
         this.position = position;

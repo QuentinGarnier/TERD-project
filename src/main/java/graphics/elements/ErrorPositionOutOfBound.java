@@ -1,6 +1,6 @@
 package graphics.elements;
 
-public class ErrorPositionOutOfBound extends Exception{
+public class ErrorPositionOutOfBound extends RuntimeException{
 
     public ErrorPositionOutOfBound(Position p){
         System.out.println(p + " is out of bound");

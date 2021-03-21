@@ -12,15 +12,7 @@ import items.AbstractItem;
 import java.util.*;
 
 public class WorldMap {
-    private static WorldMap instanceWorld;
-
-    static {
-        try {
-            instanceWorld = new WorldMap();
-        } catch (ErrorPositionOutOfBound errorPositionOutOfBound) {
-            errorPositionOutOfBound.printStackTrace();
-        }
-    }
+    private static WorldMap instanceWorld = new WorldMap();
 
     public static final int MAX_X = 70; // to be verified
     public static final int MAX_Y = 20; // to be verified
@@ -42,10 +34,27 @@ public class WorldMap {
     public void generateWorld() throws ErrorPositionOutOfBound {
         rooms.clear();
         corridors.clear();
+        items.clear();
+        items.add(AbstractItem.end);
         initializeLab();
         createRooms();
         createCorridors(true);
         placePlayer();
+        placeEnd();
+    }
+
+    private void placeEnd(){
+        Random rnd = new Random();
+        int iRoom = rnd.nextInt(rooms.size());
+        Room room = rooms.get(iRoom);
+        int x = /*Player.getInstancePlayer().getPosition().getX() + 1;*/ room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
+        int y = /*Player.getInstancePlayer().getPosition().getY();*/ room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
+        if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
+            AbstractItem.end.setPosition(new Position(x, y));
+            getCell(x, y).setItem(AbstractItem.end);
+            AbstractItem.end.setLocation();
+        }
+        else placeEnd();
     }
 
     private void initializeLab() {
@@ -102,13 +111,13 @@ public class WorldMap {
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
         getCell(Player.getInstancePlayer().getPosition()).entityLeft();
-        if (!getCell(x,y).isAccessible() && getCell(x,y).getItem() != null) placePlayer();
-        else {
+        if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
             Player.getInstancePlayer().setPosition(x, y);
             getCell(x, y).setEntity(Player.getInstancePlayer());
             Player.getInstancePlayer().getWhatHeroDoes().setP(new Position(x, y));
             room.setVisited();
         }
+        else placePlayer();
     }
 
     public Corridor getCurrentCorridor(int x, int y){

@@ -7,6 +7,7 @@ import graphics.elements.cells.CellElementType;
  */
 
 public enum ItemType {
+    END(CellElementType.END),
     COIN(CellElementType.COIN),
     FOOD(CellElementType.BURGER),  //food to restore hunger
     CONSUMABLE(CellElementType.ITEM),  //potions, scrolls...

@@ -5,6 +5,7 @@ import graphics.Tools;
 import javax.swing.*;
 
 public enum CellElementType {
+    END('E', true, "map/miscellaneous/end"),
     BURGER('B', true, "items/food/big_burger"),
     COIN('●', true, "map/miscellaneous/coin"),
     CORNER_BOT('┼', false, "map/walls/stone_corner_bot"),
@@ -73,6 +74,7 @@ public enum CellElementType {
             case ITEM -> Tools.TerminalText.green("" + symbol);
             case COIN -> Tools.TerminalText.yellow("" + symbol);
             case TRAP -> Tools.TerminalText.red("" + symbol);
+            case END -> Tools.TerminalText.blue("" + symbol);
             default -> "" + symbol;
         };
     }

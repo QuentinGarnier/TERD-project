@@ -95,10 +95,11 @@ public class Position {
         return Math.round(Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
     }
 
-    public static ArrayList<Position> calcRangePosition(){
+    public ArrayList<Position> calcRangePosition(){
         Player player = Player.getInstancePlayer();
         int range = player.getRange();
         Position pos = player.getPosition();
+        System.out.println(pos);
         WorldMap worldMap = WorldMap.getInstanceWorld();
         ArrayList<Position> res = new ArrayList<>();
         int roomId = worldMap.getCell(pos).getBaseId();
