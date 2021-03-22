@@ -40,7 +40,7 @@ public class Player extends AbstractEntity {
     private WhatHeroDoes whatHeroDoes;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), -1, EntityType.HERO_MAGE);
+        super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
         level = 1;
         experiencePoints = 0;
         hunger = 100;  //100 is the max value for the Hunger Bar

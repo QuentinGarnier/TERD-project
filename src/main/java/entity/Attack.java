@@ -8,8 +8,11 @@ import java.awt.*;
 public class Attack {
 
     public static void attack(AbstractEntity entity1, AbstractEntity entity2) {
+        if (entity2 == null) return;
 
-        if (entity2 == null || !entity1.withinReach(entity2, entity1.getRange()) || entity2.getState() == EntityState.INVULNERABLE) {
+        if (entity2 instanceof Trader){ GameWindow.addToLogs("Don't attack the merchant!", Color.WHITE); return; }
+
+        if (entity2.getState() == EntityState.INVULNERABLE) {
             GameWindow.addToLogs("Nothing happens.", Color.LIGHT_GRAY);
             return;
         }

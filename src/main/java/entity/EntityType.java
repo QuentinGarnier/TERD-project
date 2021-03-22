@@ -14,7 +14,9 @@ public enum EntityType {
     MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1, 25),
     MONSTER_ORC(CellElementType.ORC, 54, 20, 1, 70),
     MONSTER_SPIDER(CellElementType.SPIDER, 32, 5, 1, 35),
-    MONSTER_WIZARD(CellElementType.WIZARD, 20, 10, 3, 40);
+    MONSTER_WIZARD(CellElementType.WIZARD, 20, 10, 3, 40),
+
+    TRADER_MERCHANT(CellElementType.TRADER, 100, 0, 1, 0);
 
     public final CellElementType cellElementType;
     public final int HPByType;
@@ -35,7 +37,7 @@ public enum EntityType {
     }
 
     public static EntityType[] monsters() {
-        return Arrays.stream(EntityType.values()).filter(e -> !e.cellElementType.isHero()).toArray(EntityType[]::new);
+        return Arrays.stream(EntityType.values()).filter(e -> e.cellElementType.isMonster()).toArray(EntityType[]::new);
     }
 
     public boolean isHeroType() {
@@ -44,21 +46,6 @@ public enum EntityType {
 
     @Override
     public String toString() {
-        return super.toString().split("_")[1];
-    }
-
-    public String toString2() {
-        return switch (this) {
-            case HERO_ARCHER -> Tools.TerminalText.encircled(Tools.TerminalText.green(" " + toString() + " "));
-            case HERO_WARRIOR -> Tools.TerminalText.encircled(Tools.TerminalText.red(" " + toString() + " "));
-            case HERO_MAGE -> Tools.TerminalText.encircled(Tools.TerminalText.blue(" " + toString() + " "));
-
-            case MONSTER_GOBLIN -> "";
-            case MONSTER_ORC -> "";
-            case MONSTER_SPIDER -> "";
-            case MONSTER_WIZARD -> Tools.TerminalText.encircled(toString());
-
-            default -> "";
-        };
+        return this.name().split("_")[1];
     }
 }

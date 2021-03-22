@@ -15,7 +15,6 @@ public enum CellElementType {
     GOBLIN('G', false, "entities/monsters/goblin"),
     HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
     ITEM('%', true, "items/consumable/bag"),
-    MERCHANT('M', false, ""),
     HERO_A('@', false, "entities/hero/hero_02"),
     HERO_M('@', false, "entities/hero/hero_03"),
     HERO_W('@', false, "entities/hero/hero_01"),
@@ -26,7 +25,8 @@ public enum CellElementType {
     TRAP('x', true, "map/miscellaneous/trap"),
     TREE('&',false, "map/miscellaneous/tree"),
     VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
-    WIZARD('W', false, "entities/monsters/wizard");
+    WIZARD('W', false, "entities/monsters/wizard"),
+    TRADER('T', false, "");
 
     private final char symbol;
     private final boolean isAccessible;
@@ -59,6 +59,17 @@ public enum CellElementType {
             case HERO_W, HERO_A, HERO_M -> true;
             default -> false;
         };
+    }
+
+    public boolean isMonster() {
+        return switch (this) {
+            case GOBLIN, ORC, SPIDER, WIZARD -> true;
+            default -> false;
+        };
+    }
+
+    public boolean isTrader() {
+        return this == TRADER;
     }
 
     public boolean isWall(){

@@ -16,6 +16,7 @@ public class Strategy {
             case MONSTER_GOBLIN -> Goblin();
             case MONSTER_ORC, MONSTER_SPIDER -> OrcSpider();
             case MONSTER_WIZARD -> Wizard();
+            case TRADER_MERCHANT -> Trader();
         }
     }
 
@@ -38,6 +39,10 @@ public class Strategy {
         if (currentEntity.withinReach(hero, 1)) fleeHero();
         else if (!currentEntity.withinReach(hero, 3)) goCloseHero();
         else Attack.attack(currentEntity, hero);
+    }
+
+    private void Trader(){
+        if ((Trader.getInstanceTrader().isMoving())) goCloseHero();
     }
 
     public void makeMove(boolean goClose, Position p){

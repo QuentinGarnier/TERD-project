@@ -155,7 +155,7 @@ public class WorldMap {
     }
 
     public void showATH() {
-        String row0 = Player.getInstancePlayer().getEntityType().toString2() + " " + Player.getInstancePlayer().getState().getText();
+        String row0 = Player.getInstancePlayer().getEntityType().toString() + " " + Player.getInstancePlayer().getState().getText();
         int padRow0 = padding(row0);
         String row1 = "  >>> Level : " + Tools.TerminalText.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + Tools.TerminalText.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
         int padRow1 = padding(row1);
