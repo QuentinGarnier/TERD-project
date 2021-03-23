@@ -9,10 +9,12 @@ import entity.WhatHeroDoes;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 public class GameWindow extends JFrame {
     public static GameWindow window = new GameWindow();
@@ -21,6 +23,9 @@ public class GameWindow extends JFrame {
     private static GameInterfacePanel gameInterfacePanel;
     private final JScrollPane jScrollPane;
     private static boolean inGame;
+
+    private static Clip menuClip; //Destiny's Path, by Benjamin Groenke (free music from Jamendo.com)
+    private static Clip gameClip; //A Dark Hero, by Grégoire Lourme (free music from Jamendo.com)
 
     private GameWindow() {
         super();
@@ -35,18 +40,30 @@ public class GameWindow extends JFrame {
         jScrollPane.setPreferredSize(new Dimension(800,600));
         jScrollPane.setBorder(null);
 
-        //gameMenuPanel.addKeyListener(new MenuKeysActions());
+        //gameMenuPanel.addKeyListener(new MenuKeysActions()); //If we want to add keyboard interaction in the main menu.
         gamePanel.addKeyListener(new KeysActions());
     }
 
     public static void display() {
         if(inGame) {
+            if(menuClip != null) {
+                stop(menuClip);
+                menuClip = null;
+            }
+            if(gameClip == null) gameClip = play("data/audio/BGM/Dark_Heroes.wav");
             window.displayGamePanels();
             window.setScrollFrameBar();
             window.setScrollFrameBar();  //Don't erase this double line.
             gamePanel.requestFocusInWindow();
         }
-        else window.displayMenuPanels();
+        else {
+            if(gameClip != null) {
+                stop(gameClip);
+                gameClip = null;
+            }
+            if(menuClip == null) menuClip = play("data/audio/BGM/Destinys_Path.wav");
+            window.displayMenuPanels();
+        }
         window.setVisible(true);
     }
 
@@ -117,6 +134,31 @@ public class GameWindow extends JFrame {
     public static void returnToMenu() {
         window.setInGame(false);
         display();
+    }
+
+    private static Clip play(String pathname) {
+        try {
+            File audioFile1 = new File(pathname);
+            AudioInputStream audioStream1 = AudioSystem.getAudioInputStream(audioFile1);
+
+            AudioFormat format = audioStream1.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+            Clip clip = (Clip) AudioSystem.getLine(info);
+
+            clip.open(audioStream1);
+            clip.start();
+            return clip;
+        }
+        catch(Exception e) {
+            System.err.println("Error: failed to load music.");
+            return null;
+        }
+    }
+
+    private static void stop(Clip clip) {
+        clip.stop();
+        clip.close();
     }
 
 
