@@ -56,7 +56,7 @@ public enum EntityState {
                 if (entity.entityType == EntityType.HERO_WARRIOR) { entity.setAttack((int) (entity.getAttackMax() * 0.80)); text = "[-20% Attack]"; }
                 if (entity.entityType == EntityType.HERO_ARCHER) { entity.setRange(5 - 2); text = "[-2 range]"; }
                 if (entity.isHero()) GameWindow.addToLogs("HERO is paralysed! " + text, Tools.WindowText.golden);
-                else GameWindow.addToLogs("MONSTER is paralysed", Tools.WindowText.golden);
+                else GameWindow.addToLogs(entity.toString() + " is paralysed!", Tools.WindowText.golden);
                 break;
             case ENRAGED:
                 entity.setAttack(entity.getAttackMax() + 10);

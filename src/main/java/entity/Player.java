@@ -40,7 +40,7 @@ public class Player extends AbstractEntity {
     private WhatHeroDoes whatHeroDoes;
 
     private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), -1, EntityType.HERO_WARRIOR);
+        super(new Position(0, 0), -1, EntityType.HERO_ARCHER);
         level = 1;
         experiencePoints = 0;
         hunger = 100;  //100 is the max value for the Hunger Bar
@@ -230,8 +230,8 @@ public class Player extends AbstractEntity {
         Cell cell = worldMap.getCell(position);
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
-            Attack.attack(this, m);
             if (attackItem != null) attackItem.applyEffect(m);
+            Attack.attack(this, m);
             moveMonsters();
             EntityState.turnEffects(this);
             return true;
