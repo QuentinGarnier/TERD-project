@@ -7,7 +7,7 @@ public enum ConsumableTypes {
     HEALTH_POTION("Restores part of your HP."),
     TELEPORTATION_SCROLL("Teleports you in the last Merchant Room visited.");
 
-    private String effect;  //Useful for description in the inventory.
+    public final String effect;  //Useful for description in the inventory.
 
     ConsumableTypes(String effect) {
         this.effect = effect;
@@ -37,5 +37,9 @@ public enum ConsumableTypes {
     @Override
     public String toString() {
         return this.name().charAt(0) + this.name().substring(1).replace("_", " ").toLowerCase(Locale.ROOT);
+    }
+
+    public String getEffect(){
+        return effect;
     }
 }

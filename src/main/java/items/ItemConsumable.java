@@ -19,6 +19,11 @@ public class ItemConsumable extends AbstractItem {
     }
 
     @Override
+    public String getEffect() {
+        return ct.getEffect();
+    }
+
+    @Override
     public String toString() {
         return ct.toString();
     }

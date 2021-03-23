@@ -276,6 +276,6 @@ public class Player extends AbstractEntity {
 
     @Override
     public int getAttack() {
-        return super.getAttack() + (attackItem == null ? 0 : attackItem.getEquipmentType().getEffect());
+        return super.getAttack() + (attackItem == null ? 0 : attackItem.getEquipmentType().getEffectInt());
     }
 }

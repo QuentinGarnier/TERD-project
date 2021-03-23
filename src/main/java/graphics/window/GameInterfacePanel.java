@@ -137,16 +137,9 @@ public class GameInterfacePanel extends JPanel {
         for (int i = 0; i < items.size(); i++){
             JPanel line = (JPanel) realInventoryPanel.getComponent(i + 1);
             ((JLabel) line.getComponent(0)).setText(items.get(i).toString());
-            ((JLabel) line.getComponent(1)).setText(items.get(i).toString());
+            ((JLabel) line.getComponent(1)).setText(items.get(i).getEffect());
             ((JLabel) line.getComponent(2)).setText(items.get(i).getPrice() + " $");
         }
-        /*items.forEach(item -> {
-            JLabel log = createLog(item.toString(), Color.BLACK);
-            realInventoryPanel.add(log);
-        });*/
-        /*for (int i = 1; i <= 20; i++) {
-            realInventoryPanel.add(new JLabel("Displaying label "+String.valueOf(i)));
-        }*/
     }
 
     public void displayRealInventory(){

@@ -20,4 +20,9 @@ public class ItemCoin extends AbstractItem{
         GameWindow.addToLogs("You have found: " + value + " coin" + (value>1? "s": "") + "!", new Color(210,170,60));
         return true;
     }
+
+    @Override
+    public String getEffect() {
+        return null;
+    }
 }
