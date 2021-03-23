@@ -99,6 +99,9 @@ public class Cell extends JLabel {
 
     public boolean isDoor(Cell[][] lab){
         int x = position.getX(), y = position.getY();
+        if (x + 1 == WorldMap.MAX_X ||
+                y + 1 == WorldMap.MAX_Y ||
+                x == 0 || y == 0) return false;
         return (lab[x + 1][y].isWall() && lab[x - 1][y].isWall()) ||
                 (lab[x][y + 1].isWall() && lab[x][y - 1].isWall());
     }

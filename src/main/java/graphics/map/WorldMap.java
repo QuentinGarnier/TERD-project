@@ -12,7 +12,7 @@ import items.AbstractItem;
 import java.util.*;
 
 public class WorldMap {
-    private static WorldMap instanceWorld = new WorldMap();
+    private static final WorldMap instanceWorld = new WorldMap();
 
     public static final int MAX_X = 70; // to be verified
     public static final int MAX_Y = 20; // to be verified
@@ -52,10 +52,11 @@ public class WorldMap {
         Position pos = new Position(x, y);
         if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
             Position[] neighbors = pos.getNeighbor(true);
-            if (lab[x][y].isDoor(lab)) {
-                placeEnd();
-                return;
-            }
+            for (Position p : neighbors)
+                if (lab[p.getX()][p.getY()].isDoor(lab)) {
+                    placeEnd();
+                    return;
+                }
             AbstractItem.end.setPosition(new Position(x, y));
             getCell(x, y).setItem(AbstractItem.end);
             AbstractItem.end.setLocation();
