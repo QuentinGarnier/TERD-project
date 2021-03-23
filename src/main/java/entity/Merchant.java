@@ -2,7 +2,6 @@ package entity;
 
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
-import graphics.map.WorldMap;
 import items.*;
 
 import java.util.*;
@@ -21,7 +20,7 @@ public class Merchant extends AbstractEntity{
     public final static ItemType[] salableItems = {ItemType.FOOD, ItemType.CONSUMABLE, ItemType.EQUIP};
     public final static int marketSize = 10;
     public final List<AbstractItem> market;
-    private int isMoving ;
+    private int isMoving;
 
     public Merchant() throws ErrorPositionOutOfBound {
         super(new Position(0, 0), 0, EntityType.ALLY_MERCHANT);
@@ -30,7 +29,7 @@ public class Merchant extends AbstractEntity{
         isMoving = 0;
     }
 
-    public static Merchant getInstanceTrader() {
+    public static Merchant getInstanceMerchant() {
         return instanceMerchant;
     }
 

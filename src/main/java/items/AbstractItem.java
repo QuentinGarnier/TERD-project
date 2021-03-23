@@ -22,6 +22,11 @@ public abstract class AbstractItem extends JLabel {
             // TODO
             return false;
         }
+
+        @Override
+        public String getEffect() {
+            return null;
+        }
     };
     private static int idCounter = 0;
     public final ItemType type;
@@ -94,7 +99,7 @@ public abstract class AbstractItem extends JLabel {
     }
 
     public abstract boolean usePrivate() throws ErrorPositionOutOfBound;  //return true if not consumed (equip), else return false (food, consumable)
-   // public abstract String getEffect();
+    public abstract String getEffect();
 
     public void setPosition(Position position) {
         this.position = position;

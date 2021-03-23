@@ -42,4 +42,9 @@ public class ItemEquip extends AbstractItem {
     public String toString() {
         return et.toString();
     }
+
+    @Override
+    public String getEffect() {
+        return et.getEffect();
+    }
 }

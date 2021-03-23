@@ -33,7 +33,7 @@ public enum EquipmentTypes {
         return EquipmentTypes.values()[rndElt];
     }
 
-    public int getEffect() {
+    public int getEffectInt() {
         return effect;
     }
 
@@ -44,5 +44,9 @@ public enum EquipmentTypes {
     @Override
     public String toString() {
         return this.name().charAt(0) + this.name().substring(1).replace("_", " ").toLowerCase(Locale.ROOT);
+    }
+
+    public String getEffect() {
+        return "+ " + effect + " " + (isOffensive ? "attack" : "defense") + (magicEffect == null ? "" : " + " + magicEffect.toString() + " effect");
     }
 }

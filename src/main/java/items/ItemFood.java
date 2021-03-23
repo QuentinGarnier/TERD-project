@@ -3,6 +3,8 @@ package items;
 import entity.Player;
 import graphics.elements.Position;
 
+import java.util.Random;
+
 public class ItemFood extends AbstractItem {
     private final int hungerGain;
     private final int hpGain;
@@ -10,8 +12,9 @@ public class ItemFood extends AbstractItem {
     public ItemFood(int id, Position p) {
         super(id, ItemType.FOOD, p,false);
         // TODO put correct hp and hunger -> maybe a class 'FoodTypes' can be useful for the diversity
-        this.hungerGain = 0;
-        this.hpGain = 0;
+        Random gen = new Random();
+        this.hungerGain = 1 + gen.nextInt(10);
+        this.hpGain = 1 + gen.nextInt(10);
     }
 
     @Override
@@ -24,5 +27,10 @@ public class ItemFood extends AbstractItem {
     @Override
     public String toString() {
         return "Food";
+    }
+
+    @Override
+    public String getEffect() {
+        return (hpGain == 0 ? "" : hpGain + " hp") + (hungerGain == 0 ? "" : hungerGain + " hunger");
     }
 }

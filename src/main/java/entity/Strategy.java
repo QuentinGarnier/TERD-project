@@ -16,7 +16,7 @@ public class Strategy {
             case MONSTER_GOBLIN -> Goblin();
             case MONSTER_ORC, MONSTER_SPIDER -> OrcSpider();
             case MONSTER_WIZARD -> Wizard();
-            case ALLY_MERCHANT -> Trader();
+            case ALLY_MERCHANT -> Merchant();
         }
     }
 
@@ -41,8 +41,8 @@ public class Strategy {
         else Attack.attack(currentEntity, hero);
     }
 
-    private void Trader(){
-        if ((Merchant.getInstanceTrader().isMoving())) goCloseHero();
+    private void Merchant(){
+        if ((Merchant.getInstanceMerchant().isMoving())) goCloseHero();
     }
 
     public void makeMove(boolean goClose, Position p){
