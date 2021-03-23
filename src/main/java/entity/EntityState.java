@@ -73,7 +73,6 @@ public enum EntityState {
 
         if (entity.entityType == EntityType.HERO_WARRIOR && (entity.getState() == PARALYSED || entity.getState() == ENRAGED)) return;
         if (entity.entityType == EntityType.HERO_ARCHER && entity.getState() != PARALYSED) entity.setRange(5);
-        System.out.println(entity.getRange());
         if (entity.getState() != ENRAGED) entity.setAttack(entity.getAttackMax());
     }
 
