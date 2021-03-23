@@ -84,7 +84,7 @@ public class GamePanel extends JPanel {
         Player player = Player.getInstancePlayer();
         WhatHeroDoes whatHeroDoes = player.getWhatHeroDoes();
         if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK) {
-            ArrayList<Position> opaquePos = player.getPosition().calcRangePosition();
+            ArrayList<Position> opaquePos = player.getPosition().calcRangePosition(player.getRange(), true);
             for (int i = 0; i < opaquePos.size(); i++){
                 Position current = opaquePos.get(i);
                 opaqueLabels.get(i).setLocation(current.getX() * size, current.getY() * size);

@@ -100,6 +100,12 @@ public abstract class AbstractEntity extends JPanel {
         setLocation();
         worldMap.getCell(position).setEntity(this);
         Cell currentCell = worldMap.getCell(position);
+        if (this instanceof Player && currentCell.getBaseContent().equals(CellElementType.CORRIDOR)){
+            System.out.println("CIAO");
+            for (Position pos : position.calcRangePosition(2, false)){
+                worldMap.getCell(pos).removeFog();
+            }
+        }
         if (ct.isHero() && currentCell.getItem() != null) {
             if(currentCell.getItem().immediateUse) {
                 currentCell.getItem().setPosition(null);

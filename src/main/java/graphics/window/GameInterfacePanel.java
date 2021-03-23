@@ -3,15 +3,19 @@ package graphics.window;
 import entity.EntityState;
 import entity.EntityType;
 import entity.Player;
+import items.AbstractItem;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.util.List;
 
 public class GameInterfacePanel extends JPanel {
+    private final JPanel centerP;
     private final JPanel logsPanel;
     private final JPanel statsPanel;
     private final JPanel inventoryPanel;
+    private final JPanel realInventoryPanel;
 
     private final Color green = new Color(80, 140, 50);
     private final Color violet = new Color(100,60,120);
@@ -20,28 +24,31 @@ public class GameInterfacePanel extends JPanel {
     private final Color golden = new Color(210,170,60);
 
     private final int maxLog = 10;
+    private boolean displayInventory = true;
 
     GameInterfacePanel() {
         super();
-
+        centerP = new JPanel(new GridLayout(1,3));
         logsPanel = new JPanel(new GridLayout(maxLog,1));
         logsPanel.setBackground(Color.BLACK);
         statsPanel = new JPanel(new GridLayout(2,2));
         statsPanel.setBackground(Color.LIGHT_GRAY);
         inventoryPanel = new JPanel(new GridLayout(1,3));
         inventoryPanel.setBackground(Color.GRAY);
-
+        realInventoryPanel = new JPanel(new GridLayout(0, 1));
         setup();
     }
 
     void display() {
         displayStats();
         displayInventory();
+        updateInventory();
     }
 
     void refresh() {
         statsPanel.removeAll();  //clear the components
         inventoryPanel.removeAll();  //clear the components
+
         display();  //re-add the actualized components
     }
 
@@ -50,7 +57,6 @@ public class GameInterfacePanel extends JPanel {
         setPreferredSize(new Dimension(800, 170));
         setBackground(Color.DARK_GRAY);
 
-        JPanel centerP = new JPanel(new GridLayout(1,3));
         centerP.setPreferredSize(dim);
         centerP.setMinimumSize(dim);
         centerP.setMaximumSize(dim);
@@ -67,6 +73,8 @@ public class GameInterfacePanel extends JPanel {
 
         centerP.add(mainPanel);
         centerP.add(logsPanel);
+
+        setupInventoryPanel();
     }
 
     private void displayStats() {
@@ -104,6 +112,52 @@ public class GameInterfacePanel extends JPanel {
         moneyLabel.setForeground(golden);
         moneyLabel.setPreferredSize(new Dimension(400, 50));
         inventoryPanel.add(moneyLabel, BorderLayout.SOUTH);
+    }
+
+    private void createLine(String s1, String s2, String s3){
+        GridLayout layout = new GridLayout();
+        JPanel panel = new JPanel(layout);
+        JLabel fstCol = createLog(s1, Color.GRAY);
+        JLabel sndCol = createLog(s2, Color.GRAY);
+        JLabel thrCol = createLog(s3, Color.GRAY);
+        panel.add(fstCol);
+        panel.add(sndCol);
+        panel.add(thrCol);
+        realInventoryPanel.add(panel);
+    }
+
+    private void setupInventoryPanel(){
+        createLine("Name", "Effect", "Price");
+        for (int i = 0; i < 10; i ++)
+            createLine("","","");
+    }
+
+    private void updateInventory(){
+        List<AbstractItem> items = Player.getInventory();
+        for (int i = 0; i < items.size(); i++){
+            JPanel line = (JPanel) realInventoryPanel.getComponent(i + 1);
+            ((JLabel) line.getComponent(0)).setText(items.get(i).toString());
+            ((JLabel) line.getComponent(1)).setText(items.get(i).toString());
+            ((JLabel) line.getComponent(2)).setText(items.get(i).getPrice() + " $");
+        }
+        /*items.forEach(item -> {
+            JLabel log = createLog(item.toString(), Color.BLACK);
+            realInventoryPanel.add(log);
+        });*/
+        /*for (int i = 1; i <= 20; i++) {
+            realInventoryPanel.add(new JLabel("Displaying label "+String.valueOf(i)));
+        }*/
+    }
+
+    public void displayRealInventory(){
+        if (displayInventory) {
+            centerP.remove(logsPanel);
+            centerP.add(realInventoryPanel);
+        } else {
+            centerP.remove(realInventoryPanel);
+            centerP.add(logsPanel);
+        }
+        displayInventory = !displayInventory;
     }
 
     private void createTxtLabel(JPanel p, String str, Color c, int fontSize) {
@@ -152,10 +206,15 @@ public class GameInterfacePanel extends JPanel {
     }
 
     public void addToLogs(String txt, Color c) {
+        JLabel log = createLog(txt, c);
+        if(logsPanel.getComponentCount() == maxLog) logsPanel.remove(0);
+        logsPanel.add(log);
+    }
+
+    private JLabel createLog(String txt, Color c){
         JLabel log = new JLabel(txt);
         if(c != null) log.setForeground(c);
         log.setHorizontalAlignment(SwingConstants.CENTER);
-        if(logsPanel.getComponentCount() == maxLog) logsPanel.remove(0);
-        logsPanel.add(log);
+        return log;
     }
 }

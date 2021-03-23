@@ -88,9 +88,8 @@ public class Position {
         return Math.round(Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
     }
 
-    public ArrayList<Position> calcRangePosition() {
+    public ArrayList<Position> calcRangePosition(int range, boolean isAccessible) {
         Player player = Player.getInstancePlayer();
-        int range = player.getRange();
         Position pos = player.getPosition();
         WorldMap worldMap = WorldMap.getInstanceWorld();
         ArrayList<Position> res = new ArrayList<>();
@@ -100,10 +99,10 @@ public class Position {
                 Position p = new Position(pos.getX() - range + x, pos.getY() - range + y);
                 if (!p.insideWorld()) continue;
                 Cell c = worldMap.getCell(p);
-                if (p.insideWorld() &&
+                if (!isAccessible || (p.insideWorld() &&
                         !(distance(p, pos) > range) &&
                         c.getBaseContent().equals(CellElementType.EMPTY) &&
-                        c.getBaseId() == roomId) res.add(p);
+                        c.getBaseId() == roomId)) res.add(p);
             }
         return res;
     }
