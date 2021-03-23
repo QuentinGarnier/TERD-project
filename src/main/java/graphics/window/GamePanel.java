@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePanel extends JPanel {
-    private final JPanel heroLabel = Player.getInstancePlayer();
+    private JPanel heroLabel = Player.getInstancePlayer();;
     private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
     private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
     private final JLabel squareLabel = new JLabel(green);
@@ -30,6 +30,7 @@ public class GamePanel extends JPanel {
     }
 
     void display() {
+        heroLabel = Player.getInstancePlayer();
         displayMap();
     }
 

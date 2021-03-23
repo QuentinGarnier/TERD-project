@@ -26,7 +26,7 @@ public class GameWindow extends JFrame {
         super();
         setup();
 
-        inGame = true; //à mettre en false
+        inGame = false;
         gameMenuPanel = new GameMenuPanel();
         gamePanel = new GamePanel();
         gameInterfacePanel = new GameInterfacePanel();
@@ -35,9 +35,7 @@ public class GameWindow extends JFrame {
         jScrollPane.setPreferredSize(new Dimension(800,600));
         jScrollPane.setBorder(null);
 
-        add(jScrollPane);
-        add(gameInterfacePanel, BorderLayout.SOUTH);
-
+        //gameMenuPanel.addKeyListener(new MenuKeysActions());
         gamePanel.addKeyListener(new KeysActions());
     }
 
@@ -45,10 +43,10 @@ public class GameWindow extends JFrame {
         if(inGame) {
             window.displayGamePanels();
             window.setScrollFrameBar();
-        } else {
-
+            window.setScrollFrameBar();  //Don't erase this double line.
+            gamePanel.requestFocusInWindow();
         }
-        window.setScrollFrameBar(); //The window is centered (on the Player) at the start
+        else window.displayMenuPanels();
         window.setVisible(true);
     }
 
@@ -74,8 +72,22 @@ public class GameWindow extends JFrame {
     }
 
     private void displayGamePanels() {
+        clear();
+        add(jScrollPane);
+        add(gameInterfacePanel, BorderLayout.SOUTH);
+        setScrollFrameBar();
         gamePanel.display();
         gameInterfacePanel.display();
+    }
+
+    private void displayMenuPanels() {
+        clear();
+        add(gameMenuPanel);
+        gameMenuPanel.display();
+    }
+
+    private void clear() {
+        if(getContentPane().getComponentCount() > 0) getContentPane().removeAll();
     }
 
     private void setScrollFrameBar() {
@@ -92,26 +104,41 @@ public class GameWindow extends JFrame {
         gameInterfacePanel.addToLogs(txt, c);
     }
 
+    private void setInGame(boolean b) {
+        inGame = b;
+    }
+
+    public static void enterInGame() {
+        window.setInGame(true);
+        WorldMap.getInstanceWorld().generateWorld();
+        display();
+    }
+
+    public static void returnToMenu() {
+        window.setInGame(false);
+        display();
+    }
+
+
 
     private static class KeysActions implements KeyListener {
 
         private void applyCommand(Move m){
             gamePanel.repaint();
-            boolean b = false;
             Player player = Player.getInstancePlayer();
             if (player.getHP() == 0) return;
             WhatHeroDoes choice = player.getWhatHeroDoes();
             Position pos = player.getWhatHeroDoes().getP();
             switch (choice){
                 case MOVING -> {
-                    b = player.makeAction(false, m, null);
+                    player.makeAction(false, m, null);
                 }
                 case CHOOSING_ATTACK -> {
                     Position p = ChooseAttackCell.selectCase(pos, m);
                     player.getWhatHeroDoes().setP(p);
                 }
                 case ATTACKING -> {
-                    b = player.makeAction(true, null, player.getWhatHeroDoes().getP());
+                    player.makeAction(true, null, player.getWhatHeroDoes().getP());
                     ChooseAttackCell.unselectCase(pos);
                     player.setWhatHeroDoes(WhatHeroDoes.MOVING);
                     player.getWhatHeroDoes().setP(player.getPosition());
@@ -149,9 +176,14 @@ public class GameWindow extends JFrame {
                         applyCommand(null);
                     }
                 }
+                case 'i' -> {
+                    gameInterfacePanel.displayRealInventory();
+                    gameInterfacePanel.repaint();
+                }
             }
             if (player.getHP() != 0) window.setScrollFrameBar();
             gamePanel.repaint();
+            refreshInventory();
         }
     }
 }

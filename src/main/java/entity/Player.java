@@ -39,14 +39,22 @@ public class Player extends AbstractEntity {
     private int money;
     private WhatHeroDoes whatHeroDoes;
 
-    private Player() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), -1, EntityType.HERO_ARCHER);
+    private Player(Position p, EntityType speciality) throws ErrorPositionOutOfBound {
+        super(p, -1, speciality);
         level = 1;
         experiencePoints = 0;
         hunger = 100;  //100 is the max value for the Hunger Bar
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
+    }
+
+    private Player(EntityType speciality) throws ErrorPositionOutOfBound {
+        this(new Position(0, 0), EntityType.HERO_WARRIOR);
+    }
+
+    private Player() throws ErrorPositionOutOfBound {
+        this(EntityType.HERO_WARRIOR);
     }
 
     public WhatHeroDoes getWhatHeroDoes() {
@@ -162,6 +170,17 @@ public class Player extends AbstractEntity {
         if (hunger == 0) GameWindow.addToLogs("HERO DIED OF HUNGER", Color.RED);
         GameWindow.refreshInventory();
         //TODO: add death by hunger
+    }
+
+    public static void chooseSpeciality(int sp) {
+        int x = instancePlayer.getPosition().getX();
+        int y = instancePlayer.getPosition().getY();
+        Position p = new Position(x, y);
+        instancePlayer = switch(sp) {
+            case 1 -> new Player(p, EntityType.HERO_ARCHER);
+            case 2 -> new Player(p, EntityType.HERO_MAGE);
+            default -> new Player(p, EntityType.HERO_WARRIOR);
+        };
     }
 
     @Override
