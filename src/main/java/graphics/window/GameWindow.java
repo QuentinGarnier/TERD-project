@@ -148,6 +148,7 @@ public class GameWindow extends JFrame {
 
             clip.open(audioStream1);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             return clip;
         }
         catch(Exception e) {
