@@ -131,7 +131,7 @@ public class Player extends AbstractEntity {
         else {
             currentCell.setItem(ai);
             inventory.remove(index);
-            GameWindow.refreshInventory();
+            //GameWindow.refreshInventory();
         }
     }
 
@@ -168,7 +168,7 @@ public class Player extends AbstractEntity {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
         if (getState() != EntityState.POISONED || x >= 0) GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : "") + ".", Tools.WindowText.purple);
         if (hunger == 0) GameWindow.addToLogs("HERO DIED OF HUNGER", Color.RED);
-        GameWindow.refreshInventory();
+        //GameWindow.refreshInventory();
         //TODO: add death by hunger
     }
 
@@ -186,13 +186,13 @@ public class Player extends AbstractEntity {
     @Override
     public void setAttack(int att) {
         super.setAttack(att);
-        GameWindow.refreshInventory();
+        //GameWindow.refreshInventory();
     }
 
     @Override
     public void decrementRemainingTime() {
         super.decrementRemainingTime();
-        GameWindow.refreshInventory();
+        //GameWindow.refreshInventory();
     }
 
     public boolean notFrozen() {

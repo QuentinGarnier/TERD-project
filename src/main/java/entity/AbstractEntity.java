@@ -113,7 +113,7 @@ public abstract class AbstractEntity extends JPanel {
             }
             currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();
-            GameWindow.refreshInventory();
+            //GameWindow.refreshInventory();
         }
         return moved;
     }
@@ -133,6 +133,7 @@ public abstract class AbstractEntity extends JPanel {
 
     public void setPosition(int x, int y) {
         position.setPosition(x, y);
+        setLocation();
     }
 
     public void setPosition(Position p) {
@@ -161,7 +162,7 @@ public abstract class AbstractEntity extends JPanel {
                 Player.getInstancePlayer().earnXP(entityType.experienceByType);
             }
         }
-        GameWindow.refreshInventory();
+        //GameWindow.refreshInventory();
         updateBar();
     }
     public void fullHeal() {
@@ -202,7 +203,7 @@ public abstract class AbstractEntity extends JPanel {
     public void updateState(EntityState state) {
         setState(state);
         EntityState.immediateEffects(this);
-        GameWindow.refreshInventory();
+        //GameWindow.refreshInventory();
     }
 
     public int getRemainingTime() {
