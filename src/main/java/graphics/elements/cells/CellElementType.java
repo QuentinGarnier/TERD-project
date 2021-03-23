@@ -26,7 +26,7 @@ public enum CellElementType {
     TREE('&',false, "map/miscellaneous/tree"),
     VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
     WIZARD('W', false, "entities/monsters/wizard"),
-    TRADER('T', false, "");
+    MERCHANT('M', false, "map/miscellaneous/tree");
 
     private final char symbol;
     private final boolean isAccessible;
@@ -68,8 +68,8 @@ public enum CellElementType {
         };
     }
 
-    public boolean isTrader() {
-        return this == TRADER;
+    public boolean isMerchant() {
+        return this == MERCHANT;
     }
 
     public boolean isWall(){

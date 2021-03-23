@@ -1,6 +1,7 @@
 package graphics.map;
 
 import entity.Player;
+import entity.Merchant;
 import graphics.ChooseAttackCell;
 import graphics.Tools;
 import graphics.elements.*;
@@ -41,6 +42,24 @@ public class WorldMap {
         createCorridors(true);
         placePlayer();
         placeEnd();
+        //placeTrader(); bugs
+    }
+
+    public void placePlayer() {
+        Random rnd = new Random();
+        int iRoom = rnd.nextInt(rooms.size());
+        Room room = rooms.get(iRoom);
+
+        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
+        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
+        getCell(Player.getInstancePlayer().getPosition()).entityLeft();
+        if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
+            Player.getInstancePlayer().setPosition(x, y);
+            getCell(x, y).setEntity(Player.getInstancePlayer());
+            Player.getInstancePlayer().getWhatHeroDoes().setP(new Position(x, y));
+            room.setVisited();
+        }
+        else placePlayer();
     }
 
     private void placeEnd(){
@@ -62,6 +81,21 @@ public class WorldMap {
             AbstractItem.end.setLocation();
         }
         else placeEnd();
+    }
+
+    public void placeTrader() {
+        Merchant merchant = Merchant.getInstanceTrader();
+        Random rnd = new Random();
+        int safeRoom = rnd.nextInt(rooms.size());
+        Room room = rooms.get(safeRoom);
+
+        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
+        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
+        if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
+            merchant.setPosition(x, y);
+            getCell(x, y).setEntity(merchant);
+        }
+        else placeTrader();
     }
 
     private void initializeLab() {
@@ -108,23 +142,6 @@ public class WorldMap {
 
     public Cell getCell(Position p) {
         return getCell(p.getX(), p.getY());
-    }
-
-    public void placePlayer() {
-        Random rnd = new Random();
-        int iRoom = rnd.nextInt(rooms.size());
-        Room room = rooms.get(iRoom);
-
-        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
-        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
-        getCell(Player.getInstancePlayer().getPosition()).entityLeft();
-        if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
-            Player.getInstancePlayer().setPosition(x, y);
-            getCell(x, y).setEntity(Player.getInstancePlayer());
-            Player.getInstancePlayer().getWhatHeroDoes().setP(new Position(x, y));
-            room.setVisited();
-        }
-        else placePlayer();
     }
 
     public Corridor getCurrentCorridor(int x, int y){

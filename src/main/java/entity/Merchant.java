@@ -7,11 +7,11 @@ import items.*;
 
 import java.util.*;
 
-public class Trader extends AbstractEntity{
-    private static Trader instanceTrader;
+public class Merchant extends AbstractEntity{
+    private static Merchant instanceMerchant;
     static {
         try {
-            instanceTrader = new Trader();
+            instanceMerchant = new Merchant();
         } catch (ErrorPositionOutOfBound errorPositionOutOfBound) {
             errorPositionOutOfBound.printStackTrace();
         }
@@ -23,15 +23,15 @@ public class Trader extends AbstractEntity{
     public final List<AbstractItem> market;
     private int isMoving ;
 
-    public Trader() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), 0, EntityType.TRADER_MERCHANT);
-        counter = WorldMap.getInstanceWorld().getItems().size();
+    public Merchant() throws ErrorPositionOutOfBound {
+        super(new Position(0, 0), 0, EntityType.ALLY_MERCHANT);
+        counter = 0;//WorldMap.getInstanceWorld().getItems().size();
         market = generateMarket();
         isMoving = 0;
     }
 
-    public static Trader getInstanceTrader() {
-        return instanceTrader;
+    public static Merchant getInstanceTrader() {
+        return instanceMerchant;
     }
 
     private List<AbstractItem> generateMarket(){

@@ -1,6 +1,5 @@
 package entity;
 
-import graphics.Tools;
 import graphics.elements.cells.CellElementType;
 
 import java.util.Arrays;
@@ -16,7 +15,7 @@ public enum EntityType {
     MONSTER_SPIDER(CellElementType.SPIDER, 32, 5, 1, 35),
     MONSTER_WIZARD(CellElementType.WIZARD, 20, 10, 3, 40),
 
-    TRADER_MERCHANT(CellElementType.TRADER, 100, 0, 1, 0);
+    ALLY_MERCHANT(CellElementType.MERCHANT, 100, 0, 1, 0);
 
     public final CellElementType cellElementType;
     public final int HPByType;
@@ -41,8 +40,10 @@ public enum EntityType {
     }
 
     public boolean isHeroType() {
-        return this.cellElementType.isHero();
+        return cellElementType.isHero();
     }
+
+    public boolean isMerchantType() {return cellElementType.isMerchant();}
 
     @Override
     public String toString() {
