@@ -28,7 +28,7 @@ public enum EntityState {
     POISONED(Tools.TerminalText.magenta("Poisoned"), 8),
     PARALYSED(Tools.TerminalText.yellow("Paralysed"), 3),
 
-    INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 3),
+    INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 4),
     ENRAGED(Tools.TerminalText.red("Enraged"), 5),
     HEALED(Tools.TerminalText.green("Healed"), 6);
 
@@ -49,30 +49,31 @@ public enum EntityState {
     }
 
     public static void immediateEffects(AbstractEntity entity) {
-        String text = "[don't burn monsters anymore]";
+
+        String text = "";
 
         switch (entity.getState()) {
             case PARALYSED:
-                if (entity.entityType == EntityType.HERO_WARRIOR) { entity.setAttack((int) (entity.getAttackMax() * 0.80)); text = "[-20% Attack]"; }
-                if (entity.entityType == EntityType.HERO_ARCHER) { entity.setRange(5 - 2); text = "[-2 range]"; }
-                if (entity.isHero()) GameWindow.addToLogs("HERO is paralysed! " + text, Tools.WindowText.golden);
-                else GameWindow.addToLogs(entity.toString() + " is paralysed!", Tools.WindowText.golden);
+                if (entity.entityType == EntityType.HERO_WARRIOR) { entity.setAttack((int) (entity.getAttackMax() * 0.80)); text = " [-20% Attack]"; }
+                if (entity.entityType == EntityType.HERO_ARCHER) { entity.setRange(5 - 2); text = " [-2 range]"; }
+                if (entity.entityType == EntityType.HERO_MAGE) text = " [don't burn monsters anymore]";
+                GameWindow.addToLogs(entity + " is paralysed!" + text, Tools.WindowText.golden);
                 break;
             case ENRAGED:
                 entity.setAttack(entity.getAttackMax() + 10);
-                GameWindow.addToLogs("Rage makes " + entity.toString() + " stronger! [+10 attack]", Tools.WindowText.red);
+                GameWindow.addToLogs("Rage makes " + entity + " stronger! [+10 attack]", Tools.WindowText.red);
                 break;
-            case FROZEN: GameWindow.addToLogs(entity.toString() + " is frozen!", Tools.WindowText.cyan); break;
-            case POISONED: GameWindow.addToLogs(entity.toString() + " is poisoned!", Tools.WindowText.purple); break;
-            case BURNT: GameWindow.addToLogs(entity.toString() + " is burning!", Tools.WindowText.orange); break;
-            case HEALED: GameWindow.addToLogs(entity.toString() + " is healed!", Tools.WindowText.green); break;
-            case INVULNERABLE:  GameWindow.addToLogs(entity.toString() + " can't take damage!", Tools.WindowText.cyan); break;
-            //case NEUTRAL: GameWindow.addToLogs("The effect that affected " + entity.toString() + " dissipated.", Color.LIGHT_GRAY); break; even if monster is die, or if hero level up, printed
+            case FROZEN: GameWindow.addToLogs(entity + " is frozen!", Tools.WindowText.cyan); break;
+            case POISONED: GameWindow.addToLogs(entity + " is poisoned!", Tools.WindowText.purple); break;
+            case BURNT: GameWindow.addToLogs(entity + " is burning!", Tools.WindowText.orange); break;
+            case HEALED: GameWindow.addToLogs(entity + " is healed!", Tools.WindowText.green); break;
+            case INVULNERABLE:  GameWindow.addToLogs(entity + " can't take damage!", Tools.WindowText.cyan); break;
             default: break;
         }
 
         if (entity.entityType == EntityType.HERO_WARRIOR && (entity.getState() == PARALYSED || entity.getState() == ENRAGED)) return;
         if (entity.entityType == EntityType.HERO_ARCHER && entity.getState() != PARALYSED) entity.setRange(5);
+        System.out.println(entity.getRange());
         if (entity.getState() != ENRAGED) entity.setAttack(entity.getAttackMax());
     }
 

@@ -96,7 +96,7 @@ public class Player extends AbstractEntity {
         setAttack(getAttackMax());
         setHPMax((int) (getHPMax() *  1.07));
         fullHeal();
-        setState(EntityState.NEUTRAL);
+        updateState(EntityState.NEUTRAL);
     }
 
     public int getMoney() {
