@@ -42,7 +42,7 @@ public class WorldMap {
         createCorridors(true);
         placePlayer();
         placeEnd();
-        //placeTrader(); bugs
+        //placeMerchant(); bugs
     }
 
     public void placePlayer() {
@@ -83,11 +83,11 @@ public class WorldMap {
         else placeEnd();
     }
 
-    public void placeTrader() {
-        Merchant merchant = Merchant.getInstanceTrader();
+    public void placeMerchant() {
+        Merchant merchant = Merchant.getInstanceMerchant();
         Random rnd = new Random();
-        int safeRoom = rnd.nextInt(rooms.size());
-        Room room = rooms.get(safeRoom);
+        int iRoom = rnd.nextInt(rooms.size());
+        Room room = rooms.get(iRoom);
 
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
@@ -95,7 +95,7 @@ public class WorldMap {
             merchant.setPosition(x, y);
             getCell(x, y).setEntity(merchant);
         }
-        else placeTrader();
+        else placeMerchant();
     }
 
     private void initializeLab() {
