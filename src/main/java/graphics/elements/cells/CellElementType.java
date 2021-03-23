@@ -26,7 +26,7 @@ public enum CellElementType {
     TREE('&',false, "map/miscellaneous/tree"),
     VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
     WIZARD('W', false, "entities/monsters/wizard"),
-    MERCHANT('M', false, "map/miscellaneous/tree");
+    MERCHANT('M', false, "entities/merchant/merchant");
 
     private final char symbol;
     private final boolean isAccessible;
