@@ -47,16 +47,14 @@ public class WorldMap {
         Random rnd = new Random();
         int iRoom = rnd.nextInt(rooms.size());
         Room room = rooms.get(iRoom);
-        int x = /*Player.getInstancePlayer().getPosition().getX() + 1;*/ room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
-        int y = /*Player.getInstancePlayer().getPosition().getY();*/ room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
+        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
+        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
         Position pos = new Position(x, y);
         if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
             Position[] neighbors = pos.getNeighbor(true);
-            for (Position p : neighbors){
-                if (lab[p.getX()][p.getY()].isDoor(lab)) {
-                    placeEnd();
-                    return;
-                }
+            if (lab[x][y].isDoor(lab)) {
+                placeEnd();
+                return;
             }
             AbstractItem.end.setPosition(new Position(x, y));
             getCell(x, y).setItem(AbstractItem.end);
