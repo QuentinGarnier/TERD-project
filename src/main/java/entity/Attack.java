@@ -25,11 +25,11 @@ public class Attack {
                 double arrow = Math.random();
                 double target = Math.random();
                 if (target < (entity1.getState() == EntityState.POISONED ? 0.15 : 0.10)){
-                    GameWindow.addToLogs("Missed target.", Tools.WindowText.red);
+                    GameWindow.addToLogs("Missed target...", Tools.WindowText.red);
                     return;
                 }
                 else if (target >= 0.80) {
-                    GameWindow.addToLogs(entity1 + " critically hit " + entity2 + ". " + "[" + (int) (entity1.getAttack()*1.5) + " damages]", Tools.WindowText.red);
+                    GameWindow.addToLogs(entity1 + " critically hit " + entity2 + "! " + "[" + (int) (entity1.getAttack()*1.5) + " damages]", Tools.WindowText.red);
                     entity2.takeDamage((int) (entity1.getAttack()*1.5));
                 } else {
                     GameWindow.addToLogs(entity1 + " deals " + entity1.getAttack() + " damage to " + entity2 + ".", Tools.WindowText.red);
@@ -37,7 +37,6 @@ public class Attack {
                 }
                 if (arrow < 0.20 && entity2.getHP() != 0) {entity2.updateState(EntityState.POISONED); return;}
                 if (arrow >= 0.80 && entity2.getHP() != 0) entity2.updateState(EntityState.PARALYSED);
-                System.out.println(arrow + " ---- " + target);
                 return;
 
             case HERO_WARRIOR:
