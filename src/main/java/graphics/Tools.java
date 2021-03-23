@@ -55,6 +55,7 @@ public class Tools {
 
         public static final Color green = new Color(80, 140, 50);
         public static final Color purple = new Color(100,60,120);
+        public static final Color blue = new Color(50,80,140);
         public static final Color cyan = new Color(80,140,180);
         public static final Color red = new Color(140,30,30);
         public static final Color golden = new Color(210,170,60);
