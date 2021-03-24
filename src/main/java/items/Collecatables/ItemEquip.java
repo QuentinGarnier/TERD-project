@@ -1,10 +1,11 @@
-package items;
+package items.Collecatables;
 
 import entity.Monster;
 import entity.Player;
 import graphics.elements.Position;
+import items.ItemType;
 
-public class ItemEquip extends AbstractItem {
+public class ItemEquip extends AbstractCollectableItems {
     private boolean isEquipped;
     private final EquipmentTypes et;
 

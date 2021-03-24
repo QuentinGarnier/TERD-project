@@ -1,11 +1,11 @@
-package items;
+package items.Collecatables;
 
 import java.util.Locale;
 import java.util.Random;
 
 public enum ConsumableTypes {
-    HEALTH_POTION("Restores part of your HP."),
-    TELEPORTATION_SCROLL("Teleports you in the last Merchant Room visited.");
+    HEALTH_POTION("Restores 10 % of your HP."),
+    TELEPORT_SCROLL("<html>Teleports you in <br>the Merchant Room.</html>");
 
     public final String effect;  //Useful for description in the inventory.
 
@@ -22,7 +22,7 @@ public enum ConsumableTypes {
     public boolean applyEffect() {
         switch (this) {
             case HEALTH_POTION:        // TODO
-            case TELEPORTATION_SCROLL: // TODO
+            case TELEPORT_SCROLL: // TODO
         }
         return true;
     }

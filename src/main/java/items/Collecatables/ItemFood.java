@@ -1,11 +1,13 @@
-package items;
+package items.Collecatables;
 
 import entity.Player;
 import graphics.elements.Position;
+import items.Collecatables.AbstractCollectableItems;
+import items.ItemType;
 
 import java.util.Random;
 
-public class ItemFood extends AbstractItem {
+public class ItemFood extends AbstractCollectableItems {
     private final int hungerGain;
     private final int hpGain;
 
@@ -21,6 +23,7 @@ public class ItemFood extends AbstractItem {
     public boolean usePrivate() {
         Player.getInstancePlayer().modifyHunger(this.hungerGain);
         Player.getInstancePlayer().modifyHP(this.hpGain);
+        Player.removeItem(this);
         return false;
     }
 

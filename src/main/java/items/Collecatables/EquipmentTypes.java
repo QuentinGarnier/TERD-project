@@ -1,4 +1,4 @@
-package items;
+package items.Collecatables;
 
 import entity.EntityState;
 

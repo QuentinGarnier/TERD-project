@@ -5,6 +5,9 @@ import graphics.elements.Position;
 import graphics.map.WorldMap;
 import graphics.window.GamePanel;
 import graphics.window.GameWindow;
+import items.Collecatables.ItemConsumable;
+import items.Collecatables.ItemEquip;
+import items.Collecatables.ItemFood;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,11 +25,6 @@ public abstract class AbstractItem extends JLabel {
             // TODO
             return false;
         }
-
-        @Override
-        public String getEffect() {
-            return null;
-        }
     };
     private static int idCounter = 0;
     public final ItemType type;
@@ -39,7 +37,7 @@ public abstract class AbstractItem extends JLabel {
 
     private final int size;
 
-    AbstractItem(int i, ItemType t, Position position, boolean immediateUse) {
+    public AbstractItem(int i, ItemType t, Position position, boolean immediateUse) {
         this.idPosRoom = i;
         this.type = t;
         this.immediateUse = immediateUse;
@@ -99,7 +97,6 @@ public abstract class AbstractItem extends JLabel {
     }
 
     public abstract boolean usePrivate() throws ErrorPositionOutOfBound;  //return true if not consumed (equip), else return false (food, consumable)
-    public abstract String getEffect();
 
     public void setPosition(Position position) {
         this.position = position;

@@ -33,9 +33,4 @@ public class ItemTrap extends AbstractItem{
         }
         return true;
     }
-
-    @Override
-    public String getEffect() {
-        return null;
-    }
 }

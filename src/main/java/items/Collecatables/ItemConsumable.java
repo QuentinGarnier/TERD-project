@@ -1,10 +1,12 @@
-package items;
+package items.Collecatables;
 
+import entity.Player;
 import graphics.elements.Position;
+import items.ItemType;
 
 
-// POTION, TELEPORTATION -> extends ITEMCONSUMABLE --> @
-public class ItemConsumable extends AbstractItem {
+// POTION, TELEPORTATION -> extends ITEM CONSUMABLE --> @
+public class ItemConsumable extends AbstractCollectableItems {
     private final ConsumableTypes ct;
 
     public ItemConsumable(int id, Position p) {
@@ -15,6 +17,7 @@ public class ItemConsumable extends AbstractItem {
     @Override
     public boolean usePrivate() {
         ct.applyEffect();
+        Player.removeItem(this);
         return false;
     }
 

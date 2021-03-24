@@ -3,19 +3,18 @@ package graphics.window;
 import entity.EntityState;
 import entity.EntityType;
 import entity.Player;
-import items.AbstractItem;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.util.List;
 
 public class GameInterfacePanel extends JPanel {
     private final JPanel centerP;
     private final JPanel logsPanel;
     private final JPanel statsPanel;
     private final JPanel inventoryPanel;
-    private final JPanel realInventoryPanel;
+    private final InventoryPanel realInventoryPanel;
+    private final JScrollPane inventoryScrollPane;
 
     private final Color green = new Color(80, 140, 50);
     private final Color violet = new Color(100,60,120);
@@ -35,14 +34,15 @@ public class GameInterfacePanel extends JPanel {
         statsPanel.setBackground(Color.LIGHT_GRAY);
         inventoryPanel = new JPanel(new GridLayout(1,3));
         inventoryPanel.setBackground(Color.GRAY);
-        realInventoryPanel = new JPanel(new GridLayout(0, 1));
+        realInventoryPanel = InventoryPanel.inventoryPane;
+        inventoryScrollPane = new JScrollPane(realInventoryPanel);
         setup();
     }
 
     void display() {
         displayStats();
         displayInventory();
-        updateInventory();
+        realInventoryPanel.updateInventory();
     }
 
     void refresh() {
@@ -73,8 +73,6 @@ public class GameInterfacePanel extends JPanel {
 
         centerP.add(mainPanel);
         centerP.add(logsPanel);
-
-        setupInventoryPanel();
     }
 
     private void displayStats() {
@@ -114,40 +112,14 @@ public class GameInterfacePanel extends JPanel {
         inventoryPanel.add(moneyLabel, BorderLayout.SOUTH);
     }
 
-    private void createLine(String s1, String s2, String s3){
-        GridLayout layout = new GridLayout();
-        JPanel panel = new JPanel(layout);
-        JLabel fstCol = createLog(s1, Color.GRAY);
-        JLabel sndCol = createLog(s2, Color.GRAY);
-        JLabel thrCol = createLog(s3, Color.GRAY);
-        panel.add(fstCol);
-        panel.add(sndCol);
-        panel.add(thrCol);
-        realInventoryPanel.add(panel);
-    }
 
-    private void setupInventoryPanel(){
-        createLine("Name", "Effect", "Price");
-        for (int i = 0; i < 10; i ++)
-            createLine("","","");
-    }
-
-    private void updateInventory(){
-        List<AbstractItem> items = Player.getInventory();
-        for (int i = 0; i < items.size(); i++){
-            JPanel line = (JPanel) realInventoryPanel.getComponent(i + 1);
-            ((JLabel) line.getComponent(0)).setText(items.get(i).toString());
-            ((JLabel) line.getComponent(1)).setText(items.get(i).getEffect());
-            ((JLabel) line.getComponent(2)).setText(items.get(i).getPrice() + " $");
-        }
-    }
 
     public void displayRealInventory(){
         if (displayInventory) {
             centerP.remove(logsPanel);
-            centerP.add(realInventoryPanel);
+            centerP.add(inventoryScrollPane);
         } else {
-            centerP.remove(realInventoryPanel);
+            centerP.remove(inventoryScrollPane);
             centerP.add(logsPanel);
         }
         displayInventory = !displayInventory;
@@ -204,7 +176,7 @@ public class GameInterfacePanel extends JPanel {
         logsPanel.add(log);
     }
 
-    private JLabel createLog(String txt, Color c){
+    public static JLabel createLog(String txt, Color c){
         JLabel log = new JLabel(txt);
         if(c != null) log.setForeground(c);
         log.setHorizontalAlignment(SwingConstants.CENTER);

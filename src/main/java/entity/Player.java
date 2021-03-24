@@ -9,8 +9,9 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
+import items.Collecatables.AbstractCollectableItems;
 import items.AbstractItem;
-import items.ItemEquip;
+import items.Collecatables.ItemEquip;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,21 +20,13 @@ import java.util.List;
 
 
 public class Player extends AbstractEntity {
-    private static Player instancePlayer;
-
-    static {
-        try {
-            instancePlayer = new Player();
-        } catch (ErrorPositionOutOfBound errorPositionOutOfBound) {
-            errorPositionOutOfBound.printStackTrace();
-        }
-    }
+    private static Player instancePlayer = new Player();
 
     public final static int MAX_INVENTORY_SIZE = 10;
     private int level;
     private int experiencePoints;
     private int hunger;
-    private final List<AbstractItem> inventory;
+    private final List<AbstractCollectableItems> inventory;
     private ItemEquip attackItem;
     private ItemEquip defenceItem;
     private int money;
@@ -69,7 +62,7 @@ public class Player extends AbstractEntity {
         return instancePlayer;
     }
 
-    public static List<AbstractItem> getInventory() {
+    public static List<AbstractCollectableItems> getInventory() {
         return Collections.unmodifiableList(instancePlayer.inventory);
     }
 
@@ -78,7 +71,7 @@ public class Player extends AbstractEntity {
         Cell c = worldMap.getCell(p);
         if(c.getItem() != null) {
             Room r = worldMap.getRooms().get(c.getBaseId());
-            inventory.add(r.getItems().get(c.getItemId()));
+            inventory.add((AbstractCollectableItems) r.getItems().get(c.getItemId()));
         }
         else System.out.println("Nothing to pick");
     }
@@ -138,14 +131,18 @@ public class Player extends AbstractEntity {
     public static void addItem() {
         if (instancePlayer.inventory.size() < MAX_INVENTORY_SIZE) {
             AbstractItem item = WorldMap.getInstanceWorld().getCell(getInstancePlayer().getPosition()).getItem();
-            if (item != null){
+            if (item instanceof AbstractCollectableItems){
                 item.setPosition(null);
-                instancePlayer.inventory.add(item);
+                instancePlayer.inventory.add((AbstractCollectableItems) item);
                 item.setLocation();
             }
         } else {
             GameWindow.addToLogs("!! Full inventory !!", Color.RED);
         }
+    }
+
+    public static void removeItem(AbstractCollectableItems ai){
+        instancePlayer.inventory.remove(ai);
     }
 
     public void incrementMoney(int x) {
