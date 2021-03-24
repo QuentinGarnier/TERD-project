@@ -3,6 +3,9 @@ package entity;
 import graphics.elements.Position;
 import graphics.map.WorldMap;
 
+import java.util.Arrays;
+import java.util.Random;
+
 public class Strategy {
     private final AbstractEntity hero = Player.getInstancePlayer();
     private final AbstractEntity currentEntity;
@@ -42,12 +45,14 @@ public class Strategy {
     }
 
     private void Merchant(){
-        if ((Merchant.getInstanceMerchant().isMoving())) goCloseHero();
+        if ((Merchant.getInstanceMerchant().isMoving())) makeRandomMove();
+        //Merchant.getInstanceMerchant().updateMoving();
     }
 
     public void makeMove(boolean goClose, Position p){
         Position[] neighbors = currentEntity.getPosition().getNeighbor(false);
         WorldMap worldMap = WorldMap.getInstanceWorld();
+
         if (neighbors.length == 0) return;
         Position res = currentEntity.getPosition();
         double oldDist = res.distance(p);
@@ -61,6 +66,24 @@ public class Strategy {
             }
         }
         currentEntity.goTo(res);
+    }
+
+    public void makeRandomMove(){
+        Random rd = new Random();
+        WorldMap wp = WorldMap.getInstanceWorld();
+        Position[] neighbors = currentEntity.getPosition().getNeighbor(false);
+        neighbors = Arrays.stream(neighbors).filter(p -> !wp.getCell(p).isDoor()).toArray(Position[]::new);
+        Position[] neighborsTemp = neighbors;
+
+        if(!wp.getCell(currentEntity.getPosition()).isDoor()){
+            neighbors = Arrays.stream(neighbors).filter(p -> !Position.isBlockingPosition(p)).toArray(Position[]::new);
+            if (neighbors.length == 0 && Position.isBlockingPosition(currentEntity.getPosition())) neighbors = neighborsTemp;
+        }
+
+        if (neighbors.length == 0) return;
+        Position rndPos = neighbors[rd.nextInt(neighbors.length)];
+        currentEntity.goTo(rndPos);
+
     }
 
     public void fleeHero(){

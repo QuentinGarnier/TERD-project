@@ -76,7 +76,7 @@ public abstract class AbstractEntity extends JPanel {
 
     private void setup() {
         setOpaque(false);
-        if(!this.entityType.isHeroType()) add(bar(), BorderLayout.NORTH);
+        if(!entityType.isHeroType() && !entityType.isMerchantType()) add(bar(), BorderLayout.NORTH);
         add(image());
         setSize(size, size);
         setLocation();

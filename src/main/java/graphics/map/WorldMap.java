@@ -42,7 +42,7 @@ public class WorldMap {
         createCorridors(true);
         placePlayer();
         placeEnd();
-        //placeMerchant(); bugs
+        placeMerchant();
     }
 
     public void placePlayer() {
@@ -86,14 +86,20 @@ public class WorldMap {
     public void placeMerchant() {
         Merchant merchant = Merchant.getInstanceMerchant();
         Random rnd = new Random();
-        int iRoom = rnd.nextInt(rooms.size());
-        Room room = rooms.get(iRoom);
+        int safeRoomId = rnd.nextInt(rooms.size());
+        Room room = rooms.get(safeRoomId);
 
-        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
-        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
+        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 3) + 2;
+        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 3) + 2;
         if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
             merchant.setPosition(x, y);
             getCell(x, y).setEntity(merchant);
+            while(room.getMonsters().size() != 0){
+                getCell(room.getMonsters().get(0).getPosition()).entityLeft();
+                room.removeEntity(room.getMonsters().get(0));
+            }
+            merchant.setSafeRoomId(safeRoomId);
+            room.setVisited();
         }
         else placeMerchant();
     }

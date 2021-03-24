@@ -83,6 +83,12 @@ public class Position {
         return positionList.toArray(new Position[0]);
     }
 
+    public static boolean isBlockingPosition(Position p){
+        Position[] AntiBlockingCheck = p.getNeighbor(false);
+        for (Position pos : AntiBlockingCheck){ if (WorldMap.getInstanceWorld().getCell(pos).isDoor()) return true; }
+        return false;
+    }
+
     public static double distance(Position p1, Position p2){
         if (p1 == null || p2 == null) return Double.MAX_VALUE;
         return Math.round(Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));

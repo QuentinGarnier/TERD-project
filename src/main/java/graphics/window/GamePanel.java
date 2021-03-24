@@ -1,5 +1,6 @@
 package graphics.window;
 
+import entity.Merchant;
 import entity.Monster;
 import entity.Player;
 import entity.WhatHeroDoes;
@@ -43,6 +44,9 @@ public class GamePanel extends JPanel {
         Position pos = Player.getInstancePlayer().getPosition();
         add(heroLabel);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
+
+        // MERCHANT
+        add(Merchant.getInstanceMerchant());
 
         // FOG
         for(int x = 0; x < WorldMap.MAX_X; x++)

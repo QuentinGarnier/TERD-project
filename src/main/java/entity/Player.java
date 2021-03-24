@@ -210,6 +210,12 @@ public class Player extends AbstractEntity {
         if (getHP() == 0) GameWindow.addToLogs("HERO IS DEAD", Color.RED);
     }
 
+    private void moveMerchant(){
+        WorldMap worldMap = WorldMap.getInstanceWorld();
+        Cell cell = worldMap.getCell(getPosition());
+        if (cell.getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId() && (cell.getBaseContent().equals(CellElementType.EMPTY))) Merchant.getInstanceMerchant().applyStrategy();
+    }
+
     public boolean makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
         if((m == null && p == null) || getHP() == 0) return false;
         return isAttacking ? attack(p) : move(m);
@@ -224,6 +230,7 @@ public class Player extends AbstractEntity {
                 if (currentCell.getBaseContent().equals(CellElementType.END)) return false;
                 whatHeroDoes.setP(getPosition());
                 moveMonsters();
+                moveMerchant();
                 EntityState.turnEffects(this);
                 if (!currentCell.equals(oldCell)){
                     if (currentCell.getBaseContent().equals(CellElementType.CORRIDOR)){
@@ -237,6 +244,7 @@ public class Player extends AbstractEntity {
             return false;
         }
         moveMonsters();
+        moveMerchant();
         EntityState.turnEffects(this);
         return true;
     }
@@ -244,11 +252,13 @@ public class Player extends AbstractEntity {
     private boolean attack(Position position) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
+        if (cell.getEntity() instanceof Merchant) {GameWindow.addToLogs("Don't attack me... my market is not yet available, come back later!", Color.WHITE); return false;}
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             if (attackItem != null) attackItem.applyEffect(m);
             Attack.attack(this, m);
             moveMonsters();
+            moveMerchant();
             EntityState.turnEffects(this);
             return true;
         }
