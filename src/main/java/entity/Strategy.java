@@ -46,7 +46,7 @@ public class Strategy {
 
     private void Merchant(){
         if ((Merchant.getInstanceMerchant().isMoving())) makeRandomMove();
-        //Merchant.getInstanceMerchant().updateMoving();
+        Merchant.getInstanceMerchant().updateMoving();
     }
 
     public void makeMove(boolean goClose, Position p){
