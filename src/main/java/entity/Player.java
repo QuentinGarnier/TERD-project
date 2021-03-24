@@ -9,9 +9,9 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
-import items.Collecatables.AbstractCollectableItems;
+import items.Collectables.AbstractCollectableItems;
 import items.AbstractItem;
-import items.Collecatables.ItemEquip;
+import items.Collectables.ItemEquip;
 
 import java.awt.*;
 import java.util.ArrayList;

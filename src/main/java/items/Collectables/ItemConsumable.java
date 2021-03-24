@@ -1,4 +1,4 @@
-package items.Collecatables;
+package items.Collectables;
 
 import entity.Player;
 import graphics.elements.Position;

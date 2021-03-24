@@ -1,7 +1,7 @@
 package graphics.window;
 
 import entity.Player;
-import items.Collecatables.AbstractCollectableItems;
+import items.Collectables.AbstractCollectableItems;
 
 import javax.swing.*;
 import java.awt.*;

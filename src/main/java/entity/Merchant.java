@@ -3,9 +3,9 @@ package entity;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
 import items.*;
-import items.Collecatables.ItemConsumable;
-import items.Collecatables.ItemEquip;
-import items.Collecatables.ItemFood;
+import items.Collectables.ItemConsumable;
+import items.Collectables.ItemEquip;
+import items.Collectables.ItemFood;
 
 import java.util.*;
 

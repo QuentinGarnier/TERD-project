@@ -5,9 +5,9 @@ import graphics.elements.Position;
 import graphics.map.WorldMap;
 import graphics.window.GamePanel;
 import graphics.window.GameWindow;
-import items.Collecatables.ItemConsumable;
-import items.Collecatables.ItemEquip;
-import items.Collecatables.ItemFood;
+import items.Collectables.ItemConsumable;
+import items.Collectables.ItemEquip;
+import items.Collectables.ItemFood;
 
 import javax.swing.*;
 import java.awt.*;

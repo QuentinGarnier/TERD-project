@@ -1,4 +1,4 @@
-package items.Collecatables;
+package items.Collectables;
 
 import java.util.Locale;
 import java.util.Random;

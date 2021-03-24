@@ -1,4 +1,4 @@
-package items.Collecatables;
+package items.Collectables;
 
 import entity.Monster;
 import entity.Player;

@@ -1,8 +1,7 @@
-package items.Collecatables;
+package items.Collectables;
 
 import entity.Player;
 import graphics.elements.Position;
-import items.Collecatables.AbstractCollectableItems;
 import items.ItemType;
 
 import java.util.Random;
