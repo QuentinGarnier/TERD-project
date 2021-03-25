@@ -15,6 +15,7 @@ import java.util.*;
 public class WorldMap {
     private static final WorldMap instanceWorld = new WorldMap();
 
+    public static Tools.Language language;
     public static final int MAX_X = 60; // to be verified
     public static final int MAX_Y = 30; // to be verified
     public static int stageNum = 0;
@@ -26,6 +27,7 @@ public class WorldMap {
 
 
     private WorldMap() throws ErrorPositionOutOfBound {
+        language = Tools.Language.EN;
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();

@@ -62,4 +62,9 @@ public class Tools {
         public static final Color dark_golden = new Color(100, 60, 10);
         public static final Color orange = new Color(160,60,30);
     }
+
+    public enum Language {
+        EN, FR, IT;
+
+    }
 }
