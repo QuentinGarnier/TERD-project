@@ -122,7 +122,7 @@ public class WorldMap {
     public List<Room> getRooms() {
         return Collections.unmodifiableList(rooms);
     }
-    public List<Corridor> getCorridor(){
+    public List<Corridor> getCorridors(){
         return Collections.unmodifiableList(corridors);
     }
 

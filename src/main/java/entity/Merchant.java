@@ -22,7 +22,7 @@ public class Merchant extends AbstractEntity{
     }
     private int counter;
     public final static int marketSize = 10;
-    public List<AbstractCollectableItems> market;
+    private List<AbstractCollectableItems> market;
     private int isMoving;
     private int safeRoomId;
 
@@ -39,13 +39,10 @@ public class Merchant extends AbstractEntity{
     }
 
     private void generateMarket(){
-        ArrayList<AbstractItem> m = new ArrayList<>();
         for(int i = 0; i < marketSize; i++) {
             market.add(AbstractCollectableItems.generateAbstractCollItems(counter++, null));
         }
     }
-
-    public int getIsMoving() { return isMoving; }
 
     public boolean isMoving(){ return (isMoving % 3 == 0); }
 
@@ -54,4 +51,6 @@ public class Merchant extends AbstractEntity{
     public int getSafeRoomId() { return safeRoomId; }
 
     public void setSafeRoomId(int safeRoom) { this.safeRoomId = safeRoom; }
+
+    public List<AbstractCollectableItems> getMarket(){ return Collections.unmodifiableList(market); }
 }

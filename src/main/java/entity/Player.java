@@ -93,9 +93,9 @@ public class Player extends AbstractEntity {
     public void levelUp() {
         level ++;
         GameWindow.addToLogs(">>> LEVEL UP +1! <<<", Tools.WindowText.green);
-        setAttackMax((int) (getAttackMax() * 1.08));
+        setAttackMax((int) Math.round((getAttackMax() * 1.08)));
         setAttack(getAttackMax());
-        setHPMax((int) (getHPMax() *  1.07));
+        setHPMax((int) Math.round((getHPMax() *  1.07)));
         fullHeal();
         updateState(EntityState.NEUTRAL);
     }
@@ -234,7 +234,7 @@ public class Player extends AbstractEntity {
                 EntityState.turnEffects(this);
                 if (!currentCell.equals(oldCell)){
                     if (currentCell.getBaseContent().equals(CellElementType.CORRIDOR)){
-                        worldMap.getCorridor().get(currentCell.getBaseId()).setVisited();
+                        worldMap.getCorridors().get(currentCell.getBaseId()).setVisited();
                     } else {
                         worldMap.getRooms().get(currentCell.getBaseId()).setVisited();
                     }

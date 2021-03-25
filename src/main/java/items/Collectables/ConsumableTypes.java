@@ -1,5 +1,13 @@
 package items.Collectables;
 
+import entity.Merchant;
+import entity.Player;
+import graphics.Tools;
+import graphics.elements.Position;
+import graphics.elements.Room;
+import graphics.map.WorldMap;
+import graphics.window.GameWindow;
+
 import java.util.Locale;
 import java.util.Random;
 
@@ -21,14 +29,33 @@ public enum ConsumableTypes {
 
     public boolean applyEffect() {
         switch (this) {
-            case HEALTH_POTION:        // TODO
-            case TELEPORT_SCROLL: // TODO
+            case HEALTH_POTION:
+                Player pl = Player.getInstancePlayer();
+                int heal = (int)(Math.round(pl.getHPMax()*0.10));
+                GameWindow.addToLogs("+" + ((heal + pl.getHP() > pl.getHPMax()) ? pl.getHPMax() - pl.getHP() : heal) + "HP", Tools.WindowText.green);
+                pl.modifyHP(heal);
+            case TELEPORT_SCROLL: teleport(); break;
         }
         return true;
     }
 
     private void teleport(){
+        Random rnd = new Random();
+        WorldMap wp = WorldMap.getInstanceWorld();
+        Player pl = Player.getInstancePlayer();
+        Merchant mc = Merchant.getInstanceMerchant();
 
+        Room room = wp.getRooms().get(mc.getSafeRoomId());
+
+        int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
+        int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
+        wp.getCell(pl.getPosition()).entityLeft();
+        if (wp.getCell(x, y).isAccessible() && wp.getCell(x, y).getItem() == null) {
+            pl.setPosition(x, y);
+            wp.getCell(x, y).setEntity(pl);
+            pl.getWhatHeroDoes().setP(new Position(x, y));
+        }
+        else teleport();
     }
     private void potion(){
 
