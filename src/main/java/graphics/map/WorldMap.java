@@ -15,8 +15,9 @@ import java.util.*;
 public class WorldMap {
     private static final WorldMap instanceWorld = new WorldMap();
 
-    public static final int MAX_X = 70; // to be verified
-    public static final int MAX_Y = 20; // to be verified
+    public static final int MAX_X = 60; // to be verified
+    public static final int MAX_Y = 30; // to be verified
+    public static int stageNum = 0;
     private static final int maxRandomRoom = 100;
     private final Cell[][] lab;
     private final List<Room> rooms;
@@ -43,6 +44,7 @@ public class WorldMap {
         placePlayer();
         placeEnd();
         placeMerchant();
+        stageNum++;
     }
 
     public void placePlayer() {

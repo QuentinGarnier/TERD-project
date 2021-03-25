@@ -5,6 +5,8 @@ import entity.Monster;
 import entity.Player;
 import entity.WhatHeroDoes;
 import graphics.elements.Position;
+import graphics.elements.cells.Cell;
+import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 
 import javax.swing.*;
@@ -67,7 +69,16 @@ public class GamePanel extends JPanel {
 
         // BASE CONTENT
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
-            JLabel jLabel = new JLabel(new ImageIcon(worldMap.getCell(x, y).getBaseContent().getIcon().getImage()));
+            JLabel jLabel = new JLabel();
+            ImageIcon img;
+            CellElementType currentCet = worldMap.getCell(x, y).getBaseContent();
+            if(y < WorldMap.MAX_Y - 1 && currentCet.isWall()) {
+                CellElementType cet = worldMap.getCell(x, y + 1).getBaseContent();
+                img = new ImageIcon((cet.isWall() ? CellElementType.VERTICAL_WALL : currentCet).getIcon().getImage());
+            }
+            else img = new ImageIcon(currentCet.getIcon().getImage());
+
+            jLabel.setIcon(img);
             jLabel.setBounds(x * size, y * size, size, size);
             add(jLabel);
         }

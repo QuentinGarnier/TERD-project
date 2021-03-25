@@ -128,7 +128,7 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public static void addItem() {
+    public static boolean addItem() {
         if (instancePlayer.inventory.size() < MAX_INVENTORY_SIZE) {
             AbstractItem item = WorldMap.getInstanceWorld().getCell(getInstancePlayer().getPosition()).getItem();
             if (item instanceof AbstractCollectableItems){
@@ -136,8 +136,10 @@ public class Player extends AbstractEntity {
                 instancePlayer.inventory.add((AbstractCollectableItems) item);
                 item.setLocation();
             }
+            return true;
         } else {
-            GameWindow.addToLogs("!! Full inventory !!", Color.RED);
+            GameWindow.addToLogs("Full inventory !", Color.RED);
+            return false;
         }
     }
 

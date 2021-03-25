@@ -40,7 +40,7 @@ public enum ConsumableTypes {
         return true;
     }
 
-    private void teleport(){
+    private void teleport() {
         Random rnd = new Random();
         WorldMap wp = WorldMap.getInstanceWorld();
         Player pl = Player.getInstancePlayer();
@@ -55,10 +55,12 @@ public enum ConsumableTypes {
             pl.setPosition(x, y);
             wp.getCell(x, y).setEntity(pl);
             pl.getWhatHeroDoes().setP(new Position(x, y));
+            GameWindow.window.setScrollFrameBar();
         }
         else teleport();
     }
-    private void potion(){
+
+    private void potion() {
 
     }
 

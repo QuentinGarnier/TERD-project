@@ -107,7 +107,7 @@ public class GameWindow extends JFrame {
         if(getContentPane().getComponentCount() > 0) getContentPane().removeAll();
     }
 
-    private void setScrollFrameBar() {
+    public void setScrollFrameBar() {
         jScrollPane.getHorizontalScrollBar().setValue(gamePanel.getHeroPosition().x - 400);
         jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 300);
     }

@@ -2,8 +2,12 @@ package items.Collectables;
 
 import entity.Monster;
 import entity.Player;
+import graphics.Tools;
 import graphics.elements.Position;
+import graphics.window.GameWindow;
 import items.ItemType;
+
+import javax.tools.Tool;
 
 public class ItemEquip extends AbstractCollectableItems {
     private boolean isEquipped;
@@ -18,7 +22,11 @@ public class ItemEquip extends AbstractCollectableItems {
     @Override
     public boolean usePrivate() {
         Player player = Player.getInstancePlayer();
-        ItemEquip oldEquip = player.getAttackItem();
+        if(!this.getEquipmentType().entityType.equals(player.entityType)) {
+            GameWindow.addToLogs("Wrong speciality.", Tools.WindowText.red);
+            return false;
+        }
+        ItemEquip oldEquip = (getEquipmentType().isOffensive ? player.getAttackItem() : player.getDefenceItem());
         if (oldEquip != null) oldEquip.isEquipped = false;
         boolean res = this.equals(oldEquip);
         if (et.isOffensive) player.setAttackItem(res ? null : this);

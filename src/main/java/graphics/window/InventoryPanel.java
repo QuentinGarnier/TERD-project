@@ -6,6 +6,7 @@ import items.Collectables.AbstractCollectableItems;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import static graphics.window.GameInterfacePanel.createLog;
@@ -13,18 +14,21 @@ import static graphics.window.GameInterfacePanel.createLog;
 public class InventoryPanel extends JPanel {
     public final static InventoryPanel inventoryPane = new InventoryPanel();
     private InventoryPanel(){
-        setLayout(new GridLayout(0,1));
+        setLayout(new GridLayout(10,1));
     }
 
-    private void createLine(AbstractCollectableItems ai){
+    private void createLine(AbstractCollectableItems ai) {
         String s1 = (ai.equals(Player.getInstancePlayer().getDefenceItem()) ||
-                ai.equals(Player.getInstancePlayer().getAttackItem())? "(inUse) " : "") + ai.toString(), s2 = ai.getEffect(), s3 = "" + ai.getPrice();
+                ai.equals(Player.getInstancePlayer().getAttackItem())? "(Equipped) " : "") + ai.toString(), s2 = ai.getEffect(), s3 = "" + ai.getPrice();
         JButton jButton = new myButton(ai);
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         JLabel fstCol = createLog(s1, Color.GRAY);
+        fstCol.setHorizontalAlignment(SwingConstants.LEFT);
         JLabel sndCol = createLog(s2, Color.GRAY);
+        fstCol.setHorizontalAlignment(SwingConstants.LEFT);
         JLabel thrCol = createLog(s3, Color.GRAY);
+        fstCol.setHorizontalAlignment(SwingConstants.RIGHT);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         panel.add(fstCol, c);
@@ -36,6 +40,7 @@ public class InventoryPanel extends JPanel {
         panel.add(thrCol, c);
         jButton.add(panel);
         add(jButton);
+
         Dimension parentSize = getComponent(0).getPreferredSize();
         int x = (int) parentSize.getWidth(), y = (int) parentSize.getHeight();
         if (fstCol.getPreferredSize().getWidth() == 0) {

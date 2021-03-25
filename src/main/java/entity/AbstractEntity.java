@@ -33,10 +33,10 @@ public abstract class AbstractEntity extends JPanel {
         this.position = position;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
-        this.HP = entityType.HPByType;
-        this.HPMax = entityType.HPByType;
-        this.attack = entityType.attackByType;
-        this.attackMax = entityType.attackByType;
+        this.HP = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
+        this.HPMax = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
+        this.attack = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
+        this.attackMax = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
         this.range = entityType.rangeByType;
         this.state = EntityState.NEUTRAL;
         this.remainingTime = EntityState.NEUTRAL.getDuration();
@@ -107,10 +107,7 @@ public abstract class AbstractEntity extends JPanel {
                 currentCell.getItem().setPosition(null);
                 currentCell.getItem().use();
             }
-            else {
-                Player.addItem();
-                GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", Tools.WindowText.golden);
-            }
+            else if(Player.addItem()) GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", Tools.WindowText.golden);
             currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();
             //GameWindow.refreshInventory();

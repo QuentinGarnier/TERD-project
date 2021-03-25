@@ -13,11 +13,11 @@ import java.util.Random;
 
 public class Room {
     public static final int MIN_WIDTH = 5;
-    public static final int MAX_WIDTH = 7;
+    public static final int MAX_WIDTH = 12;
     public static final int MIN_HEIGHT = 5;
-    public static final int MAX_HEIGHT = 7;
-    private static final double MAX_ITEMS = 0.4;
-    private static final double MAX_MONSTERS = 0.4;
+    public static final int MAX_HEIGHT = 12;
+    private static final double MAX_ITEMS = 0.3;
+    private static final double MAX_MONSTERS = 0.3;
     private boolean hasBeenVisited;
     private final List<AbstractItem> items;
     private final List<Monster> monsters;

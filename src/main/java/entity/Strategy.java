@@ -24,36 +24,43 @@ public class Strategy {
     }
 
     private void Goblin() {
-        if (currentEntity.getHP() > currentEntity.getHPMax() / 2 ) {
-            if (currentEntity.withinReach(hero, 1)) Attack.attack(currentEntity, hero);
-            else goCloseHero();
-        } else {
+        boolean b = false;
+        boolean fleeMode = currentEntity.getHP() <= currentEntity.getHPMax() / 2;
+        if (fleeMode) {
             if (!currentEntity.withinReach(hero, 2)) increaseHP(2);
-            else fleeHero();
+            else b = fleeHero();
+        }
+        if (!b) {
+            if (currentEntity.withinReach(hero, 1)) Attack.attack(currentEntity, hero);
+            else if (!fleeMode) goCloseHero();
+            else increaseHP(2);
         }
     }
 
-    private void OrcSpider(){
+    private void OrcSpider() {
         if (currentEntity.withinReach(hero, 1)) Attack.attack(currentEntity, hero);
         else goCloseHero();
     }
 
-    private void Wizard(){
-        if (currentEntity.withinReach(hero, 1)) fleeHero();
-        else if (!currentEntity.withinReach(hero, 3)) goCloseHero();
-        else Attack.attack(currentEntity, hero);
+    private void Wizard() {
+        boolean b = false;
+        if (currentEntity.withinReach(hero, 1)) b = fleeHero();
+        if(!b) {
+            if (!currentEntity.withinReach(hero, 3)) goCloseHero();
+            else Attack.attack(currentEntity, hero);
+        }
     }
 
-    private void Merchant(){
+    private void Merchant() {
         if ((Merchant.getInstanceMerchant().isMoving())) makeRandomMove();
         Merchant.getInstanceMerchant().updateMoving();
     }
 
-    public void makeMove(boolean goClose, Position p){
+    public boolean makeMove(boolean goClose, Position p) {
         Position[] neighbors = currentEntity.getPosition().getNeighbor(false);
         WorldMap worldMap = WorldMap.getInstanceWorld();
 
-        if (neighbors.length == 0) return;
+        if (neighbors.length == 0) return false;
         Position res = currentEntity.getPosition();
         double oldDist = res.distance(p);
         for (Position ps : neighbors){
@@ -66,6 +73,7 @@ public class Strategy {
             }
         }
         currentEntity.goTo(res);
+        return !p.equals(res);
     }
 
     public void makeRandomMove(){
@@ -86,13 +94,15 @@ public class Strategy {
 
     }
 
-    public void fleeHero(){
-        makeMove(false, hero.getPosition());
+    public boolean fleeHero() {
+        return makeMove(false, hero.getPosition());
     }
 
-    public void goCloseHero(){
+    public void goCloseHero() {
         makeMove(true, hero.getPosition());
     }
 
-    public void increaseHP(int x){ currentEntity.modifyHP(x); }
+    public void increaseHP(int x) {
+        currentEntity.modifyHP(x);
+    }
 }
