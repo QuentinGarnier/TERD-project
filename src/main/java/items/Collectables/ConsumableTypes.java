@@ -29,12 +29,13 @@ public enum ConsumableTypes {
 
     public boolean applyEffect() {
         switch (this) {
-            case HEALTH_POTION:
+            case HEALTH_POTION -> {
                 Player pl = Player.getInstancePlayer();
-                int heal = (int)(Math.round(pl.getHPMax()*0.10));
+                int heal = (int) (Math.round(pl.getHPMax() * 0.10));
                 GameWindow.addToLogs("+" + ((heal + pl.getHP() > pl.getHPMax()) ? pl.getHPMax() - pl.getHP() : heal) + "HP", Tools.WindowText.green);
                 pl.modifyHP(heal);
-            case TELEPORT_SCROLL: teleport(); break;
+            }
+            case TELEPORT_SCROLL -> teleport();
         }
         return true;
     }

@@ -255,8 +255,8 @@ public class Player extends AbstractEntity {
         if (cell.getEntity() instanceof Merchant) {GameWindow.addToLogs("Don't attack me... my market is not yet available, come back later!", Color.WHITE); return false;}
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
-            if (attackItem != null) attackItem.applyEffect(m);
             Attack.attack(this, m);
+            if (attackItem != null && m.getHP() != 0) attackItem.applyEffect(m);
             moveMonsters();
             moveMerchant();
             EntityState.turnEffects(this);
