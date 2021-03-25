@@ -28,7 +28,7 @@ public class ItemEquip extends AbstractCollectableItems {
     }
 
     public void applyEffect(Monster monster) {
-        monster.setState(et.getMagicEffect());
+        monster.updateState(et.getMagicEffect());
     }
 
     public EquipmentTypes getEquipmentType() {

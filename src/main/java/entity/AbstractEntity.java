@@ -201,6 +201,7 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     public void updateState(EntityState state) {
+        if (state == null) return;
         setState(state);
         EntityState.immediateEffects(this);
         //GameWindow.refreshInventory();
