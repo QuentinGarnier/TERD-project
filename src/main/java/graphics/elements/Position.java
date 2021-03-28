@@ -105,10 +105,17 @@ public class Position {
                 Position p = new Position(pos.getX() - range + x, pos.getY() - range + y);
                 if (!p.insideWorld()) continue;
                 Cell c = worldMap.getCell(p);
-                if ((!isAccessible && !c.getBaseContent().equals(CellElementType.EMPTY)) || (p.insideWorld() &&
+                if ((!isAccessible && !c.getBaseContent().equals(CellElementType.EMPTY)) || (
+                        isAccessible &&
+                        p.insideWorld() &&
                         !(distance(p, pos) > range) &&
                         c.getBaseContent().equals(CellElementType.EMPTY) &&
-                        c.getBaseId() == roomId)) res.add(p);
+                        c.getBaseId() == roomId)) {
+                    if (!isAccessible) {
+                        System.out.println(WorldMap.getInstanceWorld().getCell(p).getBaseContent());
+                    }
+                    res.add(p);
+                }
             }
         return res;
     }

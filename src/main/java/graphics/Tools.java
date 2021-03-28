@@ -123,7 +123,10 @@ public class Tools {
     }
 
     public enum Language {
-        EN, FR, IT
-
+        EN, FR, IT;
+        public static String newGame(){
+            Language l = WorldMap.language;
+            return l == IT ? "Nuova partita" : (l == FR ? "Nouvelle partie" : "New game");
+        }
     }
 }
