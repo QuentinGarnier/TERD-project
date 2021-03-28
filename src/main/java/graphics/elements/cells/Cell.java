@@ -21,6 +21,7 @@ public class Cell extends JLabel {
     // room | corridor | outside room
     private final int baseId;
     private final CellElementType baseContent;
+    private CellElementType obstacleContent;
 
     // item
     private AbstractItem item;
@@ -71,6 +72,14 @@ public class Cell extends JLabel {
         this.entity = entity;
     }
 
+    public void setObstacle(CellElementType obstacleContent) {
+        this.obstacleContent = obstacleContent;
+    }
+
+    public CellElementType getObstacle() {
+        return obstacleContent;
+    }
+
     public int getBaseId() {
         return baseId;
     }
@@ -95,6 +104,10 @@ public class Cell extends JLabel {
 
     public boolean isWall(){
         return baseContent.isWall();
+    }
+
+    public boolean isRoom(Cell[][] lab){
+        return baseContent.equals(CellElementType.EMPTY);
     }
 
     public boolean isDoor(Cell[][] lab){
@@ -122,12 +135,13 @@ public class Cell extends JLabel {
     }
 
     public boolean isAccessible() {
-        return getMainContentType().isAccessible();
+        return getMainContentType().isAccessible() && obstacleContent == null;
     }
 
     @Override
     public String toString() {
-        return isAimed? Tools.TerminalText.encircled(getMainContentType().toString()) : getMainContentType().toString();
+        String res = obstacleContent == null ? getMainContentType().toString() : getObstacle().toString();
+        return isAimed? Tools.TerminalText.encircled(res) : res;
     }
 
     @Override

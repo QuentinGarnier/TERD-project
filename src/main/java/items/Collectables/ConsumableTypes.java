@@ -13,7 +13,7 @@ import java.util.Random;
 
 public enum ConsumableTypes {
     HEALTH_POTION("Restores 10 % of your HP."),
-    TELEPORT_SCROLL("<html>Teleports you in <br>the Merchant Room.</html>");
+    TELEPORT_SCROLL("Go to Merchant Room.");
 
     public final String effect;  //Useful for description in the inventory.
 

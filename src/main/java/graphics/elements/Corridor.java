@@ -14,6 +14,7 @@ public class Corridor {
     public Room startRoom;
     private final Random gen;
     private final Cell[][] lab;
+    private final List<Room> rooms;
 
     public Corridor(Cell[][] lab, Room r, List<Room> rooms, List<Corridor> corridors, boolean firstTime) {
         positionList = new ArrayList<>();
@@ -22,6 +23,7 @@ public class Corridor {
         this.id = corridors.size();
         this.lab = lab;
         this.startRoom = r;
+        this.rooms = rooms;
         if ((r.id == 0 && firstTime) || r.getLowestRoomNeighbor() != 0) createCorridor(r, rooms, corridors);
         hasBeenVisited = false;
     }
@@ -103,12 +105,18 @@ public class Corridor {
                     lab[end.getX()][end.getY() - 1] = new Cell(CellElementType.CORNER_BOT, lab[end.getX()][end.getY() - 1].getBaseId(), pos);
             }
             corridors.add(this);
+            addDoorToRoom(end);
         } else {
             lab[end.getX()][end.getY()] = new Cell(CellElementType.CORRIDOR, iEnd, end);
             corridors.get(iEnd).positionList.addAll(positionList);
             corridors.get(iEnd).doorList.add(start);
             corridors.get(iEnd).doorList.add(end);
         }
+        addDoorToRoom(start);
+    }
+
+    private void addDoorToRoom(Position pos){
+        rooms.get(lab[pos.getX()][pos.getY()].getBaseId()).addDoor(pos);
     }
 
     private Position eject(List<Position> Q) {

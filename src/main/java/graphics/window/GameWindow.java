@@ -173,9 +173,7 @@ public class GameWindow extends JFrame {
             WhatHeroDoes choice = player.getWhatHeroDoes();
             Position pos = player.getWhatHeroDoes().getP();
             switch (choice){
-                case MOVING -> {
-                    player.makeAction(false, m, null);
-                }
+                case MOVING -> player.makeAction(false, m, null);
                 case CHOOSING_ATTACK -> {
                     Position p = ChooseAttackCell.selectCase(pos, m);
                     player.getWhatHeroDoes().setP(p);
@@ -187,6 +185,7 @@ public class GameWindow extends JFrame {
                     player.getWhatHeroDoes().setP(player.getPosition());
                 }
             }
+            if (player.getHP() != 0) window.setScrollFrameBar();
             gamePanel.setObjective();
         }
 
@@ -223,9 +222,16 @@ public class GameWindow extends JFrame {
                     gameInterfacePanel.displayRealInventory();
                     gameInterfacePanel.repaint();
                 }
+                case 'm' -> {
+                    if (gameClip.isActive()) gameClip.stop(); else gameClip.start();
+                }
+                case '0' -> GameWindow.window.dispose();
+                case 'r' -> {
+                    player.restorePlayer();
+                    worldMap.generateWorld();
+                    display();
+                }
             }
-            if (player.getHP() != 0) window.setScrollFrameBar();
-            gamePanel.repaint();
             refreshInventory();
         }
     }

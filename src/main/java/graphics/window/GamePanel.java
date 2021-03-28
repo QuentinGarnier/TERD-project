@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePanel extends JPanel {
-    private JPanel heroLabel = Player.getInstancePlayer();;
+    private JPanel heroLabel = Player.getInstancePlayer();
     private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
     private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
     private final JLabel squareLabel = new JLabel(green);
@@ -71,13 +71,18 @@ public class GamePanel extends JPanel {
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
             JLabel jLabel = new JLabel();
             ImageIcon img;
-            CellElementType currentCet = worldMap.getCell(x, y).getBaseContent();
+            Cell currentCell = worldMap.getCell(x, y);
+            CellElementType currentCet = currentCell.getBaseContent();
+            CellElementType obstacle = currentCell.getObstacle();
             if(y < WorldMap.MAX_Y - 1 && currentCet.isWall()) {
                 CellElementType cet = worldMap.getCell(x, y + 1).getBaseContent();
                 img = new ImageIcon((cet.isWall() ? CellElementType.VERTICAL_WALL : currentCet).getIcon().getImage());
+            } else img = new ImageIcon(currentCet.getIcon().getImage());
+            if (obstacle != null) {
+                JLabel obstacleL = new JLabel(new ImageIcon(obstacle.getIcon().getImage()));
+                obstacleL.setBounds(x * size, y * size, size, size);
+                add(obstacleL);
             }
-            else img = new ImageIcon(currentCet.getIcon().getImage());
-
             jLabel.setIcon(img);
             jLabel.setBounds(x * size, y * size, size, size);
             add(jLabel);

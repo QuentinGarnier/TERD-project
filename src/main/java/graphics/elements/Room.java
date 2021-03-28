@@ -1,15 +1,13 @@
 package graphics.elements;
 
 import entity.Monster;
+import graphics.Tools;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import items.AbstractItem;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Room {
     public static final int MIN_WIDTH = 5;
@@ -19,19 +17,23 @@ public class Room {
     private static final double MAX_ITEMS = 0.3;
     private static final double MAX_MONSTERS = 0.3;
     private boolean hasBeenVisited;
-    private final List<AbstractItem> items;
+    private final List<AbstractItem> globalItems;
     private final List<Monster> monsters;
+    private final List<AbstractItem> currentRoomItems;
     private final Position topLeft;
     private final Position bottomRight;
     public final int id;
     private int lowestRoomNeighbor;
     private final Random gen;
     private final Cell[][] lab;
+    private final List<Position> doors;
 
     public Room(List<Room> roomList, Cell[][] lab, List<AbstractItem> items) throws ErrorPositionOutOfBound {
         this.id = roomList.size();
-        this.items = items;
+        this.globalItems = items;
         this.monsters = new ArrayList<>();
+        this.doors = new ArrayList<>();
+        this.currentRoomItems = new ArrayList<>();
         this.lowestRoomNeighbor = this.id;
         this.gen = new Random();
         this.topLeft = findTopLeft();
@@ -88,14 +90,33 @@ public class Room {
     }
 
     private void putItems(){
-        int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_ITEMS));
+        int nbOfElt = 2 + gen.nextInt((int) Math.round(getArea() * MAX_ITEMS));
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom();
-            AbstractItem m = AbstractItem.generateRandomItem(items.size(), pos);
+            AbstractItem m = AbstractItem.generateRandomItem(globalItems.size(), pos);
             lab[pos.getX()][pos.getY()].setItem(m);
-            items.add(m);
+            globalItems.add(m);
+            currentRoomItems.add(m);
             nbOfElt--;
         }
+    }
+
+    public void addDoor(Position door){
+        doors.add(door);
+    }
+
+    public void putObstacles() {
+        for (int x = topLeft.getX() + 1; x < bottomRight.getX(); x++)
+            for (int y = topLeft.getY() + 1; y < bottomRight.getY(); y++)
+                if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
+                    lab[x][y].setObstacle(CellElementType.TREE);
+        Position start = doors.get(0);
+        boolean[][] booleans = new boolean[getWidth() + 1][getHeight() + 1];
+        for (boolean[] aBoolean : booleans) Arrays.fill(aBoolean, false);
+        List<List<Position>> bfs = Tools.BFS(start, this, lab, null);
+        doors.forEach(door -> Tools.findPath(bfs, start, door, this, lab, booleans));
+        monsters.forEach(monster -> Tools.BFS(monster.getPosition(), this, lab, booleans));
+        currentRoomItems.forEach(item -> Tools.BFS(item.getPosition(), this, lab, booleans));
     }
 
     private void putMonsters() throws ErrorPositionOutOfBound {
@@ -103,7 +124,6 @@ public class Room {
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom();
             Monster m = Monster.generateRandomMonster(pos, monsters.size());
-            //Monster m = new Monster(pos, 100, 100, monsters.size(), EntityType.GOBLIN);
             lab[pos.getX()][pos.getY()].setEntity(m);
             monsters.add(m);
             nbOfElt--;
@@ -118,8 +138,8 @@ public class Room {
         else return getRandomPosInRoom();
     }
 
-    public List<AbstractItem> getItems() {
-        return Collections.unmodifiableList(items);
+    public List<AbstractItem> getGlobalItems() {
+        return Collections.unmodifiableList(globalItems);
     }
 
     public void setLowestRoomNeighbor(int lowestRoomNeighbor) {
@@ -187,5 +207,18 @@ public class Room {
                 lab[topLeft.getX() + x][topLeft.getY() + y].removeFog();
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(int j = topLeft.getY(); j <= bottomRight.getY(); j++) {
+            for(int i = topLeft.getX(); i <= bottomRight.getX(); i++) {
+                //sb.append(lab[i][j].getObstacle() == null ? (lab[i][j].getMainContentType().equals(lab[i][j].getBaseContent()) ? lab[i][j].getBaseContent().toString() : ".") : lab[i][j].getObstacle().toString());
+                sb.append(lab[i][j].toString());
+            }
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
     }
 }

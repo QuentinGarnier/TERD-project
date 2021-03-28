@@ -43,9 +43,11 @@ public class WorldMap {
         initializeLab();
         createRooms();
         createCorridors(true);
-        placePlayer();
         placeEnd();
         placeMerchant();
+        placePlayer();
+        rooms.forEach(Room::putObstacles);
+        //repaint();
         stageNum++;
     }
 
@@ -62,6 +64,7 @@ public class WorldMap {
             getCell(x, y).setEntity(Player.getInstancePlayer());
             Player.getInstancePlayer().getWhatHeroDoes().setP(new Position(x, y));
             room.setVisited();
+            room.addDoor(new Position(x, y));
         }
         else placePlayer();
     }
@@ -74,7 +77,7 @@ public class WorldMap {
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
         Position pos = new Position(x, y);
         if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
-            Position[] neighbors = pos.getNeighbor(true);
+            List<Position> neighbors = pos.getNeighbor(true);
             for (Position p : neighbors)
                 if (lab[p.getX()][p.getY()].isDoor(lab)) {
                     placeEnd();
@@ -104,6 +107,7 @@ public class WorldMap {
             }
             merchant.setSafeRoomId(safeRoomId);
             room.setVisited();
+            room.addDoor(new Position(x, y));
         }
         else placeMerchant();
     }
@@ -158,6 +162,10 @@ public class WorldMap {
         Cell c = getCell(x, y);
         return c.getBaseContent().equals(CellElementType.CORRIDOR) ?
                 corridors.get(c.getBaseId()) : null;
+    }
+
+    public Room getCurrentRoom(Position p){
+        return getCurrentRoom(p.getX(), p.getY());
     }
 
     public Room getCurrentRoom(int x, int y){
@@ -249,7 +257,6 @@ public class WorldMap {
                     }
                     player.getWhatHeroDoes().setP(oldPos);
                     applyCommand(null);
-                    break;
                 }
                 case 'p' -> System.out.println("You left the game.");
                 default -> gamePlayer();

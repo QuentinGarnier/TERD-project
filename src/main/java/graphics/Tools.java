@@ -1,7 +1,15 @@
 package graphics;
 
+import graphics.elements.Position;
+import graphics.elements.Room;
+import graphics.elements.cells.Cell;
+import graphics.map.WorldMap;
+
 import java.awt.*;
 import java.awt.im.InputContext;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 public class Tools {
@@ -10,6 +18,57 @@ public class Tools {
         InputContext context = InputContext.getInstance();
         Locale country = context.getLocale();
         return country.toString();
+    }
+
+    public static List<Position> findPath(List<List<Position>> P, Position start, Position end, Room r, Cell[][] lab, boolean[][] booleans){
+        List<Position> res = new ArrayList<>();
+        while (true){
+            int x = end.getX() - r.getTopLeft().getX();
+            int y = end.getY() - r.getTopLeft().getY();
+            Cell c = lab != null ? lab[end.getX()][end.getY()] : WorldMap.getInstanceWorld().getCell(end);
+            Position current = P.get(x).get(y);
+            res.add(current);
+            c.setObstacle(null);
+            if (booleans != null) booleans[x][y] = true;
+            if (current.equals(start)) break;
+            end = current;
+        }
+        return res;
+    }
+
+    public static List<List<Position>> BFS(Position start, Room r, Cell[][] lab, boolean[][] booleans){
+        List <Position> Q = new ArrayList<>();
+        List<List<Position>> P = new ArrayList<>();
+        for (int i = 0; i < r.getWidth() + 1; i++) {
+            P.add(new ArrayList<>());
+            for (int j = 0; j < r.getHeight() + 1; j++)
+                P.get(i).add(null);
+        }
+        Q.add(start); P.get(start.getX() - r.getTopLeft().getX()).set(start.getY() - r.getTopLeft().getY(), start);
+        while (Q.size() != 0){
+            Position z = Q.remove(0);
+            List<Position> ng = z.getNeighbor(true);
+            Collections.shuffle(ng);
+            for (Position p : ng){
+                int x = p.getX() - r.getTopLeft().getX();
+                int y = p.getY() - r.getTopLeft().getY();
+                Cell c = lab == null ? WorldMap.getInstanceWorld().getCell(p) : lab[p.getX()][p.getY()];
+                if (p.getX() >= r.getTopLeft().getX() && p.getX() <= r.getBottomRight().getX() &&
+                        p.getY() >= r.getTopLeft().getY() && p.getY() <= r.getBottomRight().getY() &&
+                        !c.getBaseContent().isWall() &&
+                        P.get(x).get(y) == null) {
+                    if (lab != null || c.isAccessible() || c.getEntity() != null) {
+                        P.get(x).set(y, z);
+                        Q.add(p);
+                        if (booleans != null && booleans[x][y]) {
+                            findPath(P, start, p, r, lab, booleans);
+                            Q.clear();
+                        }
+                    }
+                }
+            }
+        }
+        return P;
     }
 
     public static char universalCharOf(char key) {
@@ -64,7 +123,7 @@ public class Tools {
     }
 
     public enum Language {
-        EN, FR, IT;
+        EN, FR, IT
 
     }
 }

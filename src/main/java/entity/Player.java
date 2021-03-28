@@ -50,6 +50,19 @@ public class Player extends AbstractEntity {
         this(EntityType.HERO_WARRIOR);
     }
 
+    public void restorePlayer(){
+        inventory.clear();
+        attackItem = null;
+        defenceItem = null;
+        level = 1;
+        money = 0;
+        experiencePoints = 0;
+        hunger = 100;  //100 is the max value for the Hunger Bar
+        whatHeroDoes = WhatHeroDoes.MOVING;
+        modifyHP(getHPMax());
+        modifyHunger(100);
+    }
+
     public WhatHeroDoes getWhatHeroDoes() {
         return whatHeroDoes;
     }
@@ -71,7 +84,7 @@ public class Player extends AbstractEntity {
         Cell c = worldMap.getCell(p);
         if(c.getItem() != null) {
             Room r = worldMap.getRooms().get(c.getBaseId());
-            inventory.add((AbstractCollectableItems) r.getItems().get(c.getItemId()));
+            inventory.add((AbstractCollectableItems) r.getGlobalItems().get(c.getItemId()));
         }
         else System.out.println("Nothing to pick");
     }

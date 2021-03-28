@@ -72,7 +72,7 @@ public class Position {
         return distance(this, p);
     }
 
-    public Position[] getNeighbor(boolean worldCreation){
+    public List<Position> getNeighbor(boolean worldCreation){
         WorldMap worldMap = WorldMap.getInstanceWorld();
         List<Position> positionList = new ArrayList<>();
         Position pos;
@@ -80,11 +80,11 @@ public class Position {
             pos = Position.sumPos(this, m);
             if (pos != null && (worldCreation || worldMap.getCell(pos).isAccessible())) positionList.add(pos);
         }
-        return positionList.toArray(new Position[0]);
+        return positionList;
     }
 
     public static boolean isBlockingPosition(Position p){
-        Position[] AntiBlockingCheck = p.getNeighbor(false);
+        List<Position> AntiBlockingCheck = p.getNeighbor(false);
         for (Position pos : AntiBlockingCheck){ if (WorldMap.getInstanceWorld().getCell(pos).isDoor()) return true; }
         return false;
     }

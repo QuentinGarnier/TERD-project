@@ -1,10 +1,13 @@
 package entity;
 
+import graphics.Tools;
 import graphics.elements.Position;
+import graphics.elements.Room;
 import graphics.map.WorldMap;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Strategy {
     private final AbstractEntity hero = Player.getInstancePlayer();
@@ -57,10 +60,10 @@ public class Strategy {
     }
 
     public boolean makeMove(boolean goClose, Position p) {
-        Position[] neighbors = currentEntity.getPosition().getNeighbor(false);
+        List<Position> neighbors = currentEntity.getPosition().getNeighbor(false);
         WorldMap worldMap = WorldMap.getInstanceWorld();
 
-        if (neighbors.length == 0) return false;
+        if (neighbors.size() == 0) return false;
         Position res = currentEntity.getPosition();
         double oldDist = res.distance(p);
         for (Position ps : neighbors){
@@ -79,17 +82,17 @@ public class Strategy {
     public void makeRandomMove(){
         Random rd = new Random();
         WorldMap wp = WorldMap.getInstanceWorld();
-        Position[] neighbors = currentEntity.getPosition().getNeighbor(false);
-        neighbors = Arrays.stream(neighbors).filter(p -> !wp.getCell(p).isDoor()).toArray(Position[]::new);
-        Position[] neighborsTemp = neighbors;
+        List<Position> neighbors = currentEntity.getPosition().getNeighbor(false);
+        neighbors = neighbors.stream().filter(p -> !wp.getCell(p).isDoor()).collect(Collectors.toList());
+        List<Position> neighborsTemp = neighbors;
 
         if(!wp.getCell(currentEntity.getPosition()).isDoor()){
-            neighbors = Arrays.stream(neighbors).filter(p -> !Position.isBlockingPosition(p)).toArray(Position[]::new);
-            if (neighbors.length == 0 && Position.isBlockingPosition(currentEntity.getPosition())) neighbors = neighborsTemp;
+            neighbors = neighbors.stream().filter(p -> !Position.isBlockingPosition(p)).collect(Collectors.toList());
+            if (neighbors.size() == 0 && Position.isBlockingPosition(currentEntity.getPosition())) neighbors = neighborsTemp;
         }
 
-        if (neighbors.length == 0) return;
-        Position rndPos = neighbors[rd.nextInt(neighbors.length)];
+        if (neighbors.size() == 0) return;
+        Position rndPos = neighbors.get(rd.nextInt(neighbors.size()));
         currentEntity.goTo(rndPos);
 
     }
@@ -99,7 +102,12 @@ public class Strategy {
     }
 
     public void goCloseHero() {
-        makeMove(true, hero.getPosition());
+        Position pos = currentEntity.getPosition();
+        Room r = WorldMap.getInstanceWorld().getCurrentRoom(pos);
+        List<List<Position>> bfs = Tools.BFS(pos, r, null, null);
+        List<Position> path = Tools.findPath(bfs, pos, Player.getInstancePlayer().getPosition(), r, null, null);
+        Position res = path.get(path.size() - 2);
+        if (WorldMap.getInstanceWorld().getCell(res).isAccessible()) currentEntity.goTo(res);
     }
 
     public void increaseHP(int x) {
