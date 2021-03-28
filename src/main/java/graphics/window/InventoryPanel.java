@@ -42,9 +42,6 @@ public class InventoryPanel extends JPanel {
             fstCol.setPreferredSize(new Dimension((int) (x * 11 / 24.0), y));
             sndCol.setPreferredSize(new Dimension((int) (x * 11 / 24.0), y));
             thrCol.setPreferredSize(new Dimension((int) (x *  2 / 24.0), y));
-            System.out.println(fstCol.getPreferredSize());
-            System.out.println(sndCol.getPreferredSize());
-            System.out.println(thrCol.getPreferredSize()+ "\n\n");
         }
 
     }

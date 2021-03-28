@@ -111,9 +111,6 @@ public class Position {
                         !(distance(p, pos) > range) &&
                         c.getBaseContent().equals(CellElementType.EMPTY) &&
                         c.getBaseId() == roomId)) {
-                    if (!isAccessible) {
-                        System.out.println(WorldMap.getInstanceWorld().getCell(p).getBaseContent());
-                    }
                     res.add(p);
                 }
             }
