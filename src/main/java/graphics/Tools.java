@@ -4,13 +4,14 @@ import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.map.WorldMap;
+import graphics.window.GameWindow;
 
 import java.awt.*;
 import java.awt.im.InputContext;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
 
 public class Tools {
 
@@ -87,8 +88,56 @@ public class Tools {
         System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
     }
 
-    public static class TerminalText {
 
+
+    /**
+     * A sub class for the settings of the game.
+     */
+    public static class Settings {
+        private static Language language = Language.EN;
+        private static boolean mute = false;
+
+        public static void readSettings() {
+            try {
+                Scanner scanner = new Scanner(new File("data/config/settings.CONFIG"));
+                String line;
+                while(scanner.hasNextLine()) {
+                    line = scanner.nextLine();
+                    if(line.length() > 0) if(line.charAt(0) != '$') {
+                        String[] info = line.split(" "); //info[0] = var_name ; info[1] = var_value
+                        if (info.length > 1) {
+                            switch (info[0]) {
+                                case "sLanguage" -> language = switch (info[1]) {
+                                    case "FR" -> Language.FR;
+                                    case "IT" -> Language.IT;
+                                    default -> Language.EN;
+                                };
+                                case "sMusic" -> mute = info[1].equals("false");
+                            }
+                        }
+                    }
+                }
+                scanner.close();
+            } catch(FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static Language getLanguage() {
+            return language;
+        }
+
+        public static boolean isMuted() {
+            return mute;
+        }
+    }
+
+
+
+    /**
+     * Sub classes for the text.
+     */
+    public static class TerminalText {
         public static final String DEFAULT = "\033[0m";
         public static String black(String txt) { return "\033[30m" + txt + DEFAULT; }
         public static String red(String txt) { return "\033[31m" + txt + DEFAULT; }
@@ -110,8 +159,8 @@ public class Tools {
 
         public static String encircled(String txt) { return "\033[52m" + txt + DEFAULT; }
     }
-    public static class WindowText {
 
+    public static class WindowText {
         public static final Color green = new Color(80, 140, 50);
         public static final Color purple = new Color(100,60,120);
         public static final Color blue = new Color(50,80,140);
@@ -120,13 +169,5 @@ public class Tools {
         public static final Color golden = new Color(210,170,60);
         public static final Color dark_golden = new Color(100, 60, 10);
         public static final Color orange = new Color(160,60,30);
-    }
-
-    public enum Language {
-        EN, FR, IT;
-        public static String newGame(){
-            Language l = WorldMap.language;
-            return l == IT ? "Nuova partita" : (l == FR ? "Nouvelle partie" : "New game");
-        }
     }
 }

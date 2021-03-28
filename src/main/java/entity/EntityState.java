@@ -1,5 +1,6 @@
 package entity;
 
+import graphics.Language;
 import graphics.Tools;
 import graphics.window.GameWindow;
 
@@ -49,25 +50,21 @@ public enum EntityState {
     }
 
     public static void immediateEffects(AbstractEntity entity) {
-
-        String text = "";
-
         switch (entity.getState()) {
             case PARALYSED:
-                if (entity.entityType == EntityType.HERO_WARRIOR) { entity.setAttack((int) (entity.getAttackMax() * 0.80)); text = " [-20% Attack]"; }
-                if (entity.entityType == EntityType.HERO_ARCHER) { entity.setRange(5 - 2); text = " [-2 range]"; }
-                if (entity.entityType == EntityType.HERO_MAGE) text = " [don't burn monsters anymore]";
-                GameWindow.addToLogs(entity + " is paralysed!" + text, Tools.WindowText.golden);
+                if (entity.entityType == EntityType.HERO_WARRIOR) entity.setAttack((int) (entity.getAttackMax() * 0.80));
+                if (entity.entityType == EntityType.HERO_ARCHER) entity.setRange(5 - 2);
+                GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.golden);
                 break;
             case ENRAGED:
                 entity.setAttack(entity.getAttackMax() + 10);
-                GameWindow.addToLogs("Rage makes " + entity + " stronger! [+10 attack]", Tools.WindowText.red);
+                GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.red);
                 break;
-            case FROZEN: GameWindow.addToLogs(entity + " is frozen!", Tools.WindowText.cyan); break;
-            case POISONED: GameWindow.addToLogs(entity + " is poisoned!", Tools.WindowText.purple); break;
-            case BURNT: GameWindow.addToLogs(entity + " is burning!", Tools.WindowText.orange); break;
-            case HEALED: GameWindow.addToLogs(entity + " is healed!", Tools.WindowText.green); break;
-            case INVULNERABLE:  GameWindow.addToLogs(entity + " can't take damage!", Tools.WindowText.cyan); break;
+            case FROZEN: GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.cyan); break;
+            case POISONED: GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.purple); break;
+            case BURNT: GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.orange); break;
+            case HEALED: GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.green); break;
+            case INVULNERABLE:  GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.golden); break;
             default: break;
         }
 
@@ -88,19 +85,19 @@ public enum EntityState {
             case BURNT:
                 amount = 2;
                 entity.takeDamage(amount);
-                if (entity.isHero()) GameWindow.addToLogs("The burn inflicts you " + amount + " damage.", Tools.WindowText.orange);
+                if (entity.isHero()) GameWindow.addToLogs(Language.logBurnEffect(amount), Tools.WindowText.orange);
                 break;
             case POISONED:
                 amount = 1;
                 entity.takeDamage(amount);
                 if (entity instanceof Player){
                     ((Player) entity).modifyHunger(-1);
-                    GameWindow.addToLogs("You are suffering from poisoning. [-" + amount + " HP, -1 Hunger]", Tools.WindowText.purple);
+                    GameWindow.addToLogs(Language.logPoisonEffect(amount), Tools.WindowText.purple);
                 } break;
             case HEALED:
                 amount = 3;
                 entity.modifyHP(amount);
-                if (entity.isHero()) GameWindow.addToLogs("You are healed for " + amount + " HP.", Tools.WindowText.green);
+                if (entity.isHero()) GameWindow.addToLogs(Language.logHealEffect(amount), Tools.WindowText.green);
                 break;
             default: break;
         }

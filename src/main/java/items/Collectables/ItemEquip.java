@@ -2,6 +2,7 @@ package items.Collectables;
 
 import entity.Monster;
 import entity.Player;
+import graphics.Language;
 import graphics.Tools;
 import graphics.elements.Position;
 import graphics.window.GameWindow;
@@ -49,7 +50,7 @@ public class ItemEquip extends AbstractCollectableItems {
 
     @Override
     public String toString() {
-        return et.toString();
+        return Language.translate(et);
     }
 
     @Override

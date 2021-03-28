@@ -2,6 +2,7 @@ package graphics.window;
 
 import entity.Player;
 import graphics.ChooseAttackCell;
+import graphics.Language;
 import graphics.Tools;
 import graphics.elements.Move;
 import graphics.elements.Position;
@@ -18,6 +19,10 @@ import java.io.File;
 
 public class GameWindow extends JFrame {
     public static GameWindow window = new GameWindow();
+
+    private static Language lang;
+    private static boolean muted;
+
     private static GameMenuPanel gameMenuPanel;
     private static GamePanel gamePanel;
     private static GameInterfacePanel gameInterfacePanel;
@@ -50,7 +55,7 @@ public class GameWindow extends JFrame {
                 stop(menuClip);
                 menuClip = null;
             }
-            if(gameClip == null) gameClip = play("data/audio/BGM/Dark_Heroes.wav");
+            if(gameClip == null && !muted) gameClip = play("data/audio/BGM/Dark_Heroes.wav");
             window.displayGamePanels();
             window.setScrollFrameBar();
             window.setScrollFrameBar();  //Don't erase this double line.
@@ -61,7 +66,7 @@ public class GameWindow extends JFrame {
                 stop(gameClip);
                 gameClip = null;
             }
-            if(menuClip == null) menuClip = play("data/audio/BGM/Destinys_Path.wav");
+            if(menuClip == null && !muted) menuClip = play("data/audio/BGM/Destinys_Path.wav");
             window.displayMenuPanels();
         }
         window.setVisible(true);
@@ -81,6 +86,17 @@ public class GameWindow extends JFrame {
         Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
         setCursor(cursor);
         getContentPane().setBackground(Color.DARK_GRAY);
+        loadSettings();
+    }
+
+    private void loadSettings() {
+        Tools.Settings.readSettings();
+        lang = Tools.Settings.getLanguage();
+        muted = Tools.Settings.isMuted();
+    }
+
+    public static Language language() {
+        return lang;
     }
 
     private static void refresh() {
@@ -221,9 +237,6 @@ public class GameWindow extends JFrame {
                 case 'i' -> {
                     gameInterfacePanel.displayRealInventory();
                     gameInterfacePanel.repaint();
-                }
-                case 'm' -> {
-                    if (gameClip.isActive()) gameClip.stop(); else gameClip.start();
                 }
                 case '0' -> GameWindow.window.dispose();
                 case 'r' -> {

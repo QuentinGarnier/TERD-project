@@ -1,6 +1,7 @@
 package items.Collectables;
 
 import entity.Player;
+import graphics.Language;
 import graphics.elements.Position;
 import items.ItemType;
 
@@ -28,7 +29,7 @@ public class ItemFood extends AbstractCollectableItems {
 
     @Override
     public String toString() {
-        return "Food";
+        return Language.logFood();
     }
 
     @Override

@@ -1,10 +1,10 @@
 package entity;
 
+import graphics.Language;
 import graphics.Tools;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
 import graphics.elements.Position;
-import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
@@ -79,20 +79,10 @@ public class Player extends AbstractEntity {
         return Collections.unmodifiableList(instancePlayer.inventory);
     }
 
-    public void pickElement(Position p) {
-        WorldMap worldMap = WorldMap.getInstanceWorld();
-        Cell c = worldMap.getCell(p);
-        if(c.getItem() != null) {
-            Room r = worldMap.getRooms().get(c.getBaseId());
-            inventory.add((AbstractCollectableItems) r.getGlobalItems().get(c.getItemId()));
-        }
-        else System.out.println("Nothing to pick");
-    }
-
     public void earnXP(int xp) {
         int rate = (100 + (level - 1) * 50);
         experiencePoints += xp;
-        GameWindow.addToLogs("+" + xp + " xp", Tools.WindowText.green);
+        GameWindow.addToLogs("+" + xp + " XP.", Tools.WindowText.green);
         while (experiencePoints/rate >= 1){
             experiencePoints -= rate;
             levelUp();
@@ -105,7 +95,7 @@ public class Player extends AbstractEntity {
 
     public void levelUp() {
         level ++;
-        GameWindow.addToLogs(">>> LEVEL UP +1! <<<", Tools.WindowText.green);
+        GameWindow.addToLogs(Language.logLevelUp(), Tools.WindowText.green);
         setAttackMax((int) Math.round((getAttackMax() * 1.08)));
         setAttack(getAttackMax());
         setHPMax((int) Math.round((getHPMax() *  1.07)));
@@ -123,7 +113,7 @@ public class Player extends AbstractEntity {
 
     public boolean spendMoney(int cost) {
         if (cost > money) {
-            System.out.println(Tools.TerminalText.red("Not enough money"));
+            GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
             return false;
         }
         money -= cost;
@@ -133,7 +123,7 @@ public class Player extends AbstractEntity {
     public void throwItem(int index) {
         AbstractItem ai = inventory.get(index);
         Cell currentCell = WorldMap.getInstanceWorld().getCell(getPosition());
-        if (currentCell.getItem() != null) GameWindow.addToLogs("Can't drop item here.", Color.RED);
+        if (currentCell.getItem() != null) GameWindow.addToLogs(Language.logCantDropItem(), Color.RED);
         else {
             currentCell.setItem(ai);
             inventory.remove(index);
@@ -151,7 +141,7 @@ public class Player extends AbstractEntity {
             }
             return true;
         } else {
-            GameWindow.addToLogs("Full inventory !", Color.RED);
+            GameWindow.addToLogs(Language.logInventoryFull(), Color.RED);
             return false;
         }
     }
@@ -178,8 +168,8 @@ public class Player extends AbstractEntity {
     //Hunger is capped at 100.
     public void modifyHunger(int x) {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
-        if (getState() != EntityState.POISONED || x >= 0) GameWindow.addToLogs("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger point" + (x > 1 || x < -1 ? "s" : "") + ".", Tools.WindowText.purple);
-        if (hunger == 0) GameWindow.addToLogs("HERO DIED OF HUNGER", Color.RED);
+        if (getState() != EntityState.POISONED || x >= 0) GameWindow.addToLogs(Language.logModifyHunger(x), Tools.WindowText.purple);
+        if (hunger == 0) GameWindow.addToLogs(Language.logHeroDeath(true), Color.RED);
         //GameWindow.refreshInventory();
         //TODO: add death by hunger
     }
@@ -222,7 +212,7 @@ public class Player extends AbstractEntity {
                 }
             });
         }
-        if (getHP() == 0) GameWindow.addToLogs("HERO IS DEAD", Color.RED);
+        if (getHP() == 0) GameWindow.addToLogs(Language.logHeroDeath(false), Color.RED);
     }
 
     private void moveMerchant(){
@@ -267,7 +257,11 @@ public class Player extends AbstractEntity {
     private boolean attack(Position position) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
-        if (cell.getEntity() instanceof Merchant) {GameWindow.addToLogs("Don't attack me... my market is not yet available, come back later!", Color.WHITE); return false;}
+        if (cell.getEntity() instanceof Merchant) {
+            //TODO: interaction
+            GameWindow.addToLogs("Don't attack me... my market is not yet available, come back later!", Color.WHITE);
+            return false;
+        }
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);

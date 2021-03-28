@@ -1,6 +1,7 @@
 package graphics.window;
 
 import entity.Player;
+import graphics.Language;
 import graphics.Tools;
 
 import javax.swing.*;
@@ -56,9 +57,9 @@ public class GameMenuPanel extends JPanel {
         startScreen.setLayout(new GridLayout(5, 1));
         startScreen.add(createTitle("That time the Hero saved the Village", 32, Tools.WindowText.red));
 
-        JButton newGameButton = createMenuButton("New Game");
-        JButton optionsButton = createMenuButton("Options");
-        JButton exitButton = createMenuButton("Exit Game");
+        JButton newGameButton = createMenuButton(Language.newGame());
+        JButton optionsButton = createMenuButton(Language.options());
+        JButton exitButton = createMenuButton(Language.exitGame());
         addMenuButton(newGameButton, startScreen);
         addMenuButton(optionsButton, startScreen);
         addMenuButton(exitButton, startScreen);
@@ -78,7 +79,7 @@ public class GameMenuPanel extends JPanel {
         cons.gridx = 0;
         cons.gridy = 0;
         cons.weighty = 0.1;
-        charaScreen.add(createTitle("Choose your speciality", 26, Color.BLACK), cons);
+        charaScreen.add(createTitle(Language.chooseYourSpeciality(), 26, Color.BLACK), cons);
 
         cons.weighty = 0.8;
         cons.gridx = 0;
@@ -86,7 +87,7 @@ public class GameMenuPanel extends JPanel {
         cons.fill = GridBagConstraints.BOTH;
         charaScreen.add(createSpecPanel(), cons);
 
-        JButton backButton = createMenuButton("Back");
+        JButton backButton = createMenuButton(Language.back());
         addMouseEffect(backButton, 3);
         cons.fill = GridBagConstraints.HORIZONTAL;
         cons.gridwidth = 1;
@@ -101,7 +102,7 @@ public class GameMenuPanel extends JPanel {
         cons.weightx = 0.5;
         charaScreen.add(new JLabel(), cons);
 
-        JButton launchButton = createMenuButton("Start the Quest");
+        JButton launchButton = createMenuButton(Language.startTheQuest());
         addMouseEffect(launchButton, 4);
         cons.gridx = 2;
         cons.weightx = 0.3;
@@ -110,9 +111,9 @@ public class GameMenuPanel extends JPanel {
 
     private void fillOptionsScreen() {
         optionsScreen.setLayout(new BorderLayout());
-        optionsScreen.add(createTitle("Options", 26, Color.BLACK));
+        optionsScreen.add(createTitle(Language.options(), 26, Color.BLACK));
 
-        JButton backButton = createMenuButton("Back");
+        JButton backButton = createMenuButton(Language.back());
         addMouseEffect(backButton, 3);
         optionsScreen.add(backButton, BorderLayout.SOUTH);
     }
@@ -174,9 +175,9 @@ public class GameMenuPanel extends JPanel {
         JPanel specialitiesPanel = new JPanel(new GridLayout(1, 3));
         specialitiesPanel.setBackground(Color.BLACK);
 
-        warSpecPanel = buildSpecPanel("WARRIOR", "data/images/menu/spec_war.png", Tools.WindowText.red, 0);
-        arcSpecPanel = buildSpecPanel("ARCHER", "data/images/menu/spec_arc.png", Tools.WindowText.green, 1);
-        magSpecPanel = buildSpecPanel("MAGE", "data/images/menu/spec_mag.png", Tools.WindowText.blue, 2);
+        warSpecPanel = buildSpecPanel(Language.warriorCL(), "data/images/menu/spec_war.png", Tools.WindowText.red, 0);
+        arcSpecPanel = buildSpecPanel(Language.archerCL(), "data/images/menu/spec_arc.png", Tools.WindowText.green, 1);
+        magSpecPanel = buildSpecPanel(Language.mageCL(), "data/images/menu/spec_mag.png", Tools.WindowText.blue, 2);
 
         specialitiesPanel.add(warSpecPanel);
         specialitiesPanel.add(arcSpecPanel);
@@ -274,9 +275,9 @@ public class GameMenuPanel extends JPanel {
 
     private String descriptionForSpec() {
         return switch (charaSelected) {
-            case 0 -> "<html><p style=\"text-align: center;\">The warrior deals great melee damage and has a large amount of HP.<br />In counterpart, he loses 1 Hunger Point for each attack.</p></html>";
-            case 1 -> "<html><p style=\"text-align: center;\">The archer deals good distance damage with his very long range but has few HP.<br />Each attack has a chance to deal more damage, inflict an effect... or miss.</p></html>";
-            case 2 -> "<html><p style=\"text-align: center;\">The mage deals moderate damage in a medium range.<br />His power lies in his ability to burn his opponents and heal himself slightly with each attack.</p></html>";
+            case 0 -> Language.warriorDescription();
+            case 1 -> Language.archerDescription();
+            case 2 -> Language.mageDescription();
             default -> "No speciality selected.";
         };
     }

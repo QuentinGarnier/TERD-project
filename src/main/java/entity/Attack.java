@@ -1,5 +1,6 @@
 package entity;
 
+import graphics.Language;
 import graphics.Tools;
 import graphics.window.GameWindow;
 
@@ -11,11 +12,11 @@ public class Attack {
         if (entity2 == null) return;
 
         if (entity2.getState() == EntityState.INVULNERABLE) {
-            GameWindow.addToLogs("Nothing happens.", Color.LIGHT_GRAY);
+            GameWindow.addToLogs(Language.logNothingHappens(), Color.LIGHT_GRAY);
             return;
         }
         if (entity1.entityType != EntityType.HERO_ARCHER) {
-            GameWindow.addToLogs(entity1 + " deals " + entity1.getAttack() + " damage to " + entity2 + ".", Tools.WindowText.red);
+            GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
             entity2.takeDamage(entity1.getAttack());
         }
         switch (entity1.entityType) {
@@ -23,14 +24,14 @@ public class Attack {
                 double arrow = Math.random();
                 double target = Math.random();
                 if (target < (entity1.getState() == EntityState.POISONED ? 0.15 : 0.10)){
-                    GameWindow.addToLogs("Missed target...", Tools.WindowText.red);
+                    GameWindow.addToLogs(Language.logMissedTarget(), Tools.WindowText.red);
                     return;
                 }
                 else if (target >= 0.80) {
-                    GameWindow.addToLogs(entity1 + " critically hit " + entity2 + "! " + "[" + (int) (entity1.getAttack()*1.5) + " damages]", Tools.WindowText.red);
+                    GameWindow.addToLogs(Language.logCriticalHit(entity1, entity2, (int) (entity1.getAttack()*1.5)), Tools.WindowText.red);
                     entity2.takeDamage((int) (entity1.getAttack()*1.5));
                 } else {
-                    GameWindow.addToLogs(entity1 + " deals " + entity1.getAttack() + " damage to " + entity2 + ".", Tools.WindowText.red);
+                    GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
                     entity2.takeDamage(entity1.getAttack());
                 }
                 if (arrow < 0.20 && entity2.getHP() != 0) {entity2.updateState(EntityState.POISONED); return;}

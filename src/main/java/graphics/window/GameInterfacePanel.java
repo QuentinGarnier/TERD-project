@@ -3,6 +3,7 @@ package graphics.window;
 import entity.EntityState;
 import entity.EntityType;
 import entity.Player;
+import graphics.Language;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -81,31 +82,31 @@ public class GameInterfacePanel extends JPanel {
         //Speciality & level:
         JPanel spec = new JPanel(new GridLayout(2,1));
         spec.setBackground(Color.LIGHT_GRAY);
-        createTxtLabel(spec, player.getEntityType().toString(), (player.getEntityType() == EntityType.HERO_WARRIOR? red: (player.getEntityType() == EntityType.HERO_ARCHER? green: cyan)), 16);
-        createTxtLabel(spec, "Level: " + player.getLvl(), null);
+        createTxtLabel(spec, Language.translate(player.getEntityType()), (player.getEntityType() == EntityType.HERO_WARRIOR? red: (player.getEntityType() == EntityType.HERO_ARCHER? green: cyan)), 16);
+        createTxtLabel(spec, Language.level() + ": " + player.getLvl(), null);
         statsPanel.add(spec);
 
         //HP (add bar in the future and group it with this label):
-        createBarGroup(statsPanel,"HP: " + player.getHP() + "/" + player.getHPMax() + " ♥", red, "bar_red.png", player.getHPMax(), player.getHP());
+        createBarGroup(statsPanel, Language.hp() + ": " + player.getHP() + "/" + player.getHPMax() + " ♥", red, "bar_red.png", player.getHPMax(), player.getHP());
 
         //Hunger (add bar in the future and group it with this label):
-        createBarGroup(statsPanel,"Hunger: " + player.getHungerState(), violet, "bar_violet.png", 100, player.getHunger());
+        createBarGroup(statsPanel,Language.hunger() + ": " + Language.translateHungerState(player.getHungerState()), violet, "bar_violet.png", 100, player.getHunger());
 
         //State:
-        createLabelForStats(player.getState().toString() + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""), violet, 14);
+        createLabelForStats(Language.translate(player.getState()) + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""), violet, 14);
 
         //Attack:
-        createLabelForStats("Attack: " + player.getAttack() + " ⚔", cyan, 14);
+        createLabelForStats(Language.attack() + ": " + player.getAttack() + " ⚔", cyan, 14);
 
         //Range:
-        createLabelForStats("Range: " + player.getRange() + " ◎", green, 14);
+        createLabelForStats(Language.range() + ": " + player.getRange() + " ◎", green, 14);
     }
 
     private void displayInventory() {
-        createLabelForInventory("Press [i] to open INVENTORY", null);
+        createLabelForInventory(Language.pressIForInventory(displayInventory), null);
 
         //Money:
-        JLabel moneyLabel = new JLabel("Money: " + Player.getInstancePlayer().getMoney() + " ●");
+        JLabel moneyLabel = new JLabel(Language.money() + ": " + Player.getInstancePlayer().getMoney() + " ●");
         moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
         moneyLabel.setForeground(golden);
         moneyLabel.setPreferredSize(new Dimension(400, 50));
@@ -114,7 +115,7 @@ public class GameInterfacePanel extends JPanel {
 
 
 
-    public void displayRealInventory(){
+    public void displayRealInventory() {
         if (displayInventory) {
             centerP.remove(logsPanel);
             centerP.add(inventoryScrollPane);

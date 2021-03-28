@@ -1,6 +1,7 @@
 package items.Collectables;
 
 import entity.Player;
+import graphics.Language;
 import graphics.elements.Position;
 import items.ItemType;
 
@@ -28,6 +29,6 @@ public class ItemConsumable extends AbstractCollectableItems {
 
     @Override
     public String toString() {
-        return ct.toString();
+        return Language.translate(ct);
     }
 }

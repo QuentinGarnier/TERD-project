@@ -1,5 +1,6 @@
 package entity;
 
+import graphics.Language;
 import graphics.Tools;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
@@ -107,7 +108,7 @@ public abstract class AbstractEntity extends JPanel {
                 currentCell.getItem().setPosition(null);
                 currentCell.getItem().use();
             }
-            else if(Player.addItem()) GameWindow.addToLogs("You have found: " + currentCell.getItem() + "!", Tools.WindowText.golden);
+            else if(Player.addItem()) GameWindow.addToLogs(Language.logGainItem(currentCell.getItem()), Tools.WindowText.golden);
             currentCell.getItem().setPosition(null);
             currentCell.heroPickItem();
             //GameWindow.refreshInventory();
@@ -155,7 +156,7 @@ public abstract class AbstractEntity extends JPanel {
         if(HP == 0) {
             removeEntity();
             if (this instanceof Monster) {
-                GameWindow.addToLogs(this + " die!", Tools.WindowText.red);
+                GameWindow.addToLogs(Language.translate(this.entityType) + " " + Language.logDie() + "!", Tools.WindowText.red);
                 Player.getInstancePlayer().earnXP(entityType.experienceByType);
             }
         }
@@ -258,8 +259,8 @@ public abstract class AbstractEntity extends JPanel {
     @Override
     public String toString() {
         return switch (entityType) {
-            case HERO_ARCHER, HERO_MAGE, HERO_WARRIOR -> "HERO";
-            default -> entityType.toString();
+            case HERO_ARCHER, HERO_MAGE, HERO_WARRIOR -> Language.heroCP();
+            default -> Language.translate(entityType);
         };
     }
 }

@@ -1,6 +1,7 @@
 package items;
 
 import entity.Player;
+import graphics.Language;
 import graphics.elements.Position;
 import graphics.window.GameWindow;
 
@@ -17,7 +18,7 @@ public class ItemCoin extends AbstractItem{
     @Override
     public boolean usePrivate() {
         Player.getInstancePlayer().incrementMoney(value);
-        GameWindow.addToLogs("You have found: " + value + " coin" + (value>1? "s": "") + "!", new Color(210,170,60));
+        GameWindow.addToLogs(Language.logGainMoney(value), new Color(210,170,60));
         return true;
     }
 }

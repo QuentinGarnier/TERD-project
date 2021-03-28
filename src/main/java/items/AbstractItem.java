@@ -1,5 +1,6 @@
 package items;
 
+import graphics.Language;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
 import graphics.map.WorldMap;
@@ -18,7 +19,7 @@ public abstract class AbstractItem extends JLabel {
     public final static AbstractItem end = new AbstractItem(0, ItemType.END, null, true) {
         @Override
         public boolean usePrivate() throws ErrorPositionOutOfBound {
-            GameWindow.addToLogs("You enter the lower floor...", Color.GREEN);
+            GameWindow.addToLogs(Language.logLowerFloor(), Color.GREEN);
             WorldMap worldMap = WorldMap.getInstanceWorld();
             worldMap.generateWorld();
             GameWindow.display();
