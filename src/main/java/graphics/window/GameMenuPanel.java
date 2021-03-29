@@ -6,6 +6,7 @@ import graphics.Tools;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -22,12 +23,20 @@ public class GameMenuPanel extends JPanel {
     private JPanel magSpecPanel;
     private int charaSelected = 0;
     private final JLabel descriptionLabel = new JLabel(descriptionForSpec());
+    private final JCheckBox soundCheckBox = new JCheckBox();
+
+    private Language language;
+    private JButton langENButton;
+    private JButton langFRButton;
+    private JButton langITButton;
 
     GameMenuPanel() {
         super();
         setLayout(new BorderLayout());
         setFocusable(true);
         setBackground(Color.DARK_GRAY);
+
+        language = GameWindow.language();
 
         setupScreens();
         warSpecPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden));
@@ -111,11 +120,93 @@ public class GameMenuPanel extends JPanel {
 
     private void fillOptionsScreen() {
         optionsScreen.setLayout(new BorderLayout());
-        optionsScreen.add(createTitle(Language.options(), 26, Color.BLACK));
+        optionsScreen.add(createTitle(Language.options(), 26, Color.BLACK), BorderLayout.NORTH);
+        JPanel centerP = new JPanel(new BorderLayout());
+        JPanel lastP = new JPanel(new BorderLayout());
+        centerP.setBackground(Color.GRAY);
+        lastP.setBackground(Color.GRAY);
 
         JButton backButton = createMenuButton(Language.back());
         addMouseEffect(backButton, 3);
-        optionsScreen.add(backButton, BorderLayout.SOUTH);
+        JButton validateButton = createMenuButton("Validate");
+        addMouseEffect(validateButton, 5);
+        JPanel footer = new JPanel();
+        footer.setBackground(Color.GRAY);
+        footer.add(backButton);
+        footer.add(validateButton);
+        optionsScreen.add(footer, BorderLayout.SOUTH);
+
+        JPanel langArea = new JPanel(new BorderLayout());
+        langArea.setBackground(Color.GRAY);
+        langArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+        JPanel flagArea = new JPanel(new GridLayout(1,3));
+        flagArea.setBackground(Color.GRAY);
+        flagArea.setMaximumSize(new Dimension(500, 109));
+        langENButton = createFlagButton("data/images/menu/opt_uk.png");
+        langFRButton = createFlagButton("data/images/menu/opt_fr.png");
+        langITButton = createFlagButton("data/images/menu/opt_it.png");
+        langBorders();
+        addMouseEffectFlag(langENButton, Language.EN);
+        addMouseEffectFlag(langFRButton, Language.FR);
+        addMouseEffectFlag(langITButton, Language.IT);
+
+        addForFlagArea(flagArea, langENButton);
+        addForFlagArea(flagArea, langFRButton);
+        addForFlagArea(flagArea, langITButton);
+
+        JLabel setLangLabel = createTitle("Select the language", 16, Color.BLACK);
+        setLangLabel.setPreferredSize(new Dimension(500, 40));
+
+        JPanel muteP = new JPanel(new GridLayout(1, 2));
+        muteP.setBackground(Color.GRAY);
+        JLabel muteLabel = createTitle("Son du jeu ", 16, Color.BLACK);
+        muteLabel.setPreferredSize(new Dimension(500, 40));
+        muteLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        muteP.add(muteLabel);
+
+        JPanel checkBoxPanel = new JPanel(new BorderLayout());
+        checkBoxPanel.setBackground(Color.GRAY);
+        checkBoxPanel.add(soundCheckBox, BorderLayout.WEST);
+        soundCheckBox.setBackground(Color.GRAY);
+        soundCheckBox.setSelected(!GameWindow.isMuted());
+
+        muteP.add(checkBoxPanel);
+        muteP.setPreferredSize(new Dimension(500, 100));
+        langArea.add(setLangLabel, BorderLayout.NORTH);
+        langArea.add(flagArea, BorderLayout.SOUTH);
+        centerP.add(langArea, BorderLayout.NORTH);
+        centerP.add(lastP);
+        lastP.add(muteP, BorderLayout.NORTH);
+        optionsScreen.add(centerP);
+    }
+
+    private void langBorders() {
+        langENButton.setBorder(language == Language.EN? bigBorder(true) : bigBorder(false));
+        langFRButton.setBorder(language == Language.FR? bigBorder(true) : bigBorder(false));
+        langITButton.setBorder(language == Language.IT? bigBorder(true) : bigBorder(false));
+    }
+
+    private Border bigBorder(boolean colored) {
+        return BorderFactory.createCompoundBorder(
+                (colored? BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden): BorderFactory.createBevelBorder(BevelBorder.RAISED)),
+                BorderFactory.createLineBorder((colored? Tools.WindowText.golden: Color.WHITE), 4));
+    }
+
+    private void addForFlagArea(JPanel area, JButton button) {
+        JPanel panel = new JPanel(new FlowLayout());
+        panel.setBackground(Color.GRAY);
+        panel.add(button);
+        area.add(panel);
+    }
+
+    private JButton createFlagButton(String pathname) {
+        ImageIcon img = new ImageIcon(pathname);
+        JButton button = new JButton(img);
+        button.setMaximumSize(new Dimension(175, 109));
+        button.setBorder(null);
+        //button.setContentAreaFilled(false);
+        return button;
     }
 
     void display() {
@@ -290,7 +381,7 @@ public class GameMenuPanel extends JPanel {
     /**
      * Add an effect to a JButton (click and hover).
      * @param button a JButton, should be not null
-     * @param effect one of 0 (new game), 1 (options), 2 (exit), 3 (back to StartScreen) or 4 (launch)
+     * @param effect one of 0 (new game), 1 (options), 2 (exit), 3 (back to StartScreen), 4 (launch) or 5 (save settings)
      */
     private void addMouseEffect(JButton button, int effect) {
         Color bg = button.getBackground();
@@ -306,23 +397,49 @@ public class GameMenuPanel extends JPanel {
                     case 2 -> System.exit(0);
                     case 3 -> goToScreen(0);
                     case 4 -> launch();
+                    case 5 -> setSettings();
                 }
             }
-
             @Override
             public void mousePressed(MouseEvent e) {}
-
             @Override
             public void mouseReleased(MouseEvent e) {}
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(hoverBG);
             }
-
             @Override
             public void mouseExited(MouseEvent e) {
                 button.setBackground(bg);
+            }
+        });
+    }
+
+    private void addMouseEffectFlag(JButton button, Language l) {
+        String langURL = switch (l) {
+            case EN -> "uk";
+            case FR -> "fr";
+            case IT -> "it";
+        };
+        Icon img = button.getIcon();
+        ImageIcon hover = new ImageIcon("data/images/menu/opt_" + langURL + "_hover.png");
+        button.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                language = l;
+                langBorders();
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setIcon(hover);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setIcon(img);
             }
         });
     }
@@ -332,5 +449,12 @@ public class GameMenuPanel extends JPanel {
         state = 0;
         Player.chooseSpeciality(charaSelected);
         GameWindow.enterInGame();
+    }
+
+    private void setSettings() {
+        Tools.Settings.saveSettings(language, soundCheckBox.isSelected());
+        GameWindow.setSettings(language, soundCheckBox.isSelected());
+        goToScreen(0);
+        GameWindow.playOrStopMenuMusic();
     }
 }

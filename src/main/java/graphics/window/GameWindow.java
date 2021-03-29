@@ -50,16 +50,24 @@ public class GameWindow extends JFrame {
     }
 
     public static void display() {
+        playMusics();
+        if(inGame) {
+            window.displayGamePanels();
+            window.setScrollFrameBar();
+            window.setScrollFrameBar();  //Don't erase this double line.
+            gamePanel.requestFocusInWindow();
+        }
+        else window.displayMenuPanels();
+        window.setVisible(true);
+    }
+
+    private static void playMusics() {
         if(inGame) {
             if(menuClip != null) {
                 stop(menuClip);
                 menuClip = null;
             }
             if(gameClip == null && !muted) gameClip = play("data/audio/BGM/Dark_Heroes.wav");
-            window.displayGamePanels();
-            window.setScrollFrameBar();
-            window.setScrollFrameBar();  //Don't erase this double line.
-            gamePanel.requestFocusInWindow();
         }
         else {
             if(gameClip != null) {
@@ -67,9 +75,17 @@ public class GameWindow extends JFrame {
                 gameClip = null;
             }
             if(menuClip == null && !muted) menuClip = play("data/audio/BGM/Destinys_Path.wav");
-            window.displayMenuPanels();
         }
-        window.setVisible(true);
+    }
+
+    public static void playOrStopMenuMusic() {
+        if(!inGame) {
+            if(!muted && menuClip == null) menuClip = play("data/audio/BGM/Destinys_Path.wav");
+            else if(muted && menuClip != null) {
+                stop(menuClip);
+                menuClip = null;
+            }
+        }
     }
 
     private void setup() {
@@ -90,13 +106,22 @@ public class GameWindow extends JFrame {
     }
 
     private void loadSettings() {
-        Tools.Settings.readSettings();
+        Tools.Settings.loadSettings();
         lang = Tools.Settings.getLanguage();
         muted = Tools.Settings.isMuted();
     }
 
+    public static void setSettings(Language l, boolean sound) {
+        lang = l;
+        muted = !sound;
+    }
+
     public static Language language() {
         return lang;
+    }
+
+    public static boolean isMuted() {
+        return muted;
     }
 
     private static void refresh() {

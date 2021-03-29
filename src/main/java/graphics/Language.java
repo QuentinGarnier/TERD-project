@@ -73,7 +73,7 @@ public enum Language {
                 "Le mage inflige des dégâts modérés dans une portée moyenne.",
                 "Il mago infligge dei danni moderati con un raggio d'attacco medio.");
         String body2 = lang("His power lies in his ability to burn his opponents and heal himself slightly with each attack.",
-                "Sa puissance réside dans sa capactié à brûler ses adversaires et se soigner légèrement à chaque attaque.",
+                "Sa force réside dans sa capactié à brûler ses adversaires et se soigner légèrement à chaque attaque.",
                 "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente à ogni attacco.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }

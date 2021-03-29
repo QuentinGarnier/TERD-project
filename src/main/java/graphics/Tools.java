@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.im.InputContext;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -97,7 +99,7 @@ public class Tools {
         private static Language language = Language.EN;
         private static boolean mute = false;
 
-        public static void readSettings() {
+        public static void loadSettings() {
             try {
                 Scanner scanner = new Scanner(new File("data/config/settings.CONFIG"));
                 String line;
@@ -119,6 +121,41 @@ public class Tools {
                 }
                 scanner.close();
             } catch(FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static void saveSettings(Language lang, boolean sound) {
+            try {
+                Scanner scanner = new Scanner(new File("data/config/settings.CONFIG"));
+                ArrayList<String> lines = new ArrayList<>();
+                String line;
+                while(scanner.hasNextLine()) {
+                    line = scanner.nextLine();
+                    lines.add(line);
+                }
+                scanner.close();
+
+                FileWriter writer = new FileWriter("data/config/settings.CONFIG");
+                for(String l : lines) {
+                    if(l.length() > 0) {
+                        if(l.charAt(0) != '$') {
+                            String[] info = l.split(" "); //info[0] = var_name ; info[1] = var_value
+                            if(info.length > 1) {
+                                switch (info[0]) {
+                                    case "sLanguage" -> info[1] = lang.toString();
+                                    case "sMusic" -> info[1] = "" + sound;
+                                }
+                            }
+                            l = "";
+                            for(int i = 0; i < info.length - 1; i++) l = info[i] + " ";
+                            l = l + info[info.length - 1];
+                        }
+                    }
+                    writer.write(l + "\n");
+                }
+                writer.close();
+            } catch(IOException e) {
                 e.printStackTrace();
             }
         }
