@@ -4,6 +4,8 @@ import graphics.Language;
 import graphics.Tools;
 import graphics.window.GameWindow;
 
+import java.awt.*;
+
 /**
  * List all different types of states
  *      NEUTRAL -> white, Entity is affected by nothing
@@ -85,7 +87,10 @@ public enum EntityState {
             case BURNT:
                 amount = 2;
                 entity.takeDamage(amount);
-                if (entity.isHero()) GameWindow.addToLogs(Language.logBurnEffect(amount), Tools.WindowText.orange);
+                if (entity.isHero()) {
+                    GameWindow.addToLogs(Language.logBurnEffect(amount), Tools.WindowText.orange);
+                    if (entity.getHP() == 0) GameWindow.addToLogs(Language.logHeroDeath(false), Color.RED);
+                }
                 break;
             case POISONED:
                 amount = 1;
@@ -93,6 +98,8 @@ public enum EntityState {
                 if (entity instanceof Player){
                     ((Player) entity).modifyHunger(-1);
                     GameWindow.addToLogs(Language.logPoisonEffect(amount), Tools.WindowText.purple);
+                    if (((Player) entity).getHunger() == 0) { GameWindow.addToLogs(Language.logHeroDeath(true), Color.RED); break; }
+                    if (entity.getHP() == 0) GameWindow.addToLogs(Language.logHeroDeath(false), Color.RED);
                 } break;
             case HEALED:
                 amount = 3;

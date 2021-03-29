@@ -24,7 +24,7 @@ public class ItemFood extends AbstractCollectableItems {
     @Override
     public boolean usePrivate() {
         Player.getInstancePlayer().modifyHP(this.hpGain);
-        GameWindow.addToLogs("+" + hpGain + " " + Language.hp(), Tools.WindowText.green);
+        GameWindow.addToLogs("+" + hpGain + " " + Language.hp() + ".", Tools.WindowText.green);
         Player.getInstancePlayer().modifyHunger(this.hungerGain);
         Player.removeItem(this);
         return true;
