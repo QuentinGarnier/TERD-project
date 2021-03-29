@@ -101,7 +101,13 @@ public class Tools {
 
         public static void loadSettings() {
             try {
-                Scanner scanner = new Scanner(new File("data/config/settings.CONFIG"));
+                File f = new File("data/config/settings.CONFIG");
+                if(!f.exists()) {
+                    language = Language.EN; //Default language
+                    mute = false; //Default value
+                    return;
+                }
+                Scanner scanner = new Scanner(f);
                 String line;
                 while(scanner.hasNextLine()) {
                     line = scanner.nextLine();
@@ -127,7 +133,12 @@ public class Tools {
 
         public static void saveSettings(Language lang, boolean sound) {
             try {
-                Scanner scanner = new Scanner(new File("data/config/settings.CONFIG"));
+                File f = new File("data/config/settings.CONFIG");
+                if(!f.exists()) {
+                    createConfig(f);
+                    return;
+                }
+                Scanner scanner = new Scanner(f);
                 ArrayList<String> lines = new ArrayList<>();
                 String line;
                 while(scanner.hasNextLine()) {
@@ -156,6 +167,19 @@ public class Tools {
                 }
                 writer.close();
             } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private static void createConfig(File f) {
+            try {
+                if(f.createNewFile()) {
+                    FileWriter writer = new FileWriter(f);
+                    writer.write("sLanguage EN\n");
+                    writer.write("sMusic true\n");
+                    writer.close();
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
