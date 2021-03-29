@@ -1,5 +1,6 @@
 package graphics.elements;
 
+import entity.Merchant;
 import entity.Monster;
 import graphics.Tools;
 import graphics.elements.cells.Cell;
@@ -106,6 +107,7 @@ public class Room {
     }
 
     public void putObstacles() {
+        if (id == Merchant.getInstanceMerchant().getSafeRoomId()) return;
         for (int x = topLeft.getX() + 1; x < bottomRight.getX(); x++)
             for (int y = topLeft.getY() + 1; y < bottomRight.getY(); y++)
                 if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
