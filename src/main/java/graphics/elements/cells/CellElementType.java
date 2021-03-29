@@ -14,6 +14,7 @@ public enum CellElementType {
     EMPTY('.', true, "map/grounds/grass"), // work also for doors
     END('E', true, "map/miscellaneous/end"),
     GOBLIN('G', false, "entities/monsters/goblin"),
+    HOLE('u', false, "map/miscellaneous/hole"),
     HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
     ITEM('%', true, "items/consumable/bag"),
     HERO_A('@', false, "entities/hero/hero_02"),
@@ -73,10 +74,15 @@ public enum CellElementType {
         return this == MERCHANT;
     }
 
-    public boolean isWall(){
+    public boolean isWall() {
          return this.equals(CellElementType.VERTICAL_WALL)
                 || this.equals(CellElementType.HORIZONTAL_WALL) || this.equals(CellElementType.CORNER_BOT)
                 || this.equals(CellElementType.CORNER_TOP);
+    }
+
+    public boolean isObstacle() {
+        return this.equals(CellElementType.TREE) || this.equals(CellElementType.STONE)
+                || this.equals(CellElementType.HOLE) || this.equals(CellElementType.BOX);
     }
 
     @Override

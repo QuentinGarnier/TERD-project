@@ -9,7 +9,6 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import entity.WhatHeroDoes;
 import items.AbstractItem;
-import items.Collectables.AbstractCollectableItems;
 
 import java.util.*;
 
@@ -20,18 +19,25 @@ public class WorldMap {
     public static final int MAX_Y = 30; // to be verified
     public static int stageNum = 0;
     private static final int maxRandomRoom = 100;
+
+    private final Theme theme;
     private final Cell[][] lab;
     private final List<Room> rooms;
     private final List<Corridor> corridors;
     private final List<AbstractItem> items;
 
 
-    private WorldMap() throws ErrorPositionOutOfBound {
+    private WorldMap(Theme t) throws ErrorPositionOutOfBound {
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         items = new ArrayList<>();
+        theme = t;
         generateWorld();
+    }
+
+    private WorldMap() throws ErrorPositionOutOfBound {
+        this(Theme.FOREST);
     }
 
     public void generateWorld() throws ErrorPositionOutOfBound {
