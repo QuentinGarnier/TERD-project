@@ -80,7 +80,7 @@ public class GamePanel extends JPanel {
                 if (previous.isWall()) img = new ImageIcon(CellElementType.CORNER_BOT.getIcon().getImage());
                 else if (y < WorldMap.MAX_Y - 1) {
                     CellElementType after = worldMap.getCell(x, y + 1).getBaseContent();
-                    img = new ImageIcon((after.isWall() ? CellElementType.VERTICAL_WALL : currentCet).getIcon().getImage());
+                    img = new ImageIcon((after.isWall() ? CellElementType.CORNER_TOP : currentCet).getIcon().getImage());
                 }
             }
             else if(currentCet == CellElementType.CORNER_BOT) {
