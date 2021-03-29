@@ -20,7 +20,7 @@ public class Merchant extends AbstractEntity{
     }
     private int counter;
     public final static int marketSize = 10;
-    private List<AbstractCollectableItems> market;
+    private final List<AbstractCollectableItems> market;
     private int isMoving;
     private int safeRoomId;
     private final JDialog marketWindow;
@@ -76,4 +76,6 @@ public class Merchant extends AbstractEntity{
     public void setSafeRoomId(int safeRoom) { this.safeRoomId = safeRoom; }
 
     public List<AbstractCollectableItems> getMarket(){ return Collections.unmodifiableList(market); }
+
+    public static void removeItem(AbstractCollectableItems ai){ instanceMerchant.market.remove(ai); }
 }

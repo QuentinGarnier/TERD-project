@@ -59,6 +59,10 @@ public class MarketPanel extends JPanel {
                 if (Player.getInstancePlayer().enoughMoney(ai.getPrice())) {
                     Player.getInstancePlayer().modifyMoney(-ai.getPrice());
                     GameWindow.addToLogs(ai.toString() + " acheté !", Color.GREEN);//to translate
+                    Merchant.removeItem(ai);
+                    marketPanel.remove(this);
+                    marketPanel.revalidate();
+                    marketPanel.repaint();
                     Player.addItem(ai);
                 }
                 else GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
