@@ -192,6 +192,21 @@ public enum Language {
     public static String logFood() {
         return lang("Food", "Nourriture", "Cibo");
     }
+    public static String logAttack() { return lang("attack", "attaque", "attacco"); }
+    public static String logDefense() { return lang("defense", "défense", "difesa");}
+    public static String logEffect(EntityState es) {
+        String e = switch (es){
+            case BURNT -> lang("Burning", "de brûlure", "bruciante");
+            case FROZEN -> lang("Frozing", "de gel", "congelante");
+            case HEALED -> lang("Healing", "de guérison", "curativo");
+            case INVULNERABLE -> lang("Invulnerability", "d'invulnérabilité", "invulnerabilità");
+            case PARALYSED -> lang("Paralysis", "de paralysation", "paralisi");
+            case POISONED -> lang("Poisoning", "d'empoisonnement", "avvelenamento");
+            case ENRAGED -> lang("Enraged", "d'enragement", "di rabbia");
+            default -> "";
+        };
+        return lang(e + " effect", "Effet " + e, "Effetto " + e);
+    }
     public static String logRejected() {return lang("Rejected", "Rejecté", "Rifiutato");}
     public static String logEquipped() {return lang("Equipped", "Equippé", "in uso");}
     public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario");}

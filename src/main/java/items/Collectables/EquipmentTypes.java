@@ -2,6 +2,7 @@ package items.Collectables;
 
 import entity.EntityState;
 import entity.EntityType;
+import graphics.Language;
 
 import java.util.Locale;
 import java.util.Random;
@@ -67,7 +68,7 @@ public enum EquipmentTypes {
     }
 
     public String getEffect() {
-        return "+ " + effect + " " + (isOffensive ? "attack" : "defense") + (magicEffect == null ? "" : " + " + magicEffect.toString() + " effect");
+        return "+" + effect + " " + (isOffensive ? Language.logAttack() : Language.logDefense()) + (magicEffect == null ? "" : " + " + Language.logEffect(magicEffect));
     }
 
     public int getPrice() {
