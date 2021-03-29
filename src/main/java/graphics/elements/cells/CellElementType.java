@@ -5,13 +5,14 @@ import graphics.Tools;
 import javax.swing.*;
 
 public enum CellElementType {
-    END('E', true, "map/miscellaneous/end"),
+    BOX('■', false, "map/miscellaneous/box"),
     BURGER('B', true, "items/food/big_burger"),
     COIN('●', true, "map/miscellaneous/coin"),
     CORNER_BOT('┼', false, "map/walls/stone_corner_bot"),
     CORNER_TOP('┼', false, "map/walls/stone_corner_top"),
     CORRIDOR('#', true, "map/grounds/wood"),
     EMPTY('.', true, "map/grounds/grass"), // work also for doors
+    END('E', true, "map/miscellaneous/end"),
     GOBLIN('G', false, "entities/monsters/goblin"),
     HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
     ITEM('%', true, "items/consumable/bag"),
