@@ -53,28 +53,28 @@ public enum Language {
     public static String warriorDescription() {
         String body1 = lang("The warrior deals great melee damage and has a large amount of HP.",
                 "Le guerrier inflige de puissants dommages de mêlée et possède une large quantité de PV.",
-                "Il guerriero infligge grandi danni di mischia e possiede una grossa quantità di HP");
+                "Il guerriero infligge grandi danni di mischia e possiede una grossa quantità di HP.");
         String body2 = lang("In counterpart, he loses 1 Hunger Point for each attack.",
                 "En contrepartie, il perd 1 Point de Faim à chaque attaque.",
-                "Tuttavia, perde un Punto Fame a ogni attacco");
+                "Tuttavia, perde un Punto Fame a ogni attacco.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String archerDescription() {
         String body1 = lang("The archer deals good distance damage with his very long range but has few HP.",
                 "L'archère inflige de bons dommages à distance avec une grande portée mais possède peu de PV.",
-                "L'arciere infligge danni a distanza grazia alla sua grande portata, ma possiede pochi HP");
+                "L'arciere infligge danni a distanza grazia alla sua grande portata, ma possiede pochi HP.");
         String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss the target.",
-                "Chaque attaque a une chance d'infliger plus de dégâts, d'apposer un effet... ou de rater l'objectif.",
-                "Ogni attacco ha la probabilità di essere più forte, di infliggere un effetto... o di mancare il bersaglio");
+                "Chaque attaque a une chance d'infliger plus de dégâts, d'apposer un effet... ou de rater la cible.",
+                "Ogni attacco ha la probabilità di essere più forte, di infliggere un effetto... o di mancare il bersaglio.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String mageDescription() {
         String body1 = lang("The mage deals moderate damage in a medium range.",
                 "Le mage inflige des dégâts modérés dans une portée moyenne.",
-                "Il mago infligge dei danni moderati con un raggio d'attacco medio");
+                "Il mago infligge dei danni moderati con un raggio d'attacco medio.");
         String body2 = lang("His power lies in his ability to burn his opponents and heal himself slightly with each attack.",
                 "Sa puissance réside dans sa capactié à brûler ses adversaires et se soigner légèrement à chaque attaque.",
-                "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente à ogni attacco");
+                "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente à ogni attacco.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
 
