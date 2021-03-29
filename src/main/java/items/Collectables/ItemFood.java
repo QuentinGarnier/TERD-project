@@ -24,7 +24,7 @@ public class ItemFood extends AbstractCollectableItems {
         Player.getInstancePlayer().modifyHunger(this.hungerGain);
         Player.getInstancePlayer().modifyHP(this.hpGain);
         Player.removeItem(this);
-        return false;
+        return true;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ItemFood extends AbstractCollectableItems {
 
     @Override
     public String getEffect() {
-        return (hpGain == 0 ? "" : hpGain + " hp") + (hungerGain == 0 ? "" : hungerGain + " hunger");
+        return "[ +" + hpGain + Language.hp() + " ] - [ +" + hungerGain + Language.logFood() + " ]";
     }
 
     @Override

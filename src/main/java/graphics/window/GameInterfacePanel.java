@@ -15,7 +15,6 @@ public class GameInterfacePanel extends JPanel {
     private final JPanel statsPanel;
     private final JPanel inventoryPanel;
     private final InventoryPanel realInventoryPanel;
-    private final JScrollPane inventoryScrollPane;
 
     private final Color green = new Color(80, 140, 50);
     private final Color violet = new Color(100,60,120);
@@ -36,7 +35,6 @@ public class GameInterfacePanel extends JPanel {
         inventoryPanel = new JPanel(new GridBagLayout());
         inventoryPanel.setBackground(Color.GRAY);
         realInventoryPanel = InventoryPanel.inventoryPane;
-        inventoryScrollPane = new JScrollPane(realInventoryPanel);
         setup();
     }
 
@@ -125,9 +123,9 @@ public class GameInterfacePanel extends JPanel {
     public void displayRealInventory() {
         if (displayInventory) {
             centerP.remove(logsPanel);
-            centerP.add(inventoryScrollPane);
+            centerP.add(realInventoryPanel);
         } else {
-            centerP.remove(inventoryScrollPane);
+            centerP.remove(realInventoryPanel);
             centerP.add(logsPanel);
         }
         displayInventory = !displayInventory;

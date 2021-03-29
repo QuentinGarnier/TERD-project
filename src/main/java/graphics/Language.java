@@ -35,7 +35,7 @@ public enum Language {
         return lang("Start the Quest", "Commencer la Quête", "Inizia la Missione");
     }
     public static String validate() {
-        return lang("Validate", "Valider", "Convalidare");
+        return lang("Validate", "Valider", "Applica");
     }
 
 
@@ -77,7 +77,7 @@ public enum Language {
                 "Il mago infligge dei danni moderati con un raggio d'attacco medio.");
         String body2 = lang("His power lies in his ability to burn his opponents and heal himself slightly with each attack.",
                 "Sa force réside dans sa capactié à brûler ses adversaires et se soigner légèrement à chaque attaque.",
-                "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente à ogni attacco.");
+                "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente a ogni attacco.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
 
@@ -127,7 +127,7 @@ public enum Language {
     public static String logGainMoney(int value) {
         return lang("You have found: " + value + " coin" + (value>1? "s!": "!"),
                 "Vous avez trouvé : " + value + " pièce" + (value>1? "s !": " !"),
-                "Hai trovato: " + value + "monet" + (value>1? "a!": "e!"));
+                "Hai trovato: " + value + " monet" + (value>1? "e!": "a!"));
     }
     public static String logGainItem(AbstractItem i) {
         return lang("You have found: " + i + "!",
@@ -192,6 +192,10 @@ public enum Language {
     public static String logFood() {
         return lang("Food", "Nourriture", "Cibo");
     }
+    public static String logRejected() {return lang("Rejected", "Rejecté", "Rifiutato");}
+    public static String logEquipped() {return lang("Equipped", "Equippé", "in uso");}
+    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario");}
+    public static String logConsumed() {return lang("Consumed", "Consommé", "Consumato");}
     private static String logIsParalysedEffect(EntityType entityType) {
         return switch (entityType) {
             case HERO_WARRIOR -> " [-20%" + attack() + "]";
@@ -299,4 +303,10 @@ public enum Language {
         };
     }
 
+    public static String logItemCons(ConsumableTypes ct) {
+        return switch (ct) {
+            case HEALTH_POTION -> lang("+10% of your HP.", "+10% des PV", "+10% di HP");
+            case TELEPORT_SCROLL -> lang("Go to Merchant room", "T'amène chez le marchand", "Ti porta dal mercante");
+        };
+    }
 }

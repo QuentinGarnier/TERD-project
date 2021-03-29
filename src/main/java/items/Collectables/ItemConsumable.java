@@ -8,7 +8,7 @@ import items.ItemType;
 
 // POTION, TELEPORTATION -> extends ITEM CONSUMABLE --> @
 public class ItemConsumable extends AbstractCollectableItems {
-    private final ConsumableTypes ct;
+    public final ConsumableTypes ct;
 
     public ItemConsumable(int id, Position p) {
         super(id, ItemType.CONSUMABLE, p, false);
@@ -19,7 +19,7 @@ public class ItemConsumable extends AbstractCollectableItems {
     public boolean usePrivate() {
         ct.applyEffect();
         Player.removeItem(this);
-        return false;
+        return true;
     }
 
     @Override

@@ -227,6 +227,7 @@ public class GameWindow extends JFrame {
                 }
             }
             if (player.getHP() != 0) window.setScrollFrameBar();
+            InventoryPanel.inventoryPane.setInventoryText();
             gamePanel.setObjective();
         }
 

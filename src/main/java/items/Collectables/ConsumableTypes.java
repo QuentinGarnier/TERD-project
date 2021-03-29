@@ -2,6 +2,7 @@ package items.Collectables;
 
 import entity.Merchant;
 import entity.Player;
+import graphics.Language;
 import graphics.Tools;
 import graphics.elements.Position;
 import graphics.elements.Room;
@@ -12,14 +13,12 @@ import java.util.Locale;
 import java.util.Random;
 
 public enum ConsumableTypes {
-    HEALTH_POTION("Restores 10 % of your HP.", 15),
-    TELEPORT_SCROLL("Go to Merchant Room.", 40);
+    HEALTH_POTION( 15),
+    TELEPORT_SCROLL(40);
 
-    public final String effect;  //Useful for description in the inventory.
     public final int price;
 
-    ConsumableTypes(String effect, int price) {
-        this.effect = effect;
+    ConsumableTypes(int price) {
         this.price = price;
     }
 
@@ -72,7 +71,7 @@ public enum ConsumableTypes {
     }
 
     public String getEffect(){
-        return effect;
+        return Language.logItemCons(this);
     }
 
     public int getPrice(){ return price;}
