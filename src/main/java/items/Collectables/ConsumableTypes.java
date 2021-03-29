@@ -1,5 +1,6 @@
 package items.Collectables;
 
+import entity.EntityState;
 import entity.Merchant;
 import entity.Player;
 import graphics.Language;
@@ -14,7 +15,9 @@ import java.util.Random;
 
 public enum ConsumableTypes {
     HEALTH_POTION( 15),
-    TELEPORT_SCROLL(40);
+    REGENERATION_POTION(10),
+    TELEPORT_SCROLL(40),
+    DIVINE_BLESSING(30);
 
     public final int price;
 
@@ -29,14 +32,17 @@ public enum ConsumableTypes {
     }
 
     public boolean applyEffect() {
+        Player pl = Player.getInstancePlayer();
         switch (this) {
             case HEALTH_POTION -> {
-                Player pl = Player.getInstancePlayer();
+
                 int heal = (int) (Math.round(pl.getHPMax() * 0.10));
                 GameWindow.addToLogs("+" + ((heal + pl.getHP() > pl.getHPMax()) ? pl.getHPMax() - pl.getHP() : heal) + "HP", Tools.WindowText.green);
                 pl.modifyHP(heal);
             }
+            case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);
             case TELEPORT_SCROLL -> teleport();
+            case DIVINE_BLESSING -> pl.updateState(EntityState.INVULNERABLE);
         }
         return true;
     }

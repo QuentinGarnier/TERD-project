@@ -10,6 +10,7 @@ import items.Collectables.ItemFood;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import static graphics.window.GameInterfacePanel.createLog;
@@ -62,7 +63,7 @@ public class InventoryPanel extends JPanel {
     public void updateInventory(){
         contents.removeAll();
         scrollPane.revalidate();
-        List<AbstractCollectableItems> items = /*new ArrayList<>();*/Player.getInventory();
+        List<AbstractCollectableItems> items = Player.getInventory();//new ArrayList<>();
         //for (int i = 0; i < 20; i++)items.add(AbstractCollectableItems.generateAbstractCollItems(0, null));
         items.forEach(this::createLine);
         if (items.size() == 0) {

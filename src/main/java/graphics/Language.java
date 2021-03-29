@@ -140,7 +140,7 @@ public enum Language {
                 "Si entra nel piano inferiore...");
     }
     public static String logNothingHappens() {
-        return lang("Nothing happens.", "Rien ne se passe.", "Non succede niente.");
+        return lang("Immune.", "Immunisé.", "Immune.");
     }
     public static String logDealDamage(AbstractEntity entity1, AbstractEntity entity2) {
         return lang(entity1 + " deals " + entity1.getAttack() + " damage to " + entity2 + ".",
@@ -299,14 +299,18 @@ public enum Language {
     public static String translate(ConsumableTypes consT) {
         return switch (consT) {
             case HEALTH_POTION -> lang("Health Potion", "Potion de Santé", "Pozione di Salute");
-            case TELEPORT_SCROLL -> lang("Teleportation Sroll", "Parchemin de Téléportation", "Teletrasporto");
+            case REGENERATION_POTION -> lang("Regeneration Potion", "Potion de Régénération", "Pozione di Rigenerazione");
+            case TELEPORT_SCROLL -> lang("Teleportation Scroll", "Parchemin de Téléportation", "Teletrasporto");
+            case DIVINE_BLESSING -> lang("Divine Blessing", "Bénédiction Divine", "Benedizione Divina");
         };
     }
 
     public static String logItemCons(ConsumableTypes ct) {
         return switch (ct) {
             case HEALTH_POTION -> lang("+10% of your HP.", "+10% des PV", "+10% di HP");
+            case REGENERATION_POTION -> lang("Heal in duration", "Guéri dans la durée", "Guarito nel tempo");
             case TELEPORT_SCROLL -> lang("Go to Merchant room", "T'amène chez le marchand", "Ti porta dal mercante");
+            case DIVINE_BLESSING -> lang("Become invulnerable for a while", "Devenez invulnérable un moment", "Diventi invulnerabile per un po '");
         };
     }
 }
