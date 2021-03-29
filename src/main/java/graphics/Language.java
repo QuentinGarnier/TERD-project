@@ -34,6 +34,9 @@ public enum Language {
     public static String startTheQuest() {
         return lang("Start the Quest", "Commencer la Quête", "Inizia la Missione");
     }
+    public static String validate() {
+        return lang("Validate", "Valider", "Convalidare");
+    }
 
 
 
@@ -80,6 +83,16 @@ public enum Language {
 
 
 
+    // ===== Options menu ===== //
+    public static String selectTheLanguage() {
+        return lang("Select language", "Sélectionnez la langue", "Seleziona la lingua");
+    }
+    public static String gameSound() {
+        return lang("Game sound", "Son du jeu", "Suono del gioco");
+    }
+
+
+
     // ===== Stats panel (in game) ===== //
     public static String heroCP() {
         return lang("HERO", "HÉROS", "EROE");
@@ -88,7 +101,7 @@ public enum Language {
         return lang("Level", "Niveau ", "Livello");
     }
     public static String hp() {
-        return lang("HP", "PV ", "PF");
+        return lang("HP", "PV ", "HP");
     }
     public static String hunger() {
         return lang("Hunger", "Faim ", "Fame");
@@ -169,7 +182,7 @@ public enum Language {
             case 1 -> lang("An intense surprise freezes you!", "Une intense surprise vous gèle !", "Un'intensa sorpresa ti congela!");
             case 2 -> lang("A poisonous trap!", "Un piège empoisonné !", "Una trappola velenosa!");
             case 3 -> lang("You got caught by a teleporter trap!", "Un piège téléporteur !", "Una trappola ti teletrasporta!");
-            case 4 -> lang("A bomb was planted here! [-15 HP]", "Une bombe était enterrée là ! [-15 PV]", "Una bomba è stata piazzata qui! [-15 PF]");
+            case 4 -> lang("A bomb was planted here! [-15 HP]", "Une bombe était enterrée là ! [-15 PV]", "Una bomba è stata piazzata qui! [-15 HP]");
             default -> "";
         };
     }
@@ -210,7 +223,7 @@ public enum Language {
     public static String logPoisonEffect(int amount) {
         return lang("You are suffering from poisoning. [-" + amount + " HP, -1 Hunger]",
                 "Vous souffrez du poison. [-" + amount + " PV, -1 Faim]",
-                "Soffri di avvelenamento. [-" + amount + " PF, -1 Fame]");
+                "Soffri di avvelenamento. [-" + amount + " HP, -1 Fame]");
     }
     public static String logHealEffect(int amount) {
         return lang("You are healed of " + amount + " HP.",

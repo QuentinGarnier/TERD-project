@@ -30,6 +30,9 @@ public class GameMenuPanel extends JPanel {
     private JButton langFRButton;
     private JButton langITButton;
 
+    private JButton newGameButton, optionsButton, exitButton, backButton, backButton2, launchButton,validateButton;
+    private JLabel specialityLabel, warLabel, arcLabel, magLabel, optionsLabel, setLangLabel, muteLabel;
+
     GameMenuPanel() {
         super();
         setLayout(new BorderLayout());
@@ -66,9 +69,9 @@ public class GameMenuPanel extends JPanel {
         startScreen.setLayout(new GridLayout(5, 1));
         startScreen.add(createTitle("That time the Hero saved the Village", 32, Tools.WindowText.red));
 
-        JButton newGameButton = createMenuButton(Language.newGame());
-        JButton optionsButton = createMenuButton(Language.options());
-        JButton exitButton = createMenuButton(Language.exitGame());
+        newGameButton = createMenuButton(Language.newGame());
+        optionsButton = createMenuButton(Language.options());
+        exitButton = createMenuButton(Language.exitGame());
         addMenuButton(newGameButton, startScreen);
         addMenuButton(optionsButton, startScreen);
         addMenuButton(exitButton, startScreen);
@@ -88,7 +91,8 @@ public class GameMenuPanel extends JPanel {
         cons.gridx = 0;
         cons.gridy = 0;
         cons.weighty = 0.1;
-        charaScreen.add(createTitle(Language.chooseYourSpeciality(), 26, Color.BLACK), cons);
+        specialityLabel = createTitle(Language.chooseYourSpeciality(), 26, Color.BLACK);
+        charaScreen.add(specialityLabel, cons);
 
         cons.weighty = 0.8;
         cons.gridx = 0;
@@ -96,7 +100,7 @@ public class GameMenuPanel extends JPanel {
         cons.fill = GridBagConstraints.BOTH;
         charaScreen.add(createSpecPanel(), cons);
 
-        JButton backButton = createMenuButton(Language.back());
+        backButton = createMenuButton(Language.back());
         addMouseEffect(backButton, 3);
         cons.fill = GridBagConstraints.HORIZONTAL;
         cons.gridwidth = 1;
@@ -111,7 +115,7 @@ public class GameMenuPanel extends JPanel {
         cons.weightx = 0.5;
         charaScreen.add(new JLabel(), cons);
 
-        JButton launchButton = createMenuButton(Language.startTheQuest());
+        launchButton = createMenuButton(Language.startTheQuest());
         addMouseEffect(launchButton, 4);
         cons.gridx = 2;
         cons.weightx = 0.3;
@@ -120,19 +124,20 @@ public class GameMenuPanel extends JPanel {
 
     private void fillOptionsScreen() {
         optionsScreen.setLayout(new BorderLayout());
-        optionsScreen.add(createTitle(Language.options(), 26, Color.BLACK), BorderLayout.NORTH);
+        optionsLabel = createTitle(Language.options(), 26, Color.BLACK);
+        optionsScreen.add(optionsLabel, BorderLayout.NORTH);
         JPanel centerP = new JPanel(new BorderLayout());
         JPanel lastP = new JPanel(new BorderLayout());
         centerP.setBackground(Color.GRAY);
         lastP.setBackground(Color.GRAY);
 
-        JButton backButton = createMenuButton(Language.back());
-        addMouseEffect(backButton, 3);
-        JButton validateButton = createMenuButton("Validate");
+        backButton2 = createMenuButton(Language.back());
+        addMouseEffect(backButton2, 3);
+        validateButton = createMenuButton(Language.validate());
         addMouseEffect(validateButton, 5);
         JPanel footer = new JPanel();
         footer.setBackground(Color.GRAY);
-        footer.add(backButton);
+        footer.add(backButton2);
         footer.add(validateButton);
         optionsScreen.add(footer, BorderLayout.SOUTH);
 
@@ -155,12 +160,12 @@ public class GameMenuPanel extends JPanel {
         addForFlagArea(flagArea, langFRButton);
         addForFlagArea(flagArea, langITButton);
 
-        JLabel setLangLabel = createTitle("Select the language", 16, Color.BLACK);
+        setLangLabel = createTitle(Language.selectTheLanguage(), 16, Color.BLACK);
         setLangLabel.setPreferredSize(new Dimension(500, 40));
 
         JPanel muteP = new JPanel(new GridLayout(1, 2));
         muteP.setBackground(Color.GRAY);
-        JLabel muteLabel = createTitle("Son du jeu ", 16, Color.BLACK);
+        muteLabel = createTitle(Language.gameSound(), 16, Color.BLACK);
         muteLabel.setPreferredSize(new Dimension(500, 40));
         muteLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         muteP.add(muteLabel);
@@ -237,7 +242,12 @@ public class GameMenuPanel extends JPanel {
         if(state != n) switch (n) {
             case 0 -> replaceWith(startScreen);
             case 1 -> replaceWith(charaScreen);
-            case 2 -> replaceWith(optionsScreen);
+            case 2 -> {
+                soundCheckBox.setSelected(!GameWindow.isMuted());
+                language = GameWindow.language();
+                langBorders();
+                replaceWith(optionsScreen);
+            }
         }
         state = n;
     }
@@ -265,10 +275,12 @@ public class GameMenuPanel extends JPanel {
         bigPanel.setBackground(Color.BLACK);
         JPanel specialitiesPanel = new JPanel(new GridLayout(1, 3));
         specialitiesPanel.setBackground(Color.BLACK);
-
-        warSpecPanel = buildSpecPanel(Language.warriorCL(), "data/images/menu/spec_war.png", Tools.WindowText.red, 0);
-        arcSpecPanel = buildSpecPanel(Language.archerCL(), "data/images/menu/spec_arc.png", Tools.WindowText.green, 1);
-        magSpecPanel = buildSpecPanel(Language.mageCL(), "data/images/menu/spec_mag.png", Tools.WindowText.blue, 2);
+        warLabel = createTitle(Language.warriorCL(), 16, Tools.WindowText.red);
+        arcLabel = createTitle(Language.archerCL(), 16, Tools.WindowText.green);
+        magLabel = createTitle(Language.mageCL(), 16, Tools.WindowText.blue);
+        warSpecPanel = buildSpecPanel(warLabel, "data/images/menu/spec_war.png", 0);
+        arcSpecPanel = buildSpecPanel(arcLabel, "data/images/menu/spec_arc.png", 1);
+        magSpecPanel = buildSpecPanel(magLabel, "data/images/menu/spec_mag.png", 2);
 
         specialitiesPanel.add(warSpecPanel);
         specialitiesPanel.add(arcSpecPanel);
@@ -294,10 +306,9 @@ public class GameMenuPanel extends JPanel {
         magSpecPanel.setBorder(n == 2? BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden) : BorderFactory.createBevelBorder(BevelBorder.RAISED));
     }
 
-    private JPanel buildSpecPanel(String name, String pathImg, Color fg, int numMouseEffect) {
+    private JPanel buildSpecPanel(JLabel nameLabel, String pathImg, int numMouseEffect) {
         JPanel specPanel = new JPanel(new BorderLayout());
         JLabel specImgLabel = new JLabel(new ImageIcon(pathImg));
-        JLabel nameLabel = createTitle(name, 16, fg);
 
         specPanel.setBackground(Color.BLACK);
         specPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -454,7 +465,25 @@ public class GameMenuPanel extends JPanel {
     private void setSettings() {
         Tools.Settings.saveSettings(language, soundCheckBox.isSelected());
         GameWindow.setSettings(language, soundCheckBox.isSelected());
-        goToScreen(0);
+        setTexts();
         GameWindow.playOrStopMenuMusic();
+    }
+
+    private void setTexts() {
+        newGameButton.setText(Language.newGame());
+        optionsButton.setText(Language.options());
+        exitButton.setText(Language.exitGame());
+        backButton.setText(Language.back());
+        backButton2.setText(Language.back());
+        launchButton.setText(Language.startTheQuest());
+        validateButton.setText(Language.validate());
+        optionsLabel.setText(Language.options());
+        setLangLabel.setText(Language.selectTheLanguage());
+        muteLabel.setText(Language.gameSound());
+        specialityLabel.setText(Language.chooseYourSpeciality());
+        warLabel.setText(Language.warriorCL());
+        arcLabel.setText(Language.archerCL());
+        magLabel.setText(Language.mageCL());
+        setCharaSelected(charaSelected);
     }
 }
