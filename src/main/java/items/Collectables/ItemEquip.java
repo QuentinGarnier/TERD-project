@@ -57,4 +57,7 @@ public class ItemEquip extends AbstractCollectableItems {
     public String getEffect() {
         return et.getEffect();
     }
+
+    @Override
+    public int getPrice() { return et.getPrice(); }
 }

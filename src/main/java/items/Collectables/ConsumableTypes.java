@@ -12,13 +12,15 @@ import java.util.Locale;
 import java.util.Random;
 
 public enum ConsumableTypes {
-    HEALTH_POTION("Restores 10 % of your HP."),
-    TELEPORT_SCROLL("Go to Merchant Room.");
+    HEALTH_POTION("Restores 10 % of your HP.", 15),
+    TELEPORT_SCROLL("Go to Merchant Room.", 40);
 
     public final String effect;  //Useful for description in the inventory.
+    public final int price;
 
-    ConsumableTypes(String effect) {
+    ConsumableTypes(String effect, int price) {
         this.effect = effect;
+        this.price = price;
     }
 
     public static ConsumableTypes createConsumableTypes() {
@@ -72,4 +74,6 @@ public enum ConsumableTypes {
     public String getEffect(){
         return effect;
     }
+
+    public int getPrice(){ return price;}
 }

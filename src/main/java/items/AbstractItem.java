@@ -32,7 +32,6 @@ public abstract class AbstractItem extends JLabel {
     private final int idPosRoom;
     private final int id;
 
-    private final int price;
     public final boolean immediateUse;
     private Position position;
 
@@ -44,8 +43,6 @@ public abstract class AbstractItem extends JLabel {
         this.immediateUse = immediateUse;
         this.position = position;
         this.id = idCounter++;
-        this.price = 0; // -> prix à ajouter dans la lecture du fichier etc (pour l'achat/vente)
-        //this.effectLine = e; //à ajouter quand la dernière ligne sera parse (actuellement les 'undefined')
 
         // Graphics
         this.size = GamePanel.size;
@@ -81,10 +78,6 @@ public abstract class AbstractItem extends JLabel {
 
     public int getIdPosRoom() {
         return this.idPosRoom;
-    }
-
-    public int getPrice() {
-        return this.price;
     }
 
     public Position getPosition() {

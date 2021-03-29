@@ -111,13 +111,13 @@ public class Player extends AbstractEntity {
         return super.getState();
     }
 
-    public boolean spendMoney(int cost) {
-        if (cost > money) {
-            GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
-            return false;
-        }
-        money -= cost;
-        return true;
+    public void modifyMoney(int x) {
+        money = Math.max(money + x, 0);
+        MarketPanel.marketPanel.updateMarket();
+    }
+
+    public boolean enoughMoney(int cost) {
+        return money >= cost;
     }
 
     public void throwItem(int index) {
@@ -146,12 +146,12 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public static void removeItem(AbstractCollectableItems ai){
-        instancePlayer.inventory.remove(ai);
+    public static void addItem(AbstractCollectableItems ai){
+        instancePlayer.inventory.add(ai);
     }
 
-    public void incrementMoney(int x) {
-        money += x;
+    public static void removeItem(AbstractCollectableItems ai){
+        instancePlayer.inventory.remove(ai);
     }
 
     public int getHunger() {
@@ -259,7 +259,8 @@ public class Player extends AbstractEntity {
         Cell cell = worldMap.getCell(position);
         if (cell.getEntity() instanceof Merchant) {
             //TODO: interaction
-            GameWindow.addToLogs("Don't attack me... my market is not yet available, come back later!", Color.WHITE);
+            //GameWindow.addToLogs("Don't attack me... my market is not yet available, come back later!", Color.WHITE);
+            Merchant.getInstanceMerchant().openMarket();
             return false;
         }
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {

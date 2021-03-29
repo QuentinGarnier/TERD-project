@@ -36,4 +36,7 @@ public class ItemFood extends AbstractCollectableItems {
     public String getEffect() {
         return (hpGain == 0 ? "" : hpGain + " hp") + (hungerGain == 0 ? "" : hungerGain + " hunger");
     }
+
+    @Override
+    public int getPrice() { return 5;}
 }

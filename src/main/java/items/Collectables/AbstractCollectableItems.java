@@ -32,5 +32,7 @@ public abstract class AbstractCollectableItems extends AbstractItem {
         return null;
     }
 
+    public abstract int getPrice();
+
     public abstract String getEffect();
 }

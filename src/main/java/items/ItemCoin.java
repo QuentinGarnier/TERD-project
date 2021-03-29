@@ -17,7 +17,7 @@ public class ItemCoin extends AbstractItem{
 
     @Override
     public boolean usePrivate() {
-        Player.getInstancePlayer().incrementMoney(value);
+        Player.getInstancePlayer().modifyMoney(value);
         GameWindow.addToLogs(Language.logGainMoney(value), new Color(210,170,60));
         return true;
     }

@@ -31,4 +31,7 @@ public class ItemConsumable extends AbstractCollectableItems {
     public String toString() {
         return Language.translate(ct);
     }
+
+    @Override
+    public int getPrice() { return ct.getPrice(); }
 }
