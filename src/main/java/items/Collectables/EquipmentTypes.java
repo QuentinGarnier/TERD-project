@@ -68,7 +68,7 @@ public enum EquipmentTypes {
     }
 
     public String getEffect() {
-        return "+" + effect + " " + (isOffensive ? Language.logAttack() : Language.logDefense()) + (magicEffect == null ? "" : " + " + Language.logEffect(magicEffect));
+        return "+" + effect + " " + (isOffensive ? Language.attack() : Language.defense()) + (magicEffect == null ? "" : " + " + Language.logEffect(magicEffect));
     }
 
     public int getPrice() {

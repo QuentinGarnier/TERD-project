@@ -109,6 +109,7 @@ public enum Language {
     public static String attack() {
         return lang("Attack", "Attaque ", "Attacco");
     }
+    public static String defense() { return lang("Defense", "Défense", "Difesa");}
     public static String range() {
         return lang("Range", "Portée ", "Portata");
     }
@@ -192,8 +193,6 @@ public enum Language {
     public static String logFood() {
         return lang("Food", "Nourriture", "Cibo");
     }
-    public static String logAttack() { return lang("attack", "attaque", "attacco"); }
-    public static String logDefense() { return lang("defense", "défense", "difesa");}
     public static String logEffect(EntityState es) {
         String e = switch (es){
             case BURNT -> lang("Burning", "de brûlure", "bruciante");

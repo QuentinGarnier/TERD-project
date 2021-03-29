@@ -252,10 +252,6 @@ public abstract class AbstractEntity extends JPanel {
         return this instanceof Player;
     }
 
-    public boolean isMonster() {
-        return !isHero();
-    }
-
     @Override
     public String toString() {
         return switch (entityType) {
