@@ -258,8 +258,6 @@ public class Player extends AbstractEntity {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(position);
         if (cell.getEntity() instanceof Merchant) {
-            //TODO: interaction
-            //GameWindow.addToLogs("Don't attack me... my market is not yet available, come back later!", Color.WHITE);
             Merchant.getInstanceMerchant().openMarket();
             return false;
         }

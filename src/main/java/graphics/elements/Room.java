@@ -180,6 +180,8 @@ public class Room {
         return Collections.unmodifiableList(monsters);
     }
 
+    public List<AbstractItem> getItems() { return Collections.unmodifiableList(currentRoomItems);}
+
     public static boolean isRoom(Cell c) {
         CellElementType ct = c.getBaseContent();
         return ct == CellElementType.HORIZONTAL_WALL ||

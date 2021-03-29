@@ -46,7 +46,7 @@ public class MarketPanel extends JPanel {
         items.forEach(this::createLine);
     }
 
-    private class itemButton extends JButton{
+    private static class itemButton extends JButton{
         private final AbstractCollectableItems ai;
         private final ActionListener al;
 

@@ -1,5 +1,6 @@
 package items;
 
+import entity.Merchant;
 import graphics.Language;
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
@@ -22,6 +23,7 @@ public abstract class AbstractItem extends JLabel {
             GameWindow.addToLogs(Language.logLowerFloor(), Color.GREEN);
             WorldMap worldMap = WorldMap.getInstanceWorld();
             worldMap.generateWorld();
+            Merchant.getInstanceMerchant().generateMarket();
             GameWindow.display();
             // TODO
             return false;

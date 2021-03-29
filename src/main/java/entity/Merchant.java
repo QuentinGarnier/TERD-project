@@ -19,7 +19,7 @@ public class Merchant extends AbstractEntity{
         }
     }
     private int counter;
-    public final static int marketSize = 10;
+    public final static int marketSize = 20;
     private final List<AbstractCollectableItems> market;
     private int isMoving;
     private int safeRoomId;
@@ -41,10 +41,14 @@ public class Merchant extends AbstractEntity{
         return instanceMerchant;
     }
 
-    private void generateMarket(){
+    public void generateMarket(){
+        market.clear();
+        MarketPanel.marketPanel.removeAll();
         for(int i = 0; i < marketSize; i++) {
             market.add(AbstractCollectableItems.generateAbstractCollItems(counter++, null));
         }
+        MarketPanel.marketPanel.makeMarket(market);
+        marketWindow.repaint(); marketWindow.revalidate();
     }
 
     private void initializeWindow(){
@@ -56,11 +60,9 @@ public class Merchant extends AbstractEntity{
         marketWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         ImageIcon icon = new ImageIcon("data/images/system/market.png");
         marketWindow.setIconImage(icon.getImage());
+        marketWindow.add(new JScrollPane(MarketPanel.marketPanel));
 
-        MarketPanel.marketPanel.makeMarket(market);
-        marketWindow.add(MarketPanel.marketPanel);
 
-        marketWindow.repaint(); marketWindow.revalidate();
     }
 
     public void openMarket(){

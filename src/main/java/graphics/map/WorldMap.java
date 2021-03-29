@@ -9,6 +9,7 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import entity.WhatHeroDoes;
 import items.AbstractItem;
+import items.Collectables.AbstractCollectableItems;
 
 import java.util.*;
 
@@ -102,6 +103,12 @@ public class WorldMap {
             while(room.getMonsters().size() != 0){
                 getCell(room.getMonsters().get(0).getPosition()).entityLeft();
                 room.removeEntity(room.getMonsters().get(0));
+            }
+            for (AbstractItem ai : room.getItems()){
+                if (!ai.equals(AbstractItem.end)){
+                    ai.setPosition(null);
+                    ai.setLocation();
+                }
             }
             merchant.setSafeRoomId(safeRoomId);
             room.setVisited();

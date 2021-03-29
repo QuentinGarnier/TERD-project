@@ -23,7 +23,7 @@ public class Attack {
             case HERO_ARCHER:
                 double arrow = Math.random();
                 double target = Math.random();
-                if (target < (entity1.getState() == EntityState.POISONED ? 0.15 : 0.10)){
+                if (target < (entity1.getState() == EntityState.POISONED ? 0.12 : 0.08)){
                     GameWindow.addToLogs(Language.logMissedTarget(), Tools.WindowText.red);
                     return;
                 }
