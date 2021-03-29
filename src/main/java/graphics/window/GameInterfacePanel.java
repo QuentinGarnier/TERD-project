@@ -33,7 +33,7 @@ public class GameInterfacePanel extends JPanel {
         logsPanel.setBackground(Color.BLACK);
         statsPanel = new JPanel(new GridLayout(2,2));
         statsPanel.setBackground(Color.LIGHT_GRAY);
-        inventoryPanel = new JPanel(new GridLayout(1,3));
+        inventoryPanel = new JPanel(new GridBagLayout());
         inventoryPanel.setBackground(Color.GRAY);
         realInventoryPanel = InventoryPanel.inventoryPane;
         inventoryScrollPane = new JScrollPane(realInventoryPanel);
@@ -103,14 +103,21 @@ public class GameInterfacePanel extends JPanel {
     }
 
     private void displayInventory() {
-        createLabelForInventory(Language.pressIForInventory(displayInventory), null);
+        GridBagConstraints cons = new GridBagConstraints();
+        cons.gridx = 0;
+        cons.gridwidth = 3;
+        cons.weightx = 0.7;
+        createTxtLabel(inventoryPanel, Language.pressIForInventory(displayInventory), null, 0, cons);
 
         //Money:
-        JLabel moneyLabel = new JLabel(Language.money() + ": " + Player.getInstancePlayer().getMoney() + " ●");
+        JLabel moneyLabel = new JLabel(Language.money() + ": " + Player.getInstancePlayer().getMoney() + " ● ");
         moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
         moneyLabel.setForeground(golden);
         moneyLabel.setPreferredSize(new Dimension(400, 50));
-        inventoryPanel.add(moneyLabel, BorderLayout.SOUTH);
+        cons.gridx = 3;
+        cons.gridwidth = 1;
+        cons.weightx = 0.3;
+        inventoryPanel.add(moneyLabel, cons);
     }
 
 
@@ -126,7 +133,7 @@ public class GameInterfacePanel extends JPanel {
         displayInventory = !displayInventory;
     }
 
-    private void createTxtLabel(JPanel p, String str, Color c, int fontSize) {
+    private void createTxtLabel(JPanel p, String str, Color c, int fontSize, GridBagConstraints cons) {
         JLabel label = new JLabel(str);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         if(c != null) label.setForeground(c);
@@ -134,7 +141,12 @@ public class GameInterfacePanel extends JPanel {
             Font font = label.getFont();
             label.setFont(new Font(font.getName(), Font.BOLD, fontSize));
         }
-        p.add(label);
+        if(cons != null) p.add(label, cons);
+        else p.add(label);
+    }
+
+    private void createTxtLabel(JPanel p, String str, Color c, int fontSize) {
+        createTxtLabel(p, str, c, fontSize, null);
     }
 
     private void createTxtLabel(JPanel p, String str, Color c) {
@@ -143,14 +155,6 @@ public class GameInterfacePanel extends JPanel {
 
     private void createLabelForStats(String str, Color c, int fontSize) {
         createTxtLabel(statsPanel, str, c, fontSize);
-    }
-
-    private void createLabelForStats(String str, Color c) {
-        createTxtLabel(statsPanel, str, c);
-    }
-
-    private void createLabelForInventory(String str, Color c) {
-        createTxtLabel(inventoryPanel, str, c);
     }
 
     private void createBarGroup(JPanel p, String str, Color c, String imageName, float maxVal, float val) {
