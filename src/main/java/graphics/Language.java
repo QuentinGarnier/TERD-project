@@ -101,7 +101,7 @@ public enum Language {
         return lang("Level", "Niveau ", "Livello");
     }
     public static String hp() {
-        return lang("HP", "PV ", "HP");
+        return lang("HP", "PV", "HP");
     }
     public static String hunger() {
         return lang("Hunger", "Faim ", "Fame");
