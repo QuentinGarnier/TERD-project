@@ -32,7 +32,7 @@ public enum Language {
         return lang("Back", "Retour", "Indietro");
     }
     public static String startTheQuest() {
-        return lang("Start the Quest", "Commencer la Quête", "Inizia la Ricerca");
+        return lang("Start the Quest", "Commencer la Quête", "Inizia la Missione");
     }
 
 
@@ -45,7 +45,7 @@ public enum Language {
         return lang("WARRIOR", "GUERRIER", "GUERRIERO"); /* CL is for 'CapsLock'  */
     }
     public static String archerCL() {
-        return lang("ARCHER", "ARCHER", "ARCIERA"); /* CL is for 'CapsLock'  */
+        return lang("ARCHER", "ARCHER", "ARCIERE"); /* CL is for 'CapsLock'  */
     }
     public static String mageCL() {
         return lang("MAGE", "MAGE", "MAGO"); /* CL is for 'CapsLock'  */
@@ -53,28 +53,28 @@ public enum Language {
     public static String warriorDescription() {
         String body1 = lang("The warrior deals great melee damage and has a large amount of HP.",
                 "Le guerrier inflige de puissants dommages de mêlée et possède une large quantité de PV.",
-                "...");
+                "Il guerriero infligge grandi danni di mischia e possiede una grossa quantità di HP");
         String body2 = lang("In counterpart, he loses 1 Hunger Point for each attack.",
                 "En contrepartie, il perd 1 Point de Faim à chaque attaque.",
-                "...");
+                "Tuttavia, perde un Punto Fame a ogni attacco");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String archerDescription() {
         String body1 = lang("The archer deals good distance damage with his very long range but has few HP.",
                 "L'archère inflige de bons dommages à distance avec une grande portée mais possède peu de PV.",
-                "...");
-        String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss.",
-                "Chaque attaque a une chance d'ingliger plus de dégâts, d'apposer un effet... ou de rater.",
-                "...");
+                "L'arciere infligge danni a distanza grazia alla sua grande portata, ma possiede pochi HP");
+        String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss the target.",
+                "Chaque attaque a une chance d'infliger plus de dégâts, d'apposer un effet... ou de rater l'objectif.",
+                "Ogni attacco ha la probabilità di essere più forte, di infliggere un effetto... o di mancare il bersaglio");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String mageDescription() {
         String body1 = lang("The mage deals moderate damage in a medium range.",
                 "Le mage inflige des dégâts modérés dans une portée moyenne.",
-                "...");
+                "Il mago infligge dei danni moderati con un raggio d'attacco medio");
         String body2 = lang("His power lies in his ability to burn his opponents and heal himself slightly with each attack.",
                 "Sa puissance réside dans sa capactié à brûler ses adversaires et se soigner légèrement à chaque attaque.",
-                "...");
+                "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente à ogni attacco");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
 
@@ -94,7 +94,7 @@ public enum Language {
         return lang("Hunger", "Faim ", "Fame");
     }
     public static String attack() {
-        return lang("Attack", "Attaque ", "ATTACCO");
+        return lang("Attack", "Attaque ", "Attacco");
     }
     public static String range() {
         return lang("Range", "Portée ", "Portata");
@@ -114,7 +114,7 @@ public enum Language {
     public static String logGainMoney(int value) {
         return lang("You have found: " + value + " coin" + (value>1? "s!": "!"),
                 "Vous avez trouvé : " + value + " pièce" + (value>1? "s !": " !"),
-                "Hai trovato: " + value + "pezz" + (value>1? "i!": "o!"));
+                "Hai trovato: " + value + "monet" + (value>1? "a!": "e!"));
     }
     public static String logGainItem(AbstractItem i) {
         return lang("You have found: " + i + "!",
@@ -145,7 +145,7 @@ public enum Language {
     public static String logModifyHunger(int x) {
         return lang("You " + (x >= 0 ? "gain " + x : "lose " + (-x)) + " Hunger Point" + (x > 1 || x < -1 ? "s" : "") + ".",
                 "Vous " + (x >= 0 ? "gagnez " + x : "perdez " + (-x)) + " Point" + (x > 1 || x < -1 ? "s" : "") + " de Faim.",
-                (x >= 0 ? "Guadagni " + x : "Perdi " + (-x)) + " Punt" + (x > 1 || x < -1 ? "i" : "o") + " di Fame.");
+                (x >= 0 ? "Guadagni " + x : "Perdi " + (-x)) + " Punt" + (x > 1 || x < -1 ? "i" : "o") + " Fame.");
     }
     public static String logHeroDeath(boolean deathByHunger) {
         if(deathByHunger) return lang("HERO DIED OF HUNGER", "LE HÉROS EST MORT DE FAIM", "L'EROE È MORTO DI FAME");
@@ -155,7 +155,7 @@ public enum Language {
         return lang("You can't drop the item here.", "Vous ne pouvez pas jeter l'objet ici.", "Non puoi lasciare l'oggetto qui.");
     }
     public static String logNotEnoughMoney() {
-        return lang("Not enough money.", "Pas assez d'argent.", "Non abbastanza soldi.");
+        return lang("Not enough money.", "Pas assez d'argent.", "Denaro insufficiente.");
     }
     public static String logInventoryFull() {
         return lang("The inventory is full!", "L'inventaire est plein !", "L'inventario è pieno!");
@@ -165,10 +165,10 @@ public enum Language {
     }
     public static String logTrap(int i) {
         return switch (i) {
-            case 0 -> lang("You stepped on a burning trap!", "Vous avez marché sur un piège brûlant !", "Hai calpestato una trappola in fiamme!");
+            case 0 -> lang("You stepped on a burning trap!", "Vous avez marché sur un piège brûlant !", "Hai calpestato una trappola infiammata!");
             case 1 -> lang("An intense surprise freezes you!", "Une intense surprise vous gèle !", "Un'intensa sorpresa ti congela!");
             case 2 -> lang("A poisonous trap!", "Un piège empoisonné !", "Una trappola velenosa!");
-            case 3 -> lang("You got caught by a teleporter trap!", "Un piège téléporteur !", "Una trappola per teletrasporto!");
+            case 3 -> lang("You got caught by a teleporter trap!", "Un piège téléporteur !", "Una trappola ti teletrasporta!");
             case 4 -> lang("A bomb was planted here! [-15 HP]", "Une bombe était enterrée là ! [-15 PV]", "Una bomba è stata piazzata qui! [-15 PF]");
             default -> "";
         };
@@ -183,7 +183,7 @@ public enum Language {
         return switch (entityType) {
             case HERO_WARRIOR -> " [-20%" + attack() + "]";
             case HERO_ARCHER -> " [-2 " + range() + "]";
-            case HERO_MAGE -> " [" + lang("Don't burn monsters anymore.", "Ne brûle plus les monstres." ,"Non bruciare più mostri.") + "]";
+            case HERO_MAGE -> " [" + lang("Don't burn monsters anymore.", "Ne brûle plus les monstres." ,"Non brucia più mostri.") + "]";
             default -> "";
         };
     }
@@ -215,7 +215,7 @@ public enum Language {
     public static String logHealEffect(int amount) {
         return lang("You are healed of " + amount + " HP.",
                 "Vous êtes soigné de " + amount + " PV.",
-                "Sei guarito di " + amount + " PF.");
+                "Sei guarito di " + amount + " HP.");
     }
 
 
@@ -230,13 +230,13 @@ public enum Language {
             case MONSTER_GOBLIN -> lang("GOBLIN", "GOBELIN", "GOBLIN");
             case MONSTER_ORC -> lang("ORC", "ORC", "ORCO");
             case MONSTER_SPIDER -> lang("SPIDER", "ARAIGNÉE", "RAGNO");
-            case MONSTER_WIZARD -> lang("WIZARD", "SORCIER", "MAGO OSCURO");
+            case MONSTER_WIZARD -> lang("WIZARD", "SORCIER", "STREGONE");
         };
     }
     public static String translateHungerState(String state) {
         return switch (state) {
             case "Sated" -> lang("Sated", "Repu", "Sazio");
-            case "Peckish" -> lang("Peckish", "Petit creux", "Un po di fame");
+            case "Peckish" -> lang("Peckish", "Petit creux", "Poco affamato");
             case "Hungry" -> lang("Hungry", "Affamé", "Affamato");
             case "Starving" -> lang("Starving", "Mort de faim", "Morto di fame");
             default -> "";
@@ -282,7 +282,7 @@ public enum Language {
     public static String translate(ConsumableTypes consT) {
         return switch (consT) {
             case HEALTH_POTION -> lang("Health Potion", "Potion de Santé", "Pozione di Salute");
-            case TELEPORT_SCROLL -> lang("Teleportation Sroll", "Parchemin de Téléportation", "Scorrimento Teletrasporto");
+            case TELEPORT_SCROLL -> lang("Teleportation Sroll", "Parchemin de Téléportation", "Teletrasporto");
         };
     }
 
