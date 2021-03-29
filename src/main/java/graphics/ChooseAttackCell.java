@@ -19,7 +19,8 @@ public class ChooseAttackCell {
             Position newPos = Position.sumPos(pos, m);
             if (newPos == null ||
                     hero.getPosition().distance(newPos) > hero.getRange() ||
-                    !worldMap.getCell(newPos).getBaseContent().equals(CellElementType.EMPTY)
+                    !worldMap.getCell(newPos).getBaseContent().equals(CellElementType.EMPTY) ||
+                    cell.getBaseId() != worldMap.getCell(newPos).getBaseId()
             ) return pos;
             pos = newPos;
         }
