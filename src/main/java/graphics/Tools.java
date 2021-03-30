@@ -101,7 +101,7 @@ public class Tools {
 
         public static void loadSettings() {
             try {
-                File f = new File("data/config/settings.set");
+                File f = new File("data/settings.set");
                 if(!f.exists()) {
                     language = Language.EN; //Default language
                     mute = false; //Default value
@@ -134,7 +134,7 @@ public class Tools {
 
         public static void saveSettings(Language lang, boolean sound) {
             try {
-                File f = new File("data/config/settings.set");
+                File f = new File("data/settings.set");
                 if(!f.exists()) {
                     createConfig(f, lang, sound);
                     return;
@@ -148,7 +148,7 @@ public class Tools {
                 }
                 scanner.close();
 
-                FileWriter writer = new FileWriter("data/config/settings.set");
+                FileWriter writer = new FileWriter("data/settings.set");
                 for(String l : lines) {
                     if(l.length() > 0) {
                         if(l.charAt(0) != '$') {
