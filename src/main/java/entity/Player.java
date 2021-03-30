@@ -141,11 +141,12 @@ public class Player extends AbstractEntity {
 
     public static boolean addItem() {
         if (instancePlayer.inventory.size() < MAX_INVENTORY_SIZE) {
-            AbstractItem item = WorldMap.getInstanceWorld().getCell(getInstancePlayer().getPosition()).getItem();
+            Cell c = WorldMap.getInstanceWorld().getCell(Player.getInstancePlayer().getPosition());
+            AbstractItem item = c.getItem();
             if (item instanceof AbstractCollectableItems){
                 item.setPosition(null);
                 instancePlayer.inventory.add((AbstractCollectableItems) item);
-                item.setLocation();
+                c.heroPickItem();
             }
             return true;
         } else {

@@ -109,8 +109,6 @@ public abstract class AbstractEntity extends JPanel {
                 currentCell.getItem().use();
             }
             else if(Player.addItem()) GameWindow.addToLogs(Language.logGainItem(currentCell.getItem()), Tools.WindowText.golden);
-            currentCell.getItem().setPosition(null);
-            currentCell.heroPickItem();
             //GameWindow.refreshInventory();
         }
         return moved;
