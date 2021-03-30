@@ -7,6 +7,7 @@ import entity.WhatHeroDoes;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
+import graphics.map.Theme;
 import graphics.map.WorldMap;
 
 import javax.swing.*;
@@ -69,33 +70,37 @@ public class GamePanel extends JPanel {
         squareLabel.setBounds(-size,-size, size, size);
 
         // BASE CONTENT
+        Position merchRoomTL = worldMap.getMerchantRoomTopLeft();
+        Position merchRoomBR = worldMap.getMerchantRoomBottomRight();
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
             JLabel jLabel = new JLabel();
             ImageIcon img = null;
             Cell currentCell = worldMap.getCell(x, y);
             CellElementType currentCet = currentCell.getBaseContent();
             CellElementType obstacle = currentCell.getObstacle();
-            if(y > 0 && currentCet == CellElementType.HORIZONTAL_WALL) {
-                CellElementType previous = worldMap.getCell(x, y - 1).getBaseContent();
-                if (previous.isWall()) img = new ImageIcon(CellElementType.CORNER_BOT.getIcon().getImage());
-                else if (y < WorldMap.MAX_Y - 1) {
-                    CellElementType after = worldMap.getCell(x, y + 1).getBaseContent();
-                    img = new ImageIcon((after.isWall() ? CellElementType.CORNER_TOP : currentCet).getIcon().getImage());
+            if(x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())
+                img = new ImageIcon(Theme.MERCHANT.themeFor(currentCet).getImage());
+            else {
+                if (y > 0 && currentCet == CellElementType.HORIZONTAL_WALL) {
+                    CellElementType previous = worldMap.getCell(x, y - 1).getBaseContent();
+                    if (previous.isWall()) img = new ImageIcon(worldMap.getTheme().getCorner_bot().getImage());
+                    else if (y < WorldMap.MAX_Y - 1) {
+                        CellElementType after = worldMap.getCell(x, y + 1).getBaseContent();
+                        img = new ImageIcon((after.isWall() ? worldMap.getTheme().getCorner_top() : worldMap.getTheme().themeFor(currentCet)).getImage());
+                    }
+                } else if (currentCet == CellElementType.CORNER_BOT) {
+                    if (y < WorldMap.MAX_Y - 1) {
+                        CellElementType cet = worldMap.getCell(x, y + 1).getBaseContent();
+                        img = new ImageIcon((cet.isWall() ? worldMap.getTheme().getWall_vertical() : worldMap.getTheme().themeFor(currentCet)).getImage());
+                    }
+                } else if (currentCet == CellElementType.CORNER_TOP) {
+                    if (y > 0) {
+                        CellElementType cet = worldMap.getCell(x, y - 1).getBaseContent();
+                        img = new ImageIcon((cet.isWall() ? worldMap.getTheme().getWall_vertical() : worldMap.getTheme().themeFor(currentCet)).getImage());
+                    }
                 }
+                if (img == null) img = new ImageIcon(worldMap.getTheme().themeFor(currentCet).getImage());
             }
-            else if(currentCet == CellElementType.CORNER_BOT) {
-                if (y < WorldMap.MAX_Y - 1) {
-                    CellElementType cet = worldMap.getCell(x, y + 1).getBaseContent();
-                    img = new ImageIcon((cet.isWall() ? CellElementType.VERTICAL_WALL : currentCet).getIcon().getImage());
-                }
-            }
-            else if(currentCet == CellElementType.CORNER_TOP) {
-                if (y > 0) {
-                    CellElementType cet = worldMap.getCell(x, y - 1).getBaseContent();
-                    img = new ImageIcon((cet.isWall() ? CellElementType.VERTICAL_WALL : currentCet).getIcon().getImage());
-                }
-            }
-            if (img == null) img = new ImageIcon(currentCet.getIcon().getImage());
 
             if (x > 0 && y > 0) {
                 CellElementType leftC = worldMap.getCell(x - 1, y).getBaseContent();
@@ -112,6 +117,7 @@ public class GamePanel extends JPanel {
                 obstacleL.setBounds(x * size, y * size, size, size);
                 add(obstacleL);
             }
+
             jLabel.setIcon(img);
             jLabel.setBounds(x * size, y * size, size, size);
             add(jLabel);

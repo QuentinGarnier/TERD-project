@@ -106,8 +106,8 @@ public class Room {
         doors.add(door);
     }
 
-    public void putObstacles() {
-        if (id == Merchant.getInstanceMerchant().getSafeRoomId()) return;
+    public boolean putObstacles() {
+        if (id == Merchant.getInstanceMerchant().getSafeRoomId()) return false;
         for (int x = topLeft.getX() + 1; x < bottomRight.getX(); x++)
             for (int y = topLeft.getY() + 1; y < bottomRight.getY(); y++)
                 if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
@@ -119,6 +119,7 @@ public class Room {
         doors.forEach(door -> Tools.findPath(bfs, start, door, this, lab, booleans));
         monsters.forEach(monster -> Tools.BFS(monster.getPosition(), this, lab, booleans));
         currentRoomItems.forEach(item -> Tools.BFS(item.getPosition(), this, lab, booleans));
+        return true;
     }
 
     private void putMonsters() throws ErrorPositionOutOfBound {
