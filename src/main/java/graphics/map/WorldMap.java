@@ -21,6 +21,8 @@ public class WorldMap {
     private static final int maxRandomRoom = 100;
 
     private final Theme theme;
+    private Position merchantRoomTL, merchantRoomBR;
+
     private final Cell[][] lab;
     private final List<Room> rooms;
     private final List<Corridor> corridors;
@@ -37,7 +39,7 @@ public class WorldMap {
     }
 
     private WorldMap() throws ErrorPositionOutOfBound {
-        this(Theme.FOREST);
+        this(Theme.DUNGEON);
     }
 
     public void generateWorld() throws ErrorPositionOutOfBound {
@@ -51,8 +53,12 @@ public class WorldMap {
         placeEnd();
         placeMerchant();
         placePlayer();
-        rooms.forEach(Room::putObstacles);
-        //repaint();
+        for(Room r : rooms) {
+            if(!r.putObstacles()) {
+                merchantRoomTL = r.getTopLeft();
+                merchantRoomBR = r.getBottomRight();
+            }
+        }
         stageNum++;
     }
 
@@ -169,13 +175,13 @@ public class WorldMap {
         return getCell(p.getX(), p.getY());
     }
 
-    public Corridor getCurrentCorridor(int x, int y){
+    public Corridor getCurrentCorridor(int x, int y) {
         Cell c = getCell(x, y);
         return c.getBaseContent().equals(CellElementType.CORRIDOR) ?
                 corridors.get(c.getBaseId()) : null;
     }
 
-    public Room getCurrentRoom(Position p){
+    public Room getCurrentRoom(Position p) {
         return getCurrentRoom(p.getX(), p.getY());
     }
 
@@ -187,6 +193,18 @@ public class WorldMap {
 
     public List<AbstractItem> getItems() {
         return Collections.unmodifiableList(items);
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public Position getMerchantRoomTopLeft() {
+        return merchantRoomTL;
+    }
+
+    public Position getMerchantRoomBottomRight() {
+        return merchantRoomBR;
     }
 
     public void repaint() {
