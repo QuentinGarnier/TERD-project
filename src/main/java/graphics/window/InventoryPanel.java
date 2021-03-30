@@ -115,6 +115,7 @@ public class InventoryPanel extends JPanel {
             JButton esc = new JButton(Language.back());
             equip.addActionListener(e -> {
                 equipping(ai, ai.use());
+                GameWindow.refreshInventory();
                 updateInventory();
             });
             throwAway.addActionListener(e -> {

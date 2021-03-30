@@ -131,6 +131,8 @@ public class Player extends AbstractEntity {
         else {
             currentCell.setItem(ai);
             ai.setPosition(getPosition());
+            if (ai instanceof ItemEquip && ((ItemEquip) ai).isEquipped())
+                ai.use();
             inventory.remove(ai);
             //GameWindow.refreshInventory();
         }
