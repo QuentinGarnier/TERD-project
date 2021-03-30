@@ -10,6 +10,7 @@ import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.GamePanel;
 import graphics.window.GameWindow;
+import items.AbstractItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,11 +105,13 @@ public abstract class AbstractEntity extends JPanel {
         if (this instanceof Player && currentCell.getBaseContent().equals(CellElementType.CORRIDOR))
             for (Position pos : position.calcRangePosition(2, false)) worldMap.getCell(pos).removeFog();
         if (ct.isHero() && currentCell.getItem() != null) {
-            if(currentCell.getItem().immediateUse) {
-                currentCell.getItem().setPosition(null);
-                currentCell.getItem().use();
+            AbstractItem ai = currentCell.getItem();
+            if(ai.immediateUse) {
+                ai.setPosition(null);
+                ai.use();
+            } else if(Player.addItem()) {
+                GameWindow.addToLogs(Language.logGainItem(ai), Tools.WindowText.golden);
             }
-            else if(Player.addItem()) GameWindow.addToLogs(Language.logGainItem(currentCell.getItem()), Tools.WindowText.golden);
             //GameWindow.refreshInventory();
         }
         return moved;
