@@ -96,6 +96,7 @@ public abstract class AbstractItem extends JLabel {
 
     public void setPosition(Position position) {
         this.position = position;
+        setLocation();
     }
 
     @Override

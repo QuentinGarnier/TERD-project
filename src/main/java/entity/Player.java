@@ -40,6 +40,8 @@ public class Player extends AbstractEntity {
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
+        //for (int i = 0; i < 10; i++) inventory.add(AbstractCollectableItems.generateAbstractCollItems(0,null));
+
     }
 
     private Player(EntityType speciality) throws ErrorPositionOutOfBound {
@@ -120,15 +122,19 @@ public class Player extends AbstractEntity {
         return money >= cost;
     }
 
-    public void throwItem(int index) {
-        AbstractItem ai = inventory.get(index);
+    public boolean throwItem(AbstractCollectableItems ai) {
         Cell currentCell = WorldMap.getInstanceWorld().getCell(getPosition());
-        if (currentCell.getItem() != null) GameWindow.addToLogs(Language.logCantDropItem(), Color.RED);
+        if (currentCell.getItem() != null) {
+            GameWindow.addToLogs(Language.logCantDropItem(), Color.RED);
+            return false;
+        }
         else {
             currentCell.setItem(ai);
-            inventory.remove(index);
+            ai.setPosition(getPosition());
+            inventory.remove(ai);
             //GameWindow.refreshInventory();
         }
+        return true;
     }
 
     public static boolean addItem() {

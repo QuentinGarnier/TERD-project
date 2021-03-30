@@ -219,10 +219,13 @@ public enum Language {
         };
         return lang(e + " effect", "Effet " + e, "Effetto " + e, "تأثير" + e);
     }
-    public static String logRejected() {return lang("Rejected", "Rejecté", "Rifiutato","مرفوض");}
-    public static String logEquipped() {return lang("Equipped", "Equippé", "in uso","مسلح");}
-    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario","المخزون");}
-    public static String logConsumed() {return lang("Consumed", "Consommé", "Consumato","مستهلك");}
+    public static String logRejected() {return lang("Rejected", "Rejecté", "Rifiutato", "");}
+    public static String logEquipped() {return lang("Equipped", "Equippé", "in uso","");}
+    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario","");}
+    public static String logConsumed() {return lang("Consumed", "Consommé", "Consumato","");}
+    public static String logThrow() {return lang("Throw away", "Getter", "Buttare via", "");}
+    public static String logDisEquip(){return lang("Disequip", "Désequipper", "Lasciare", "");}
+    public static String logEquip(){return lang("Equip", "Equipper", "Usare", "");}
     private static String logIsParalysedEffect(EntityType entityType) {
         return switch (entityType) {
             case HERO_WARRIOR -> " [-20%" + attack() + "]";

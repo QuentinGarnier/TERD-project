@@ -10,7 +10,6 @@ import items.Collectables.ItemFood;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import static graphics.window.GameInterfacePanel.createLog;
@@ -24,7 +23,7 @@ public class InventoryPanel extends JPanel {
         setLayout(new BorderLayout());
         miniLog = new JLabel();
         contents = new JPanel(new GridLayout(0,1));
-        scrollPane = new JScrollPane(contents);
+        scrollPane = new JScrollPane(contents, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         miniLog.setHorizontalAlignment(SwingConstants.CENTER);
         setInventoryText();
         add(miniLog, BorderLayout.NORTH);
@@ -34,7 +33,6 @@ public class InventoryPanel extends JPanel {
     private void createLine(AbstractCollectableItems ai) {
         String s1 = ai.toString(), s2 = ai.getEffect();
         int s3 = ai.getPrice();
-        JButton jButton = new myButton(ai);
         JPanel panel = new JPanel(new BorderLayout());
         JLabel fstCol = createLog(s1, Color.GRAY);
         fstCol.setForeground(ai.equals(Player.getInstancePlayer().getDefenceItem()) ||
@@ -49,7 +47,7 @@ public class InventoryPanel extends JPanel {
         panel.add(fstCol, BorderLayout.WEST);
         panel.add(sndCol, BorderLayout.CENTER);
         panel.add(thrCol, BorderLayout.EAST);
-        jButton.add(panel);
+        myButton jButton = new myButton(ai, panel);
         contents.add(jButton);
         Dimension parentSize = contents.getComponent(0).getPreferredSize();
         int x = (int) parentSize.getWidth(), y = (int) parentSize.getHeight();
@@ -66,15 +64,15 @@ public class InventoryPanel extends JPanel {
         List<AbstractCollectableItems> items = Player.getInventory();//new ArrayList<>();
         //for (int i = 0; i < 20; i++)items.add(AbstractCollectableItems.generateAbstractCollItems(0, null));
         items.forEach(this::createLine);
-        if (items.size() == 0) {
-            scrollPane.repaint();
-            setInventoryText();
-        }
+    }
+
+    public void setInventoryText(Color c, String cnt){
+        miniLog.setForeground(c);
+        miniLog.setText(cnt);
     }
 
     public void setInventoryText(){
-        miniLog.setForeground(Color.BLUE);
-        miniLog.setText(Language.logInventory());
+        setInventoryText(Color.BLUE , Language.logInventory());
     }
 
     private void equipping(AbstractCollectableItems ai, boolean isEquipping){
@@ -87,17 +85,56 @@ public class InventoryPanel extends JPanel {
     }
 
     private class myButton extends JButton{
-        myButton(AbstractCollectableItems ai){
+        public final JPanel panel;
+        public final AbstractCollectableItems ai;
+        myButton(AbstractCollectableItems ai, JPanel panel){
             super();
             setMargin(null);
             setFocusable(false);
+            this.panel = panel;
+            this.ai = ai;
+            add(panel);
             ActionListener al = e -> {
                 if (Player.getInstancePlayer().getHP() == 0) return;
-                equipping(ai, ai.use());
-                GameWindow.refreshInventory();
-                updateInventory();
+                revalidate();
+                removeAll();
+                add(new choiceButton(ai, this));
             };
-            super.addActionListener(al);
+           super.addActionListener(al);
         }
+    }
+
+    private class choiceButton extends JPanel{
+        public choiceButton(AbstractCollectableItems ai, myButton mb){
+            setLayout(new GridLayout(0,3));
+            Player player = Player.getInstancePlayer();
+            JButton equip = new JButton();
+            JButton throwAway = new JButton(Language.logThrow());
+            JButton esc = new JButton("Esc");
+            equip.addActionListener(e -> {
+                equipping(ai, ai.use());
+                updateInventory();
+            });
+            throwAway.addActionListener(e -> {
+                if(!player.throwItem(ai))
+                    setInventoryText(Color.RED, Language.logCantDropItem());
+                updateInventory();
+            });
+            esc.addActionListener(e -> {
+                updateInventory();
+            });
+            equip.setText(
+                    (ai instanceof ItemEquip) ?
+                            (((ItemEquip) ai).isEquipped() ? Language.logDisEquip() : Language.logEquip()) :
+                            Language.logConsumed());
+            add(equip);
+            add(throwAway);
+            add(esc);
+            setFocusable(false);
+            equip.setFocusable(false);
+            throwAway.setFocusable(false);
+            esc.setFocusable(false);
+        }
+
     }
 }
