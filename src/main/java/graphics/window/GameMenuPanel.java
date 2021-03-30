@@ -29,6 +29,7 @@ public class GameMenuPanel extends JPanel {
     private JButton langENButton;
     private JButton langFRButton;
     private JButton langITButton;
+    private JButton langARButton;
 
     private JButton newGameButton, optionsButton, exitButton, backButton, backButton2, launchButton,validateButton;
     private JLabel specialityLabel, warLabel, arcLabel, magLabel, optionsLabel, setLangLabel, muteLabel;
@@ -151,14 +152,17 @@ public class GameMenuPanel extends JPanel {
         langENButton = createFlagButton("data/images/menu/opt_uk.png");
         langFRButton = createFlagButton("data/images/menu/opt_fr.png");
         langITButton = createFlagButton("data/images/menu/opt_it.png");
+        langARButton = createFlagButton("data/images/menu/opt_ar.png");
         langBorders();
         addMouseEffectFlag(langENButton, Language.EN);
         addMouseEffectFlag(langFRButton, Language.FR);
         addMouseEffectFlag(langITButton, Language.IT);
+        addMouseEffectFlag(langARButton, Language.AR);
 
         addForFlagArea(flagArea, langENButton);
         addForFlagArea(flagArea, langFRButton);
         addForFlagArea(flagArea, langITButton);
+        addForFlagArea(flagArea, langARButton);
 
         setLangLabel = createTitle(Language.selectTheLanguage(), 16, Color.BLACK);
         setLangLabel.setPreferredSize(new Dimension(500, 40));
@@ -190,6 +194,7 @@ public class GameMenuPanel extends JPanel {
         langENButton.setBorder(language == Language.EN? bigBorder(true) : bigBorder(false));
         langFRButton.setBorder(language == Language.FR? bigBorder(true) : bigBorder(false));
         langITButton.setBorder(language == Language.IT? bigBorder(true) : bigBorder(false));
+        langARButton.setBorder(language == Language.AR? bigBorder(true) : bigBorder(false));
     }
 
     private Border bigBorder(boolean colored) {
@@ -431,6 +436,7 @@ public class GameMenuPanel extends JPanel {
             case EN -> "uk";
             case FR -> "fr";
             case IT -> "it";
+            case AR -> "ar";
         };
         Icon img = button.getIcon();
         ImageIcon hover = new ImageIcon("data/images/menu/opt_" + langURL + "_hover.png");
