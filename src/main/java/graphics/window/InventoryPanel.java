@@ -19,10 +19,11 @@ public class InventoryPanel extends JPanel {
     private final JPanel contents;
     private final JLabel miniLog;
     private final JScrollPane scrollPane;
+    private final GridLayout gl = new GridLayout(4,1);
     private InventoryPanel(){
         setLayout(new BorderLayout());
         miniLog = new JLabel();
-        contents = new JPanel(new GridLayout(0,1));
+        contents = new JPanel(gl);
         scrollPane = new JScrollPane(contents, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         miniLog.setHorizontalAlignment(SwingConstants.CENTER);
         setInventoryText();
@@ -62,6 +63,7 @@ public class InventoryPanel extends JPanel {
         contents.removeAll();
         scrollPane.revalidate();
         List<AbstractCollectableItems> items = Player.getInventory();//new ArrayList<>();
+        gl.setRows(Math.max(4, items.size()));
         //for (int i = 0; i < 20; i++)items.add(AbstractCollectableItems.generateAbstractCollItems(0, null));
         items.forEach(this::createLine);
     }
