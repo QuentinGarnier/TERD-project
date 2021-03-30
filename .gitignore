@@ -25,4 +25,4 @@ hs_err_pid*
 .idea
 
 TERD-project.iml
-data/config/settings.CONFIG
+data/config/settings.set
