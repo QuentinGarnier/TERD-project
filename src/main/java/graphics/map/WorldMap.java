@@ -39,7 +39,7 @@ public class WorldMap {
     }
 
     private WorldMap() throws ErrorPositionOutOfBound {
-        this(Theme.DUNGEON);
+        this(Theme.ISLANDS);
     }
 
     public void generateWorld() throws ErrorPositionOutOfBound {
