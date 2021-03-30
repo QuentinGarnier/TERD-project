@@ -219,13 +219,14 @@ public enum Language {
         };
         return lang(e + " effect", "Effet " + e, "Effetto " + e, "تأثير" + e);
     }
-    public static String logRejected() {return lang("Rejected", "Rejecté", "Rifiutato", "");}
-    public static String logEquipped() {return lang("Equipped", "Equippé", "in uso","");}
-    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario","");}
-    public static String logConsumed() {return lang("Consumed", "Consommé", "Consumato","");}
-    public static String logThrow() {return lang("Throw away", "Getter", "Buttare via", "");}
-    public static String logDisEquip(){return lang("Disequip", "Désequipper", "Lasciare", "");}
-    public static String logEquip(){return lang("Equip", "Equipper", "Usare", "");}
+    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario","...");}
+    public static String logEquipped() {return lang("equipped", "équipé(e)", "in uso","...");}
+    public static String logRejected() {return lang("rejected", "rejeté", "rifiutato", "...");}
+    public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","...");}
+    public static String logEquip(){return lang("Equip", "Équiper", "Usare", "...");}
+    public static String logDisEquip(){return lang("Disequip", "Déséquiper", "Lasciare", "...");}
+    public static String logConsume() {return lang("Consume", "Consommer", "Consumare","...");}
+    public static String logThrow() {return lang("Throw away", "Jeter", "Buttare via", "...");}
     private static String logIsParalysedEffect(EntityType entityType) {
         return switch (entityType) {
             case HERO_WARRIOR -> " [-20%" + attack() + "]";
@@ -341,8 +342,8 @@ public enum Language {
     public static String logItemCons(ConsumableTypes ct) {
         return switch (ct) {
             case HEALTH_POTION -> lang("+10% of your HP.", "+10% des PV", "+10% di HP", "+ 10٪ من الأرواح");
-            case REGENERATION_POTION -> lang("Heal in duration", "Guéri dans la durée", "Guarito nel tempo", "تم علاجه بمرور الوقت");
-            case TELEPORT_SCROLL -> lang("Go to Merchant room", "T'amène chez le marchand", "Ti porta dal mercante", "يأخذك إلى التاجر");
+            case REGENERATION_POTION -> lang("Heal in duration", "Guérit sur la durée", "Guarito nel tempo", "تم علاجه بمرور الوقت");
+            case TELEPORT_SCROLL -> lang("Go to Merchant room", "Téléporte chez le marchand", "Ti porta dal mercante", "يأخذك إلى التاجر");
             case DIVINE_BLESSING -> lang("Become invulnerable for a while", "Devenez invulnérable un moment", "Diventi invulnerabile per un po '", "كن محصنًا لبعض الوقت");
         };
     }

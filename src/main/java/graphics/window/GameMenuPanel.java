@@ -146,9 +146,9 @@ public class GameMenuPanel extends JPanel {
         langArea.setBackground(Color.GRAY);
         langArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-        JPanel flagArea = new JPanel(new GridLayout(1,3));
+        JPanel flagArea = new JPanel(new GridLayout(1,4));
         flagArea.setBackground(Color.GRAY);
-        flagArea.setMaximumSize(new Dimension(500, 109));
+        flagArea.setMaximumSize(new Dimension(500, 75));
         langENButton = createFlagButton("data/images/menu/opt_uk.png");
         langFRButton = createFlagButton("data/images/menu/opt_fr.png");
         langITButton = createFlagButton("data/images/menu/opt_it.png");
@@ -200,7 +200,7 @@ public class GameMenuPanel extends JPanel {
     private Border bigBorder(boolean colored) {
         return BorderFactory.createCompoundBorder(
                 (colored? BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden): BorderFactory.createBevelBorder(BevelBorder.RAISED)),
-                BorderFactory.createLineBorder((colored? Tools.WindowText.golden: Color.WHITE), 4));
+                BorderFactory.createLineBorder((colored? Tools.WindowText.golden: Color.WHITE), 3));
     }
 
     private void addForFlagArea(JPanel area, JButton button) {
@@ -473,6 +473,7 @@ public class GameMenuPanel extends JPanel {
         GameWindow.setSettings(language, soundCheckBox.isSelected());
         setTexts();
         GameWindow.playOrStopMenuMusic();
+        goToScreen(0);
     }
 
     private void setTexts() {
