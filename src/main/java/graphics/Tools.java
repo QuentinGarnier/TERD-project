@@ -96,7 +96,7 @@ public class Tools {
      * A sub class for the settings of the game.
      */
     public static class Settings {
-        private static Language language = Language.EN;
+        private static Language language;
         private static boolean mute = false;
 
         public static void loadSettings() {
@@ -136,7 +136,7 @@ public class Tools {
             try {
                 File f = new File("data/config/settings.set");
                 if(!f.exists()) {
-                    createConfig(f);
+                    createConfig(f, lang, sound);
                     return;
                 }
                 Scanner scanner = new Scanner(f);
@@ -172,12 +172,12 @@ public class Tools {
             }
         }
 
-        private static void createConfig(File f) {
+        private static void createConfig(File f, Language lang, boolean sound) {
             try {
                 if(f.createNewFile()) {
                     FileWriter writer = new FileWriter(f);
-                    writer.write("sLanguage EN\n");
-                    writer.write("sMusic true\n");
+                    writer.write("sLanguage " + lang + "\n");
+                    writer.write("sMusic " + sound + "\n");
                     writer.close();
                 }
             } catch (IOException e) {
