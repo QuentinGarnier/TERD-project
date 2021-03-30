@@ -40,7 +40,6 @@ public class WorldMap {
     private Theme randomTheme() {
         Random rnd = new Random();
         int iTheme = rnd.nextInt(Theme.values().length - 2);  //Excludes Final_Boss and Merchant
-        System.out.println(iTheme);
         return switch (iTheme) {
             case 0 -> Theme.FOREST;
             case 1 -> Theme.ISLANDS;
