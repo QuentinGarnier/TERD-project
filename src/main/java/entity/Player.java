@@ -61,8 +61,12 @@ public class Player extends AbstractEntity {
         experiencePoints = 0;
         hunger = 100;  //100 is the max value for the Hunger Bar
         whatHeroDoes = WhatHeroDoes.MOVING;
-        modifyHP(getHPMax());
+        modifyHP(entityType.HPByType);
+        setHPMax(entityType.HPByType);
+        setAttack(entityType.attackByType);
+        setAttackMax(entityType.attackByType);
         modifyHunger(100);
+        setState(EntityState.NEUTRAL);
     }
 
     public WhatHeroDoes getWhatHeroDoes() {
