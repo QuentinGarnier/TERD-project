@@ -69,7 +69,8 @@ public class GamePanel extends JPanel {
         add(squareLabel);
         squareLabel.setBounds(-size,-size, size, size);
 
-        // BASE CONTENT
+
+        // ===== BASE CONTENT ===== //
         Position merchRoomTL = worldMap.getMerchantRoomTopLeft();
         Position merchRoomBR = worldMap.getMerchantRoomBottomRight();
         for(int x = 0; x < WorldMap.MAX_X; x++) for(int y = 0; y < WorldMap.MAX_Y; y++) {
@@ -102,16 +103,22 @@ public class GamePanel extends JPanel {
                 if (img == null) img = new ImageIcon(worldMap.getTheme().themeFor(currentCet).getImage());
             }
 
+
+            // ===== SHADOWS ===== //
             if (x > 0 && y > 0) {
-                CellElementType leftC = worldMap.getCell(x - 1, y).getBaseContent();
-                CellElementType topLeftC = worldMap.getCell(x - 1, y - 1).getBaseContent();
-                if(leftC.isWall() && !currentCet.isWall() && topLeftC.isWall()) {
-                    JLabel shad = new JLabel(shadow);
-                    shad.setBounds(x * size, y*size, size, size);
-                    add(shad);
+                if(worldMap.getTheme() != Theme.ISLANDS || (x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())) {
+                    CellElementType leftC = worldMap.getCell(x - 1, y).getBaseContent();
+                    CellElementType topLeftC = worldMap.getCell(x - 1, y - 1).getBaseContent();
+                    if (leftC.isWall() && !currentCet.isWall() && topLeftC.isWall()) {
+                        JLabel shad = new JLabel(shadow);
+                        shad.setBounds(x * size, y * size, size, size);
+                        add(shad);
+                    }
                 }
             }
 
+
+            // ===== OBSTACLES ===== //
             if (obstacle != null) {
                 JLabel obstacleL = new JLabel(new ImageIcon(obstacle.getIcon().getImage()));
                 obstacleL.setBounds(x * size, y * size, size, size);

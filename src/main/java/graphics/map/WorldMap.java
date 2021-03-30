@@ -20,7 +20,7 @@ public class WorldMap {
     public static int stageNum = 0;
     private static final int maxRandomRoom = 100;
 
-    private final Theme theme;
+    private Theme theme;
     private Position merchantRoomTL, merchantRoomBR;
 
     private final Cell[][] lab;
@@ -29,20 +29,27 @@ public class WorldMap {
     private final List<AbstractItem> items;
 
 
-    private WorldMap(Theme t) throws ErrorPositionOutOfBound {
+    private WorldMap() throws ErrorPositionOutOfBound {
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         items = new ArrayList<>();
-        theme = t;
         generateWorld();
     }
 
-    private WorldMap() throws ErrorPositionOutOfBound {
-        this(Theme.ISLANDS);
+    private Theme randomTheme() {
+        Random rnd = new Random();
+        int iTheme = rnd.nextInt(Theme.values().length - 2);  //Excludes Final_Boss and Merchant
+        System.out.println(iTheme);
+        return switch (iTheme) {
+            case 0 -> Theme.FOREST;
+            case 1 -> Theme.ISLANDS;
+            default -> Theme.DUNGEON;
+        };
     }
 
     public void generateWorld() throws ErrorPositionOutOfBound {
+        theme = randomTheme();
         rooms.clear();
         corridors.clear();
         items.clear();
@@ -80,7 +87,7 @@ public class WorldMap {
         else placePlayer();
     }
 
-    private void placeEnd(){
+    private void placeEnd() {
         Random rnd = new Random();
         int iRoom = rnd.nextInt(rooms.size());
         Room room = rooms.get(iRoom);
