@@ -7,8 +7,8 @@ import entity.EntityType;
 import graphics.map.Theme;
 import graphics.window.GameWindow;
 import items.AbstractItem;
-import items.Collectables.ConsumableTypes;
-import items.Collectables.EquipmentTypes;
+import items.collectables.ConsumableTypes;
+import items.collectables.EquipmentTypes;
 
 public enum Language {
     EN, FR, IT, AR;

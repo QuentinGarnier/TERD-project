@@ -2,10 +2,10 @@ package graphics.window;
 
 import entity.Player;
 import graphics.Language;
-import items.Collectables.AbstractCollectableItems;
-import items.Collectables.ItemConsumable;
-import items.Collectables.ItemEquip;
-import items.Collectables.ItemFood;
+import items.collectables.AbstractCollectableItems;
+import items.collectables.ItemConsumable;
+import items.collectables.ItemEquip;
+import items.collectables.ItemFood;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,10 +86,13 @@ public class InventoryPanel extends JPanel {
                                  Language.logFood() : Language.translate(((ItemConsumable) ai).ct)) + " " + Language.logConsumed()));
     }
 
-    private class myButton extends JButton{
+
+
+    private class myButton extends JButton {
         public final JPanel panel;
         public final AbstractCollectableItems ai;
-        myButton(AbstractCollectableItems ai, JPanel panel){
+
+        myButton(AbstractCollectableItems ai, JPanel panel) {
             super();
             setMargin(null);
             setFocusable(false);
@@ -102,12 +105,15 @@ public class InventoryPanel extends JPanel {
                 removeAll();
                 add(new choiceButton(ai, this));
             };
-           super.addActionListener(al);
+            setToolTipText(ai.getEffect());
+            super.addActionListener(al);
         }
     }
 
-    private class choiceButton extends JPanel{
-        public choiceButton(AbstractCollectableItems ai, myButton mb){
+
+
+    private class choiceButton extends JPanel {
+        public choiceButton(AbstractCollectableItems ai, myButton mb) {
             setLayout(new GridLayout(0,3));
             Player player = Player.getInstancePlayer();
             JButton equip = new JButton();

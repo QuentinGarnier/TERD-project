@@ -2,7 +2,7 @@ package entity;
 
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
-import items.Collectables.AbstractCollectableItems;
+import items.collectables.AbstractCollectableItems;
 
 import javax.swing.*;
 import java.awt.*;

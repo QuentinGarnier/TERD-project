@@ -2,7 +2,7 @@ package items;
 
 import entity.Player;
 import graphics.elements.Position;
-import items.Collectables.ItemEquip;
+import items.collectables.ItemEquip;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

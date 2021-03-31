@@ -2,7 +2,7 @@ package entity;
 
 import graphics.Language;
 import graphics.window.GameWindow;
-import items.Collectables.AbstractCollectableItems;
+import items.collectables.AbstractCollectableItems;
 
 import javax.swing.*;
 import java.awt.*;

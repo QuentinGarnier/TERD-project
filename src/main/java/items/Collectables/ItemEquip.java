@@ -1,4 +1,4 @@
-package items.Collectables;
+package items.collectables;
 
 import entity.Monster;
 import entity.Player;
@@ -7,8 +7,6 @@ import graphics.Tools;
 import graphics.elements.Position;
 import graphics.window.GameWindow;
 import items.ItemType;
-
-import javax.tools.Tool;
 
 public class ItemEquip extends AbstractCollectableItems {
     private boolean isEquipped;

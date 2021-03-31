@@ -1,4 +1,4 @@
-package items.Collectables;
+package items.collectables;
 
 import entity.EntityState;
 import entity.Merchant;

@@ -1,4 +1,4 @@
-package items.Collectables;
+package items.collectables;
 
 import graphics.elements.Position;
 import items.AbstractItem;
