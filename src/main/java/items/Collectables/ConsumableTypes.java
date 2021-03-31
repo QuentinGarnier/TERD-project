@@ -37,7 +37,7 @@ public enum ConsumableTypes {
             case HEALTH_POTION -> {
 
                 int heal = (int) (Math.round(pl.getHPMax() * 0.10));
-                GameWindow.addToLogs("+" + ((heal + pl.getHP() > pl.getHPMax()) ? pl.getHPMax() - pl.getHP() : heal) + "HP", Tools.WindowText.green);
+                GameWindow.addToLogs("+" + ((heal + pl.getHP() > pl.getHPMax()) ? pl.getHPMax() - pl.getHP() : heal) + " " + Language.hp(), Tools.WindowText.green);
                 pl.modifyHP(heal);
             }
             case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);

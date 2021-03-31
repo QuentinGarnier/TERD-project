@@ -57,5 +57,10 @@ public class ItemEquip extends AbstractCollectableItem {
     }
 
     @Override
+    public String getDescription() {
+        return getEffect();
+    }
+
+    @Override
     public int getPrice() { return et.getPrice(); }
 }

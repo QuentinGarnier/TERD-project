@@ -28,6 +28,11 @@ public class ItemConsumable extends AbstractCollectableItem {
     }
 
     @Override
+    public String getDescription() {
+        return getEffect();
+    }
+
+    @Override
     public String toString() {
         return Language.translate(ct);
     }

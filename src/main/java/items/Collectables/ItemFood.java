@@ -37,7 +37,12 @@ public class ItemFood extends AbstractCollectableItem {
 
     @Override
     public String getEffect() {
-        return "[ +" + hpGain + " " +  Language.hp() + ", +" + hungerGain + " " + Language.logFood() + " ]";
+        return "[+" + hpGain + " " +  Language.hp() + " | +" + hungerGain + " " + Language.hunger() + "]";
+    }
+
+    @Override
+    public String getDescription() {
+        return getEffect();
     }
 
     @Override
