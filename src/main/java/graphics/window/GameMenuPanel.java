@@ -17,7 +17,7 @@ public class GameMenuPanel extends JPanel {
     private final JPanel startScreen = new JPanel();  //Launch a new game, load a save, see options/credits or quit the game.
     private final JPanel charaScreen = new JPanel();  //Select a character between 3 specialities: warrior, archer or mage.
     private final JPanel optionsScreen = new JPanel();  //Change options of the game, like language.
-    private int state;  //0 for startScreen, 1 for charaScreen and 2 for optionsScreen.
+    private Screen state;
 
     private JPanel warSpecPanel;
     private JPanel arcSpecPanel;
@@ -35,18 +35,26 @@ public class GameMenuPanel extends JPanel {
     private JButton newGameButton, optionsButton, helpButton, exitButton, backButton, backButton2, launchButton,validateButton;
     private JLabel specialityLabel, warLabel, arcLabel, magLabel, optionsLabel, setLangLabel, muteLabel;
 
+    private final Color colorBG = new Color(60, 100, 120, 180);
+
+    private final int screenWidth, screenHeight;
+
     private GameMenuPanel() {
         super();
         setLayout(new BorderLayout());
         setFocusable(true);
         setBackground(Color.DARK_GRAY);
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        screenWidth = screenSize.width;
+        screenHeight = screenSize.height;
+
         language = GameWindow.language();
 
         setupScreens();
         warSpecPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden));
 
-        state = 0;
+        state = Screen.START;
         replaceWith(startScreen);
     }
 
@@ -63,27 +71,39 @@ public class GameMenuPanel extends JPanel {
     private void setupScreen(JPanel screen) {
         Dimension dim = new Dimension(500, 500);
         screen.setPreferredSize(dim);
-        screen.setBackground(Color.GRAY);
-        screen.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+        screen.setBackground(colorBG);
+        Color colorBGDark = new Color(20, 50, 70, 180);
+        screen.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, colorBG, colorBGDark));
     }
 
     private void fillStartScreen() {
-        startScreen.setLayout(new GridLayout(5, 1));
-        startScreen.add(createTitle("That time the Hero saved the Village", 32, Tools.WindowText.red));
+        startScreen.setLayout(new BorderLayout());
+        JPanel midPanel = new JPanel(new GridLayout(4, 1));
 
         newGameButton = createMenuButton(Language.newGame());
         optionsButton = createMenuButton(Language.options());
         helpButton = createMenuButton("Help");
         exitButton = createMenuButton(Language.exitGame());
-        addMenuButton(newGameButton, startScreen);
-        addMenuButton(optionsButton, startScreen);
-        addMenuButton(helpButton, startScreen);
-        addMenuButton(exitButton, startScreen);
+        addMenuButton(newGameButton, midPanel);
+        addMenuButton(optionsButton, midPanel);
+        addMenuButton(helpButton, midPanel);
+        addMenuButton(exitButton, midPanel);
 
-        addMouseEffect(newGameButton, 0);
-        addMouseEffect(optionsButton, 1);
-        addMouseEffect(helpButton, 3);
-        addMouseEffect(exitButton, 2);
+        addMouseEffect(newGameButton, Effect.GOTO_CHARA);
+        addMouseEffect(optionsButton, Effect.GOTO_OPTIONS);
+        addMouseEffect(helpButton, Effect.GOTO_HELP);
+        addMouseEffect(exitButton, Effect.EXIT);
+
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel titleLabel = new JLabel(new ImageIcon("data/images/menu/title.png"));
+        titlePanel.add(titleLabel);
+        titlePanel.setPreferredSize(new Dimension(800, 146));
+        titlePanel.setOpaque(false);
+        midPanel.setBorder(null);
+        midPanel.setOpaque(false);
+
+        startScreen.add(midPanel);
+        startScreen.add(titlePanel, BorderLayout.NORTH);
     }
 
     private void fillCharaScreen() {
@@ -106,7 +126,7 @@ public class GameMenuPanel extends JPanel {
         charaScreen.add(createSpecPanel(), cons);
 
         backButton = createMenuButton(Language.back());
-        addMouseEffect(backButton, 3);
+        addMouseEffect(backButton, Effect.GOTO_START);
         cons.fill = GridBagConstraints.HORIZONTAL;
         cons.gridwidth = 1;
         cons.gridx = 0;
@@ -121,7 +141,7 @@ public class GameMenuPanel extends JPanel {
         charaScreen.add(new JLabel(), cons);
 
         launchButton = createMenuButton(Language.startTheQuest());
-        addMouseEffect(launchButton, 4);
+        addMouseEffect(launchButton, Effect.LAUNCH);
         cons.gridx = 2;
         cons.weightx = 0.3;
         charaScreen.add(launchButton, cons);
@@ -133,25 +153,25 @@ public class GameMenuPanel extends JPanel {
         optionsScreen.add(optionsLabel, BorderLayout.NORTH);
         JPanel centerP = new JPanel(new BorderLayout());
         JPanel lastP = new JPanel(new BorderLayout());
-        centerP.setBackground(Color.GRAY);
-        lastP.setBackground(Color.GRAY);
+        centerP.setOpaque(false);
+        lastP.setOpaque(false);
 
         backButton2 = createMenuButton(Language.back());
-        addMouseEffect(backButton2, 3);
+        addMouseEffect(backButton2, Effect.GOTO_START);
         validateButton = createMenuButton(Language.validate());
-        addMouseEffect(validateButton, 5);
+        addMouseEffect(validateButton, Effect.SAVE_SETTINGS);
         JPanel footer = new JPanel();
-        footer.setBackground(Color.GRAY);
+        footer.setOpaque(false);
         footer.add(backButton2);
         footer.add(validateButton);
         optionsScreen.add(footer, BorderLayout.SOUTH);
 
         JPanel langArea = new JPanel(new BorderLayout());
-        langArea.setBackground(Color.GRAY);
-        langArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        langArea.setOpaque(false);
+        langArea.setBorder(null);
 
         JPanel flagArea = new JPanel(new GridLayout(1,4));
-        flagArea.setBackground(Color.GRAY);
+        flagArea.setOpaque(false);
         flagArea.setMaximumSize(new Dimension(500, 75));
         langENButton = createFlagButton("data/images/menu/opt_uk.png");
         langFRButton = createFlagButton("data/images/menu/opt_fr.png");
@@ -172,17 +192,39 @@ public class GameMenuPanel extends JPanel {
         setLangLabel.setPreferredSize(new Dimension(500, 40));
 
         JPanel muteP = new JPanel(new GridLayout(1, 2));
-        muteP.setBackground(Color.GRAY);
+        muteP.setOpaque(false);
         muteLabel = createTitle(Language.gameSound(), 16, Color.BLACK);
         muteLabel.setPreferredSize(new Dimension(500, 40));
         muteLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         muteP.add(muteLabel);
 
         JPanel checkBoxPanel = new JPanel(new BorderLayout());
-        checkBoxPanel.setBackground(Color.GRAY);
+        checkBoxPanel.setOpaque(false);
         checkBoxPanel.add(soundCheckBox, BorderLayout.WEST);
-        soundCheckBox.setBackground(Color.GRAY);
-        soundCheckBox.setSelected(!GameWindow.isMuted());
+        soundCheckBox.setOpaque(false);
+        refreshCheckbox();
+        soundCheckBox.addMouseListener(new MouseListener() {
+            final Icon bg = new ImageIcon("data/images/system/checkbox.png");
+            final ImageIcon hover = new ImageIcon("data/images/system/checkbox_hover.png");
+            final Icon bgT = new ImageIcon("data/images/system/checkbox_true.png");
+            final ImageIcon hoverT = new ImageIcon("data/images/system/checkbox_true_hover.png");
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                soundCheckBox.setIcon(soundCheckBox.isSelected()?hoverT:hover);
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                soundCheckBox.setIcon(soundCheckBox.isSelected()?hoverT:hover);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                soundCheckBox.setIcon(soundCheckBox.isSelected()?bgT:bg);
+            }
+        });
 
         muteP.add(checkBoxPanel);
         muteP.setPreferredSize(new Dimension(500, 100));
@@ -203,13 +245,15 @@ public class GameMenuPanel extends JPanel {
 
     private Border bigBorder(boolean colored) {
         return BorderFactory.createCompoundBorder(
-                (colored? BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden): BorderFactory.createBevelBorder(BevelBorder.RAISED)),
-                BorderFactory.createLineBorder((colored? Tools.WindowText.golden: Color.WHITE), 3));
+                BorderFactory.createCompoundBorder(
+                        (colored? BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden): BorderFactory.createBevelBorder(BevelBorder.RAISED)),
+                        BorderFactory.createLineBorder((colored? Tools.WindowText.golden: Color.WHITE), 3)),
+                BorderFactory.createLineBorder(colored?Tools.WindowText.dark_golden:Color.GRAY));
     }
 
     private void addForFlagArea(JPanel area, JButton button) {
         JPanel panel = new JPanel(new FlowLayout());
-        panel.setBackground(Color.GRAY);
+        panel.setOpaque(false);
         panel.add(button);
         area.add(panel);
     }
@@ -219,67 +263,78 @@ public class GameMenuPanel extends JPanel {
         JButton button = new JButton(img);
         button.setMaximumSize(new Dimension(175, 109));
         button.setBorder(null);
-        //button.setContentAreaFilled(false);
         return button;
     }
 
     void display() {
         switch (state) {
-            case 0 -> displayStartScreen();
-            case 1 -> displayCharaScreen();
-            case 2 -> displayOptionsScreen();
-            case 3 -> displayHelpScreen();
+            case START -> displayStartScreen();
+            case CHARA -> displayCharaScreen();
+            case OPTIONS -> displayOptionsScreen();
+            case HELP -> displayHelpScreen();
         }
     }
 
     private void displayStartScreen() {
-        goToScreen(0);
+        goToScreen(Screen.START);
     }
 
     private void displayCharaScreen() {
-        goToScreen(1);
+        goToScreen(Screen.CHARA);
     }
 
     private void displayOptionsScreen() {
-        goToScreen(2);
+        goToScreen(Screen.OPTIONS);
     }
 
     private void displayHelpScreen(){
-        goToScreen(3);
+        goToScreen(Screen.HELP);
     }
 
     /**
      * Go to the screen with the associated number.
-     * @param n one of 0 (StartScreen), 1 (CharaScreen) or 2 (OptionsScreen) or 3 (HelpScreen)
+     * @param screen one of START, CHARA, OPTIONS or HELP
      */
-    private void goToScreen(int n) {
-        if(state != n) switch (n) {
-            case 0 -> replaceWith(startScreen);
-            case 1 -> replaceWith(charaScreen);
-            case 2 -> {
+    private void goToScreen(Screen screen) {
+        if(state != screen) switch (screen) {
+            case START -> replaceWith(startScreen);
+            case CHARA -> replaceWith(charaScreen);
+            case OPTIONS -> {
                 soundCheckBox.setSelected(!GameWindow.isMuted());
                 language = GameWindow.language();
                 langBorders();
+                refreshCheckbox();
                 replaceWith(optionsScreen);
             }
-            case 3 -> {
+            case HELP -> {
                 replaceWith(/*GameInfoPanel.gameInfoPanel*/);
             }
         }
-        state = n;
+        state = screen;
     }
 
-    public static void replaceWith(){
+    private void refreshCheckbox() {
+        soundCheckBox.setSelected(!GameWindow.isMuted());
+        soundCheckBox.setIcon(new ImageIcon("data/images/system/checkbox" + (soundCheckBox.isSelected()?"_true":"") + ".png"));
+    }
+
+    public static void replaceWith() {
         getMenuPanel.replaceWith(getMenuPanel.startScreen);
     }
 
     private void replaceWith(JPanel jPanel) {
         if(getComponentCount() > 0) removeAll();
-        add(jPanel);
+
+        JLabel backgroundImage = new JLabel(new ImageIcon("data/images/system/title.png"));
+        backgroundImage.setBounds(0, 0, screenWidth, screenHeight);
+        add(backgroundImage);
+
+        add(jPanel, 0);
         add(newBorder(), BorderLayout.NORTH);
         add(newBorder(), BorderLayout.EAST);
         add(newBorder(), BorderLayout.SOUTH);
         add(newBorder(), BorderLayout.WEST);
+
         repaint();
         revalidate();
     }
@@ -287,7 +342,7 @@ public class GameMenuPanel extends JPanel {
     private JPanel newBorder() {
         JPanel jPanel = new JPanel();
         jPanel.setBackground(Color.DARK_GRAY);
-        jPanel.setPreferredSize(new Dimension(80, 80));
+        jPanel.setPreferredSize(new Dimension(20, 60));
         return jPanel;
     }
 
@@ -377,19 +432,25 @@ public class GameMenuPanel extends JPanel {
 
     private JButton createMenuButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(new Color(120, 90, 60));
-        button.setForeground(new Color(0, 0, 0));
+        button.setPreferredSize(new Dimension(text.length() * 16 + 32,40));
+        button.setBackground(new Color(220, 200, 160));
+        button.setForeground(Color.BLACK);
+        button.setIcon(new ImageIcon(""));
         Font font = button.getFont();
-        button.setFont(new Font(font.getName(), Font.BOLD, 20));
+        button.setFont(new Font(font.getName(), Font.BOLD, 18));
         button.setHorizontalAlignment(SwingConstants.CENTER);
-        button.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+        button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden),
+                        BorderFactory.createLineBorder(Tools.WindowText.golden, 4)),
+                BorderFactory.createLineBorder(new Color(140, 110, 70))));
         button.setFocusable(false);
         return button;
     }
 
     private void addMenuButton(JButton button, JPanel screen) {
         JPanel centerP = new JPanel(new GridLayout(1, 3));
-        centerP.setBackground(Color.GRAY);
+        centerP.setOpaque(false);
         centerP.add(new JLabel());
         centerP.add(button);
         centerP.add(new JLabel());
@@ -413,23 +474,23 @@ public class GameMenuPanel extends JPanel {
     /**
      * Add an effect to a JButton (click and hover).
      * @param button a JButton, should be not null
-     * @param effect one of 0 (new game), 1 (options), 2 (exit), 3 (back to StartScreen), 4 (launch) or 5 (save settings)
+     * @param effect one of GOTO_CHARA, GOTO_OPTIONS, EXIT, GOTO_START, LAUNCH or SAVE_SETTINGS
      */
-    private void addMouseEffect(JButton button, int effect) {
+    private void addMouseEffect(JButton button, Effect effect) {
         Color bg = button.getBackground();
-        Color hoverBG = new Color(120, 80, 60);
+        Color hoverBG = new Color(180, 150, 110);
 
         button.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 button.setBackground(bg);
                 switch (effect) {
-                    case 0 -> goToScreen(1);
-                    case 1 -> goToScreen(2);
-                    case 2 -> System.exit(0);
-                    case 3 -> goToScreen(3);
-                    case 4 -> launch();
-                    case 5 -> setSettings();
+                    case GOTO_CHARA -> displayCharaScreen();
+                    case GOTO_OPTIONS -> displayOptionsScreen();
+                    case EXIT -> System.exit(0);
+                    case GOTO_START -> displayStartScreen();
+                    case LAUNCH -> launch();
+                    case SAVE_SETTINGS -> setSettings();
                 }
             }
             @Override
@@ -479,7 +540,7 @@ public class GameMenuPanel extends JPanel {
 
     //Launch the game:
     private void launch() {
-        state = 0;
+        state = Screen.START;
         Player.chooseSpeciality(charaSelected);
         GameWindow.enterInGame();
     }
@@ -489,7 +550,7 @@ public class GameMenuPanel extends JPanel {
         GameWindow.setSettings(language, soundCheckBox.isSelected());
         setTexts();
         GameWindow.playOrStopMenuMusic();
-        goToScreen(0);
+        displayStartScreen();
     }
 
     private void setTexts() {
@@ -508,5 +569,13 @@ public class GameMenuPanel extends JPanel {
         arcLabel.setText(Language.archerCL());
         magLabel.setText(Language.mageCL());
         setCharaSelected(charaSelected);
+    }
+
+    private enum Screen {
+        START, CHARA, OPTIONS, HELP;
+    }
+
+    private enum Effect {
+        GOTO_CHARA, GOTO_OPTIONS, GOTO_HELP, EXIT, GOTO_START, LAUNCH, SAVE_SETTINGS;
     }
 }
