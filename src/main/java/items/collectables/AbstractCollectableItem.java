@@ -7,15 +7,17 @@ import items.ItemType;
 import java.util.Objects;
 import java.util.Random;
 
-public abstract class AbstractCollectableItems extends AbstractItem {
+public abstract class AbstractCollectableItem extends AbstractItem {
 
-    private final static ItemType[] salableItems = {ItemType.FOOD, ItemType.CONSUMABLE, ItemType.EQUIP};
-
-    public AbstractCollectableItems(int i, ItemType t, Position position, boolean immediateUse) {
+    public AbstractCollectableItem(int i, ItemType t, Position position, boolean immediateUse) {
         super(i, t, position, immediateUse);
     }
 
-    public static AbstractCollectableItems generateAbstractCollItems(int id, Position pos){
+    private final static ItemType[] salableItems = {
+            ItemType.FOOD, ItemType.CONSUMABLE, ItemType.EQUIP
+    };
+
+    public static AbstractCollectableItem generateAbstractCollItems(int id, Position pos) {
         Random rd = new Random();
         ItemType it = Objects.requireNonNull(salableItems)[rd.nextInt(salableItems.length)];
         switch (it) {

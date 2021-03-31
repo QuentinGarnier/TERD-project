@@ -9,7 +9,7 @@ import items.ItemType;
 
 import java.util.Random;
 
-public class ItemFood extends AbstractCollectableItems {
+public class ItemFood extends AbstractCollectableItem {
     private final int hungerGain;
     private final int hpGain;
 

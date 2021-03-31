@@ -9,7 +9,7 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
-import items.collectables.AbstractCollectableItems;
+import items.collectables.AbstractCollectableItem;
 import items.AbstractItem;
 import items.collectables.ItemEquip;
 
@@ -26,7 +26,7 @@ public class Player extends AbstractEntity {
     private int level;
     private int experiencePoints;
     private int hunger;
-    private final List<AbstractCollectableItems> inventory;
+    private final List<AbstractCollectableItem> inventory;
     private ItemEquip attackItem;
     private ItemEquip defenceItem;
     private int money;
@@ -81,7 +81,7 @@ public class Player extends AbstractEntity {
         return instancePlayer;
     }
 
-    public static List<AbstractCollectableItems> getInventory() {
+    public static List<AbstractCollectableItem> getInventory() {
         return Collections.unmodifiableList(instancePlayer.inventory);
     }
 
@@ -134,7 +134,7 @@ public class Player extends AbstractEntity {
         return money >= cost;
     }
 
-    public boolean throwItem(AbstractCollectableItems ai) {
+    public boolean throwItem(AbstractCollectableItem ai) {
         Cell currentCell = WorldMap.getInstanceWorld().getCell(getPosition());
         if (currentCell.getItem() != null) {
             GameWindow.addToLogs(Language.logCantDropItem(), Color.RED);
@@ -155,9 +155,9 @@ public class Player extends AbstractEntity {
         if (instancePlayer.inventory.size() < MAX_INVENTORY_SIZE) {
             Cell c = WorldMap.getInstanceWorld().getCell(Player.getInstancePlayer().getPosition());
             AbstractItem item = c.getItem();
-            if (item instanceof AbstractCollectableItems){
+            if (item instanceof AbstractCollectableItem){
                 item.setPosition(null);
-                instancePlayer.inventory.add((AbstractCollectableItems) item);
+                instancePlayer.inventory.add((AbstractCollectableItem) item);
                 c.heroPickItem();
             }
             return true;
@@ -167,11 +167,11 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public static void addItem(AbstractCollectableItems ai){
+    public static void addItem(AbstractCollectableItem ai){
         instancePlayer.inventory.add(ai);
     }
 
-    public static void removeItem(AbstractCollectableItems ai){
+    public static void removeItem(AbstractCollectableItem ai){
         instancePlayer.inventory.remove(ai);
     }
 

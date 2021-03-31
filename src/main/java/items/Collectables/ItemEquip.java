@@ -8,7 +8,7 @@ import graphics.elements.Position;
 import graphics.window.GameWindow;
 import items.ItemType;
 
-public class ItemEquip extends AbstractCollectableItems {
+public class ItemEquip extends AbstractCollectableItem {
     private boolean isEquipped;
     private final EquipmentTypes et;
 

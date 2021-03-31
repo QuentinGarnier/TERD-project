@@ -2,7 +2,7 @@ package graphics.window;
 
 import entity.Player;
 import graphics.Language;
-import items.collectables.AbstractCollectableItems;
+import items.collectables.AbstractCollectableItem;
 import items.collectables.ItemConsumable;
 import items.collectables.ItemEquip;
 import items.collectables.ItemFood;
@@ -31,7 +31,7 @@ public class InventoryPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    private void createLine(AbstractCollectableItems ai) {
+    private void createLine(AbstractCollectableItem ai) {
         String s1 = ai.toString(), s2 = ai.getEffect();
         int s3 = ai.getPrice();
         JPanel panel = new JPanel(new BorderLayout());
@@ -62,7 +62,7 @@ public class InventoryPanel extends JPanel {
     public void updateInventory(){
         contents.removeAll();
         scrollPane.revalidate();
-        List<AbstractCollectableItems> items = Player.getInventory();//new ArrayList<>();
+        List<AbstractCollectableItem> items = Player.getInventory();//new ArrayList<>();
         gl.setRows(Math.max(4, items.size()));
         //for (int i = 0; i < 20; i++)items.add(AbstractCollectableItems.generateAbstractCollItems(0, null));
         items.forEach(this::createLine);
@@ -77,7 +77,7 @@ public class InventoryPanel extends JPanel {
         setInventoryText(Color.BLUE , Language.logInventory());
     }
 
-    private void equipping(AbstractCollectableItems ai, boolean isEquipping){
+    private void equipping(AbstractCollectableItem ai, boolean isEquipping){
         miniLog.setForeground(isEquipping ? Color.GREEN : Color.RED);
          miniLog.setText(
                  (ai instanceof ItemEquip) ?
@@ -90,9 +90,9 @@ public class InventoryPanel extends JPanel {
 
     private class myButton extends JButton {
         public final JPanel panel;
-        public final AbstractCollectableItems ai;
+        public final AbstractCollectableItem ai;
 
-        myButton(AbstractCollectableItems ai, JPanel panel) {
+        myButton(AbstractCollectableItem ai, JPanel panel) {
             super();
             setMargin(null);
             setFocusable(false);
@@ -113,7 +113,7 @@ public class InventoryPanel extends JPanel {
 
 
     private class choiceButton extends JPanel {
-        public choiceButton(AbstractCollectableItems ai, myButton mb) {
+        public choiceButton(AbstractCollectableItem ai, myButton mb) {
             setLayout(new GridLayout(0,3));
             Player player = Player.getInstancePlayer();
             JButton equip = new JButton();

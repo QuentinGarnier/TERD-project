@@ -2,7 +2,7 @@ package entity;
 
 import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
-import items.collectables.AbstractCollectableItems;
+import items.collectables.AbstractCollectableItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class Merchant extends AbstractEntity{
     }
     private int counter;
     public final static int marketSize = 20;
-    private final List<AbstractCollectableItems> market;
+    private final List<AbstractCollectableItem> market;
     private int isMoving;
     private int safeRoomId;
     private final JDialog marketWindow;
@@ -45,7 +45,7 @@ public class Merchant extends AbstractEntity{
         market.clear();
         MarketPanel.marketPanel.removeAll();
         for(int i = 0; i < marketSize; i++) {
-            market.add(AbstractCollectableItems.generateAbstractCollItems(counter++, null));
+            market.add(AbstractCollectableItem.generateAbstractCollItems(counter++, null));
         }
         MarketPanel.marketPanel.makeMarket(market);
         marketWindow.repaint(); marketWindow.revalidate();
@@ -77,7 +77,7 @@ public class Merchant extends AbstractEntity{
 
     public void setSafeRoomId(int safeRoom) { this.safeRoomId = safeRoom; }
 
-    public List<AbstractCollectableItems> getMarket(){ return Collections.unmodifiableList(market); }
+    public List<AbstractCollectableItem> getMarket(){ return Collections.unmodifiableList(market); }
 
-    public static void removeItem(AbstractCollectableItems ai){ instanceMerchant.market.remove(ai); }
+    public static void removeItem(AbstractCollectableItem ai){ instanceMerchant.market.remove(ai); }
 }

@@ -2,7 +2,7 @@ package entity;
 
 import graphics.Language;
 import graphics.window.GameWindow;
-import items.collectables.AbstractCollectableItems;
+import items.collectables.AbstractCollectableItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class MarketPanel extends JPanel {
         setLayout(new GridLayout(0,1));
     }
 
-    private void createLine(AbstractCollectableItems ai) {
+    private void createLine(AbstractCollectableItem ai) {
         String s1 = ai.toString(), s2 = ai.getEffect(), s3 = ai.getPrice() + "$";
         JButton jButton = new itemButton(ai);
         JPanel panel = new JPanel(new BorderLayout());
@@ -42,15 +42,15 @@ public class MarketPanel extends JPanel {
 
     }
 
-    public void makeMarket(List<AbstractCollectableItems> items){
+    public void makeMarket(List<AbstractCollectableItem> items){
         items.forEach(this::createLine);
     }
 
     private static class itemButton extends JButton{
-        private final AbstractCollectableItems ai;
+        private final AbstractCollectableItem ai;
         private final ActionListener al;
 
-        itemButton(AbstractCollectableItems ai){
+        itemButton(AbstractCollectableItem ai){
             super();
             setFocusable(false);
             this.ai = ai;

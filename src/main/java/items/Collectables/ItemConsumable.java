@@ -7,7 +7,7 @@ import items.ItemType;
 
 
 // POTION, TELEPORTATION -> extends ITEM CONSUMABLE --> @
-public class ItemConsumable extends AbstractCollectableItems {
+public class ItemConsumable extends AbstractCollectableItem {
     public final ConsumableTypes ct;
 
     public ItemConsumable(int id, Position p) {
