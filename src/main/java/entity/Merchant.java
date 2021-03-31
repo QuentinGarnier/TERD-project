@@ -142,7 +142,7 @@ public class Merchant extends AbstractEntity{
                         Player.getInstancePlayer().modifyMoney(-ai.getPrice());
                         GameWindow.addToLogs(ai.toString() + " acheté(e) !", Color.GREEN);//to translate
                         Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
-                        Player.addItem(ai); //SellPanel.sellPanel.add(); SellPanel.sellPanel.revalidate(); SellPanel.sellPanel.repaint();
+                        Player.addItem(ai);
                         SellPanel.sellPanel.addSellInventory(ai);
                     }
                     else GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
@@ -203,11 +203,23 @@ public class Merchant extends AbstractEntity{
             Merchant.getInstanceMerchant().getMarketWindow().repaint(); Merchant.getInstanceMerchant().getMarketWindow().revalidate();
         }
 
+        public void removeSellInventory(AbstractCollectableItem item) {
+            Component[] cs = sellPanel.getComponents();
+            for (Component c : cs){
+                if ((((SellItemButton) c).ai).getId() == item.getId()) {
+                    sellPanel.remove(c);
+                    return;
+                }
+            }
+        }
+
         private static class SellItemButton extends JButton {
             private final ActionListener al;
+            public final AbstractCollectableItem ai;
 
             SellItemButton(AbstractCollectableItem ai) {
                 super();
+                this.ai = ai;
                 al = e -> {
                     if (Player.getInstancePlayer().getHP() == 0) return;
 

@@ -146,7 +146,9 @@ public class Player extends AbstractEntity {
             if (ai instanceof ItemEquip && ((ItemEquip) ai).isEquipped())
                 ai.use();
             inventory.remove(ai);
-            //GameWindow.refreshInventory();
+            Merchant.SellPanel.sellPanel.removeSellInventory(ai);
+            GameWindow.addToLogs("Vous avez jeté " + ai.toString() + ".", Tools.WindowText.golden);
+            GameWindow.refreshInventory();
         }
         return true;
     }
@@ -174,6 +176,7 @@ public class Player extends AbstractEntity {
 
     public static void removeItem(AbstractCollectableItem ai){
         instancePlayer.inventory.remove(ai);
+        Merchant.SellPanel.sellPanel.removeSellInventory(ai);
     }
 
     public int getHunger() {

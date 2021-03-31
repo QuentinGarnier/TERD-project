@@ -86,6 +86,8 @@ public abstract class AbstractItem extends JLabel {
         return position;
     }
 
+    public int getId() { return id; }
+
     public boolean use() throws ErrorPositionOutOfBound {
         this.position = null;
         setLocation();
