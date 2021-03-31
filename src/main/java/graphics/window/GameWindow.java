@@ -37,7 +37,7 @@ public class GameWindow extends JFrame {
         setup();
 
         inGame = false;
-        gameMenuPanel = new GameMenuPanel();
+        gameMenuPanel = GameMenuPanel.getMenuPanel;
         gamePanel = new GamePanel();
         gameInterfacePanel = new GameInterfacePanel();
 

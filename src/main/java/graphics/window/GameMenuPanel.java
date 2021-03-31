@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class GameMenuPanel extends JPanel {
+    public final static GameMenuPanel getMenuPanel = new GameMenuPanel();
     private final JPanel startScreen = new JPanel();  //Launch a new game, load a save, see options/credits or quit the game.
     private final JPanel charaScreen = new JPanel();  //Select a character between 3 specialities: warrior, archer or mage.
     private final JPanel optionsScreen = new JPanel();  //Change options of the game, like language.
@@ -31,10 +32,10 @@ public class GameMenuPanel extends JPanel {
     private JButton langITButton;
     private JButton langARButton;
 
-    private JButton newGameButton, optionsButton, exitButton, backButton, backButton2, launchButton,validateButton;
+    private JButton newGameButton, optionsButton, helpButton, exitButton, backButton, backButton2, launchButton,validateButton;
     private JLabel specialityLabel, warLabel, arcLabel, magLabel, optionsLabel, setLangLabel, muteLabel;
 
-    GameMenuPanel() {
+    private GameMenuPanel() {
         super();
         setLayout(new BorderLayout());
         setFocusable(true);
@@ -72,13 +73,16 @@ public class GameMenuPanel extends JPanel {
 
         newGameButton = createMenuButton(Language.newGame());
         optionsButton = createMenuButton(Language.options());
+        helpButton = createMenuButton("Help");
         exitButton = createMenuButton(Language.exitGame());
         addMenuButton(newGameButton, startScreen);
         addMenuButton(optionsButton, startScreen);
+        addMenuButton(helpButton, startScreen);
         addMenuButton(exitButton, startScreen);
 
         addMouseEffect(newGameButton, 0);
         addMouseEffect(optionsButton, 1);
+        addMouseEffect(helpButton, 3);
         addMouseEffect(exitButton, 2);
     }
 
@@ -224,6 +228,7 @@ public class GameMenuPanel extends JPanel {
             case 0 -> displayStartScreen();
             case 1 -> displayCharaScreen();
             case 2 -> displayOptionsScreen();
+            case 3 -> displayHelpScreen();
         }
     }
 
@@ -239,9 +244,13 @@ public class GameMenuPanel extends JPanel {
         goToScreen(2);
     }
 
+    private void displayHelpScreen(){
+        goToScreen(3);
+    }
+
     /**
      * Go to the screen with the associated number.
-     * @param n one of 0 (StartScreen), 1 (CharaScreen) or 2 (OptionsScreen)
+     * @param n one of 0 (StartScreen), 1 (CharaScreen) or 2 (OptionsScreen) or 3 (HelpScreen)
      */
     private void goToScreen(int n) {
         if(state != n) switch (n) {
@@ -253,8 +262,15 @@ public class GameMenuPanel extends JPanel {
                 langBorders();
                 replaceWith(optionsScreen);
             }
+            case 3 -> {
+                replaceWith(/*GameInfoPanel.gameInfoPanel*/);
+            }
         }
         state = n;
+    }
+
+    public static void replaceWith(){
+        getMenuPanel.replaceWith(getMenuPanel.startScreen);
     }
 
     private void replaceWith(JPanel jPanel) {
@@ -411,7 +427,7 @@ public class GameMenuPanel extends JPanel {
                     case 0 -> goToScreen(1);
                     case 1 -> goToScreen(2);
                     case 2 -> System.exit(0);
-                    case 3 -> goToScreen(0);
+                    case 3 -> goToScreen(3);
                     case 4 -> launch();
                     case 5 -> setSettings();
                 }
