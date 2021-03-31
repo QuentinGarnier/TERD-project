@@ -52,7 +52,7 @@ public class Player extends AbstractEntity {
         this(EntityType.HERO_WARRIOR);
     }
 
-    public void restorePlayer(){
+    public void restorePlayer() {
         inventory.clear();
         attackItem = null;
         defenceItem = null;
@@ -97,6 +97,14 @@ public class Player extends AbstractEntity {
 
     public int getLvl() {
         return level;
+    }
+
+    public int getXP() {
+        return experiencePoints;
+    }
+
+    public int getMaxXP() {
+        return (100 + (level - 1) * 50);
     }
 
     public void levelUp() {

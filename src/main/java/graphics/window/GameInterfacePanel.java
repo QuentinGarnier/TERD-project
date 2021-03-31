@@ -4,30 +4,30 @@ import entity.EntityState;
 import entity.EntityType;
 import entity.Player;
 import graphics.Language;
+import graphics.Tools;
+import graphics.map.WorldMap;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 public class GameInterfacePanel extends JPanel {
+    private final JPanel bigPanel;
     private final JPanel centerP;
+    private final JPanel topPanel;
     private final JPanel logsPanel;
     private final JPanel statsPanel;
     private final JPanel inventoryPanel;
     private final InventoryPanel realInventoryPanel;
-
-    private final Color green = new Color(80, 140, 50);
-    private final Color violet = new Color(100,60,120);
-    private final Color cyan = new Color(80,140,180);
-    private final Color red = new Color(140,30,30);
-    private final Color golden = new Color(210,170,60);
 
     private final int maxLog = 10;
     private boolean displayInventory = true;
 
     GameInterfacePanel() {
         super();
-        centerP = new JPanel(new GridLayout(1,3));
+        bigPanel = new JPanel(new BorderLayout());
+        centerP = new JPanel(new GridLayout(1,2));
+        topPanel = new JPanel(new GridLayout(2, 2));
         logsPanel = new JPanel(new GridLayout(maxLog,1));
         logsPanel.setBackground(Color.BLACK);
         statsPanel = new JPanel(new GridLayout(2,2));
@@ -41,19 +41,20 @@ public class GameInterfacePanel extends JPanel {
     void display() {
         displayStats();
         displayInventory();
+        displayTopPanel();
         realInventoryPanel.updateInventory();
     }
 
     void refresh() {
         statsPanel.removeAll();  //clear the components
         inventoryPanel.removeAll();  //clear the components
-
+        topPanel.removeAll();
         display();  //re-add the actualized components
     }
 
     private void setup() {
         Dimension dim = new Dimension(800,160);
-        setPreferredSize(new Dimension(800, 170));
+        setPreferredSize(new Dimension(800, 210));
         setBackground(Color.DARK_GRAY);
 
         centerP.setPreferredSize(dim);
@@ -61,8 +62,14 @@ public class GameInterfacePanel extends JPanel {
         centerP.setMaximumSize(dim);
         centerP.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
+        Dimension dim2 = new Dimension(800,200);
+        bigPanel.setPreferredSize(dim2);
+        bigPanel.setMinimumSize(dim2);
+        bigPanel.setMaximumSize(dim2);
+        bigPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+
         Box box = new Box(BoxLayout.Y_AXIS);
-        box.add(centerP);
+        box.add(bigPanel);
         box.add(Box.createVerticalGlue());
         add(box);
 
@@ -72,16 +79,22 @@ public class GameInterfacePanel extends JPanel {
 
         centerP.add(mainPanel);
         centerP.add(logsPanel);
+
+        bigPanel.add(centerP);
+        bigPanel.add(topPanel, BorderLayout.NORTH);
     }
 
     private void displayStats() {
         Player player = Player.getInstancePlayer();
+        Color cyan = Tools.WindowText.cyan;
+        Color green = Tools.WindowText.green;
+        Color violet = Tools.WindowText.purple;
+        Color red = Tools.WindowText.red;
 
         //Speciality & level:
-        JPanel spec = new JPanel(new GridLayout(2,1));
+        JPanel spec = new JPanel(new GridLayout(1,1));
         spec.setBackground(Color.LIGHT_GRAY);
         createTxtLabel(spec, Language.translate(player.getEntityType()), (player.getEntityType() == EntityType.HERO_WARRIOR? red: (player.getEntityType() == EntityType.HERO_ARCHER? green: cyan)), 16);
-        createTxtLabel(spec, Language.level() + ": " + player.getLvl(), null);
         statsPanel.add(spec);
 
         //HP (add bar in the future and group it with this label):
@@ -110,12 +123,27 @@ public class GameInterfacePanel extends JPanel {
         //Money:
         JLabel moneyLabel = new JLabel(Language.money() + ": " + Player.getInstancePlayer().getMoney() + " ● ");
         moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        moneyLabel.setForeground(golden);
+        moneyLabel.setForeground(Tools.WindowText.golden);
         moneyLabel.setPreferredSize(new Dimension(400, 50));
         cons.gridx = 3;
         cons.gridwidth = 1;
         cons.weightx = 0.3;
         inventoryPanel.add(moneyLabel, cons);
+    }
+
+    public void displayTopPanel() {
+        Player p = Player.getInstancePlayer();
+        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/bar_xp.png");
+        float ratio = (float)(p.getXP()) / (float)(p.getMaxXP());
+        int length = (int)(imageIcon.getIconWidth() * ratio);
+        Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(image);
+        JLabel bar = new JLabel(imageIcon);
+        bar.setHorizontalAlignment(SwingConstants.LEFT);
+        topPanel.add(bar);
+        createTxtLabel(topPanel, Language.stage() + ": " + WorldMap.stageNum, null);
+        createTxtLabel(topPanel, Language.level() + ": " + p.getLvl() + " — (" + p.getXP() + "/" + p.getMaxXP() + " XP)", null);
+        createTxtLabel(topPanel, "—  " + WorldMap.getInstanceWorld().getTheme() + "  —", null);
     }
 
 

@@ -4,6 +4,7 @@ package graphics;
 import entity.AbstractEntity;
 import entity.EntityState;
 import entity.EntityType;
+import graphics.map.Theme;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 import items.Collectables.ConsumableTypes;
@@ -127,6 +128,9 @@ public enum Language {
     }
     public static String money() {
         return lang("Money","Monnaie ", "Moneta","فضة");
+    }
+    public static String stage() {
+        return lang("Stage", "Étage ", "Piano", "...");
     }
 
 
@@ -268,6 +272,14 @@ public enum Language {
                 "Sei guarito di " + amount + " HP.",
                 "أنت مهتم" + amount + "الحياة.");
     }
+    public static String logItemCons(ConsumableTypes ct) {
+        return switch (ct) {
+            case HEALTH_POTION -> lang("+10% of your HP.", "+10% des PV", "+10% di HP", "+ 10٪ من الأرواح");
+            case REGENERATION_POTION -> lang("Heal in duration", "Guérit sur la durée", "Guarito nel tempo", "تم علاجه بمرور الوقت");
+            case TELEPORT_SCROLL -> lang("Go to Merchant room", "Téléporte chez le marchand", "Ti porta dal mercante", "يأخذك إلى التاجر");
+            case DIVINE_BLESSING -> lang("Become invulnerable for a while", "Devenez invulnérable un moment", "Diventi invulnerabile per un po '", "كن محصنًا لبعض الوقت");
+        };
+    }
 
 
 
@@ -338,13 +350,13 @@ public enum Language {
             case DIVINE_BLESSING -> lang("Divine Blessing", "Bénédiction Divine", "Benedizione Divina","نعمة إلهية");
         };
     }
-
-    public static String logItemCons(ConsumableTypes ct) {
-        return switch (ct) {
-            case HEALTH_POTION -> lang("+10% of your HP.", "+10% des PV", "+10% di HP", "+ 10٪ من الأرواح");
-            case REGENERATION_POTION -> lang("Heal in duration", "Guérit sur la durée", "Guarito nel tempo", "تم علاجه بمرور الوقت");
-            case TELEPORT_SCROLL -> lang("Go to Merchant room", "Téléporte chez le marchand", "Ti porta dal mercante", "يأخذك إلى التاجر");
-            case DIVINE_BLESSING -> lang("Become invulnerable for a while", "Devenez invulnérable un moment", "Diventi invulnerabile per un po '", "كن محصنًا لبعض الوقت");
+    public static String translate(Theme theme) {
+        return switch (theme) {
+            case DUNGEON -> lang("Dungeon", "Donjon", "Segreta", "...");
+            case ISLANDS -> lang("Islands", "Îles", "Isole", "...");
+            case FOREST -> lang("Forest", "Forêt", "Foresta", "...");
+            case MERCHANT -> lang("Store", "Magasin", "Negozio", "...");
+            case FINAL_BOSS -> lang("Final Boss", "Boss Final", "Boss Finale", "...");
         };
     }
 }

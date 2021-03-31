@@ -1,5 +1,6 @@
 package graphics.map;
 
+import graphics.Language;
 import graphics.elements.cells.CellElementType;
 
 import javax.swing.*;
@@ -82,6 +83,6 @@ public enum Theme {
 
     @Override
     public String toString() {
-        return this.name();
+        return Language.translate(this);
     }
 }
