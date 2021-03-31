@@ -105,7 +105,7 @@ public class InventoryPanel extends JPanel {
                 removeAll();
                 add(new choiceButton(ai, this));
             };
-            setToolTipText(ai.getEffect());
+            setToolTipText(ai.getDescription());
             super.addActionListener(al);
         }
     }
