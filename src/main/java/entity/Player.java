@@ -159,6 +159,7 @@ public class Player extends AbstractEntity {
                 item.setPosition(null);
                 instancePlayer.inventory.add((AbstractCollectableItem) item);
                 c.heroPickItem();
+                Merchant.SellPanel.sellPanel.addSellInventory((AbstractCollectableItem) item);
             }
             return true;
         } else {
