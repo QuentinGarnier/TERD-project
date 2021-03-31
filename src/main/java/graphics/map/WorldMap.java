@@ -124,6 +124,7 @@ public class WorldMap {
             }
             for (AbstractItem ai : room.getItems()){
                 if (!ai.equals(AbstractItem.end)){
+                    getCell(ai.getPosition()).setItem(null);
                     ai.setPosition(null);
                     ai.setLocation();
                 }

@@ -127,7 +127,7 @@ public class Player extends AbstractEntity {
 
     public void modifyMoney(int x) {
         money = Math.max(money + x, 0);
-        MarketPanel.marketPanel.updateMarket();
+        Merchant.BuyPanel.buyPanel.updateMarket();
     }
 
     public boolean enoughMoney(int cost) {
