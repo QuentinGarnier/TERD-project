@@ -34,7 +34,7 @@ public class Merchant extends AbstractEntity{
 
     public Merchant() throws ErrorPositionOutOfBound {
         super(new Position(0, 0), 0, EntityType.ALLY_MERCHANT);
-        counter = WorldMap.MAX_X * WorldMap.MAX_Y + 1;// WorldMap.getInstanceWorld().getItems().size();
+        counter = WorldMap.MAX_X * WorldMap.MAX_Y + 1;
         isMoving = 0;
         market = new ArrayList<>();
         marketWindow = new JDialog();
@@ -53,6 +53,7 @@ public class Merchant extends AbstractEntity{
     public void generateMarket(){
         market.clear();
         BuyPanel.buyPanel.removeAll();
+
         for(int i = 0; i < marketSize; i++) {
             market.add(AbstractCollectableItem.generateAbstractCollItems(counter++, null));
         }
@@ -76,8 +77,6 @@ public class Merchant extends AbstractEntity{
         tabs.addTab("Vendre", new JScrollPane(SellPanel.sellPanel));
 
         marketWindow.add(tabs);
-
-
     }
 
     public void openMarket(){ marketWindow.setVisible(true); }
@@ -96,40 +95,43 @@ public class Merchant extends AbstractEntity{
 
     public static void removeItem(AbstractCollectableItem ai){ instanceMerchant.market.remove(ai); }
 
+    private static void createLine(boolean isBuy, AbstractCollectableItem ai) {
+        String s1 = ai.toString(), s2 = ai.getEffect(), s3 = (isBuy ? ai.getPrice() : ai.getPrice()/2) + "$";
+        JButton jButton = isBuy ? new BuyPanel.BuyItemButton(ai) : new SellPanel.SellItemButton(ai);
+        JPanel panel = new JPanel(new BorderLayout());
+
+        JLabel fstCol = createLog(s1, Color.GRAY);
+        JLabel sndCol = createLog(s2, Color.GRAY);
+        JLabel thrCol = createLog(s3, Color.GRAY);
+
+        if (isBuy) {
+            if (Player.getInstancePlayer().enoughMoney(ai.getPrice())) thrCol.setForeground(Color.green);
+            else thrCol.setForeground(Color.red);
+
+        } else { thrCol.setForeground(Tools.WindowText.golden); }
+
+        fstCol.setHorizontalAlignment(SwingConstants.LEFT);
+        sndCol.setHorizontalAlignment(SwingConstants.CENTER);
+        thrCol.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        panel.add(fstCol, BorderLayout.WEST);
+        panel.add(sndCol, BorderLayout.CENTER);
+        panel.add(thrCol, BorderLayout.EAST);
+
+        jButton.add(panel);
+
+        if (isBuy) BuyPanel.buyPanel.add(jButton);
+        else SellPanel.sellPanel.add(jButton);
+    }
+
     public static class BuyPanel extends JPanel {
+
         public final static BuyPanel buyPanel = new BuyPanel();
         private BuyPanel(){
             setLayout(new GridLayout(0,1));
         }
 
-        private void createLine(AbstractCollectableItem ai) {
-            String s1 = ai.toString(), s2 = ai.getEffect(), s3 = ai.getPrice() + "$";
-            JButton jButton = new BuyItemButton(ai);
-            JPanel panel = new JPanel(new BorderLayout());
-
-            JLabel fstCol = createLog(s1, Color.GRAY);
-            JLabel sndCol = createLog(s2, Color.GRAY);
-            JLabel thrCol = createLog(s3, Color.GRAY);
-
-            if (Player.getInstancePlayer().enoughMoney(ai.getPrice())) thrCol.setForeground(Color.green);
-            else thrCol.setForeground(Color.red);
-
-            fstCol.setHorizontalAlignment(SwingConstants.LEFT);
-            sndCol.setHorizontalAlignment(SwingConstants.CENTER);
-            thrCol.setHorizontalAlignment(SwingConstants.RIGHT);
-
-            panel.add(fstCol, BorderLayout.WEST);
-            panel.add(sndCol, BorderLayout.CENTER);
-            panel.add(thrCol, BorderLayout.EAST);
-
-            jButton.add(panel);
-            add(jButton);
-
-        }
-
-        public void makeMarket(List<AbstractCollectableItem> items){
-            items.forEach(this::createLine);
-        }
+        public void makeMarket(List<AbstractCollectableItem> items){ items.forEach((item) -> createLine(true, item)); }
 
         private static class BuyItemButton extends JButton{
             private final ActionListener al;
@@ -167,39 +169,14 @@ public class Merchant extends AbstractEntity{
     }
 
     public static class SellPanel extends JPanel {
+
         public final static SellPanel sellPanel = new SellPanel();
         private SellPanel() { setLayout(new GridLayout(0, 1)); }
-
-        private void createLine(AbstractCollectableItem ai) {
-            String s1 = ai.toString(), s2 = ai.getEffect(), s3 = ai.getPrice()/2 + "$";
-            JButton jButton = new SellItemButton(ai);
-            JPanel panel = new JPanel(new BorderLayout());
-
-            JLabel fstCol = createLog(s1, Color.GRAY);
-            JLabel sndCol = createLog(s2, Color.GRAY);
-            JLabel thrCol = createLog(s3, Color.GRAY);
-
-            thrCol.setForeground(Tools.WindowText.golden);
-
-            fstCol.setHorizontalAlignment(SwingConstants.LEFT);
-            sndCol.setHorizontalAlignment(SwingConstants.CENTER);
-            thrCol.setHorizontalAlignment(SwingConstants.RIGHT);
-
-            panel.add(fstCol, BorderLayout.WEST);
-            panel.add(sndCol, BorderLayout.CENTER);
-            panel.add(thrCol, BorderLayout.EAST);
-
-            jButton.add(panel);
-            add(jButton);
-
-        }
-
-        public void makeInventory(List<AbstractCollectableItem> items){
-            items.forEach(this::createLine);
-        }
+        
+        public void makeInventory(List<AbstractCollectableItem> items){ items.forEach((item) -> createLine(false, item)); }
 
         public void addSellInventory(AbstractCollectableItem item) {
-            createLine(item);
+            createLine(false, item);
             Merchant.getInstanceMerchant().getMarketWindow().repaint(); Merchant.getInstanceMerchant().getMarketWindow().revalidate();
         }
 
@@ -228,11 +205,10 @@ public class Merchant extends AbstractEntity{
                         Player.getInstancePlayer().modifyMoney(gain);
                         GameWindow.addToLogs(ai.toString() + " vendu(e) ! (+" + gain + " pièces)", Tools.WindowText.golden);//to translate
                         Player.removeItem(ai); sellPanel.remove(this); sellPanel.revalidate(); sellPanel.repaint();
-                        BuyPanel.buyPanel.createLine(ai); BuyPanel.buyPanel.revalidate(); BuyPanel.buyPanel.repaint();
+                        createLine(true, ai); BuyPanel.buyPanel.revalidate(); BuyPanel.buyPanel.repaint();
                         GameWindow.refreshInventory();
                     }
                 };
-
                 super.addActionListener(al);
             }
         }
