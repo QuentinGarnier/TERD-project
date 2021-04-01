@@ -109,6 +109,7 @@ public abstract class AbstractEntity extends JPanel {
             if(ai.immediateUse) {
                 ai.setPosition(null);
                 ai.use();
+                currentCell.heroPickItem();
             } else if(Player.addItem()) {
                 GameWindow.addToLogs(Language.logGainItem(ai), Tools.WindowText.golden);
             }
