@@ -1,6 +1,5 @@
 package graphics.elements;
 
-import entity.AbstractEntity;
 import entity.Merchant;
 import entity.Monster;
 import graphics.Tools;
@@ -89,14 +88,14 @@ public class Room {
             for (int y = topLeft.getY(); y <= bottomRight.getY(); y++) {
                 Position pos = new Position(x, y);
                 if ((x == topLeft.getX() || x == bottomRight.getX()) && y == topLeft.getY())
-                    lab[x][y] = new Cell((CellElementType.CORNER_TOP), id, pos);
+                    lab[x][y] = new Cell((CellElementType.CORNER_TOP), id, pos, lab);
                 else if ((x == bottomRight.getX() || x == topLeft.getX()) && y == bottomRight.getY())
-                    lab[x][y] = new Cell((CellElementType.CORNER_BOT), id, pos);
+                    lab[x][y] = new Cell((CellElementType.CORNER_BOT), id, pos, lab);
                 else if (x == topLeft.getX() || x == bottomRight.getX())
-                   lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id, pos);
+                   lab[x][y] = new Cell(CellElementType.VERTICAL_WALL, id, pos, lab);
                 else if (y == topLeft.getY() || y == bottomRight.getY())
-                    lab[x][y] = new Cell(CellElementType.HORIZONTAL_WALL, id, pos);
-                else lab[x][y] = new Cell(CellElementType.EMPTY, id, pos); // ==> empty cell <-> in room
+                    lab[x][y] = new Cell(CellElementType.HORIZONTAL_WALL, id, pos, lab);
+                else lab[x][y] = new Cell(CellElementType.EMPTY, id, pos, lab); // ==> empty cell <-> in room
             }
         }
     }

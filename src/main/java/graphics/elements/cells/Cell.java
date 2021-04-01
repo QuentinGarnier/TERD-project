@@ -1,6 +1,7 @@
 package graphics.elements.cells;
 
 import entity.AbstractEntity;
+import entity.EntityType;
 import graphics.Tools;
 import graphics.elements.Position;
 import graphics.map.WorldMap;
@@ -34,11 +35,14 @@ public class Cell extends JLabel {
     private final int size;
     private final Position position;
 
-    public Cell(CellElementType e, int id, Position position) {
+    private final Cell[][] lab;
+
+    public Cell(CellElementType e, int id, Position position, Cell[][] lab) {
         super();
         this.baseContent = e;
         this.baseId = id;
         this.position = position;
+        this.lab = lab;
 
         // Graphics
         this.size = GamePanel.size;
@@ -69,6 +73,11 @@ public class Cell extends JLabel {
     }
 
     public void setEntity(AbstractEntity entity) {
+        if (entity != null && EntityType.MONSTER_BOSS.equals(entity.entityType)){
+            for (int x = position.getX() - 1; x <= position.getX() + 1; x++)
+                for (int y = position.getY() - 1; y <= position.getY() + 1; y++)
+                    lab[x][y].entity = entity;
+        }
         this.entity = entity;
     }
 

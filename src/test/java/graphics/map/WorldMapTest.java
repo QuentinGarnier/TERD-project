@@ -30,7 +30,7 @@ public class WorldMapTest {
         for (int i = 0; i < WorldMap.MAX_X; i++){
             for (int j = 0; j < WorldMap.MAX_Y; j++){
                 Cell c = w.getCell(i, j);
-                c =  new Cell(CellElementType.OUTSIDE_ROOM, -1, new Position(i, j));
+                c =  new Cell(CellElementType.OUTSIDE_ROOM, -1, new Position(i, j), null);
             }
         }
         boolean allAtZero = true;

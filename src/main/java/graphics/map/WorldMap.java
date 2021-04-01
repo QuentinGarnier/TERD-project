@@ -160,7 +160,7 @@ public class WorldMap {
     private void initializeLab() {
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                lab[x][y] = new Cell(CellElementType.OUTSIDE_ROOM, 0, new Position(x, y));
+                lab[x][y] = new Cell(CellElementType.OUTSIDE_ROOM, 0, new Position(x, y), lab);
             }
         }
     }

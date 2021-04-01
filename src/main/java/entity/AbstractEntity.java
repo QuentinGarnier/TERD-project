@@ -45,7 +45,7 @@ public abstract class AbstractEntity extends JPanel {
 
         // Graphics
         setLayout(new BorderLayout());
-        this.size = GamePanel.size;
+        this.size = GamePanel.size * (entityType == EntityType.MONSTER_BOSS? 3 : 1);
         this.barLabel = new JLabel();
         this.barIcon = new ImageIcon("data/images/interfaces/" + "bar_red.png");
 
@@ -54,12 +54,11 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     private JLabel image() {
-        int realSize = size * (entityType == EntityType.MONSTER_BOSS? 3 : 1);
         ImageIcon entityImg = new ImageIcon(entityType.cellElementType.getIcon().getImage());
-        Image img = entityImg.getImage().getScaledInstance(realSize, realSize, Image.SCALE_SMOOTH);
+        Image img = entityImg.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
         entityImg.setImage(img);
         JLabel entityP = new JLabel(entityImg);
-        entityP.setSize(realSize, realSize);
+        entityP.setSize(size, size);
         return entityP;
     }
 
@@ -86,8 +85,10 @@ public abstract class AbstractEntity extends JPanel {
 
     // Graphics
     public void setLocation() {
+        int realSize = GamePanel.size;
+        int shift = entityType.equals(EntityType.MONSTER_BOSS) ? -1 : 0;
         if (position == null) super.setLocation(- size, - size);
-        else super.setLocation(position.getX() * size, position.getY() * size);
+        else super.setLocation((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
     }
 
     public boolean moveEntity(Position p) throws ErrorPositionOutOfBound {
