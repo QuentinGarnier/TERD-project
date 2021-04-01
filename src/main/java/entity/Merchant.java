@@ -33,7 +33,7 @@ public class Merchant extends AbstractEntity{
     private final JDialog marketWindow;
 
     public Merchant() throws ErrorPositionOutOfBound {
-        super(new Position(0, 0), 0, EntityType.ALLY_MERCHANT);
+        super(new Position(0,0), 0, EntityType.ALLY_MERCHANT);
         counter = WorldMap.MAX_X * WorldMap.MAX_Y + 1;
         isMoving = 0;
         market = new ArrayList<>();

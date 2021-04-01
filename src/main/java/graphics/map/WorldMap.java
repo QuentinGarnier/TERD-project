@@ -1,5 +1,6 @@
 package graphics.map;
 
+import entity.Monster;
 import entity.Player;
 import entity.Merchant;
 import graphics.ChooseAttackCell;
@@ -36,6 +37,7 @@ public class WorldMap {
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         items = new ArrayList<>();
+        difficulty = GameWindow.Difficulty.MEDIUM;
         generateWorld();
     }
 
@@ -50,25 +52,41 @@ public class WorldMap {
     }
 
     public void generateWorld() throws ErrorPositionOutOfBound {
-        theme = randomTheme();
-        difficulty = GameWindow.getDifficulty();
         rooms.clear();
         corridors.clear();
         items.clear();
-        items.add(AbstractItem.end);
         initializeLab();
-        createRooms();
-        createCorridors(true);
-        placeEnd();
-        placeMerchant();
-        placePlayer();
-        for(Room r : rooms) {
-            if(!r.putObstacles()) {
-                merchantRoomTL = r.getTopLeft();
-                merchantRoomBR = r.getBottomRight();
+
+        if(true) { //lastLevel();
+            theme = Theme.FINAL_BOSS;
+            initializeBossLab();
+            placePlayer();
+        } else {
+            theme = randomTheme();
+            difficulty = GameWindow.getDifficulty();
+            items.add(AbstractItem.end);
+            createRooms();
+            createCorridors(true);
+            placeEnd();
+            placeMerchant();
+            placePlayer();
+            for (Room r : rooms) {
+                if (!r.putObstacles()) {
+                    merchantRoomTL = r.getTopLeft();
+                    merchantRoomBR = r.getBottomRight();
+                }
             }
         }
         stageNum++;
+    }
+
+    public boolean lastLevel() {
+        return stageNum == difficulty.stagesNumber;
+    }
+
+    public void initializeBossLab() {
+        new Room(rooms, lab);
+        lab[Monster.boss.getPosition().getX()][Monster.boss.getPosition().getY()].setEntity(Monster.boss);
     }
 
     public void placePlayer() {

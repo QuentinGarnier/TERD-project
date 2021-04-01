@@ -14,6 +14,7 @@ public enum EntityType {
     MONSTER_ORC(CellElementType.ORC, 54, 20, 1, 70),
     MONSTER_SPIDER(CellElementType.SPIDER, 32, 5, 1, 35),
     MONSTER_WIZARD(CellElementType.WIZARD, 20, 10, 3, 40),
+    MONSTER_BOSS(CellElementType.BOSS, 200, 10, 3, 40),
 
     ALLY_MERCHANT(CellElementType.MERCHANT, 100, 0, 1, 0);
 

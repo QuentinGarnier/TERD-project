@@ -31,7 +31,6 @@ public abstract class AbstractEntity extends JPanel {
 
     public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         super();
-        checkPosition(position);
         this.position = position;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
@@ -55,11 +54,12 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     private JLabel image() {
+        int realSize = size * (entityType == EntityType.MONSTER_BOSS? 3 : 1);
         ImageIcon entityImg = new ImageIcon(entityType.cellElementType.getIcon().getImage());
-        Image img = entityImg.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+        Image img = entityImg.getImage().getScaledInstance(realSize, realSize, Image.SCALE_SMOOTH);
         entityImg.setImage(img);
         JLabel entityP = new JLabel(entityImg);
-        entityP.setSize(size, size);
+        entityP.setSize(realSize, realSize);
         return entityP;
     }
 
@@ -86,12 +86,8 @@ public abstract class AbstractEntity extends JPanel {
 
     // Graphics
     public void setLocation() {
-        super.setLocation(position.getX() * size, position.getY() * size);
-    }
-
-
-    public void checkPosition(Position p) throws ErrorPositionOutOfBound {
-        if (!p.insideWorld()) throw new ErrorPositionOutOfBound(p);
+        if (position == null) super.setLocation(- size, - size);
+        else super.setLocation(position.getX() * size, position.getY() * size);
     }
 
     public boolean moveEntity(Position p) throws ErrorPositionOutOfBound {

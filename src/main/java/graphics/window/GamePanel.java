@@ -49,8 +49,9 @@ public class GamePanel extends JPanel {
         add(heroLabel);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
         Player.getInventory().forEach(this::add);
+
         // MERCHANT
-        add(Merchant.getInstanceMerchant());
+        if(worldMap.lastLevel()) add(Merchant.getInstanceMerchant());
 
         // FOG
         for(int x = 0; x < WorldMap.MAX_X; x++)
@@ -79,7 +80,7 @@ public class GamePanel extends JPanel {
             Cell currentCell = worldMap.getCell(x, y);
             CellElementType currentCet = currentCell.getBaseContent();
             CellElementType obstacle = currentCell.getObstacle();
-            if(x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())
+            if(merchRoomTL != null && x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())
                 img = new ImageIcon(Theme.MERCHANT.themeFor(currentCet).getImage());
             else {
                 if (y > 0 && currentCet == CellElementType.HORIZONTAL_WALL) {

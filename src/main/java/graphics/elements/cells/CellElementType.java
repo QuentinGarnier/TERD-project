@@ -28,6 +28,7 @@ public enum CellElementType {
     TREE('T',false, "map/miscellaneous/tree"),
     VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
     WIZARD('W', false, "entities/monsters/wizard"),
+    BOSS('D', false, "entities/monsters/wizard"),
     MERCHANT('M', false, "entities/merchant/merchant");
 
     private final char symbol;

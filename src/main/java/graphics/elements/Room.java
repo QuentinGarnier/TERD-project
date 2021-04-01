@@ -1,5 +1,6 @@
 package graphics.elements;
 
+import entity.AbstractEntity;
 import entity.Merchant;
 import entity.Monster;
 import graphics.Tools;
@@ -41,11 +42,26 @@ public class Room {
         this.bottomRight = findBottomRight();
         this.hasBeenVisited = false;
         this.lab = lab;
-        if (!checkCollision()){
+        if (!checkCollision()) {
             updateLab();
             roomList.add(this);
             putRandomEltInRoom();
         }
+    }
+
+    public Room(List<Room> roomList, Cell[][] lab) throws ErrorPositionOutOfBound {
+        this.id = 0;
+        this.topLeft = new Position(5,5);
+        this.bottomRight = new Position(WorldMap.MAX_X - 5,WorldMap.MAX_Y - 5);
+        this.lab = lab;
+        this.globalItems = null;
+        this.currentRoomItems = null;
+        this.gen = new Random();
+        this.monsters = new ArrayList<>();
+        this.doors = new ArrayList<>();
+        this.monsters.add(Monster.boss);
+        updateLab();
+        roomList.add(this);
     }
 
     private Position findTopLeft() {

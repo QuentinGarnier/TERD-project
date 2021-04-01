@@ -5,7 +5,8 @@ import graphics.elements.Position;
 
 import java.util.Random;
 
-public class Monster extends AbstractEntity{
+public class Monster extends AbstractEntity {
+    public static final Monster boss = new Monster(new Position(10, 10), 0, EntityType.MONSTER_BOSS);
 
     public Monster(Position p, int id, EntityType et) throws ErrorPositionOutOfBound {
         super(p, id, et);

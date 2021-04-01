@@ -243,7 +243,7 @@ public class Player extends AbstractEntity {
     private void moveMerchant(){
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(getPosition());
-        if (cell.getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId() && (cell.getBaseContent().equals(CellElementType.EMPTY))) Merchant.getInstanceMerchant().applyStrategy();
+        if (cell.getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId() && (!cell.getBaseContent().equals(CellElementType.CORRIDOR))) Merchant.getInstanceMerchant().applyStrategy();
     }
 
     public boolean makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
