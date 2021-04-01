@@ -8,6 +8,7 @@ import graphics.elements.*;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import entity.WhatHeroDoes;
+import graphics.window.GameWindow;
 import items.AbstractItem;
 
 import java.util.*;
@@ -22,6 +23,7 @@ public class WorldMap {
 
     private Theme theme;
     private Position merchantRoomTL, merchantRoomBR;
+    private int difficulty;
 
     private final Cell[][] lab;
     private final List<Room> rooms;
@@ -49,6 +51,7 @@ public class WorldMap {
 
     public void generateWorld() throws ErrorPositionOutOfBound {
         theme = randomTheme();
+        difficulty = GameWindow.getDifficulty();
         rooms.clear();
         corridors.clear();
         items.clear();
