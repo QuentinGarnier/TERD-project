@@ -37,8 +37,12 @@ public class WorldMap {
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         items = new ArrayList<>();
-        difficulty = GameWindow.Difficulty.TUTORIAL;
+        difficulty = GameWindow.Difficulty.MEDIUM;
         generateWorld();
+    }
+
+    public void setDifficulty(GameWindow.Difficulty diff){
+        difficulty = diff;
     }
 
     private Theme randomTheme() {
@@ -62,7 +66,7 @@ public class WorldMap {
             theme = Theme.FINAL_BOSS;
             initializeBossLab();
             placePlayer();
-        } else {
+        } else if (stageNum < difficulty.stagesNumber){
             theme = randomTheme();
             //difficulty = GameWindow.getDifficulty();
             items.add(AbstractItem.end);
@@ -123,6 +127,7 @@ public class WorldMap {
                 }
             AbstractItem.end.setPosition(new Position(x, y));
             getCell(x, y).setItem(AbstractItem.end);
+            room.addDoor(pos);
             AbstractItem.end.setLocation();
         }
         else placeEnd();

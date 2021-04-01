@@ -7,6 +7,7 @@ import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
+import items.AbstractItem;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,10 +16,16 @@ public class WorldMapTest {
     WorldMap w = WorldMap.getInstanceWorld();
     @Test
     public void testProgrammeStrongConnected() throws ErrorPositionOutOfBound {
-        for (int i = 0; i < 100; i++) {
-            System.out.println();
+        //w.setDifficulty(GameWindow.Difficulty.ENDLESS);
+
+        Position endPos;
+        for (int i = 0; i < 22; i++) {
+            endPos = AbstractItem.end.getPosition();
             for (Room r : w.getRooms()) {
                 assertEquals(r.getLowestRoomNeighbor(), 0);
+                // TEST END is ACCESSIBLE
+                assertTrue((endPos.getNeighbor(true)).stream().
+                        anyMatch(position -> w.getCell(position).getObstacle() == null));
             }
             w.generateWorld();
         }
