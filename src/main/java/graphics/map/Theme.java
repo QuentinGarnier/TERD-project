@@ -6,11 +6,11 @@ import graphics.elements.cells.CellElementType;
 import javax.swing.*;
 
 public enum Theme {
-    DUNGEON("stone", "stone", "dirt", "lava"),
-    FOREST("grass", "stone", "wood", "water"),
-    ISLANDS("grass", "fence", "sand", "water"),
-    FINAL_BOSS("stone", "stone", "stone", "lava"),
-    MERCHANT("wood", "wood", "wood", "water");
+    DUNGEON("stone", "stone", "dirt", "lava", "stone", "hole"),
+    FOREST("grass", "stone", "wood", "water", "tree", "stone"),
+    ISLANDS("grass", "fence", "sand", "water", "tree", "stone"),
+    FINAL_BOSS("stone", "stone", "stone", "lava", "stone", "hole"),
+    MERCHANT("wood", "wood", "wood", "water", "box", "box");
 
     /**
      * ===== Obstacles for themes =====
@@ -26,8 +26,9 @@ public enum Theme {
     private final ImageIcon wall_horizontal, wall_vertical, corner_top, corner_bot;
     private final ImageIcon corridor;
     private final ImageIcon outside;
+    private final ImageIcon obstacle1, obstacle2;
 
-    Theme(String groundStr, String wallsStr, String corridorsStr, String outsideStr) {
+    Theme(String groundStr, String wallsStr, String corridorsStr, String outsideStr, String obstacle1Str, String obstacle2Str) {
         ground = new ImageIcon("data/images/map/grounds/" + groundStr + ".png");
         corridor = new ImageIcon("data/images/map/grounds/" + corridorsStr + ".png");
         outside = new ImageIcon("data/images/map/grounds/" + outsideStr + ".png");
@@ -36,6 +37,9 @@ public enum Theme {
         wall_vertical = new ImageIcon("data/images/map/walls/" + wallsStr + "_vertical.png");
         corner_top = new ImageIcon("data/images/map/walls/" + wallsStr + "_corner_top.png");
         corner_bot = new ImageIcon("data/images/map/walls/" + wallsStr + "_corner_bot.png");
+
+        obstacle1 = new ImageIcon("data/images/map/walls/" + obstacle1Str + "_corner_bot.png");
+        obstacle2 = new ImageIcon("data/images/map/walls/" + obstacle2Str + "_corner_bot.png");
     }
 
     public ImageIcon getGround() {
@@ -66,6 +70,14 @@ public enum Theme {
         return corner_top;
     }
 
+    public ImageIcon getObstacle1() {
+        return obstacle1;
+    }
+
+    public ImageIcon getObstacle2() {
+        return obstacle2;
+    }
+
     public ImageIcon themeFor(CellElementType type) {
         return switch (type) {
             case EMPTY -> ground;
@@ -75,8 +87,6 @@ public enum Theme {
             case VERTICAL_WALL -> wall_vertical;
             case CORNER_BOT -> corner_bot;
             case CORNER_TOP -> corner_top;
-            //TODO: return obstacle 1;
-            //TODO: return obstacle 2;
             default -> new ImageIcon();
         };
     }
