@@ -37,7 +37,7 @@ public class Merchant extends AbstractEntity{
         counter = WorldMap.MAX_X * WorldMap.MAX_Y + 1;
         isMoving = 0;
         market = new ArrayList<>();
-        marketWindow = new JDialog();
+        marketWindow = new JDialog(GameWindow.window, Language.merketTitle(), true);
 
         generateMarket();
         SellPanel.sellPanel.makeInventory(Player.getInventory());
@@ -62,7 +62,6 @@ public class Merchant extends AbstractEntity{
     }
 
     private void initializeWindow(){
-        marketWindow.setTitle("Merchant's market");
         marketWindow.setPreferredSize(new Dimension(900, 300));
         marketWindow.setResizable(false);
         marketWindow.setLocationRelativeTo(null);
@@ -70,11 +69,10 @@ public class Merchant extends AbstractEntity{
         marketWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         ImageIcon icon = new ImageIcon("data/images/system/market.png");
         marketWindow.setIconImage(icon.getImage());
-        marketWindow.setModal(true);
 
         JTabbedPane tabs = new JTabbedPane();
-        tabs.addTab("Acheter", new JScrollPane(BuyPanel.buyPanel));
-        tabs.addTab("Vendre", new JScrollPane(SellPanel.sellPanel));
+        tabs.addTab(Language.logBuyOrSell(true, true), new JScrollPane(BuyPanel.buyPanel));
+        tabs.addTab(Language.logBuyOrSell(false, true), new JScrollPane(SellPanel.sellPanel));
 
         marketWindow.add(tabs);
     }
@@ -142,7 +140,7 @@ public class Merchant extends AbstractEntity{
                     if (Player.getInstancePlayer().getHP() == 0) return;
                     if (Player.getInstancePlayer().enoughMoney(ai.getPrice())) {
                         Player.getInstancePlayer().modifyMoney(-ai.getPrice());
-                        GameWindow.addToLogs(ai.toString() + " acheté(e) !", Color.GREEN);//to translate
+                        GameWindow.addToLogs(ai.toString() + " " +Language.logBuyOrSell(true, false), Color.GREEN);
                         Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
                         Player.addItem(ai);
                         SellPanel.sellPanel.addSellInventory(ai);
@@ -200,10 +198,10 @@ public class Merchant extends AbstractEntity{
                 al = e -> {
                     if (Player.getInstancePlayer().getHP() == 0) return;
 
-                    if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), "Voulez-vous vraiment vendre l'objet ?", "Confirmation de vente", JOptionPane.YES_NO_OPTION)) {
+                    if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false), Language.confirmDialog(true), JOptionPane.YES_NO_OPTION)) {
                         int gain = (ai.getPrice()/2);
                         Player.getInstancePlayer().modifyMoney(gain);
-                        GameWindow.addToLogs(ai.toString() + " vendu(e) ! (+" + gain + " pièces)", Tools.WindowText.golden);//to translate
+                        GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(false, false) + " (+" + gain + " " + Language.logMoney() + ")", Tools.WindowText.golden);
                         Player.removeItem(ai); sellPanel.remove(this); sellPanel.revalidate(); sellPanel.repaint();
                         createLine(true, ai); BuyPanel.buyPanel.revalidate(); BuyPanel.buyPanel.repaint();
                         GameWindow.refreshInventory();

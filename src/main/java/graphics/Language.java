@@ -191,6 +191,23 @@ public enum Language {
     public static String logInventoryFull() {
         return lang("The inventory is full!", "L'inventaire est plein !", "L'inventario è pieno!","المخزون ممتلئ!");
     }
+
+    public static String merketTitle() {
+        return lang("Merchant's market", "La boutique du marchand", "Il negozio del commerciante", "محل التاجر");
+    }
+
+    public static String logBuyOrSell(boolean isBuy, boolean verbalBase) {
+        return verbalBase ? (isBuy ? lang("Buy", "Acheter", "Comperare", "يشترى") : lang("Sell", "Vendre", "Vendere", "باع")) :
+                (isBuy ? lang("bought!", "acheté(e) !", "acquistato!", "تم شراؤها!") : lang("resold!", "revendu(e) !", "rivenduto!", "إعادة بيعها!"));
+    }
+
+    public static String logMoney() {
+        return lang("coins", "pièces", "monete", "عملات معدنية");
+    }
+
+    public static String confirmDialog(boolean isTitle) {
+        return isTitle ? lang("Confirmation of sale", "Confirmation de vente", "Conferma di vendita","تأكيد البيع") : lang("Are you sure you want to sell the item?", "Voulez-vous vraiment vendre l'objet ?", "Sei sicuro di voler vendere l'articolo?","هل أنت متأكد أنك تريد بيع العنصر؟");
+    }
     public static String logLevelUp() {
         return lang(">>> LEVEL UP +1! <<<", ">>> NIVEAU +1! <<<", ">>> LIVELLO +1! <<<",">>> المستوى +1! <<<");
     }

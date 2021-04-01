@@ -1,7 +1,6 @@
 package entity;
 
 import graphics.elements.cells.CellElementType;
-import graphics.map.WorldMap;
 
 import java.util.Arrays;
 
