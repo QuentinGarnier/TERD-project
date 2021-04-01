@@ -8,8 +8,8 @@ import javax.swing.*;
 public enum Theme {
     DUNGEON("stone", "stone", "dirt", "lava", "stone", "hole"),
     FOREST("grass", "stone", "wood", "water", "tree", "stone"),
-    ISLANDS("grass", "fence", "sand", "water", "tree", "stone"),
-    FINAL_BOSS("stone", "stone", "stone", "lava", "stone", "hole"),
+    ISLANDS("grass", "fence", "sand", "water", "palm_tree", "stone"),
+    FINAL_BOSS("brick", "brick", "stone", "lava", "stone", "hole"),
     MERCHANT("wood", "wood", "wood", "water", "box", "box");
 
     /**
@@ -38,8 +38,8 @@ public enum Theme {
         corner_top = new ImageIcon("data/images/map/walls/" + wallsStr + "_corner_top.png");
         corner_bot = new ImageIcon("data/images/map/walls/" + wallsStr + "_corner_bot.png");
 
-        obstacle1 = new ImageIcon("data/images/map/walls/" + obstacle1Str + "_corner_bot.png");
-        obstacle2 = new ImageIcon("data/images/map/walls/" + obstacle2Str + "_corner_bot.png");
+        obstacle1 = new ImageIcon("data/images/map/miscellaneous/" + obstacle1Str + ".png");
+        obstacle2 = new ImageIcon("data/images/map/miscellaneous/" + obstacle2Str + ".png");
     }
 
     public ImageIcon getGround() {
