@@ -22,6 +22,7 @@ public class GameWindow extends JFrame {
 
     private static Language lang;
     private static boolean muted;
+    private static int difficulty;
 
     private static GameMenuPanel gameMenuPanel;
     private static GamePanel gamePanel;
@@ -122,6 +123,10 @@ public class GameWindow extends JFrame {
 
     public static boolean isMuted() {
         return muted;
+    }
+
+    public static int getDifficulty() {
+        return difficulty;
     }
 
     private static void refresh() {
