@@ -35,7 +35,7 @@ public class GameMenuPanel extends JPanel {
     private JButton newGameButton, optionsButton, helpButton, exitButton, backButton, backButton2, launchButton,validateButton;
     private JLabel specialityLabel, warLabel, arcLabel, magLabel, optionsLabel, setLangLabel, muteLabel;
 
-    private final Color colorBG = new Color(60, 100, 120, 180);
+    public final Color colorBG = new Color(60, 100, 120, 180);
 
     private final int screenWidth, screenHeight;
 
@@ -307,7 +307,14 @@ public class GameMenuPanel extends JPanel {
                 replaceWith(optionsScreen);
             }
             case HELP -> {
-                replaceWith(/*GameInfoPanel.gameInfoPanel*/);
+                // TODO : ADD INFO PANEL
+                JPanel panel = new JPanel();
+                JButton b = new JButton("HELP");
+                b.addActionListener(e -> {
+                    goToScreen(Screen.START);
+                });
+                panel.add(b);
+                replaceWith(panel);
             }
         }
         state = screen;
@@ -430,7 +437,7 @@ public class GameMenuPanel extends JPanel {
         return title;
     }
 
-    private JButton createMenuButton(String text) {
+    static JButton createMenuButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(text.length() * 16 + 32,40));
         button.setBackground(new Color(220, 200, 160));
@@ -487,6 +494,7 @@ public class GameMenuPanel extends JPanel {
                 switch (effect) {
                     case GOTO_CHARA -> displayCharaScreen();
                     case GOTO_OPTIONS -> displayOptionsScreen();
+                    case GOTO_HELP -> displayHelpScreen();
                     case EXIT -> System.exit(0);
                     case GOTO_START -> displayStartScreen();
                     case LAUNCH -> launch();
