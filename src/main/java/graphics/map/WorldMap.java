@@ -23,7 +23,7 @@ public class WorldMap {
 
     private Theme theme;
     private Position merchantRoomTL, merchantRoomBR;
-    private int difficulty;
+    private GameWindow.Difficulty difficulty;
 
     private final Cell[][] lab;
     private final List<Room> rooms;

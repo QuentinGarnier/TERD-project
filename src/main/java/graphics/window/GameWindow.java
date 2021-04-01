@@ -22,7 +22,7 @@ public class GameWindow extends JFrame {
 
     private static Language lang;
     private static boolean muted;
-    private static int difficulty;
+    private static Difficulty difficulty;
 
     private static GameMenuPanel gameMenuPanel;
     private static GamePanel gamePanel;
@@ -125,7 +125,7 @@ public class GameWindow extends JFrame {
         return muted;
     }
 
-    public static int getDifficulty() {
+    public static Difficulty getDifficulty() {
         return difficulty;
     }
 
@@ -278,5 +278,11 @@ public class GameWindow extends JFrame {
             }
             refreshInventory();
         }
+    }
+
+
+    public enum Difficulty {
+        TUTORIAL, EASY, MEDIUM, HARD, NIGHTMARE, ENDLESS;
+        /* ===== No Final Boss in Endless mod ===== */
     }
 }
