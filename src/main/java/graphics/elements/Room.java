@@ -51,7 +51,7 @@ public class Room {
     public Room(List<Room> roomList, Cell[][] lab) throws ErrorPositionOutOfBound {
         this.id = 0;
         this.topLeft = new Position(5,5);
-        this.bottomRight = new Position(WorldMap.MAX_X - 5,WorldMap.MAX_Y - 5);
+        this.bottomRight = new Position(25,25);
         this.lab = lab;
         this.globalItems = null;
         this.currentRoomItems = null;

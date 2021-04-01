@@ -248,6 +248,12 @@ public enum Language {
     public static String logDisEquip(){return lang("Disequip", "Déséquiper", "Lasciare", "...");}
     public static String logConsume() {return lang("Consume", "Consommer", "Consumare","...");}
     public static String logThrow() {return lang("Throw away", "Jeter", "Buttare via", "...");}
+    public static String logHistory(){return lang("History", "Histoire", "Storie", "...");}
+    public static String logDescription(){return lang("Description", "Description", "Descrizione", "...");}
+    public static String logKeys(){return lang("Keys", "Touches", "Tasti", "...");}
+    public static String logItem(){return lang("Item", "Objet", "Oggetto", "...");}
+    public static String logTrap(){return lang("Trap", "Piège", "Trappola", "...");}
+    public static String logHelp(){return lang("Help", "Aide", "Aiuto", "...");}
     private static String logIsParalysedEffect(EntityType entityType) {
         return switch (entityType) {
             case HERO_WARRIOR -> " [-20%" + attack() + "]";
@@ -311,6 +317,7 @@ public enum Language {
             case MONSTER_ORC -> lang("ORC", "ORC", "ORCO","مسخ");
             case MONSTER_SPIDER -> lang("SPIDER", "ARAIGNÉE", "RAGNO","عنكبوت");
             case MONSTER_WIZARD -> lang("WIZARD", "SORCIER", "STREGONE","ساحر");
+            case MONSTER_BOSS -> lang("BOSS", "BOSS", "BOSS", "...");
         };
     }
     public static String translateHungerState(String state) {
@@ -375,5 +382,93 @@ public enum Language {
             case MERCHANT -> lang("Store", "Magasin", "Negozio", "...");
             case FINAL_BOSS -> lang("Final Boss", "Boss Final", "Boss Finale", "...");
         };
+    }
+
+    public static String aboutDescription(){
+        return lang("<html><center>" +
+                "<h1> Goal of the game </h1></center>" +
+                "In this game you are in a world full of monsters<br>" +
+                "that can be killed by your force.<br>" +
+                "Each of them has a particularity:" +
+                "<ul>" +
+                "<li>Orcs are very strong</li>" +
+                "<li>Spiders can poison you</li>" +
+                "<li>Wizards send spell paralysing you</li>" +
+                "<li>Goblins aren't very strong and they flee if too weak</li>" +
+                "</ul>" +
+                "Your goal is to explore each stage to find the exit<br>" +
+                "such that at the end you will face an awful <b>dragon</b>.<br>" +
+                "Walking across the game you can find different items <br>" +
+                "allowing you to increase your abilities, for instance<br>" +
+                "<ul>" +
+                "<li>Coins are useful let you buy items at the merchant room<br></li>" +
+                "<li>Arms allow you to increase your force or defence</li>" +
+                "<li>Food restores a bit of HP and Hunger</li>" +
+                "<li>Others with different effects</li>" +
+                "</ul>" +
+                "In the merchant room you can buy the items you want<br>" +
+                "but each good has a price and you should have enough<br>" +
+                "money to get it. You are also allowed to sell your<br>" +
+                "items, but at a little price.<br>" +
+                "Last thing before starting to play:<br>" +
+                "Good luck and save the world !" +
+                "</html>",
+                "<html><center>" +
+                "<h1> But du jeu </h1></center>" +
+                "Dans ce jeu tu est dans un monde plein de monstres<br>" +
+                "qui peuvent te tuer par leur force.<br>" +
+                "Chaqu'un d'etre eux a une particularité:" +
+                "<ul>" +
+                "<li>Les orcs sont très puissants</li>" +
+                "<li>Les araignées t'empoisonnent</li>" +
+                "<li>Les mages t'envoient des sort qui te paralysent</li>" +
+                "<li>Les gobelins ne sont pas très forts et fuient quand trop faibles</li>" +
+                "</ul>" +
+                "Ton objectif est celui d'explorer tout étage pour en trouver la sortie<br>" +
+                "de sorte qu'à la fin tu puisse trouver le dernier <b>boss</b>.<br>" +
+                "En marchant dans le jeu, tu peut trouver differents objets <br>" +
+                "te permettant d'augmenter tes abilités, dans le détails : <br>" +
+                "<ul>" +
+                "<li>Les pièce sont utiles pour acheter chez le marchand<br></li>" +
+                "<li>Les armes permettent d'augmeter ta force ou ta défence</li>" +
+                "<li>La nourriture restaure un peu de HP et de Hunger</li>" +
+                "<li>Autres avec des effets différents</li>" +
+                "</ul>" +
+                "In the merchant room you can buy the items you want<br>" +
+                "but each good has a price and you should have enough<br>" +
+                "money to get it. You are also allowed to sell your<br>" +
+                "items, but at a little price.<br>" +
+                "Last thing before starting to play:<br>" +
+                "Good luck and save the world !" +
+                "</html>",
+                "<html><center>" +
+                "<h1> Goal of the game </h1></center>" +
+                "In this game you are in a world full of monsters<br>" +
+                "that can be killed by your force.<br>" +
+                "Each of them has a particularity:" +
+                "<ul>" +
+                "<li>Orcs are very strong</li>" +
+                "<li>Spiders can poison you</li>" +
+                "<li>Wizards send spell paralysing you</li>" +
+                "<li>Goblins aren't very strong and they flee if too weak</li>" +
+                "</ul>" +
+                "Your goal is to explore each stage to find the exit<br>" +
+                "such that at the end you will face an awful <b>dragon<b>.<br>" +
+                "Walking across the game you can find different items <br>" +
+                "allowing you to increase your abilities, for instance<br>" +
+                "<ul>" +
+                "<li>Coins are useful let you buy items at the merchant room<br></li>" +
+                "<li>Arms allow you to increase your force or defence</li>" +
+                "<li>Food restores a bit of HP and Hunger</li>" +
+                "<li>Others with different effects</li>" +
+                "</ul>" +
+                "In the merchant room you can buy the items you want<br>" +
+                "but each good has a price and you should have enough<br>" +
+                "money to get it. You are also allowed to sell your<br>" +
+                "items, but at a little price.<br>" +
+                "Last thing before starting to play:<br>" +
+                "Good luck and save the world !" +
+                "</html>",
+                "...");
     }
 }

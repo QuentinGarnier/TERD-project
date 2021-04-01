@@ -74,11 +74,17 @@ public class Cell extends JLabel {
 
     public void setEntity(AbstractEntity entity) {
         if (entity != null && EntityType.MONSTER_BOSS.equals(entity.entityType)){
+            for (int x = position.getX() - 1; x <= position.getX() + 1; x++) {
+                for (int y = position.getY() - 1; y <= position.getY() + 1; y++) {
+                    lab[x][y].entity = entity;
+                }
+            }
+        } else if (entity == null && this.entity != null && this.entity.entityType.equals(EntityType.MONSTER_BOSS)){
             for (int x = position.getX() - 1; x <= position.getX() + 1; x++)
                 for (int y = position.getY() - 1; y <= position.getY() + 1; y++)
-                    lab[x][y].entity = entity;
+                    lab[x][y].entity = null;
         }
-        this.entity = entity;
+        else this.entity = entity;
     }
 
     public void setObstacle(CellElementType obstacleContent) {

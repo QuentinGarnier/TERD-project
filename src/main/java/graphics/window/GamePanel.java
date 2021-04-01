@@ -51,11 +51,14 @@ public class GamePanel extends JPanel {
         Player.getInventory().forEach(this::add);
 
         // MERCHANT
-        if(worldMap.lastLevel()) add(Merchant.getInstanceMerchant());
+        if(!worldMap.lastLevel()) add(Merchant.getInstanceMerchant());
 
         // FOG
+
+        if (!worldMap.lastLevel())
         for(int x = 0; x < WorldMap.MAX_X; x++)
-            for(int y = 0; y < WorldMap.MAX_Y; y++) add(worldMap.getCell(x, y));
+            for(int y = 0; y < WorldMap.MAX_Y; y++)
+                add(worldMap.getCell(x, y));
 
         // OBJECTIVE SHADOW
         makeOpaqueLabel();
@@ -80,7 +83,7 @@ public class GamePanel extends JPanel {
             Cell currentCell = worldMap.getCell(x, y);
             CellElementType currentCet = currentCell.getBaseContent();
             CellElementType obstacle = currentCell.getObstacle();
-            if(merchRoomTL != null && x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())
+            if(!worldMap.lastLevel() && x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())
                 img = new ImageIcon(Theme.MERCHANT.themeFor(currentCet).getImage());
             else {
                 if (y > 0 && currentCet == CellElementType.HORIZONTAL_WALL) {

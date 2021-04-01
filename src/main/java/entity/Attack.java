@@ -52,6 +52,7 @@ public class Attack {
             case MONSTER_ORC: if(entity2.getState() != EntityState.PARALYSED && entity2.getHP() != 0) entity2.updateState(EntityState.PARALYSED); break;
             case MONSTER_SPIDER: if(entity2.getState() != EntityState.POISONED && entity2.getHP() != 0) entity2.updateState(EntityState.POISONED); break;
             case MONSTER_WIZARD: if (Math.random() > 0.80 && entity2.getState() != EntityState.FROZEN && entity2.getHP() != 0) entity2.updateState(EntityState.FROZEN); break;
+            case MONSTER_BOSS: break;
         }
     }
 

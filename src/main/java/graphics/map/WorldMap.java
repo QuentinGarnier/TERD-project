@@ -37,7 +37,7 @@ public class WorldMap {
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         items = new ArrayList<>();
-        difficulty = GameWindow.Difficulty.MEDIUM;
+        difficulty = GameWindow.Difficulty.TUTORIAL;
         generateWorld();
     }
 
@@ -56,14 +56,15 @@ public class WorldMap {
         corridors.clear();
         items.clear();
         initializeLab();
+        stageNum++;
 
-        if(true) { //lastLevel();
+        if(stageNum == difficulty.stagesNumber) {
             theme = Theme.FINAL_BOSS;
             initializeBossLab();
             placePlayer();
         } else {
             theme = randomTheme();
-            difficulty = GameWindow.getDifficulty();
+            //difficulty = GameWindow.getDifficulty();
             items.add(AbstractItem.end);
             createRooms();
             createCorridors(true);
@@ -77,11 +78,10 @@ public class WorldMap {
                 }
             }
         }
-        stageNum++;
     }
 
     public boolean lastLevel() {
-        return stageNum == difficulty.stagesNumber;
+        return difficulty != null && stageNum == difficulty.stagesNumber;
     }
 
     public void initializeBossLab() {

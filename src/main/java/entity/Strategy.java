@@ -3,6 +3,7 @@ package entity;
 import graphics.Tools;
 import graphics.elements.Position;
 import graphics.elements.Room;
+import graphics.elements.cells.Cell;
 import graphics.map.WorldMap;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Strategy {
-    private final AbstractEntity hero = Player.getInstancePlayer();
+    private AbstractEntity hero;
     private final AbstractEntity currentEntity;
 
     public Strategy(AbstractEntity currentEntity) {
@@ -18,19 +19,26 @@ public class Strategy {
     }
 
     public void applyStrategy(){
+        hero = Player.getInstancePlayer();
         switch (currentEntity.entityType){
             case MONSTER_GOBLIN -> Goblin();
             case MONSTER_ORC, MONSTER_SPIDER -> OrcSpider();
             case MONSTER_WIZARD -> Wizard();
             case ALLY_MERCHANT -> Merchant();
+            case MONSTER_BOSS -> Boss();
         }
+    }
+
+    private void Boss(){
+        if (currentEntity.withinReach(hero, 3)) Attack.attack(currentEntity, hero);
+        else goCloseHero();
     }
 
     private void Goblin() {
         boolean b = false;
         boolean fleeMode = currentEntity.getHP() <= currentEntity.getHPMax() / 2;
         if (fleeMode) {
-            if (!currentEntity.withinReach(hero, 2)) increaseHP(2);
+            if (!currentEntity.withinReach(hero, currentEntity.entityType.rangeByType)) increaseHP(2);
             else b = fleeHero();
         }
         if (!b) {
@@ -100,14 +108,14 @@ public class Strategy {
     public boolean fleeHero() {
         return makeMove(false, hero.getPosition());
     }
-
     public void goCloseHero() {
         Position pos = currentEntity.getPosition();
         Room r = WorldMap.getInstanceWorld().getCurrentRoom(pos);
         List<List<Position>> bfs = Tools.BFS(pos, r, null, null);
         List<Position> path = Tools.findPath(bfs, pos, Player.getInstancePlayer().getPosition(), r, null, null);
         Position res = path.get(path.size() - 2);
-        if (WorldMap.getInstanceWorld().getCell(res).isAccessible()) currentEntity.goTo(res);
+        Cell c = WorldMap.getInstanceWorld().getCell(res);
+        if (c.isAccessible() || c.getEntity().entityType.equals(EntityType.MONSTER_BOSS)) currentEntity.goTo(res);
     }
 
     public void increaseHP(int x) {
