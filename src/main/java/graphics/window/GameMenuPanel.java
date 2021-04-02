@@ -76,7 +76,7 @@ public class GameMenuPanel extends JPanel {
                 replaceWith(optionsScreen);
             }
             case HELP -> {
-                // TODO : ADD INFO PANEL
+                //TODO: ADD INFO PANEL
                 JPanel panel = new JPanel();
                 JButton b = new JButton("HELP");
                 b.addActionListener(e -> {
@@ -105,10 +105,6 @@ public class GameMenuPanel extends JPanel {
         panel1.add(bigPanel);
         add(backgroundImage);
         add(panel1, 0);
-
-        repaint();
-        revalidate();
-
     }
 
     private void replaceWith(JPanel jPanel) {
@@ -123,16 +119,10 @@ public class GameMenuPanel extends JPanel {
         revalidate();
     }
 
-    private JPanel newBorder() {
-        JPanel jPanel = new JPanel();
-        jPanel.setOpaque(false);
-        jPanel.setPreferredSize(new Dimension(20, 60));
-        return jPanel;
-    }
-
     void setTexts() {
         startScreen.setTexts();
         charaScreen.setTexts();
+        //helpScreen.setTexts(); //TODO: add info panel (setTexts)
     }
 
     static void stateReset() {
