@@ -162,9 +162,9 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         // THIRD LINE
         JPanel thrLine = new JPanel();
         int x = (int) fstLine.getPreferredSize().getHeight();
-        thrLine.add(createImageIcon(x,"/home/fissore/Immagini/ksnip_20210331-101712.png"));
-        thrLine.add(createImageIcon(x,"/home/fissore/Immagini/ksnip_20210331-101716.png"));
-        thrLine.add(createImageIcon(x,"/home/fissore/Immagini/ksnip_20210331-101718.png"));
+        thrLine.add(createImageIcon(x,"data/images/menu/helpPane/attack1.png"));
+        thrLine.add(createImageIcon(x,"data/images/menu/helpPane/attack2.png"));
+        thrLine.add(createImageIcon(x,"data/images/menu/helpPane/attack3.png"));
 
         JPanel fourthLine = new JPanel();
         fourthLine.add(new JLabel(Language.infoQ2()));
@@ -271,7 +271,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         JPanel sndLine = new JPanel();
 
         // JAVA IMAGE
-        sndLine.add(createImageIcon(140, "/home/fissore/Immagini/ksnip_20210331-101719.png"));
+        sndLine.add(createImageIcon(140, "data/images/menu/helpPane/java.png"));
         creditsPanel.add(sndLine);
 
         creditsPanel.revalidate();
