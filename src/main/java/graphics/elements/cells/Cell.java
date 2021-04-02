@@ -114,6 +114,7 @@ public class Cell extends JLabel {
     public CellElementType getMainContentType() {
         if (entity != null) return entity.getEntityType().getCellElementType();
         if (item != null) return item.type.cellElementType;
+        if (obstacleContent != null) return obstacleContent;
         return baseContent;
     }
 

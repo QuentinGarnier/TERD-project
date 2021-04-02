@@ -89,7 +89,7 @@ public class WorldMap {
     }
 
     public void initializeBossLab() {
-        new Room(rooms, lab);
+        new Room(rooms, lab, theme);
         lab[Monster.boss.getPosition().getX()][Monster.boss.getPosition().getY()].setEntity(Monster.boss);
     }
 
@@ -155,6 +155,9 @@ public class WorldMap {
                     ai.setLocation();
                 }
             }
+            for (int X = room.getTopLeft().getX(); X < room.getBottomRight().getX(); X++)
+                for (int Y = room.getTopLeft().getY(); Y < room.getBottomRight().getY(); Y++)
+                    getCell(x, y).setObstacle(null);
             merchant.setSafeRoomId(safeRoomId);
             room.setVisited();
             room.addDoor(new Position(x, y));
@@ -172,8 +175,9 @@ public class WorldMap {
 
     private void createRooms() throws ErrorPositionOutOfBound {
         for (int i = 0; i < maxRandomRoom; i++) {
-            new Room(rooms, lab, items);
+            new Room(rooms, lab, items, theme);
         }
+        System.out.println(theme);
         if (rooms.size() == 0) createRooms();
     }
 
