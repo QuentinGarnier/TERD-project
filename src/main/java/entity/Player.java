@@ -177,6 +177,7 @@ public class Player extends AbstractEntity {
 
     public static void removeItem(AbstractCollectableItem ai){
         instancePlayer.inventory.remove(ai);
+        if (ai instanceof ItemEquip && ((ItemEquip) ai).isEquipped()) ai.use();
         Merchant.SellPanel.sellPanel.removeSellInventory(ai);
     }
 
