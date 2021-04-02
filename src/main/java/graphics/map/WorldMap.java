@@ -177,7 +177,6 @@ public class WorldMap {
         for (int i = 0; i < maxRandomRoom; i++) {
             new Room(rooms, lab, items, theme);
         }
-        System.out.println(theme);
         if (rooms.size() == 0) createRooms();
     }
 
