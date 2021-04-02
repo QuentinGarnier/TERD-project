@@ -9,9 +9,9 @@ public class GameMenuPanel extends JPanel {
     private final GameMenuCharaPanel charaScreen = new GameMenuCharaPanel();  //Select a character between 3 specialities: warrior, archer or mage.
     private final GameMenuOptionsPanel optionsScreen = new GameMenuOptionsPanel();  //Change options of the game, like language.
     private static Screen state;
+    private final JPanel bigPanel;
 
     public final Color colorBG = new Color(60, 100, 120, 180);
-
     private final int screenWidth, screenHeight;
 
     private GameMenuPanel() {
@@ -24,6 +24,8 @@ public class GameMenuPanel extends JPanel {
         screenWidth = screenSize.width;
         screenHeight = screenSize.height;
 
+        bigPanel = new JPanel(new BorderLayout());
+        setupBigPanel();
         fillScreens();
 
         state = Screen.START;
@@ -87,18 +89,35 @@ public class GameMenuPanel extends JPanel {
         state = screen;
     }
 
-    private void replaceWith(JPanel jPanel) {
-        if(getComponentCount() > 0) removeAll();
-
+    private void setupBigPanel() {
         JLabel backgroundImage = new JLabel(new ImageIcon("data/images/system/title.png"));
         backgroundImage.setBounds(0, 0, screenWidth, screenHeight);
-        add(backgroundImage);
+        JPanel panel1 = new JPanel(new GridBagLayout());
+        panel1.setOpaque(false);
+        panel1.setMinimumSize(new Dimension(760,480));
 
-        add(jPanel, 0);
-        add(newBorder(), BorderLayout.NORTH);
-        add(newBorder(), BorderLayout.EAST);
-        add(newBorder(), BorderLayout.SOUTH);
-        add(newBorder(), BorderLayout.WEST);
+        Dimension dim = new Dimension(760,480);
+        bigPanel.setPreferredSize(dim);
+        bigPanel.setMinimumSize(dim);
+        bigPanel.setMaximumSize(dim);
+        bigPanel.setOpaque(false);
+
+        panel1.add(bigPanel);
+        add(backgroundImage);
+        add(panel1, 0);
+
+        repaint();
+        revalidate();
+
+    }
+
+    private void replaceWith(JPanel jPanel) {
+        if(bigPanel.getComponentCount() > 0) bigPanel.removeAll();
+
+        Dimension dim = new Dimension(760,480);
+        jPanel.setPreferredSize(dim);
+        jPanel.setMinimumSize(dim);
+        bigPanel.add(jPanel);
 
         repaint();
         revalidate();
@@ -106,7 +125,7 @@ public class GameMenuPanel extends JPanel {
 
     private JPanel newBorder() {
         JPanel jPanel = new JPanel();
-        jPanel.setBackground(Color.DARK_GRAY);
+        jPanel.setOpaque(false);
         jPanel.setPreferredSize(new Dimension(20, 60));
         return jPanel;
     }
