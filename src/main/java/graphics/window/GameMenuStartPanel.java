@@ -20,7 +20,7 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
 
         newGameButton = createMenuButton(Language.newGame());
         optionsButton = createMenuButton(Language.options());
-        helpButton = createMenuButton("Help");
+        helpButton = createMenuButton(Language.logHelp());
         exitButton = createMenuButton(Language.exitGame());
         addMenuButton(newGameButton, midPanel);
         addMenuButton(optionsButton, midPanel);
@@ -56,7 +56,7 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
     void setTexts() {
         newGameButton.setText(Language.newGame());
         optionsButton.setText(Language.options());
-        //helpButton.setText(Language.help());
+        helpButton.setText(Language.logHelp());
         exitButton.setText(Language.exitGame());
     }
 
