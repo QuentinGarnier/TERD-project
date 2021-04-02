@@ -18,7 +18,7 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
     private JPanel warSpecPanel;
     private JPanel arcSpecPanel;
     private JPanel magSpecPanel;
-    int charaSelected = 0;
+    private int charaSelected = 0;
     private final JLabel descriptionLabel = new JLabel(descriptionForSpec());
 
     GameMenuCharaPanel() {

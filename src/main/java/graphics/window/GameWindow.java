@@ -110,11 +110,13 @@ public class GameWindow extends JFrame {
         Tools.Settings.loadSettings();
         lang = Tools.Settings.getLanguage();
         muted = Tools.Settings.isMuted();
+        difficulty = Tools.Settings.getDifficulty();
     }
 
-    public static void setSettings(Language l, boolean sound) {
+    public static void setSettings(Language l, boolean sound, Difficulty d) {
         lang = l;
         muted = !sound;
+        difficulty = d;
     }
 
     public static Language language() {
@@ -125,7 +127,7 @@ public class GameWindow extends JFrame {
         return muted;
     }
 
-    public static Difficulty getDifficulty() {
+    public static Difficulty difficulty() {
         return difficulty;
     }
 

@@ -39,7 +39,7 @@ public class InventoryPanel extends JPanel {
         fstCol.setForeground(ai.equals(Player.getInstancePlayer().getDefenceItem()) ||
                 ai.equals(Player.getInstancePlayer().getAttackItem())? Color.GREEN : Color.GRAY);
         JLabel sndCol = createLog(s2, Color.GRAY);
-        JLabel thrCol = createLog((s3 < 10 ? " " : "") + s3, Color.GRAY);
+        JLabel thrCol = createLog((s3 < Player.MAX_INVENTORY_SIZE ? " " : "") + s3, Color.GRAY);
 
         fstCol.setHorizontalAlignment(SwingConstants.LEFT);
         sndCol.setHorizontalAlignment(SwingConstants.CENTER);
@@ -73,8 +73,8 @@ public class InventoryPanel extends JPanel {
         miniLog.setText(cnt);
     }
 
-    public void setInventoryText(){
-        setInventoryText(Color.BLUE , Language.logInventory());
+    public void setInventoryText() {
+        setInventoryText(Color.BLUE , Language.logInventory() + " (" + Player.getInventory().size() + "/" + Player.MAX_INVENTORY_SIZE + ")");
     }
 
     private void equipping(AbstractCollectableItem ai, boolean isEquipping){

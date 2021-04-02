@@ -22,7 +22,8 @@ import java.util.List;
 public class Player extends AbstractEntity {
     private static Player instancePlayer = new Player();
 
-    public final static int MAX_INVENTORY_SIZE = 10;
+    public final static int MAX_INVENTORY_SIZE = 20;
+    private int hungerTurnCounter;
     private int level;
     private int experiencePoints;
     private int hunger;
@@ -37,10 +38,10 @@ public class Player extends AbstractEntity {
         level = 1;
         experiencePoints = 0;
         hunger = 100;  //100 is the max value for the Hunger Bar
+        hungerTurnCounter = 0;
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
-        //for (int i = 0; i < 10; i++) inventory.add(AbstractCollectableItems.generateAbstractCollItems(0,null));
 
     }
 
@@ -248,7 +249,15 @@ public class Player extends AbstractEntity {
 
     public boolean makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
         if((m == null && p == null) || getHP() == 0) return false;
-        return isAttacking ? attack(p) : move(m);
+        boolean b = isAttacking ? attack(p) : move(m);
+        if(b) {
+            hungerTurnCounter++;
+            if(hungerTurnCounter >= 5) {
+                hunger--;
+                hungerTurnCounter = 0;
+            }
+        }
+        return b;
     }
 
     private boolean move(Move move) throws ErrorPositionOutOfBound {

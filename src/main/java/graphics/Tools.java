@@ -98,13 +98,13 @@ public class Tools {
     public static class Settings {
         private static Language language;
         private static boolean mute = false;
+        private static GameWindow.Difficulty difficulty; //0 to 4
 
         public static void loadSettings() {
             try {
                 File f = new File("data/settings.set");
                 if(!f.exists()) {
-                    language = Language.EN; //Default language
-                    mute = false; //Default value
+                    defaultSettings();
                     return;
                 }
                 Scanner scanner = new Scanner(f);
@@ -122,67 +122,42 @@ public class Tools {
                                     default -> Language.EN;
                                 };
                                 case "sMusic" -> mute = info[1].equals("false");
+                                case "sDifficulty" -> difficulty = switch (info[1]) {
+                                    case "EASY" -> GameWindow.Difficulty.EASY;
+                                    case "HARD" -> GameWindow.Difficulty.HARD;
+                                    case "NIGHTMARE" -> GameWindow.Difficulty.NIGHTMARE;
+                                    case "ENDLESS" -> GameWindow.Difficulty.ENDLESS;
+                                    default -> GameWindow.Difficulty.MEDIUM;
+                                };
                             }
                         }
                     }
                 }
                 scanner.close();
+                if(language == null || difficulty == null) defaultSettings(); //If at least 1 line is missing, then restore the default settings.
             } catch(FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
-        public static void saveSettings(Language lang, boolean sound) {
+        public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff) {
             try {
                 File f = new File("data/settings.set");
-                if(!f.exists()) {
-                    createConfig(f, lang, sound);
-                    return;
-                }
-                Scanner scanner = new Scanner(f);
-                ArrayList<String> lines = new ArrayList<>();
-                String line;
-                while(scanner.hasNextLine()) {
-                    line = scanner.nextLine();
-                    lines.add(line);
-                }
-                scanner.close();
-
-                FileWriter writer = new FileWriter("data/settings.set");
-                for(String l : lines) {
-                    if(l.length() > 0) {
-                        if(l.charAt(0) != '$') {
-                            String[] info = l.split(" "); //info[0] = var_name ; info[1] = var_value
-                            if(info.length > 1) {
-                                switch (info[0]) {
-                                    case "sLanguage" -> info[1] = lang.toString();
-                                    case "sMusic" -> info[1] = "" + sound;
-                                }
-                            }
-                            l = "";
-                            for(int i = 0; i < info.length - 1; i++) l = info[i] + " ";
-                            l = l + info[info.length - 1];
-                        }
-                    }
-                    writer.write(l + "\n");
-                }
+                if(!f.exists()) if(!f.createNewFile()) return;
+                FileWriter writer = new FileWriter(f);
+                writer.write("sLanguage " + lang + "\n");
+                writer.write("sMusic " + sound + "\n");
+                writer.write("sDifficulty " + diff + "\n");
                 writer.close();
             } catch(IOException e) {
                 e.printStackTrace();
             }
         }
 
-        private static void createConfig(File f, Language lang, boolean sound) {
-            try {
-                if(f.createNewFile()) {
-                    FileWriter writer = new FileWriter(f);
-                    writer.write("sLanguage " + lang + "\n");
-                    writer.write("sMusic " + sound + "\n");
-                    writer.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        private static void defaultSettings() {
+            language = Language.EN; //Default language
+            mute = false; //Default value
+            difficulty = GameWindow.Difficulty.MEDIUM; //Default value
         }
 
         public static Language getLanguage() {
@@ -191,6 +166,10 @@ public class Tools {
 
         public static boolean isMuted() {
             return mute;
+        }
+
+        public static GameWindow.Difficulty getDifficulty() {
+            return difficulty;
         }
     }
 
