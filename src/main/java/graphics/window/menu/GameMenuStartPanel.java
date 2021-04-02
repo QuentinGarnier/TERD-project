@@ -1,4 +1,4 @@
-package graphics.window;
+package graphics.window.menu;
 
 import graphics.Language;
 
@@ -12,15 +12,17 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
 
     GameMenuStartPanel() {
         super();
+        setOpaque(false);
+        setBorder(null);
     }
 
     void fillScreen() {
         setLayout(new BorderLayout());
-        JPanel midPanel = new JPanel(new GridLayout(4, 1));
+        JPanel midPanel = new JPanel(new GridLayout(4, 1, 0, 20));
 
         newGameButton = createMenuButton(Language.newGame());
         optionsButton = createMenuButton(Language.options());
-        helpButton = createMenuButton(Language.logHelp());
+        helpButton = createMenuButton(Language.help());
         exitButton = createMenuButton(Language.exitGame());
         addMenuButton(newGameButton, midPanel);
         addMenuButton(optionsButton, midPanel);
@@ -56,7 +58,7 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
     void setTexts() {
         newGameButton.setText(Language.newGame());
         optionsButton.setText(Language.options());
-        helpButton.setText(Language.logHelp());
+        helpButton.setText(Language.help());
         exitButton.setText(Language.exitGame());
     }
 

@@ -245,18 +245,6 @@ public enum Language {
     public static String logEquipped() {return lang("equipped", "équipé(e)", "in uso","...");}
     public static String logRejected() {return lang("rejected", "rejeté", "rifiutato", "...");}
     public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","...");}
-    public static String logEquip(){return lang("Equip", "Équiper", "Usare", "...");}
-    public static String logDisEquip(){return lang("Disequip", "Déséquiper", "Lasciare", "...");}
-    public static String logConsume() {return lang("Consume", "Consommer", "Consumare","...");}
-    public static String logThrow() {return lang("Throw away", "Jeter", "Buttare via", "...");}
-    public static String logHistory(){return lang("History", "Histoire", "Storie", "...");}
-    public static String logDescription(){return lang("Description", "Description", "Descrizione", "...");}
-    public static String logKeys(){return lang("Keys", "Touches", "Tasti", "...");}
-    public static String logItem(){return lang("Item", "Objet", "Oggetto", "...");}
-    public static String logTrap(){return lang("Trap", "Piège", "Trappola", "...");}
-    public static String logHelp(){return lang("Help", "Aide", "Aiuto", "...");}
-    public static String logEnemies(){return lang("Enemies", "Ennemies", "Nemici", "...");}
-    public static String logEroes(){return lang("Eroes", "Eroes", "Eroi", "...");}
     private static String logIsParalysedEffect(EntityType entityType) {
         return switch (entityType) {
             case HERO_WARRIOR -> " [-20%" + attack() + "]";
@@ -306,6 +294,14 @@ public enum Language {
             case DIVINE_BLESSING -> lang("Become invulnerable for a while", "Devenez invulnérable un moment", "Diventi invulnerabile per un po '", "كن محصنًا لبعض الوقت");
         };
     }
+
+
+
+    // ===== Button Inventory Panel ===== //
+    public static String buttonEquip(){return lang("Equip", "Équiper", "Usare", "...");}
+    public static String buttonUnequip(){return lang("Unequip", "Déséquiper", "Lasciare", "...");}
+    public static String buttonConsume() {return lang("Consume", "Consommer", "Consumare","...");}
+    public static String buttonThrow() {return lang("Throw away", "Jeter", "Buttare via", "...");}
 
 
 
@@ -387,62 +383,73 @@ public enum Language {
         };
     }
 
+
+
+    // ===== Help Menu Panel ===== //
+    public static String history(){return lang("History", "Histoire", "Storie", "...");}
+    public static String description(){return lang("Description", "Description", "Descrizione", "...");}
+    public static String keys(){return lang("Keys", "Touches", "Tasti", "...");}
+    public static String credits(){return lang("Credits", "Crédits", "Crediti", "...");}
+    public static String item(){return lang("Item", "Objet", "Oggetto", "...");}
+    public static String trap(){return lang("Trap", "Piège", "Trappola", "...");}
+    public static String help(){return lang("Help", "Aide", "Aiuto", "...");}
+    public static String enemies(){return lang("Enemies", "Ennemis", "Nemici", "...");}
+    public static String heroes(){return lang("Heroes", "Héros", "Eroi", "...");}
     public static String aboutDescription(){
         return lang("<html><center>" +
                 "<h1> Goal of the game </h1></center>" +
                 "In this game you are in a world full of monsters<br>" +
-                "that can be killed by your force.<br>" +
+                "that you have to kill.<br>" +
                 "Each of them has a particularity:" +
                 "<ul>" +
                 "<li>Orcs are very strong</li>" +
                 "<li>Spiders can poison you</li>" +
-                "<li>Wizards send spell paralysing you</li>" +
+                "<li>Wizards cast spells that freeze you</li>" +
                 "<li>Goblins aren't very strong and they flee if too weak</li>" +
                 "</ul>" +
                 "Your goal is to explore each stage to find the exit<br>" +
                 "such that at the end you will face an awful <b>dragon</b>.<br>" +
-                "Walking across the game you can find different items <br>" +
+                "Walking across the game you can find different items<br>" +
                 "allowing you to increase your abilities, for instance<br>" +
                 "<ul>" +
-                "<li>Coins are useful let you buy items at the merchant room<br></li>" +
-                "<li>Arms allow you to increase your force or defence</li>" +
+                "<li>Coins are useful let you buy items at the Merchant<br></li>" +
+                "<li>Equipment allow you to increase your force or defense</li>" +
                 "<li>Food restores a bit of HP and Hunger</li>" +
                 "<li>Others with different effects</li>" +
                 "</ul>" +
-                "In the merchant room you can buy the items you want<br>" +
+                "In the Merchant Room you can buy the items you want<br>" +
                 "but each good has a price and you should have enough<br>" +
                 "money to get it. You are also allowed to sell your<br>" +
-                "items, but at a little price.<br>" +
-                "Last thing before starting to play:<br>" +
-                "Good luck and save the world !" +
+                "items, but at a reduced price.<br>" +
+                "Last thing before starting your Quest:<br>" +
+                "Good luck and save the world!" +
                 "</html>",
                 "<html><center>" +
                 "<h1> But du jeu </h1></center>" +
-                "Dans ce jeu tu est dans un monde plein de monstres<br>" +
-                "qui peuvent te tuer par leur force.<br>" +
-                "Chaqu'un d'etre eux a une particularité:" +
+                "Dans ce jeu vous êtes dans un monde empli de monstres<br>" +
+                "qu'il vous faudra tuer.<br>" +
+                "Chacun d'entre eux possède une particularité :" +
                 "<ul>" +
-                "<li>Les orcs sont très puissants</li>" +
-                "<li>Les araignées t'empoisonnent</li>" +
-                "<li>Les mages t'envoient des sort paralysant</li>" +
-                "<li>Les gobelins ne sont pas très forts et fuient quand trop faibles</li>" +
+                "<li>Les orcs sont très forts</li>" +
+                "<li>Les araignées empoisonnent</li>" +
+                "<li>Les mages lancent des sorts de gel</li>" +
+                "<li>Les gobelins ne sont pas très forts et fuient quand affaiblis</li>" +
                 "</ul>" +
-                "Ton objectif est celui d'explorer tout étage pour en trouver la sortie<br>" +
-                "de sorte qu'à la fin tu puisse rejoindre le dernier <b>boss</b>.<br>" +
-                "En marchant dans le jeu, tu peut trouver differents objets <br>" +
-                "te permettant d'augmenter tes abilités, dans le détails : <br>" +
+                "Votre objectif est d'explorer tous les étages pour en trouver la sortie<br>" +
+                "jusqu'à ce que vous trouviez le terrible <b>dragon</b>.<br>" +
+                "En avançant dans le jeu, vous trouverez differents objets<br>" +
+                "vous permettant d'augmenter vos abilités, dans le détails : <br>" +
                 "<ul>" +
-                "<li>Les pièce sont utiles pour acheter chez le marchand<br></li>" +
-                "<li>Les armes permettent d'augmeter ta force ou ta défence</li>" +
+                "<li>Les pièces sont utiles pour acheter chez le Marchand<br></li>" +
+                "<li>Les équipements augmentent la force ou la défense</li>" +
                 "<li>La nourriture restaure un peu de PV et de Faim</li>" +
                 "<li>Autres avec des effets différents</li>" +
                 "</ul>" +
-                "Dans la salle du marchant tu peut acheter les items que tu veux<br>" +
-                "mais chaqu'un avec son price et tu doit avoir assez d'argent<br>" +
-                "pour l'obtenir. Tu as aussi la possibilité de vendre tes<br>" +
-                "items, mais à un prix réduit.<br>" +
-                "Dernière chose avent de commencer la quête:<br>" +
-                "Bonne chance et sauve le monde !" +
+                "Dans la salle du Marchant vous pouvez acheter les items que vous<br>" +
+                "désirez à condition d'avoir assez d'argent pour l'obtenir. Vous<br>" +
+                "avez aussi la possibilité de vendre vos items mais à un prix réduit.<br>" +
+                "Dernière chose avant de commencer votre Quête :<br>" +
+                "Bonne chance et sauvez le monde !" +
                 "</html>",
                 "<html><center>" +
                 "<h1> Obiettivo del gioco </h1></center>" +
@@ -474,28 +481,24 @@ public enum Language {
                 "</html>",
                 "...");
     }
-
     public static String charList(){
         return lang("<html><h1><center>List of characters</center></h1></html>",
                 "<html><h1><center>Liste des personnages</center></h1></html>",
                 "<html><h1><center>Lista dei personaggi</center></h1></html>",
                 "...");
     }
-
     public static String itemList(){
         return lang("<html><h1><center>List of items</center></h1></html>",
                 "<html><h1><center>Liste des objets</center></h1></html>",
                 "<html><h1><center>Lista degli oggetti</center></h1></html>",
                 "...");
     }
-
     public static String mainKeys(){
         return lang("<html><center><h1> Main keys </h1></center></html>",
                 "<html><center><h1> Touches principales </h1></center></html>",
                 "<html><center><h1> Tasti principali </h1></center></html>",
                 "...");
     }
-
     public static String infoQ1(){
         return lang(
                 "<html><center><h1> More info about Q key </h1>" +
@@ -507,14 +510,14 @@ public enum Language {
                 "if you press Q again, this monster will be hit.<br>" +
                 "If you want to quit attack mode, press Q" +
                 "</center></html>",
-                "<html><center><h1> Plus d'info sur la touche Q </h1>" +
-                "<h2>Attacco</h2><br>" +
-                "Quand tu tapes Q, une zone grise (ombre) apparait<br>" +
-                "te montrant ta portée d'attaque et un carré rouge.<br>" +
-                "Tu peut bouger ce carré avec les touche de déplacement. <br>" +
-                "Si un monstre est sous ta cible, la cible devient verte et <br>" +
-                "si tu tapes nouveau Q, ce monstre sera frappé.<br>" +
-                "Si tu veux sortir du mode attaque, tapes sur Q" +
+                "<html><center><h1> Plus d'info sur la touche A </h1>" +
+                "<h2>Attaque</h2><br>" +
+                "Quand vous appuyez sur A, une zone grise (ombre) apparaît<br>" +
+                "vous indiquant votre portée d'attaque ainsi qu'un carré rouge.<br>" +
+                "Vous pouvez déplacer ce carré avec les touche de déplacement. <br>" +
+                "Si un monstre est sous la cible, le carré devient vert et <br>" +
+                "si vous appuyez à nouveau sur A, ce monstre sera attaqué.<br>" +
+                "Si vous souhaitez sortir du mode attaque, appuyez sur A" +
                 "</center></html>",
                 "<html><center><h1> Maggiori informazioni sul tasto Q </h1>" +
                 "<h2>Attacco</h2><br>" +
@@ -528,23 +531,21 @@ public enum Language {
             "..."
         );
     }
-
     public static String infoQ2(){
         return lang(
                 "<html><center><h2>Merchant</h2><br>" +
-                        "When you are in the market room, you can talk with<br>" +
-                        "the merchant setting the aim on him and clicking Q</center></html>",
+                        "When you are in the Merchant room, you can talk with<br>" +
+                        "the Merchant setting the aim on him and clicking Q</center></html>",
                 "<html><center><h2>Marchand</h2><br>" +
-                        "Quand tu es dans la salle du marchand, tu peux lui parler<br>" +
-                        "en le visant avec ta cible en tapant Q</center></html>",
+                        "Quand vous êtes dans la salle du Marchand, vous pouvez lui<br>" +
+                        "parler en le ciblant puis en appuyant sur A</center></html>",
                 "<html><center><h2>Mercante</h2><br>" +
-                        "Quando sei dal mercante, puoi parlare con lui<br>" +
+                        "Quando sei dal Mercante, puoi parlare con lui<br>" +
                         "selezionando il tuo obiettivo su di lui e cliccando Q</center></html>",
                 "..."
         );
     }
-
-    public static String logGoto(Move m){
+    public static String directions(Move m){
         return switch (m){
             case UP -> lang("Go up", "Monter", "Salire", "...");
             case DOWN -> lang("Go down", "Descendre", "Scendere", "...");
@@ -552,41 +553,37 @@ public enum Language {
             case LEFT -> lang("Go left", "Aller à gauche", "Andare a sinistra", "...");
         };
     }
-
-    public static String logGoToInventory(){
+    public static String openTheInventory(){
         return lang(
-                "Go to your inventory",
-                "Aller à l'invantaire",
+                "Open the inventory",
+                "Ouvrir l'inventaire",
                 "Andare all'inventario",
                 "..."
         );
     }
-
-    public static String logNewGame(){
+    public static String newGameSameHero(){
         return lang(
-                "<html>Start new game<br>with same hero</html>",
-                "<html>Nouvella partie<br>avec le même héro</html>",
+                "<html>Start new game<br>with the same hero</html>",
+                "<html>Nouvelle partie<br>avec le même héros</html>",
                 "<html>Nuova partita<br>con lo stesso eroe</html>",
                 "..."
         );
     }
-
-    public static String logReadBelow(){
-        return lang("Read below", "Lire en dessous", "Leggi sotto", "...");
+    public static String interactionReadBelow(){
+        return lang("Interaction (read below)", "Interaction (lire ci-dessous)", "Interazione (leggi sotto)", "...");
     }
-
-    public static String logCredits(){
+    public static String creditsText(){
         return lang(
                 "<html><center>" +
                         "<h1> This project has been realised by </h1><br>" +
-                        "<h2>BenAmara Adam <br>" +
-                        "Fissore Davide <br>" +
-                        "Garnier Quentin <br>" +
+                        "<h2>BenAmara Adam<br>" +
+                        "Fissore Davide<br>" +
+                        "Garnier Quentin<br>" +
                         "Venturelli Antoine<br></h2>" +
-                        "Period of realisation : first semester of 2021 <br>" +
-                        "Why : TERD UE related to our L3 Info<br>" +
-                        "Professor : Rémy Garcia<br>" +
-                        "Programming language :" +
+                        "Period of realisation: first semester of 2021 <br>" +
+                        "Why: TERD UE related to our L3 Info<br>" +
+                        "Professor: Rémy Garcia<br>" +
+                        "Programming language:" +
                         "</center></html>",
                 "<html><center>" +
                         "<h1> Ce projet a été réalisé par </h1><br>" +
@@ -594,8 +591,8 @@ public enum Language {
                         "Fissore Davide <br>" +
                         "Garnier Quentin <br>" +
                         "Venturelli Antoine<br></h2>" +
-                        "Period de réalisation : premier semestre du 2021 <br>" +
-                        "Pourquoi : pour l'UE TERD pendant notre L3 Info<br>" +
+                        "Période de réalisation : premier semestre de 2021 <br>" +
+                        "Cadre : UE TERD pendant notre L3 Info<br>" +
                         "Professeur : Rémy Garcia<br>" +
                         "Language de programmation :" +
                         "</center></html>",
@@ -605,38 +602,35 @@ public enum Language {
                         "Fissore Davide <br>" +
                         "Garnier Quentin <br>" +
                         "Venturelli Antoine<br></h2>" +
-                        "Periodo di realizzazione : primo semestre del 2021 <br>" +
-                        "Obiettivo : per l'UE TERD durante la nostra L3 Info<br>" +
-                        "Professore : Rémy Garcia<br>" +
-                        "Linguaggio di programmazione :" +
+                        "Periodo di realizzazione: primo semestre del 2021 <br>" +
+                        "Obiettivo: per l'UE TERD durante la nostra L3 Info<br>" +
+                        "Professore: Rémy Garcia<br>" +
+                        "Linguaggio di programmazione:" +
                         "</center></html>",
                 "..."
         );
     }
-
-    public static String logHistoryText(){
+    public static String historyText(){
         return lang(
                 "<html>" +
-                    "<center><h1> That time the hero saved the world </h1><br>" +
-                    "Six hundred years ago, un Mal terrible se réveilla et ravagea le monde.<br>" +
-                    "Nul ne pouvait s'y opposer et l'espoir s'éteignait peu à peu ;<br>" +
-                    "puis vint alors un Héros au nom inconnu qui combattit le Mal et<br>" +
-                    "en triompha, le renvoyant dans les ténèbres d'où il avait émergé.<br>" +
-                    "Les années passèrent et la paix régna, longtemps, jusqu'au jour funeste<br>" +
-                    "où le Mal réapparut.<br>" +
-                    "Il érigea grâce à ses pouvoirs une forteresse maléfique, tout près <br>" +
-                   "d'un petit village isolé, et se prépare désormais à finir ce qu'il<br>" +
-                    "avait commencé il y a six cents ans.<br>" +
-                    "Cependant, il n'y a jamais d'ombre sans lumière : un brave défenseur<br>" +
-                    "du village est apparu et pénètre à présent dans le donjon afin d'y <br>" +
-                    "vaincre, tout comme dans la légende, le Mal en personne.<br>" +
-                    "<h3>C'est aujourd'hui à vous de protéger votre village<br>" +
-                    "contre cette menace ancestrale.<br>" +
-                    "Parviendrez-vous à devenir à votre tour un Héros en<br>" +
-                    "entrant dans la légende ?</h3></center>" +
+                    "<center><h1> That Time the Hero saved the Village </h1><br>" +
+                    "Six hundred years ago, a terrible Evil awoke and ravaged the world.<br>" +
+                    "No one could stop him and the hope was slowly fading, until the<br>" +
+                    "arrival of a Hero with an unknown name who fought the Evil and<br>" +
+                    "won, sending him back to the darkness where he came from.<br>" +
+                    "Years passed and peace reigned for a long time, until the fatal day<br>" +
+                    "when Evil reappeared.<br>" +
+                    "He erected a grim fortress with his powers, near a small isolated village,<br>" +
+                    "and is now preparing to finish what he had started six hundred years ago.<br>" +
+                    "However, there is never a shadow without light: a brave defender of the<br>" +
+                    "village appeared and now enters the dungeon to defeat, as in the legend,<br>" +
+                    "the Evil himself.<br>" +
+                    "<h3>Today, it's up to you to protect your village<br>" +
+                    "against this ancestral threat.<br>" +
+                    "Will you be able to become a Hero yourself by entering the legend?</h3></center>" +
                     "</html>",
                 "<html>" +
-                    "<center><h1> That time the hero saved the world </h1><br>" +
+                    "<center><h1> That Time the Hero saved the Village </h1><br>" +
                     "Il y a six cents ans, un Mal terrible se réveilla et ravagea le monde.<br>" +
                     "Nul ne pouvait s'y opposer et l'espoir s'éteignait peu à peu ;<br>" +
                     "puis vint alors un Héros au nom inconnu qui combattit le Mal et<br>" +
@@ -655,7 +649,7 @@ public enum Language {
                     "entrant dans la légende ?</h3></center>" +
                     "</html>",
                 "<html>" +
-                    "<center><h1> That time the hero saved the world </h1><br>" +
+                    "<center><h1> That Time the Hero saved the Village </h1><br>" +
                     "Seicento anni fa, un Male terribile si svegliò e devastò il mondo.<br>" +
                     "Niente poteva opporsi e la speranza si spegneva a poco a poco;<br>" +
                     "venne poi un Eroe dal nome ignoto que combatté il male e<br>" +
@@ -665,15 +659,20 @@ public enum Language {
                     "Grazie ai suoi poteri erse une fortezza malefica, vicino a <br>" +
                     "un piccolo villaggio isolato e si prepara a terminare ciò che<br>" +
                     "aveva cominciato seicento anni fa.<br>" +
-                    "Tuttavia, non c'è mai ombra senza luce : un bravo difensore<br>" +
+                    "Tuttavia, non c'è mai ombra senza luce: un bravo difensore<br>" +
                     "del villaggio è apparso e discende nella fortezza al fine di <br>" +
                     "vincere, comme dice la leggenda, il Male in persona.<br>" +
                     "<h3>A voi il compito di proteggere il vostro villaggio<br>" +
                     "contro questa minaccia ancestrale.<br>" +
                     "Riuscirate a diventare anche voi un Eroe<br>" +
-                    "entrando nella leggenda ?</h3></center>" +
+                    "entrando nella leggenda?</h3></center>" +
                     "</html>",
-                "..."
+                "<html>" +
+                        "<center><h1> That Time the Hero saved the Village </h1><br>" +
+                        "..." +
+                        "..." +
+                        "..." +
+                        "</html>"
         );
     }
 }

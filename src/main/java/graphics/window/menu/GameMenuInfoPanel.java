@@ -1,20 +1,21 @@
-package graphics.window;
+package graphics.window.menu;
 
 import graphics.Language;
 import graphics.Tools;
 import graphics.elements.Move;
 import graphics.elements.cells.CellElementType;
 import graphics.map.Theme;
+import graphics.window.GameWindow;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GameInfoPanel extends GameMenuCustomPanel {
-    public static final GameInfoPanel gameInfoPanel = new GameInfoPanel();
+public class GameMenuInfoPanel extends GameMenuCustomPanel {
     private final JPanel leftPane;
     private final JPanel centerPane;
     private final JPanel helpPanel;
@@ -22,24 +23,29 @@ public class GameInfoPanel extends GameMenuCustomPanel {
     private final JPanel creditsPanel;
     private final JPanel historyPanel;
     private final JScrollPane scrollPane;
-    private GameInfoPanel(){
-        leftPane = new JPanel(new GridLayout(0,1));
+
+    GameMenuInfoPanel() {
+        super();
+        setOpaque(false);
+        setBorder(null);
+
+        leftPane = new JPanel(new GridLayout(0, 1, 0, 10));
         centerPane = new JPanel();
         helpPanel = new JPanel();
         creditsPanel = new JPanel();
         historyPanel = new JPanel();
         aboutPanel = new JPanel();
-
         scrollPane = new JScrollPane(centerPane);
+        scrollPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
         setup();
     }
 
-    private void opaquePanel(JPanel panel){
+    private void opaquePanel(JPanel panel) {
         panel.setOpaque(false);
     }
 
-    private void setup(){
+    private void setup() {
         setLayout(new BorderLayout());
 
         add(leftPane, BorderLayout.WEST);
@@ -62,38 +68,44 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         setCenterPane(historyPanel);
     }
 
-    private void setLeftPane(){
+    private void setLeftPane() {
         leftPane.removeAll();
+
         // HISTORY
-        JButton history = createMenuButton(Language.logHistory());       // TODO : LANGUAGE
+        JButton history = createMenuButton(Language.history());
+        addMouseEffect(history, false);
         history.addActionListener(e -> setCenterPane(historyPanel));
         leftPane.add(history);
 
         // ABOUT == Description of project
-        JButton about = createMenuButton(Language.logDescription());
+        JButton about = createMenuButton(Language.description());
+        addMouseEffect(about, false);
         about.addActionListener(e ->setCenterPane(aboutPanel));
         leftPane.add(about);
 
         // HELP
-        JButton help = createMenuButton(Language.logKeys());          // TODO : LANGUAGE
+        JButton help = createMenuButton(Language.keys());
+        addMouseEffect(help, false);
         help.addActionListener(e -> setCenterPane(helpPanel));
         leftPane.add(help);
 
         // CREDITS == About us
-        JButton credits = createMenuButton("Credits");   // TODO : LANGUAGE
+        JButton credits = createMenuButton(Language.credits());
+        addMouseEffect(credits, false);
         credits.addActionListener(e -> setCenterPane(creditsPanel));
         leftPane.add(credits);
 
         // EXIT
-        JButton exit = createMenuButton(Language.back());        // TODO : LANGUAGE
-        addMouseEffect(exit);
+        JButton exit = createMenuButton(Language.back());
+        addMouseEffect(exit, true);
+        leftPane.add(new JLabel());
         leftPane.add(exit);
 
         leftPane.revalidate();
         leftPane.repaint();
     }
 
-    private void setCenterPane(JPanel panel){
+    private void setCenterPane(JPanel panel) {
         centerPane.removeAll();
         centerPane.add(panel);
 
@@ -102,7 +114,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
     }
 
     // ABOUT PANEL
-    private void setAboutPanel(){
+    private void setAboutPanel() {
         aboutPanel.removeAll();
 
         aboutPanel.setLayout(new BoxLayout(aboutPanel, BoxLayout.Y_AXIS));
@@ -114,18 +126,18 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         JPanel entities = new JPanel();
         entities.add(new JLabel(Language.charList()));
 
-        JPanel heroes = createLine(Language.logEroes(), CellElementType.HERO_A, CellElementType.HERO_M, CellElementType.HERO_W);
+        JPanel heroes = createLine(Language.heroes(), CellElementType.HERO_W, CellElementType.HERO_A, CellElementType.HERO_M);
         JPanel merchant = createLine(Language.translate(Theme.MERCHANT), CellElementType.MERCHANT);
-        JPanel enemies = createLine(Language.logEnemies(), CellElementType.SPIDER, CellElementType.WIZARD, CellElementType.ORC, CellElementType.GOBLIN);
+        JPanel enemies = createLine(Language.enemies(), CellElementType.SPIDER, CellElementType.WIZARD, CellElementType.ORC, CellElementType.GOBLIN);
 
         // ELEMENTS
         JPanel elements = new JPanel();
         elements.add(new JLabel(Language.itemList()));
         JPanel eltPanel = new JPanel(new GridLayout(2,2));
         eltPanel.add(createLine(Language.money(), CellElementType.COIN));
-        eltPanel.add(createLine(Language.logItem(), CellElementType.ITEM));
+        eltPanel.add(createLine(Language.item(), CellElementType.ITEM));
         eltPanel.add(createLine(Language.logFood(), CellElementType.BURGER));
-        eltPanel.add(createLine(Language.logTrap(), CellElementType.TRAP));
+        eltPanel.add(createLine(Language.trap(), CellElementType.TRAP));
 
         aboutPanel.add(entities);
         aboutPanel.add(heroes);
@@ -140,7 +152,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
     }
 
     // HELP PANEL
-    private void setHelpPanel(){
+    private void setHelpPanel() {
         helpPanel.removeAll();
 
         helpPanel.setLayout(new BoxLayout(helpPanel, BoxLayout.Y_AXIS));
@@ -179,7 +191,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         helpPanel.repaint();
     }
 
-    private JPanel createLine(String title, CellElementType... icons){
+    private JPanel createLine(String title, CellElementType... icons) {
         JPanel panel = new JPanel();
         panel.add(new JLabel(title));
         JPanel iconsPane = new JPanel();
@@ -191,7 +203,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         return panel;
     }
 
-    private JLabel createImageIcon(int xy, ImageIcon img){
+    private JLabel createImageIcon(int xy, ImageIcon img) {
         JLabel label = new JLabel();
         Image i = img.getImage().getScaledInstance(xy, xy, Image.SCALE_SMOOTH);
         img.setImage(i);
@@ -199,44 +211,44 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         return label;
     }
 
-    private JLabel createImageIcon(int xy, String s){
+    private JLabel createImageIcon(int xy, String s) {
         return createImageIcon(xy, new ImageIcon(s));
     }
 
-    private JPanel arrowFirstColumn(){
+    private JPanel arrowFirstColumn() {
         JPanel panel = new JPanel(new BorderLayout());
 
         // ARROWS
         JPanel arrows = new JPanel(new GridLayout(2,3));
         arrows.add(makeSquareLabel(""));
-        arrows.add(makeSquareLabel("" + Tools.universalCharOf('W')));
+        arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "Z": "W"));
         arrows.add(makeSquareLabel(""));
-        arrows.add(makeSquareLabel("" + Tools.universalCharOf('A')));
-        arrows.add(makeSquareLabel("" + Tools.universalCharOf('S')));
-        arrows.add(makeSquareLabel("" + Tools.universalCharOf('D')));
+        arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "Q": "A"));
+        arrows.add(makeSquareLabel("S"));
+        arrows.add(makeSquareLabel("D"));
         panel.add(arrows, BorderLayout.WEST);
 
         // ARROW DESCRIPTION
         JPanel arrowD = new JPanel(new GridLayout(4, 1));
-        arrowD.add(new JLabel(Tools.universalCharOf('W') + Language.logGoto(Move.UP)));
-        arrowD.add(new JLabel(Tools.universalCharOf('A') + Language.logGoto(Move.LEFT)));
-        arrowD.add(new JLabel(Tools.universalCharOf('S') + Language.logGoto(Move.DOWN)));
-        arrowD.add(new JLabel(Tools.universalCharOf('D') + Language.logGoto(Move.RIGHT)));
+        arrowD.add(new JLabel((GameWindow.language() == Language.FR? "Z": "W") + " : " + Language.directions(Move.UP)));
+        arrowD.add(new JLabel((GameWindow.language() == Language.FR? "Q": "A") + " : " + Language.directions(Move.LEFT)));
+        arrowD.add(new JLabel("S : " + Language.directions(Move.DOWN)));
+        arrowD.add(new JLabel("D : " + Language.directions(Move.RIGHT)));
         arrowD.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.add(arrowD);
 
         return panel;
     }
 
-    private JPanel arrowSecondColumn(){
+    private JPanel arrowSecondColumn() {
         JPanel panel = new JPanel(new GridLayout(0,1));
-        panel.add(makeKeyDescription("I", Language.logGoToInventory()));
-        panel.add(makeKeyDescription("R", Language.logNewGame()));
-        panel.add(makeKeyDescription("Q", Language.logReadBelow()));
+        panel.add(makeKeyDescription("I", Language.openTheInventory()));
+        panel.add(makeKeyDescription("R", Language.newGameSameHero()));
+        panel.add(makeKeyDescription((GameWindow.language() == Language.FR? "A": "Q"), Language.interactionReadBelow()));
         return panel;
     }
 
-    private JPanel makeKeyDescription(String key, String description){
+    private JPanel makeKeyDescription(String key, String description) {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = makeSquareLabel(key);
         JLabel descr = new JLabel(description);
@@ -246,7 +258,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         return panel;
     }
 
-    private JLabel makeSquareLabel(String s){
+    private JLabel makeSquareLabel(String s) {
         JLabel label = new JLabel(s);
         label.setOpaque(true);
         label.setFont(new Font("monospaced", Font.PLAIN, 30));
@@ -258,7 +270,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         return label;
     }
 
-    public void setCreditsPanel(){
+    public void setCreditsPanel() {
         creditsPanel.removeAll();
 
         creditsPanel.setLayout(new BoxLayout(creditsPanel, BoxLayout.Y_AXIS));
@@ -266,7 +278,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
 
         // TEXT
         JPanel fstLine = new JPanel();
-        fstLine.add(new JLabel(Language.logCredits()));
+        fstLine.add(new JLabel(Language.creditsText()));
         creditsPanel.add(fstLine);
         JPanel sndLine = new JPanel();
 
@@ -278,7 +290,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         creditsPanel.repaint();
     }
 
-    private void setHistoryPanel(){
+    private void setHistoryPanel() {
         historyPanel.removeAll();
 
         historyPanel.setOpaque(false);
@@ -287,22 +299,24 @@ public class GameInfoPanel extends GameMenuCustomPanel {
 
         // TEXT
         JPanel fstLine = new JPanel();
-        fstLine.add(new JLabel(Language.logHistoryText()));
+        fstLine.add(new JLabel(Language.historyText()));
         historyPanel.add(fstLine);
 
         historyPanel.revalidate();
         historyPanel.repaint();
     }
 
-    private void addMouseEffect(JButton button) {
+    private void addMouseEffect(JButton button, boolean exitButton) {
         Color bg = button.getBackground();
         Color hoverBG = new Color(180, 150, 110);
 
         button.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                button.setBackground(bg);
-                GameMenuPanel.getMenuPanel.displayStartScreen();
+                if(exitButton) {
+                    button.setBackground(bg);
+                    GameMenuPanel.getMenuPanel.displayStartScreen();
+                }
             }
             @Override
             public void mousePressed(MouseEvent e) {}
@@ -319,7 +333,7 @@ public class GameInfoPanel extends GameMenuCustomPanel {
         });
     }
 
-    public void setTexts(){
+    public void setTexts() {
         setup();
     }
 }

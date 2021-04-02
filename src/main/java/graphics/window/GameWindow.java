@@ -9,6 +9,7 @@ import graphics.elements.Position;
 import entity.WhatHeroDoes;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
+import graphics.window.menu.GameMenuPanel;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -90,7 +91,7 @@ public class GameWindow extends JFrame {
     }
 
     private void setup() {
-        setTitle("That time the Hero saved the Village"); //temp game name
+        setTitle("That Time the Hero saved the Village"); //temp game name
         setSize(800,600);
         setMinimumSize(new Dimension(800,600));
         setLocationRelativeTo(null);

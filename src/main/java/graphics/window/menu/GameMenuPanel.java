@@ -1,4 +1,4 @@
-package graphics.window;
+package graphics.window.menu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +8,10 @@ public class GameMenuPanel extends JPanel {
     private final GameMenuStartPanel startScreen = new GameMenuStartPanel();  //Launch a new game, load a save, see options/credits or quit the game.
     private final GameMenuCharaPanel charaScreen = new GameMenuCharaPanel();  //Select a character between 3 specialities: warrior, archer or mage.
     private final GameMenuOptionsPanel optionsScreen = new GameMenuOptionsPanel();  //Change options of the game, like language.
-    private static Screen state;
+    private final GameMenuInfoPanel infoPanel = new GameMenuInfoPanel();  //See all the info about the game.
     private final JPanel bigPanel;
 
-    public final Color colorBG = new Color(60, 100, 120, 180);
+    private static Screen state;
     private final int screenWidth, screenHeight;
 
     private GameMenuPanel() {
@@ -38,7 +38,7 @@ public class GameMenuPanel extends JPanel {
         optionsScreen.fillScreen();
     }
 
-    void display() {
+    public void display() {
         switch (state) {
             case START -> displayStartScreen();
             case CHARA -> displayCharaScreen();
@@ -75,7 +75,7 @@ public class GameMenuPanel extends JPanel {
                 optionsScreen.prepareScreen();
                 replaceWith(optionsScreen);
             }
-            case HELP -> replaceWith(GameInfoPanel.gameInfoPanel);
+            case HELP -> replaceWith(infoPanel);
         }
         state = screen;
     }
@@ -113,7 +113,7 @@ public class GameMenuPanel extends JPanel {
     void setTexts() {
         startScreen.setTexts();
         charaScreen.setTexts();
-        GameInfoPanel.gameInfoPanel.setTexts();
+        infoPanel.setTexts();
     }
 
     static void stateReset() {

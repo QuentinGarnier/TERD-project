@@ -1,8 +1,9 @@
-package graphics.window;
+package graphics.window.menu;
 
 import entity.Player;
 import graphics.Language;
 import graphics.Tools;
+import graphics.window.GameWindow;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -23,6 +24,7 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
 
     GameMenuCharaPanel() {
         super();
+        descriptionLabel.setForeground(Color.BLACK);
     }
 
     void fillScreen() {

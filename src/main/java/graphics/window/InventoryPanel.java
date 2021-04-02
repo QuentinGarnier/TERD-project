@@ -117,7 +117,7 @@ public class InventoryPanel extends JPanel {
             setLayout(new GridLayout(0,3));
             Player player = Player.getInstancePlayer();
             JButton equip = new JButton();
-            JButton throwAway = new JButton(Language.logThrow());
+            JButton throwAway = new JButton(Language.buttonThrow());
             JButton esc = new JButton(Language.back());
             equip.addActionListener(e -> {
                 equipping(ai, ai.use());
@@ -134,8 +134,8 @@ public class InventoryPanel extends JPanel {
             });
             equip.setText(
                     (ai instanceof ItemEquip) ?
-                            (((ItemEquip) ai).isEquipped() ? Language.logDisEquip() : Language.logEquip()) :
-                            Language.logConsume());
+                            (((ItemEquip) ai).isEquipped() ? Language.buttonUnequip() : Language.buttonEquip()) :
+                            Language.buttonConsume());
             add(equip);
             add(throwAway);
             add(esc);

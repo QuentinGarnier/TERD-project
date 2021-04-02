@@ -1,4 +1,4 @@
-package graphics.window;
+package graphics.window.menu;
 
 import graphics.Tools;
 
@@ -8,7 +8,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class GameMenuCustomPanel extends JPanel {
-    final Color colorBG = new Color(60, 100, 120, 180);
+    final Color colorBG = new Color(160, 140, 100, 230);
 
     GameMenuCustomPanel() {
         super();
@@ -19,8 +19,8 @@ public class GameMenuCustomPanel extends JPanel {
         Dimension dim = new Dimension(500, 500);
         setPreferredSize(dim);
         setBackground(colorBG);
-        Color colorBGDark = new Color(20, 50, 70, 180);
-        setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color(60, 100, 120, 180), colorBGDark));
+        Color colorBGDark = new Color(80, 60, 30, 220);
+        setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, colorBG, colorBGDark));
     }
 
     protected JLabel createTitle(String txt, int fontSize, Color c) {

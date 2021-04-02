@@ -1,7 +1,8 @@
-package graphics.window;
+package graphics.window.menu;
 
 import graphics.Language;
 import graphics.Tools;
+import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
