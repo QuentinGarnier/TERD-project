@@ -5,32 +5,35 @@ import graphics.Tools;
 import javax.swing.*;
 
 public enum CellElementType {
-    BOX('■', false, "map/miscellaneous/box"),
-    BURGER('B', true, "items/food/big_burger"),
-    COIN('●', true, "map/miscellaneous/coin"),
+    EMPTY('.', true, "map/grounds/grass"), // work also for doors
+    HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
+    VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
     CORNER_BOT('┼', false, "map/walls/stone_corner_bot"),
     CORNER_TOP('┼', false, "map/walls/stone_corner_top"),
     CORRIDOR('#', true, "map/grounds/wood"),
-    EMPTY('.', true, "map/grounds/grass"), // work also for doors
-    END('E', true, "map/miscellaneous/end"),
-    GOBLIN('G', false, "entities/monsters/goblin"),
+    OUTSIDE_ROOM(' ', false, "map/grounds/water"),
+
+    STONE('&',false, "map/miscellaneous/stone"),
+    TREE('T',false, "map/miscellaneous/tree"),
+    PALM_TREE('T', false, "map/miscellaneous/palm_tree"),
     HOLE('u', false, "map/miscellaneous/hole"),
-    HORIZONTAL_WALL('—', false, "map/walls/stone_horizontal"),
+    BOX('■', false, "map/miscellaneous/box"),
+
+    COIN('●', true, "map/miscellaneous/coin"),
     ITEM('%', true, "items/consumable/bag"),
+    BURGER('B', true, "items/food/big_burger"),
+    END('E', true, "map/miscellaneous/end"),
+    TRAP('x', true, "map/miscellaneous/trap"),
+
+    HERO_W('@', false, "entities/hero/hero_01"),
     HERO_A('@', false, "entities/hero/hero_02"),
     HERO_M('@', false, "entities/hero/hero_03"),
-    HERO_W('@', false, "entities/hero/hero_01"),
-    ORC('O', false, "entities/monsters/orc"),
-    OUTSIDE_ROOM(' ', false, "map/grounds/water"),
+    GOBLIN('G', false, "entities/monsters/goblin"),
     SPIDER('S', false, "entities/monsters/spider"),
-    STONE('&',false, "map/miscellaneous/stone"),
-    TRAP('x', true, "map/miscellaneous/trap"),
-    TREE('T',false, "map/miscellaneous/tree"),
-    VERTICAL_WALL('|', false, "map/walls/stone_vertical"),
     WIZARD('W', false, "entities/monsters/wizard"),
+    ORC('O', false, "entities/monsters/orc"),
     BOSS('D', false, "entities/monsters/wizard"),
-    MERCHANT('M', false, "entities/merchant/merchant"),
-    PALM_TREE('T', false, "map/miscellaneous/palm_tree");
+    MERCHANT('M', false, "entities/merchant/merchant");
 
     private final char symbol;
     private final boolean isAccessible;
@@ -84,7 +87,7 @@ public enum CellElementType {
 
     public boolean isObstacle() {
         return this.equals(CellElementType.TREE) || this.equals(CellElementType.STONE)
-                || this.equals(CellElementType.HOLE) || this.equals(CellElementType.BOX);
+                || this.equals(CellElementType.HOLE) || this.equals(CellElementType.BOX) || this.equals(CellElementType.PALM_TREE);
     }
 
     @Override

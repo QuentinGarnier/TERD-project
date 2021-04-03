@@ -83,7 +83,8 @@ public class GamePanel extends JPanel {
             Cell currentCell = worldMap.getCell(x, y);
             CellElementType currentCet = currentCell.getBaseContent();
             CellElementType obstacle = currentCell.getObstacle();
-            if(!worldMap.lastLevel() && x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())
+            boolean isInMerchantRoom = x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY();
+            if(!worldMap.lastLevel() && isInMerchantRoom)
                 img = new ImageIcon(Theme.MERCHANT.themeFor(currentCet).getImage());
             else {
                 if (y > 0 && currentCet == CellElementType.HORIZONTAL_WALL) {
@@ -110,7 +111,7 @@ public class GamePanel extends JPanel {
 
             // ===== SHADOWS ===== //
             if (x > 0 && y > 0) {
-                if(worldMap.getTheme() != Theme.ISLANDS || (x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY())) {
+                if(worldMap.getTheme() != Theme.ISLANDS || isInMerchantRoom) {
                     CellElementType leftC = worldMap.getCell(x - 1, y).getBaseContent();
                     CellElementType topLeftC = worldMap.getCell(x - 1, y - 1).getBaseContent();
                     if (leftC.isWall() && !currentCet.isWall() && topLeftC.isWall()) {
@@ -124,7 +125,7 @@ public class GamePanel extends JPanel {
 
             // ===== OBSTACLES ===== //
             if (obstacle != null) {
-                JLabel obstacleL = new JLabel(new ImageIcon(obstacle.getIcon().getImage()));
+                JLabel obstacleL = new JLabel(isInMerchantRoom? CellElementType.BOX.getIcon() : new ImageIcon(obstacle.getIcon().getImage()));
                 obstacleL.setBounds(x * size, y * size, size, size);
                 add(obstacleL);
             }
