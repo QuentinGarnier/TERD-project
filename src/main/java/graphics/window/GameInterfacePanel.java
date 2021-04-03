@@ -39,17 +39,23 @@ public class GameInterfacePanel extends JPanel {
     }
 
     void display() {
+        if(statsPanel.getComponentCount() > 0) statsPanel.removeAll();
         displayStats();
+        if(inventoryPanel.getComponentCount() > 0) inventoryPanel.removeAll();
         displayInventory();
+        if(topPanel.getComponentCount() > 0) topPanel.removeAll();
         displayTopPanel();
+        if(logsPanel.getComponentCount() > 0) clearLogs();
         realInventoryPanel.updateInventory();
     }
 
     void refresh() {
-        statsPanel.removeAll();  //clear the components
-        inventoryPanel.removeAll();  //clear the components
-        topPanel.removeAll();
-        display();  //re-add the actualized components
+        refreshStats();
+        refreshInventory();
+        refreshTopPanel();
+        realInventoryPanel.updateInventory();
+        repaint();
+        revalidate();
     }
 
     private void setup() {
@@ -91,7 +97,7 @@ public class GameInterfacePanel extends JPanel {
         Color violet = Tools.WindowText.purple;
         Color red = Tools.WindowText.red;
 
-        //Speciality & level:
+        //Speciality:
         JPanel spec = new JPanel(new GridLayout(1,1));
         spec.setBackground(Color.LIGHT_GRAY);
         createTxtLabel(spec, Language.translate(player.getEntityType()), (player.getEntityType() == EntityType.HERO_WARRIOR? red: (player.getEntityType() == EntityType.HERO_ARCHER? green: cyan)), 16);
@@ -146,8 +152,6 @@ public class GameInterfacePanel extends JPanel {
         createTxtLabel(topPanel, "—  " + WorldMap.getInstanceWorld().getTheme() + "  —", null);
     }
 
-
-
     public void displayRealInventory() {
         if (displayInventory) {
             centerP.remove(logsPanel);
@@ -157,6 +161,34 @@ public class GameInterfacePanel extends JPanel {
             centerP.add(logsPanel);
         }
         displayInventory = !displayInventory;
+    }
+
+    private void refreshStats() {
+        Player player = Player.getInstancePlayer();
+        refreshBarGroup((JPanel)(statsPanel.getComponent(1)), Language.hp() + ": " + player.getHP() + "/" + player.getHPMax() + " ♥", player.getHPMax(), player.getHP(), "bar_red.png");
+        refreshBarGroup((JPanel)(statsPanel.getComponent(2)), Language.hunger() + ": " + Language.translateHungerState(player.getHungerState()), 100, player.getHunger(), "bar_violet.png");
+        ((JLabel)(statsPanel.getComponent(3))).setText(Language.translate(player.getState()) + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""));
+        ((JLabel)(statsPanel.getComponent(4))).setText(Language.attack() + ": " + player.getAttack() + " ⚔");
+        ((JLabel)(statsPanel.getComponent(5))).setText(Language.range() + ": " + player.getRange() + " ◎");
+    }
+
+    private void refreshInventory() {
+        ((JLabel)(inventoryPanel.getComponent(0))).setText(Language.pressIForInventory(displayInventory));
+        ((JLabel)(inventoryPanel.getComponent(1))).setText(Language.money() + ": " + Player.getInstancePlayer().getMoney() + " ● ");
+    }
+
+    private void refreshTopPanel() {
+        Player p = Player.getInstancePlayer();
+        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/bar_xp.png");
+        float ratio = (float)(p.getXP()) / (float)(p.getMaxXP());
+        int length = (int)(imageIcon.getIconWidth() * ratio);
+        Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(image);
+
+        ((JLabel)(topPanel.getComponent(0))).setIcon(imageIcon);
+        ((JLabel)(topPanel.getComponent(1))).setText(Language.stage() + ": " + WorldMap.stageNum);
+        ((JLabel)(topPanel.getComponent(2))).setText(Language.level() + ": " + p.getLvl() + " — (" + p.getXP() + "/" + p.getMaxXP() + " XP)");
+        ((JLabel)(topPanel.getComponent(3))).setText("—  " + WorldMap.getInstanceWorld().getTheme() + "  —");
     }
 
     private void createTxtLabel(JPanel p, String str, Color c, int fontSize, GridBagConstraints cons) {
@@ -197,8 +229,14 @@ public class GameInterfacePanel extends JPanel {
         p.add(group);
     }
 
-    private String getInfo() {
-        return "";
+    private void refreshBarGroup(JPanel p, String str, float maxVal, float val, String imageName) {
+        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/" + imageName);
+        int length = (int)(imageIcon.getIconWidth() * 0.8 * (val/maxVal));
+        Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(image);
+
+        ((JLabel)(p.getComponent(0))).setIcon(imageIcon);
+        ((JLabel)(p.getComponent(1))).setText(str);
     }
 
     public void addToLogs(String txt, Color c) {
@@ -207,10 +245,14 @@ public class GameInterfacePanel extends JPanel {
         logsPanel.add(log);
     }
 
-    public static JLabel createLog(String txt, Color c){
+    public static JLabel createLog(String txt, Color c) {
         JLabel log = new JLabel(txt);
         if(c != null) log.setForeground(c);
         log.setHorizontalAlignment(SwingConstants.CENTER);
         return log;
+    }
+
+    public void clearLogs() {
+        logsPanel.removeAll();
     }
 }

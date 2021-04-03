@@ -132,11 +132,6 @@ public class GameWindow extends JFrame {
         return difficulty;
     }
 
-    private static void refresh() {
-        window.setSize(window.getWidth() + 1,window.getHeight() + 1);
-        window.setSize(window.getWidth() - 1,window.getHeight() - 1);
-    }
-
     private void displayGamePanels() {
         clear();
         add(jScrollPane);
@@ -163,7 +158,6 @@ public class GameWindow extends JFrame {
 
     public static void refreshInventory() {
         gameInterfacePanel.refresh();
-        refresh();
     }
 
     public static void addToLogs(String txt, Color c) {
