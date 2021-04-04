@@ -65,8 +65,8 @@ public class Merchant extends AbstractEntity{
     private void initializeWindow(){
         marketWindow.setPreferredSize(new Dimension(900, 300));
         marketWindow.setResizable(false);
-        marketWindow.setLocationRelativeTo(null);
         marketWindow.pack();
+        marketWindow.setLocationRelativeTo(null);
         marketWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         ImageIcon icon = new ImageIcon("data/images/system/market.png");
         marketWindow.setIconImage(icon.getImage());

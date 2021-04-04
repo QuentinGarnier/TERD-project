@@ -48,7 +48,6 @@ public class GamePanel extends JPanel {
         Position pos = Player.getInstancePlayer().getPosition();
         add(heroLabel);
         heroLabel.setBounds(pos.getX() * size, pos.getY() * size, size, size);
-        Player.getInventory().forEach(this::add);
 
         // MERCHANT
         if(!worldMap.lastLevel()) add(Merchant.getInstanceMerchant());
@@ -68,6 +67,8 @@ public class GamePanel extends JPanel {
 
         // ITEMS
         worldMap.getItems().forEach(this::add);
+        Player.getInventory().forEach(this::add);
+        Merchant.getInstanceMerchant().getMarket().forEach(this::add);
 
         // AIMS
         add(squareLabel);
