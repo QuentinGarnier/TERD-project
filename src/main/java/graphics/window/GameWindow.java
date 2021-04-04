@@ -153,7 +153,7 @@ public class GameWindow extends JFrame {
 
     public void setScrollFrameBar() {
         jScrollPane.getHorizontalScrollBar().setValue(gamePanel.getHeroPosition().x - 400);
-        jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 300);
+        jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 150);
     }
 
     public static void refreshInventory() {
