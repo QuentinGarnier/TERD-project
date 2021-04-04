@@ -110,7 +110,7 @@ public class Room {
     }
 
     private void putItems(){
-        int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_ITEMS));
+        int nbOfElt = /*gen.nextInt(*/(int) Math.round(getArea() * MAX_ITEMS)/*)*/;
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom();
             Cell currentC = lab[pos.getX()][pos.getY()];

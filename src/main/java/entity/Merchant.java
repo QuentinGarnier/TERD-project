@@ -175,17 +175,24 @@ public class Merchant extends AbstractEntity{
     public static class SellPanel extends JPanel {
 
         public final static SellPanel sellPanel = new SellPanel();
-        private SellPanel() { setLayout(new GridLayout(0, 1)); }
+        private final GridLayout gl;
+        private int lineCount;
+        private SellPanel() {
+            lineCount = 0;
+            gl = new GridLayout(11, 1);
+            setLayout(gl); }
         
         public void makeInventory(List<AbstractCollectableItem> items){ items.forEach((item) -> createLine(false, item)); }
 
         public void addSellInventory(AbstractCollectableItem item) {
             createLine(false, item);
+            lineCount++; gl.setRows(Math.max(11, lineCount));
             Merchant.getInstanceMerchant().getMarketWindow().repaint(); Merchant.getInstanceMerchant().getMarketWindow().revalidate();
         }
 
         public void removeSellInventory(AbstractCollectableItem item) {
             Component[] cs = sellPanel.getComponents();
+            lineCount--; gl.setRows(Math.max(11, lineCount));
             for (Component c : cs){
                 if ((((SellItemButton) c).ai).getId() == item.getId()) {
                     sellPanel.remove(c);
