@@ -56,6 +56,7 @@ public enum EntityState {
             case PARALYSED:
                 if (entity.entityType == EntityType.HERO_WARRIOR) entity.setAttack((int) (entity.getAttackMax() * 0.80));
                 if (entity.entityType == EntityType.HERO_ARCHER) entity.setRange(5 - 2);
+                if (entity.isMonster()) entity.setAttack((int) (entity.getAttackMax() * 0.60));
                 GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.golden);
                 break;
             case ENRAGED:
@@ -72,7 +73,7 @@ public enum EntityState {
 
         if (entity.entityType == EntityType.HERO_WARRIOR && (entity.getState() == PARALYSED || entity.getState() == ENRAGED)) return;
         if (entity.entityType == EntityType.HERO_ARCHER && entity.getState() != PARALYSED) entity.setRange(5);
-        if (entity.getState() != ENRAGED) entity.setAttack(entity.getAttackMax());
+        if (entity.getState() != ENRAGED && entity.getState() != PARALYSED) entity.setAttack(entity.getAttackMax());
     }
 
     public static void turnEffects(AbstractEntity entity) {

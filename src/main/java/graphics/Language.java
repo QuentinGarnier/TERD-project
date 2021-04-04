@@ -198,7 +198,7 @@ public enum Language {
     }
 
     public static String logBuyOrSell(boolean isBuy, boolean verbalBase) {
-        return verbalBase ? (isBuy ? lang("Buy", "Acheter", "Comperare", "يشترى") : lang("Sell", "Vendre", "Vendere", "باع")) :
+        return verbalBase ? (isBuy ? lang("Buy", "Acheter", "Comprare", "يشترى") : lang("Sell", "Vendre", "Vendere", "باع")) :
                 (isBuy ? lang("bought!", "acheté(e) !", "acquistato!", "تم شراؤها!") : lang("resold!", "revendu(e) !", "rivenduto!", "إعادة بيعها!"));
     }
 
@@ -206,8 +206,9 @@ public enum Language {
         return lang("coins", "pièces", "monete", "عملات معدنية");
     }
 
-    public static String confirmDialog(boolean isTitle) {
-        return isTitle ? lang("Confirmation of sale", "Confirmation de vente", "Conferma di vendita","تأكيد البيع") : lang("Are you sure you want to sell the item?", "Voulez-vous vraiment vendre l'objet ?", "Sei sicuro di voler vendere l'articolo?","هل أنت متأكد أنك تريد بيع العنصر؟");
+    public static String confirmDialog(boolean isBuy, boolean isTitle) {
+        return isTitle ? (isBuy ? lang("Confirmation of purchase", "Confirmation d'achat", "Conferma di acquisto","تأكيد الشراء") : lang("Confirmation of sale", "Confirmation de vente", "Conferma di vendita","تأكيد البيع")) :
+                (isBuy ? lang("Are you sure you want to buy an item that you cannot equip?", "Voulez-vous vraiment acheter un item dont vous ne pourrez vous équiper ?", "Sei sicuro di voler acquistare un oggetto che non puoi equipaggiare?","هل أنت متأكد أنك تريد شراء عنصر لا يمكنك تجهيزه؟") : lang("Are you sure you want to sell the item?", "Voulez-vous vraiment vendre l'objet ?", "Sei sicuro di voler vendere l'articolo?","هل أنت متأكد أنك تريد بيع العنصر؟"));
     }
     public static String logLevelUp() {
         return lang(">>> LEVEL UP +1! <<<", ">>> NIVEAU +1! <<<", ">>> LIVELLO +1! <<<",">>> المستوى +1! <<<");
@@ -247,7 +248,7 @@ public enum Language {
     public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","...");}
     private static String logIsParalysedEffect(EntityType entityType) {
         return switch (entityType) {
-            case HERO_WARRIOR -> " [-20%" + attack() + "]";
+            case HERO_WARRIOR -> " [-20% " + attack().replaceFirst(".$","") + "]";
             case HERO_ARCHER -> " [-2 " + range() + "]";
             case HERO_MAGE -> " [" + lang("Don't burn monsters anymore.", "Ne brûle plus les monstres." ,"Non brucia più mostri.","لم تعد تحرق الوحوش.") + "]";
             default -> "";
@@ -256,7 +257,7 @@ public enum Language {
     public static String logEffect(AbstractEntity entity) {
         if (entity.getState() == EntityState.ENRAGED) {
             return lang("Rage makes ", "La rage rend ", "La rabbia rende ","يصنع داء الكلب") + entity
-                    + lang(" stronger! [+10 ", " plus fort ! [+10 ", " più forte! [+10 ","اقوى ! [+10") + attack() + "]";
+                    + lang(" stronger! [+10 ", " plus fort ! [+10 ", " più forte! [+10 ","اقوى ! [+10") + attack().replaceFirst(".$","") + "]";
         }
         return translate(entity.entityType) + switch (entity.getState()) {
             case BURNT -> lang(" is burning!", " brûle !", " sta bruciando!","يحرق!");
@@ -292,6 +293,8 @@ public enum Language {
             case REGENERATION_POTION -> lang("Heal in duration", "Guérit sur la durée", "Guarito nel tempo", "تم علاجه بمرور الوقت");
             case TELEPORT_SCROLL -> lang("Go to Merchant room", "Téléporte chez le marchand", "Ti porta dal mercante", "يأخذك إلى التاجر");
             case DIVINE_BLESSING -> lang("Become invulnerable for a while", "Devenez invulnérable un moment", "Diventi invulnerabile per un po '", "كن محصنًا لبعض الوقت");
+            case DRAGON_EXPLOSION -> lang("", "Inflige -25% à chaque monstre de la salle + Brûlure", "","");
+
         };
     }
 
@@ -360,9 +363,13 @@ public enum Language {
             case IRON_SHIELD -> lang("Iron Shield", "Bouclier en Fer", "Scudo di Ferro","درع الحديد");
             case DRAGON_SHIELD -> lang("Dragon Shield", "Bouclier du Dragon", "Scudo del Drago","درع التنين");
 
-            case LEATHER_ARMOR -> lang("Leather Armor", "Armure en Cuir", "Armatura di Cuoio","درع جلدي");
+            case LEATHER_GAUNTLET -> lang("Leather Gauntlet", "Gantelet en Cuir", "Guanti in Pelle","القفاز الجلدي");
+            case LEATHER_ARMBAND -> lang("Leather Armband", "Brassard en Cuir", "Bracciale in Pelle","سوار جلدي");
+            case LEATHER_CHESTPLATE -> lang("Leather Chestplate", "Plastron en Cuir", "Pettorale in Pelle","ثدي الجلد");
 
+            case MAGIC_HAT -> lang("Magic Hat", "Chapeau Magique", "Cappello Magico","قبعة سحرية");
             case MAGIC_TUNIC -> lang("Magic Tunic", "Tunique Magique", "Tunica Magica","سترة سحرية");
+            case MAGIC_SPHERE -> lang("Magic Sphere", "Sphère Magique", "Sfera Magica","المجال السحري");
         };
     }
     public static String translate(ConsumableTypes consT) {
@@ -371,6 +378,7 @@ public enum Language {
             case REGENERATION_POTION -> lang("Regeneration Potion", "Potion de Régénération", "Pozione di Rigenerazione", "جرعة التجديد");
             case TELEPORT_SCROLL -> lang("Teleportation Scroll", "Parchemin de Téléportation", "Teletrasporto", "انتقل من تخاطر");
             case DIVINE_BLESSING -> lang("Divine Blessing", "Bénédiction Divine", "Benedizione Divina","نعمة إلهية");
+            case DRAGON_EXPLOSION -> lang("Dragon Explosion", "Explosion Draconique", "Esplosione Draconica","انفجار شديد القسوة");
         };
     }
     public static String translate(Theme theme) {
@@ -437,7 +445,7 @@ public enum Language {
                 "</ul>" +
                 "Votre objectif est d'explorer tous les étages pour en trouver la sortie<br>" +
                 "jusqu'à ce que vous trouviez le terrible <b>dragon</b>.<br>" +
-                "En avançant dans le jeu, vous trouverez differents objets<br>" +
+                "En avançant dans le jeu, vous trouverez différents objets<br>" +
                 "vous permettant d'augmenter vos abilités, dans le détails : <br>" +
                 "<ul>" +
                 "<li>Les pièces sont utiles pour acheter chez le Marchand<br></li>" +

@@ -82,6 +82,8 @@ public abstract class AbstractItem extends JLabel {
         return this.idPosRoom;
     }
 
+    public ItemType getType() { return type; }
+
     public Position getPosition() {
         return position;
     }

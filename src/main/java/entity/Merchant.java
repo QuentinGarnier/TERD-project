@@ -7,6 +7,7 @@ import graphics.elements.Position;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 import items.collectables.AbstractCollectableItem;
+import items.collectables.ItemEquip;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,7 @@ public class Merchant extends AbstractEntity{
     private final JDialog marketWindow;
 
     public Merchant() throws ErrorPositionOutOfBound {
-        super(new Position(0,0), 0, EntityType.ALLY_MERCHANT);
+        super(new Position(0, 0), 0, EntityType.ALLY_MERCHANT);
         counter = WorldMap.MAX_X * WorldMap.MAX_Y + 1;
         isMoving = 0;
         market = new ArrayList<>();
@@ -138,9 +139,14 @@ public class Merchant extends AbstractEntity{
                 super();
                 al = e -> {
                     if (Player.getInstancePlayer().getHP() == 0) return;
+                    if (ai instanceof ItemEquip) {
+                        ItemEquip ie = (ItemEquip) ai;
+                        if (Player.getInstancePlayer().getEntityType() != ie.getEquipmentType().getEntityType())
+                            if (1 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(true, false), Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION)) return;
+                    }
                     if (Player.getInstancePlayer().enoughMoney(ai.getPrice())) {
                         Player.getInstancePlayer().modifyMoney(-ai.getPrice());
-                        GameWindow.addToLogs(ai.toString() + " " +Language.logBuyOrSell(true, false), Color.GREEN);
+                        GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(true, false), Color.GREEN);
                         Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
                         Player.addItem(ai);
                         SellPanel.sellPanel.addSellInventory(ai);
@@ -198,7 +204,7 @@ public class Merchant extends AbstractEntity{
                 al = e -> {
                     if (Player.getInstancePlayer().getHP() == 0) return;
 
-                    if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false), Language.confirmDialog(true), JOptionPane.YES_NO_OPTION)) {
+                    if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false, false), Language.confirmDialog(false, true), JOptionPane.YES_NO_OPTION)) {
                         int gain = (ai.getPrice()/2);
                         Player.getInstancePlayer().modifyMoney(gain);
                         GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(false, false) + " (+" + gain + " " + Language.logMoney() + ")", Tools.WindowText.golden);

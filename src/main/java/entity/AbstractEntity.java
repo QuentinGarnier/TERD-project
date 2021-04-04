@@ -251,6 +251,12 @@ public abstract class AbstractEntity extends JPanel {
         return this instanceof Player;
     }
 
+    public boolean isMerchant() {
+        return this instanceof Merchant;
+    }
+
+    public boolean isMonster() { return !isHero() && !isMerchant(); }
+
     @Override
     public String toString() {
         return switch (entityType) {

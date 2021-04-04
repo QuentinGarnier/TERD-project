@@ -41,7 +41,7 @@ public class Attack {
             case HERO_WARRIOR:
                 ((Player) entity1).modifyHunger(-1);
                 if (entity2.entityType == EntityType.MONSTER_ORC && entity2.getHP() != 0) entity2.updateState(EntityState.ENRAGED);
-                return;
+                break;
 
             case HERO_MAGE:
                 entity1.modifyHP(2);
@@ -52,8 +52,12 @@ public class Attack {
             case MONSTER_ORC: if(entity2.getState() != EntityState.PARALYSED && entity2.getHP() != 0) entity2.updateState(EntityState.PARALYSED); break;
             case MONSTER_SPIDER: if(entity2.getState() != EntityState.POISONED && entity2.getHP() != 0) entity2.updateState(EntityState.POISONED); break;
             case MONSTER_WIZARD: if (Math.random() > 0.80 && entity2.getState() != EntityState.FROZEN && entity2.getHP() != 0) entity2.updateState(EntityState.FROZEN); break;
-            case MONSTER_BOSS: break;
+            case MONSTER_BOSS: if(entity2.getState() != EntityState.BURNT && entity2.getHP() != 0) entity2.updateState(EntityState.BURNT); break;
+
         }
+
+        if (entity1.isMonster() && entity2.entityType == EntityType.HERO_WARRIOR && entity2.getHP() <= entity2.getHPMax()/10 && entity2.getState() != EntityState.ENRAGED && entity2.getHP() != 0) entity2.updateState(EntityState.ENRAGED);
+
     }
 
 }

@@ -9,29 +9,33 @@ import java.util.Random;
 
 public enum EquipmentTypes {
     //Offensive equipments:
-    WOODEN_SWORD(10, null, true, EntityType.HERO_WARRIOR, 5),
-    IRON_SWORD(20, null, true, EntityType.HERO_WARRIOR, 10),
-    MAGIC_SWORD(40, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 30),
-    ICY_SWORD(30, EntityState.FROZEN, true, EntityType.HERO_WARRIOR, 25),
-    DRAGON_SWORD(100, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 80),
+    WOODEN_SWORD(10, null, true, EntityType.HERO_WARRIOR, 10),
+    IRON_SWORD(20, null, true, EntityType.HERO_WARRIOR, 20),
+    MAGIC_SWORD(40, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 50),
+    ICY_SWORD(30, EntityState.FROZEN, true, EntityType.HERO_WARRIOR, 35),
+    DRAGON_SWORD(100, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 90),
 
-    SHORT_BOW(10, null, true, EntityType.HERO_ARCHER, 5),
+    SHORT_BOW(10, null, true, EntityType.HERO_ARCHER, 10),
     LONG_BOW(40, null, true, EntityType.HERO_ARCHER, 30),
-    DRAGON_BOW(100, EntityState.BURNT, true, EntityType.HERO_ARCHER, 80),
+    DRAGON_BOW(100, EntityState.BURNT, true, EntityType.HERO_ARCHER, 110),
 
-    WOODEN_STAFF(10, null, true, EntityType.HERO_MAGE, 5),
-    MAGIC_STAFF(40, EntityState.FROZEN, true, EntityType.HERO_MAGE, 30),
-    DRAGON_STAFF(100, EntityState.BURNT, true, EntityType.HERO_MAGE, 80),
+    WOODEN_STAFF(10, null, true, EntityType.HERO_MAGE, 10),
+    MAGIC_STAFF(40, EntityState.FROZEN, true, EntityType.HERO_MAGE, 35),
+    DRAGON_STAFF(100, EntityState.BURNT, true, EntityType.HERO_MAGE, 105),
 
 
     //Defensive equipments:
-    WOOD_SHIELD(10, null, false, EntityType.HERO_WARRIOR, 5),
-    IRON_SHIELD(20, null, false, EntityType.HERO_WARRIOR, 10),
-    DRAGON_SHIELD(80, null, false, EntityType.HERO_WARRIOR, 50),
+    WOOD_SHIELD(20, null, false, EntityType.HERO_WARRIOR, 20),
+    IRON_SHIELD(50, null, false, EntityType.HERO_WARRIOR, 55),
+    DRAGON_SHIELD(90, null, false, EntityType.HERO_WARRIOR, 100),
 
-    LEATHER_ARMOR(20, null, false, EntityType.HERO_ARCHER, 10),
+    LEATHER_GAUNTLET(10, null, false, EntityType.HERO_ARCHER, 15),
+    LEATHER_ARMBAND(20, null, false, EntityType.HERO_ARCHER, 30),
+    LEATHER_CHESTPLATE(50, null, false, EntityType.HERO_ARCHER, 70),
 
-    MAGIC_TUNIC(20, null, false, EntityType.HERO_MAGE, 10);
+    MAGIC_HAT(10, null, false, EntityType.HERO_MAGE, 10),
+    MAGIC_TUNIC(25, null, false, EntityType.HERO_MAGE, 30),
+    MAGIC_SPHERE(50, null, false, EntityType.HERO_MAGE, 60);
 
 
     private final int effect;
@@ -61,6 +65,8 @@ public enum EquipmentTypes {
     public EntityState getMagicEffect() {
         return magicEffect;
     }
+
+    public EntityType getEntityType() { return entityType; }
 
     @Override
     public String toString() {

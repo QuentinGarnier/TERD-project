@@ -2,6 +2,7 @@ package items.collectables;
 
 import entity.EntityState;
 import entity.Merchant;
+import entity.Monster;
 import entity.Player;
 import graphics.Language;
 import graphics.Tools;
@@ -10,6 +11,8 @@ import graphics.elements.Room;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -17,7 +20,8 @@ public enum ConsumableTypes {
     HEALTH_POTION( 15),
     REGENERATION_POTION(10),
     TELEPORT_SCROLL(40),
-    DIVINE_BLESSING(30);
+    DIVINE_BLESSING(30),
+    DRAGON_EXPLOSION(55);
 
     public final int price;
 
@@ -35,7 +39,6 @@ public enum ConsumableTypes {
         Player pl = Player.getInstancePlayer();
         switch (this) {
             case HEALTH_POTION -> {
-
                 int heal = (int) (Math.round(pl.getHPMax() * 0.10));
                 GameWindow.addToLogs("+" + ((heal + pl.getHP() > pl.getHPMax()) ? pl.getHPMax() - pl.getHP() : heal) + " " + Language.hp(), Tools.WindowText.green);
                 pl.modifyHP(heal);
@@ -43,6 +46,20 @@ public enum ConsumableTypes {
             case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);
             case TELEPORT_SCROLL -> teleport();
             case DIVINE_BLESSING -> pl.updateState(EntityState.INVULNERABLE);
+            case DRAGON_EXPLOSION -> {//TODO : à perfectionner
+                WorldMap wm = WorldMap.getInstanceWorld();
+                Room r = wm.getCurrentRoom(pl.getPosition());
+                if (r == null) { GameWindow.addToLogs("Le lancer dans une salle aurait était plus judicieux...", Color.WHITE); break;}
+                if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs("L'explosion a fait sursauter le marchand...", Color.WHITE); break;}
+                int nbr = 0;
+                for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) {
+                    if (m.getHP() != 0) { m.takeDamage((int) (m.getHPMax() * 0.25)); nbr++;}
+                    if (m.getHP() != 0) m.updateState(EntityState.BURNT);
+                    else wm.getCell(m.getPosition()).entityLeft();
+                    GameWindow.window.repaint();
+                }
+                GameWindow.addToLogs(nbr > 0 ? "L'intense explosion a impacté " + nbr + " monstre" + (nbr == 1 ? "" : "s") + " !" : "Aucun monstre n'a été impacté par l'explosion...", Color.WHITE);
+            }
         }
         return true;
     }
