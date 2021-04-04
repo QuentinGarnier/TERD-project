@@ -115,7 +115,7 @@ public class Player extends AbstractEntity {
         setAttack(getAttackMax());
         setHPMax((int) Math.round((getHPMax() *  1.07)));
         fullHeal();
-        updateState(EntityState.NEUTRAL);
+        if (!EntityState.isBeneficial(getState())) updateState(EntityState.NEUTRAL);
     }
 
     public int getMoney() {
@@ -322,6 +322,10 @@ public class Player extends AbstractEntity {
 
     public ItemEquip getDefenceItem() {
         return defenceItem;
+    }
+
+    public int getDefense() {
+        return defenceItem == null ? 0 : defenceItem.getEquipmentType().getEffectInt();
     }
 
     @Override

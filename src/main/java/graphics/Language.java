@@ -4,6 +4,7 @@ package graphics;
 import entity.AbstractEntity;
 import entity.EntityState;
 import entity.EntityType;
+import entity.Player;
 import graphics.elements.Move;
 import graphics.map.Theme;
 import graphics.window.GameWindow;
@@ -159,14 +160,16 @@ public enum Language {
         return lang("Immune.", "Immunisé.", "Immune.", "مناعة.");
     }
     public static String logDealDamage(AbstractEntity entity1, AbstractEntity entity2) {
-        return lang(entity1 + " deals " + entity1.getAttack() + " damage to " + entity2 + ".",
-                entity1 + " inflige " + entity1.getAttack() + " dégâts à " + entity2 + ".",
-                entity1 + " infligge " + entity1.getAttack() + " danni a " + entity2 + ".",
-                entity1 + " يلحق " + entity1.getAttack() + " ضرر لأ " + entity2 + ".");
+        boolean b = entity2 instanceof Player;
+        int dmg = (Math.max(0, entity1.getAttack() - (b ? Player.getInstancePlayer().getDefense() : 0)));
+        return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attack]" : ""),
+                entity1 + " inflige " + dmg + " de dégât à " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attaque]" : ""),
+                entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attacco]" : ""),
+                entity1 + " يلحق " + dmg + " ضرر لأ " + entity2 + "." + (dmg != entity1.getAttack() ? " هجوم]" + (entity1.getAttack() - dmg) + "-]" : ""));
     }
     public static String logCriticalHit(AbstractEntity entity1, AbstractEntity entity2, int atk) {
         return lang(entity1 + " deals " + atk + " damage to " + entity2 + " (critical hit)!",
-                entity1 + " inflige " + atk + " dégâts à " + entity2 + " (coup critique) !",
+                entity1 + " inflige " + atk + " de dégât à " + entity2 + " (coup critique) !",
                 entity1 + " infligge " + atk + " danni a " + entity2 + "(colpo critico)!",
                 entity1 + " يلحق " + atk + " ضرر لأ " + entity2 + "((ضربة حاسمة) !");
     }
@@ -298,7 +301,17 @@ public enum Language {
         };
     }
 
-
+    public static String logDragonExplo1() { return lang("Throwing the explosion in a room would have been more judicious ...", "Lancer l'explosion dans une salle aurait était plus judicieux...", "Lanciare l'esplosione in una stanza sarebbe stato più giudizioso ...", "كان من الممكن أن يكون إلقاء الانفجار في غرفة أكثر حكمة ..."); }
+    public static String logDragonExplo2() { return lang("The explosion frightened the merchant ...", "L'explosion a fait sursauter le marchand...", "L'esplosione ha spaventato il mercante ...", "الانفجار أرعب التاجر ..."); }
+    public static String logDragonExplo3(int nbr) {
+        return nbr > 0 ? lang("The intense explosion impacted" + nbr + " monster" + (nbr == 1 ? "" : "s") + "!",
+                "L'intense explosion a impacté " + nbr + " monstre" + (nbr == 1 ? "" : "s") + " !",
+                "L'intensa esplosione ha avuto un impatto" + nbr + " mostr" + (nbr == 1 ? "o" : "i") + "!",
+                " وحوش" + nbr + "الانفجار الشديد أصاب ") :
+                lang("No monster was impacted by the explosion ...",
+                "Aucun monstre n'a été impacté par l'explosion...",
+                "Nessun mostro è stato colpito dall'esplosione ...",
+                "لم يتأثر أي وحش بالانفجار ..."); }
 
     // ===== Button Inventory Panel ===== //
     public static String buttonEquip(){return lang("Equip", "Équiper", "Usare", "...");}

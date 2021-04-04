@@ -51,6 +51,10 @@ public enum EntityState {
         return duration;
     }
 
+    public static boolean isBeneficial(EntityState state){
+        return state == INVULNERABLE || state == EntityState.HEALED || state == ENRAGED;
+    }
+
     public static void immediateEffects(AbstractEntity entity) {
         switch (entity.getState()) {
             case PARALYSED:

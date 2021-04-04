@@ -34,10 +34,10 @@ public abstract class AbstractEntity extends JPanel {
         this.position = position;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
-        this.HP = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
-        this.HPMax = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
-        this.attack = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
-        this.attackMax = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl();
+        this.HP = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() -2;
+        this.HPMax = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() - 2;
+        this.attack = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() - 2;
+        this.attackMax = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() - 2;
         this.range = entityType.rangeByType;
         this.state = EntityState.NEUTRAL;
         this.remainingTime = EntityState.NEUTRAL.getDuration();

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public enum EntityType {
 
-    HERO_ARCHER(CellElementType.HERO_A, 10000, 25, 5, 0),
+    HERO_ARCHER(CellElementType.HERO_A, 100, 25, 5, 0),
     HERO_WARRIOR(CellElementType.HERO_W, 200, 30, 1, 0),
     HERO_MAGE(CellElementType.HERO_M, 140, 15, 3, 0),
 

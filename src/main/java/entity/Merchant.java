@@ -138,14 +138,16 @@ public class Merchant extends AbstractEntity{
             BuyItemButton(AbstractCollectableItem ai){
                 super();
                 al = e -> {
-                    if (Player.getInstancePlayer().getHP() == 0) return;
+                    Player pl = Player.getInstancePlayer();
+                    if (pl.getHP() == 0) return;
                     if (ai instanceof ItemEquip) {
                         ItemEquip ie = (ItemEquip) ai;
-                        if (Player.getInstancePlayer().getEntityType() != ie.getEquipmentType().getEntityType())
+                        if (pl.getEntityType() != ie.getEquipmentType().getEntityType())
                             if (1 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(true, false), Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION)) return;
                     }
-                    if (Player.getInstancePlayer().enoughMoney(ai.getPrice())) {
-                        Player.getInstancePlayer().modifyMoney(-ai.getPrice());
+                    if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(); return; }
+                    if (pl.enoughMoney(ai.getPrice())) {
+                        pl.modifyMoney(-ai.getPrice());
                         GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(true, false), Color.GREEN);
                         Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
                         Player.addItem(ai);

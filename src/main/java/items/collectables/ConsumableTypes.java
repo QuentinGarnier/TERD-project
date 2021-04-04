@@ -46,11 +46,11 @@ public enum ConsumableTypes {
             case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);
             case TELEPORT_SCROLL -> teleport();
             case DIVINE_BLESSING -> pl.updateState(EntityState.INVULNERABLE);
-            case DRAGON_EXPLOSION -> {//TODO : à perfectionner
+            case DRAGON_EXPLOSION -> {//TODO : à paufiner
                 WorldMap wm = WorldMap.getInstanceWorld();
                 Room r = wm.getCurrentRoom(pl.getPosition());
-                if (r == null) { GameWindow.addToLogs("Le lancer dans une salle aurait était plus judicieux...", Color.WHITE); break;}
-                if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs("L'explosion a fait sursauter le marchand...", Color.WHITE); break;}
+                if (r == null) { GameWindow.addToLogs(Language.logDragonExplo1(), Color.WHITE); break;}
+                if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs(Language.logDragonExplo2(), Color.WHITE); break;}
                 int nbr = 0;
                 for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) {
                     if (m.getHP() != 0) { m.takeDamage((int) (m.getHPMax() * 0.25)); nbr++;}
@@ -58,7 +58,7 @@ public enum ConsumableTypes {
                     else wm.getCell(m.getPosition()).entityLeft();
                     GameWindow.window.repaint();
                 }
-                GameWindow.addToLogs(nbr > 0 ? "L'intense explosion a impacté " + nbr + " monstre" + (nbr == 1 ? "" : "s") + " !" : "Aucun monstre n'a été impacté par l'explosion...", Color.WHITE);
+                GameWindow.addToLogs(Language.logDragonExplo3(nbr), Color.WHITE);
             }
         }
         return true;

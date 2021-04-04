@@ -9,6 +9,7 @@ import java.awt.*;
 public class Attack {
 
     public static void attack(AbstractEntity entity1, AbstractEntity entity2) {
+        System.out.println(entity1.getAttack());
         if (entity2 == null) return;
 
         if (entity2.getState() == EntityState.INVULNERABLE) {
@@ -17,7 +18,7 @@ public class Attack {
         }
         if (entity1.entityType != EntityType.HERO_ARCHER) {
             GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
-            entity2.takeDamage(entity1.getAttack());
+            entity2.takeDamage(Math.max(0, entity1.getAttack() - ((entity2 instanceof Player) ? Player.getInstancePlayer().getDefense() : 0)));
         }
         switch (entity1.entityType) {
             case HERO_ARCHER:
