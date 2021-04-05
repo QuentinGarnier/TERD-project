@@ -47,7 +47,6 @@ public class GameWindow extends JFrame {
         jScrollPane.setPreferredSize(new Dimension(800,600));
         jScrollPane.setBorder(null);
 
-        //gameMenuPanel.addKeyListener(new MenuKeysActions()); //If we want to add keyboard interaction in the main menu.
         gamePanel.addKeyListener(new KeysActions());
     }
 
@@ -56,7 +55,6 @@ public class GameWindow extends JFrame {
         if(inGame) {
             window.displayGamePanels();
             window.setScrollFrameBar();
-            window.setScrollFrameBar();  //Don't erase this double line.
             gamePanel.requestFocusInWindow();
         }
         else window.displayMenuPanels();
@@ -153,7 +151,6 @@ public class GameWindow extends JFrame {
 
     public void setScrollFrameBar() {
         Point pos = gamePanel.getHeroPosition();
-        //pos = new Point(AbstractItem.end.getLocation());
         jScrollPane.getHorizontalScrollBar().setValue(pos.x - 400);
         jScrollPane.getVerticalScrollBar().setValue(pos.y - 150);
     }
@@ -172,6 +169,7 @@ public class GameWindow extends JFrame {
 
     public static void enterInGame() {
         window.setInGame(true);
+        WorldMap.getInstanceWorld().setDifficulty(difficulty);
         WorldMap.getInstanceWorld().generateWorld();
         display();
     }
