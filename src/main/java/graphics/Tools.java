@@ -5,6 +5,7 @@ import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
+import items.AbstractItem;
 
 import java.awt.*;
 import java.awt.im.InputContext;
@@ -12,8 +13,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class Tools {
 
@@ -64,8 +65,10 @@ public class Tools {
                         P.get(x).set(y, z);
                         Q.add(p);
                         if (booleans != null && booleans[x][y]) {
-                            findPath(P, start, p, r, lab, booleans);
-                            Q.clear();
+                            if (!p.equals(AbstractItem.end.getPosition())) {
+                                findPath(P, start, p, r, lab, booleans);
+                                Q.clear();
+                            } else Q.remove(p);
                         }
                     }
                 }
