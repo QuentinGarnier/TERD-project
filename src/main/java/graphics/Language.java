@@ -134,7 +134,7 @@ public enum Language {
         return lang("Hunger", "Faim ", "Fame","جوع");
     }
     public static String attack() {
-        return lang("Attack", "Attaque", "Attacco", "هجوم");
+        return lang("Attack", "Attaque ", "Attacco", "هجوم");
     }
     public static String defense() { return lang("Defense", "Défense", "Difesa", "دفاع");}
     public static String range() {
@@ -268,17 +268,19 @@ public enum Language {
     public static String logRejected() {return lang("rejected", "rejeté", "rifiutato", "...");}
     public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","...");}
     private static String logIsParalysedEffect(EntityType entityType) {
+        Language l = GameWindow.language();
         return switch (entityType) {
-            case HERO_WARRIOR -> " [-20% " + attack() + "]";
+            case HERO_WARRIOR -> " [-20% " + (l.equals(FR) ? attack().replaceFirst(".$","") : attack()) + "]";
             case HERO_ARCHER -> " [-2 " + range() + "]";
             case HERO_MAGE -> " [" + lang("Don't burn monsters anymore.", "Ne brûle plus les monstres." ,"Non brucia più mostri.","لم تعد تحرق الوحوش.") + "]";
             default -> "";
         };
     }
     public static String logEffect(AbstractEntity entity) {
+        Language l = GameWindow.language();
         if (entity.getState() == EntityState.ENRAGED) {
             return lang("Rage makes ", "La rage rend ", "La rabbia rende ","يصنع داء الكلب") + entity
-                    + lang(" stronger! [+10 ", " plus fort ! [+10 ", " più forte! [+10 ","اقوى ! [+10") + attack() + "]";
+                    + lang(" stronger! [+10 ", " plus fort ! [+10 ", " più forte! [+10 ","اقوى ! [+10") + (l.equals(FR) ? attack().replaceFirst(".$","") : attack()) + "]";
         }
         return translate(entity.entityType) + switch (entity.getState()) {
             case BURNT -> lang(" is burning!", " brûle !", " sta bruciando!","يحرق!");
@@ -472,7 +474,7 @@ public enum Language {
 
 
     // ===== Help Menu Panel ===== //
-    public static String history(){return lang("History", "Histoire", "Storie", "...");}
+    public static String history(){return lang("History", "Histoire", "Storia", "...");}
     public static String description(){return lang("Description", "Description", "Descrizione", "...");}
     public static String keys(){return lang("Keys", "Touches", "Tasti", "...");}
     public static String credits(){return lang("Credits", "Crédits", "Crediti", "...");}
@@ -546,7 +548,7 @@ public enum Language {
                 "<li>Gli orchi sono molto forti</li>" +
                 "<li>I ragni ti avvelenano</li>" +
                 "<li>I maghi fanno incantesimo paralizzanti</li>" +
-                "<liI goblin non sono molto forti e fuggono se troppo deboli</li>" +
+                "<li>I goblin non sono molto forti e fuggono se troppo deboli</li>" +
                 "</ul>" +
                 "Il tuo obiettivo è di esplorare ogni piano per trovare l'uscita<br>" +
                 "cossicché alla fine tu possa trovare un temibile drago.<br>" +
