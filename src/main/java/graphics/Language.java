@@ -99,6 +99,24 @@ public enum Language {
     public static String gameSound() {
         return lang("Game sound", "Son du jeu", "Suono del gioco", "صوت اللعبة");
     }
+    public static String chooseTheDifficulty() {
+        return lang("Choose the difficulty", "Choisissez la difficulté", "Scegli la difficoltà", "...");
+    }
+    public static String easy() {
+        return lang("Easy", "Facile", "Facile", "...");
+    }
+    public static String medium() {
+        return lang("Medium", "Moyen", "Medio", "...");
+    }
+    public static String hard() {
+        return lang("Hard", "Difficile", "Difficile", "...");
+    }
+    public static String nightmare() {
+        return lang("Nightmare", "Cauchemar", "Incubo", "...");
+    }
+    public static String endless() {
+        return lang("Endless", "Sans fin", "Infinito", "...");
+    }
 
 
 
@@ -163,7 +181,7 @@ public enum Language {
         boolean b = entity2 instanceof Player;
         int dmg = (Math.max(0, entity1.getAttack() - (b ? Player.getInstancePlayer().getDefense() : 0)));
         return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attack]" : ""),
-                entity1 + " inflige " + dmg + " de dégât à " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attaque]" : ""),
+                entity1 + " inflige " + dmg + " dégâts à " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attaque]" : ""),
                 entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attacco]" : ""),
                 entity1 + " يلحق " + dmg + " ضرر لأ " + entity2 + "." + (dmg != entity1.getAttack() ? " هجوم]" + (entity1.getAttack() - dmg) + "-]" : ""));
     }
@@ -300,18 +318,31 @@ public enum Language {
 
         };
     }
-
-    public static String logDragonExplo1() { return lang("Throwing the explosion in a room would have been more judicious ...", "Lancer l'explosion dans une salle aurait était plus judicieux...", "Lanciare l'esplosione in una stanza sarebbe stato più giudizioso ...", "كان من الممكن أن يكون إلقاء الانفجار في غرفة أكثر حكمة ..."); }
-    public static String logDragonExplo2() { return lang("The explosion frightened the merchant ...", "L'explosion a fait sursauter le marchand...", "L'esplosione ha spaventato il mercante ...", "الانفجار أرعب التاجر ..."); }
+    public static String logDragonExplo1() {
+        return lang("Throwing the explosion in a room would have been more judicious...",
+                "Lancer l'explosion dans une salle aurait été plus judicieux...",
+                "Lanciare l'esplosione in una stanza sarebbe stato più giudizioso...",
+                "كان من الممكن أن يكون إلقاء الانفجار في غرفة أكثر حكمة ...");
+    }
+    public static String logDragonExplo2() {
+        return lang("The explosion frightened the merchant...",
+                "L'explosion a fait sursauter le marchand...",
+                "L'esplosione ha spaventato il mercante...",
+                "الانفجار أرعب التاجر ...");
+    }
     public static String logDragonExplo3(int nbr) {
-        return nbr > 0 ? lang("The intense explosion impacted" + nbr + " monster" + (nbr == 1 ? "" : "s") + "!",
-                "L'intense explosion a impacté " + nbr + " monstre" + (nbr == 1 ? "" : "s") + " !",
-                "L'intensa esplosione ha avuto un impatto" + nbr + " mostr" + (nbr == 1 ? "o" : "i") + "!",
+        return nbr > 0 ?
+                lang("The intense explosion impacted " + nbr + " monster" + (nbr == 1 ? "" : "s") + "!",
+                "L'intense explosion a impactée " + nbr + " monstre" + (nbr == 1 ? "" : "s") + " !",
+                "L'intensa esplosione ha avuto un impatto " + nbr + " mostr" + (nbr == 1 ? "o" : "i") + "!",
                 " وحوش" + nbr + "الانفجار الشديد أصاب ") :
-                lang("No monster was impacted by the explosion ...",
+                lang("No monster was impacted by the explosion...",
                 "Aucun monstre n'a été impacté par l'explosion...",
-                "Nessun mostro è stato colpito dall'esplosione ...",
-                "لم يتأثر أي وحش بالانفجار ..."); }
+                "Nessun mostro è stato colpito dall'esplosione...",
+                "لم يتأثر أي وحش بالانفجار ...");
+    }
+
+
 
     // ===== Button Inventory Panel ===== //
     public static String buttonEquip(){return lang("Equip", "Équiper", "Usare", "...");}

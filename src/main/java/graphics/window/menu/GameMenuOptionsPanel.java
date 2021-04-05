@@ -119,7 +119,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
 
         JPanel lastLastP = new JPanel();
         lastLastP.setOpaque(false);
-        difficultyLabel = createTitle("— " + "Choose the difficulty" + " —", 18, Color.BLACK); //TODO: adapt with Language.chooseTheDifficulty()
+        difficultyLabel = createTitle("— " + Language.chooseTheDifficulty() + " —", 18, Color.BLACK);
         lastP.add(createDifficultiesPanel());
         diffBorders();
 
@@ -140,11 +140,11 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         bigPanel.setOpaque(false);
         difficultiesPanel.setOpaque(false);
 
-        diffEasyLabel = createTitle("Easy", 14, Color.BLACK); //TODO: remplacer par "Language.xxxx()" pour les 5 labels ici
-        diffMediumLabel = createTitle("Medium", 14, Color.BLACK);
-        diffHardLabel = createTitle("Hard", 14, Color.BLACK);
-        diffNightmareLabel = createTitle("Nightmare", 14, Color.BLACK);
-        diffEndlessLabel = createTitle("Endless", 14, Color.BLACK);
+        diffEasyLabel = createTitle(Language.easy(), 14, Color.BLACK);
+        diffMediumLabel = createTitle(Language.medium(), 14, Color.BLACK);
+        diffHardLabel = createTitle(Language.hard(), 14, Color.BLACK);
+        diffNightmareLabel = createTitle(Language.nightmare(), 14, Color.BLACK);
+        diffEndlessLabel = createTitle(Language.endless(), 14, Color.BLACK);
 
         diffEasyPanel = buildDifficultyPanel(diffEasyLabel, "data/images/menu/difficulty_easy", GameWindow.Difficulty.EASY);
         diffMediumPanel = buildDifficultyPanel(diffMediumLabel, "data/images/menu/difficulty_medium", GameWindow.Difficulty.MEDIUM);
@@ -243,12 +243,12 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         setLangLabel.setText(Language.selectTheLanguage());
         muteLabel.setText(Language.gameSound() + " ");
 
-        difficultyLabel.setText("— " + "Choose the difficulty"/*Language.chooseTheDifficulty()*/ + " —");  //TODO: remplacer par "Language.xxxx()" pour les 6 labels ici
-        diffEasyLabel.setText("Easy"/*Language.easy()*/);
-        diffMediumLabel.setText("Medium"/*Language.medium()*/);
-        diffHardLabel.setText("Hard"/*Language.hard()*/);
-        diffNightmareLabel.setText("Nightmare"/*Language.nightmare()*/);
-        diffEndlessLabel.setText("Endless"/*Language.endless()*/);
+        difficultyLabel.setText("— " + Language.chooseTheDifficulty() + " —");
+        diffEasyLabel.setText(Language.easy());
+        diffMediumLabel.setText(Language.medium());
+        diffHardLabel.setText(Language.hard());
+        diffNightmareLabel.setText(Language.nightmare());
+        diffEndlessLabel.setText(Language.endless());
 
         GameMenuPanel.getMenuPanel.setTexts();
     }

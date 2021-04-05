@@ -9,7 +9,6 @@ import java.awt.*;
 public class Attack {
 
     public static void attack(AbstractEntity entity1, AbstractEntity entity2) {
-        System.out.println(entity1.getAttack());
         if (entity2 == null) return;
 
         if (entity2.getState() == EntityState.INVULNERABLE) {
