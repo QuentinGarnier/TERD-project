@@ -98,7 +98,7 @@ public enum EntityState {
                 amount = 1;
                 entity.takeDamage(amount);
                 if (entity instanceof Player){
-                    ((Player) entity).modifyHunger(-1);
+                    ((Player) entity).modifyHunger(-1, false);
                     GameWindow.addToLogs(Language.logPoisonEffect(amount), Tools.WindowText.purple);
                     if (((Player) entity).getHunger() == 0) { GameWindow.addToLogs(Language.logHeroDeath(true), Color.RED); return; }
                 } break;

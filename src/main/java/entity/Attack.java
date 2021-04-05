@@ -39,7 +39,7 @@ public class Attack {
                 return;
 
             case HERO_WARRIOR:
-                ((Player) entity1).modifyHunger(-1);
+                ((Player) entity1).modifyHunger(-1, true);
                 if (entity2.entityType == EntityType.MONSTER_ORC && entity2.getHP() != 0) entity2.updateState(EntityState.ENRAGED);
                 break;
 
