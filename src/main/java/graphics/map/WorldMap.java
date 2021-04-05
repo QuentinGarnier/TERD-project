@@ -122,7 +122,6 @@ public class WorldMap {
                 }
             AbstractItem.end.setPosition(new Position(x, y));
             getCell(x, y).setItem(AbstractItem.end);
-            room.addDoor(pos);
             AbstractItem.end.setLocation();
         }
         else placeEnd();

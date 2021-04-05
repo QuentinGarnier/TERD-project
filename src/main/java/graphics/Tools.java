@@ -62,13 +62,13 @@ public class Tools {
                         !c.getBaseContent().isWall() &&
                         P.get(x).get(y) == null) {
                     if (lab != null || c.isAccessible() || c.getEntity() != null) {
-                        P.get(x).set(y, z);
-                        Q.add(p);
-                        if (booleans != null && booleans[x][y]) {
-                            if (!p.equals(AbstractItem.end.getPosition())) {
+                        if (!p.equals(AbstractItem.end.getPosition())) {
+                            P.get(x).set(y, z);
+                            Q.add(p);
+                            if (booleans != null && booleans[x][y]) {
                                 findPath(P, start, p, r, lab, booleans);
                                 Q.clear();
-                            } else Q.remove(p);
+                            }
                         }
                     }
                 }

@@ -146,7 +146,17 @@ public class Room {
         monsters.forEach(monster -> Tools.BFS(monster.getPosition(), this, lab, booleans));
         if (!isMerchantRoom) currentRoomItems.forEach(item -> Tools.BFS(item.getPosition(), this, lab, booleans));
         else Tools.BFS(Merchant.getInstanceMerchant().getPosition(), this, lab, booleans);
+        Position endPos = AbstractItem.end.getPosition();
+        if (endPos != null && inRoom(endPos))
+            Tools.BFS(endPos, this, lab, booleans);
         return true;
+    }
+
+    private boolean inRoom(Position pos){
+        return pos.getX() >= topLeft.getX() &&
+                pos.getX() <= bottomRight.getX() &&
+                pos.getY() >= topLeft.getY() &&
+                pos.getY() <= bottomRight.getY();
     }
 
     private void putMonsters() throws ErrorPositionOutOfBound {

@@ -1,12 +1,12 @@
 package graphics.window;
 
 import entity.Player;
+import entity.WhatHeroDoes;
 import graphics.ChooseAttackCell;
 import graphics.Language;
 import graphics.Tools;
 import graphics.elements.Move;
 import graphics.elements.Position;
-import entity.WhatHeroDoes;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.menu.GameMenuPanel;
@@ -152,8 +152,10 @@ public class GameWindow extends JFrame {
     }
 
     public void setScrollFrameBar() {
-        jScrollPane.getHorizontalScrollBar().setValue(gamePanel.getHeroPosition().x - 400);
-        jScrollPane.getVerticalScrollBar().setValue(gamePanel.getHeroPosition().y - 150);
+        Point pos = gamePanel.getHeroPosition();
+        //pos = new Point(AbstractItem.end.getLocation());
+        jScrollPane.getHorizontalScrollBar().setValue(pos.x - 400);
+        jScrollPane.getVerticalScrollBar().setValue(pos.y - 150);
     }
 
     public static void refreshInventory() {
