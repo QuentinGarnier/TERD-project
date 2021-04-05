@@ -134,7 +134,7 @@ public enum Language {
         return lang("Hunger", "Faim ", "Fame","جوع");
     }
     public static String attack() {
-        return lang("Attack", "Attaque ", "Attacco", "هجوم");
+        return lang("Attack", "Attaque", "Attacco", "هجوم");
     }
     public static String defense() { return lang("Defense", "Défense", "Difesa", "دفاع");}
     public static String range() {
@@ -269,7 +269,7 @@ public enum Language {
     public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","...");}
     private static String logIsParalysedEffect(EntityType entityType) {
         return switch (entityType) {
-            case HERO_WARRIOR -> " [-20% " + attack().replaceFirst(".$","") + "]";
+            case HERO_WARRIOR -> " [-20% " + attack() + "]";
             case HERO_ARCHER -> " [-2 " + range() + "]";
             case HERO_MAGE -> " [" + lang("Don't burn monsters anymore.", "Ne brûle plus les monstres." ,"Non brucia più mostri.","لم تعد تحرق الوحوش.") + "]";
             default -> "";
@@ -278,7 +278,7 @@ public enum Language {
     public static String logEffect(AbstractEntity entity) {
         if (entity.getState() == EntityState.ENRAGED) {
             return lang("Rage makes ", "La rage rend ", "La rabbia rende ","يصنع داء الكلب") + entity
-                    + lang(" stronger! [+10 ", " plus fort ! [+10 ", " più forte! [+10 ","اقوى ! [+10") + attack().replaceFirst(".$","") + "]";
+                    + lang(" stronger! [+10 ", " plus fort ! [+10 ", " più forte! [+10 ","اقوى ! [+10") + attack() + "]";
         }
         return translate(entity.entityType) + switch (entity.getState()) {
             case BURNT -> lang(" is burning!", " brûle !", " sta bruciando!","يحرق!");
