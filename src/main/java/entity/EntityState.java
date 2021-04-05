@@ -103,7 +103,7 @@ public enum EntityState {
                     if (((Player) entity).getHunger() == 0) { GameWindow.addToLogs(Language.logHeroDeath(true), Color.RED); return; }
                 } break;
             case HEALED:
-                amount = 3;
+                amount = 10;
                 entity.modifyHP(amount);
                 if (entity.isHero()) GameWindow.addToLogs(Language.logHealEffect(amount), Tools.WindowText.green);
                 break;

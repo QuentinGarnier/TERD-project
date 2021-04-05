@@ -308,16 +308,6 @@ public enum Language {
                 "Sei guarito di " + amount + " HP.",
                 "أنت مهتم" + amount + "الحياة.");
     }
-    public static String logItemCons(ConsumableTypes ct) {
-        return switch (ct) {
-            case HEALTH_POTION -> lang("+10% of your HP.", "+10% des PV", "+10% di HP", "+ 10٪ من الأرواح");
-            case REGENERATION_POTION -> lang("Heal in duration", "Guérit sur la durée", "Guarito nel tempo", "تم علاجه بمرور الوقت");
-            case TELEPORT_SCROLL -> lang("Go to Merchant room", "Téléporte chez le marchand", "Ti porta dal mercante", "يأخذك إلى التاجر");
-            case DIVINE_BLESSING -> lang("Become invulnerable for a while", "Devenez invulnérable un moment", "Diventi invulnerabile per un po '", "كن محصنًا لبعض الوقت");
-            case DRAGON_EXPLOSION -> lang("", "Inflige -25% à chaque monstre de la salle + Brûlure", "","");
-
-        };
-    }
     public static String logDragonExplo1() {
         return lang("Throwing the explosion in a room would have been more judicious...",
                 "Lancer l'explosion dans une salle aurait été plus judicieux...",
@@ -325,9 +315,9 @@ public enum Language {
                 "كان من الممكن أن يكون إلقاء الانفجار في غرفة أكثر حكمة ...");
     }
     public static String logDragonExplo2() {
-        return lang("The explosion frightened the merchant...",
-                "L'explosion a fait sursauter le marchand...",
-                "L'esplosione ha spaventato il mercante...",
+        return lang("The explosion frightened the Merchant...",
+                "L'explosion a fait sursauter le Marchand...",
+                "L'esplosione ha spaventato il Mercante...",
                 "الانفجار أرعب التاجر ...");
     }
     public static String logDragonExplo3(int nbr) {
@@ -341,14 +331,57 @@ public enum Language {
                 "Nessun mostro è stato colpito dall'esplosione...",
                 "لم يتأثر أي وحش بالانفجار ...");
     }
+    public static String logFreezingScroll1() {
+        return lang("Casting this spell in a room would have been more judicious...",
+                "Incanter ce sort dans une salle aurait été plus judicieux...",
+                "Lanciare questo incantesimo in una stanza sarebbe stato più giudizioso...",
+                "...");
+    }
+    public static String logFreezingScroll2() {
+        return lang("The freeze spell does not affect the Merchant.",
+                "Le sort de gel n'affecte pas le Marchand.",
+                "L'incantesimo congelamento non ha effetto sul Mercante.",
+                "...");
+    }
+    public static String logFreezingScroll3() {
+        return lang("The monsters in the room are frozen!",
+                "Les monstres de la salle sont gelés !",
+                "I mostri nella stanza sono congelati!",
+                "...");
+    }
 
 
 
-    // ===== Button Inventory Panel ===== //
+    // ===== Button Inventory Panel & Items effects ===== //
     public static String buttonEquip(){return lang("Equip", "Équiper", "Usare", "...");}
     public static String buttonUnequip(){return lang("Unequip", "Déséquiper", "Lasciare", "...");}
     public static String buttonConsume() {return lang("Consume", "Consommer", "Consumare","...");}
     public static String buttonThrow() {return lang("Throw away", "Jeter", "Buttare via", "...");}
+    public static String descriptionItemCons(ConsumableTypes ct) {
+        return switch (ct) {
+            case HEALTH_POTION -> lang("Heals 10% of your HP", "Soigne 10% de vos PV", "Cura il 10% dei tuoi HP", "+ 10٪ من الأرواح");
+            case REGENERATION_POTION -> lang("Heals 10 HP each turn for 6 turns",
+                    "Rend 10 PV chaque tour pendant 6 tours",
+                    "Guarito 10 HP per turno per 6 turni",
+                    "تم علاجه بمرور الوقت");
+            case TELEPORT_SCROLL -> lang("Teleports you to the Merchant room",
+                    "Vous téléporte chez le Marchand",
+                    "Ti teletrasporta dal Mercante",
+                    "يأخذك إلى التاجر");
+            case DIVINE_BLESSING -> lang("Become invulnerable for 4 turns",
+                    "Devenez invulnérable pendant 4 tours",
+                    "Diventi invulnerabile per 4 turni",
+                    "كن محصنًا لبعض الوقت");
+            case DRAGON_EXPLOSION -> lang("Deals 25% of their HP to each monster in the room and burns them",
+                    "Inflige 25% de leurs PV à chaque monstre de la salle et les brûle",
+                    "Infligge il 25% dei loro HP a ogni mostro nella stanza e li brucia",
+                    "...");
+            case FREEZING_SCROLL -> lang("Freezes all enemies in the room for 2 turns",
+                    "Gèle tous les ennemis dans la salle pendant 2 tours",
+                    "Congela tutti i nemici nella stanza per 2 turni",
+                    "...");
+        };
+    }
 
 
 
@@ -423,6 +456,7 @@ public enum Language {
             case TELEPORT_SCROLL -> lang("Teleportation Scroll", "Parchemin de Téléportation", "Teletrasporto", "انتقل من تخاطر");
             case DIVINE_BLESSING -> lang("Divine Blessing", "Bénédiction Divine", "Benedizione Divina","نعمة إلهية");
             case DRAGON_EXPLOSION -> lang("Dragon Explosion", "Explosion Draconique", "Esplosione Draconica","انفجار شديد القسوة");
+            case FREEZING_SCROLL -> lang("Freezing Scroll", "Parchemin de gel", "Pergamena di brina", "...");
         };
     }
     public static String translate(Theme theme) {

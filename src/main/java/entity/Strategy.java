@@ -68,9 +68,9 @@ public class Strategy {
     }
 
     public boolean makeMove(boolean goClose, Position p) {
+        if(currentEntity.getState() == EntityState.FROZEN) return false;
         List<Position> neighbors = currentEntity.getPosition().getNeighbor(false);
         WorldMap worldMap = WorldMap.getInstanceWorld();
-
         if (neighbors.size() == 0) return false;
         Position res = currentEntity.getPosition();
         double oldDist = res.distance(p);
@@ -110,6 +110,7 @@ public class Strategy {
         return makeMove(false, hero.getPosition());
     }
     public void goCloseHero() {
+        if(currentEntity.getState() == EntityState.FROZEN) return;
         Position pos = currentEntity.getPosition();
         Room r = WorldMap.getInstanceWorld().getCurrentRoom(pos);
         List<List<Position>> bfs = Tools.BFS(pos, r, null, null);
