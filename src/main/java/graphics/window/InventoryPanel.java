@@ -10,6 +10,7 @@ import items.collectables.ItemFood;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import static graphics.window.GameInterfacePanel.createLog;
@@ -46,17 +47,17 @@ public class InventoryPanel extends JPanel {
         thrCol.setHorizontalAlignment(SwingConstants.RIGHT);
 
         panel.add(fstCol, BorderLayout.WEST);
-        panel.add(sndCol, BorderLayout.CENTER);
+        //panel.add(sndCol, BorderLayout.CENTER);
         panel.add(thrCol, BorderLayout.EAST);
         myButton jButton = new myButton(ai, panel);
         contents.add(jButton);
-        Dimension parentSize = contents.getComponent(0).getPreferredSize();
-        int x = (int) parentSize.getWidth(), y = (int) parentSize.getHeight();
+        Dimension parentSize = miniLog.getPreferredSize(); //components.getComponent(0).getPreferredSize();
+        /*int x = (int) parentSize.getWidth(), y = (int) parentSize.getHeight();
         if (fstCol.getPreferredSize().getWidth() != 0) {
             fstCol.setPreferredSize(new Dimension((int) (x * 10 / 24.0), y));
             sndCol.setPreferredSize(new Dimension((int) (x * 11 / 24.0), y));
             thrCol.setPreferredSize(new Dimension((int) (x *  3 / 24.0), y));
-        }
+        }*/
     }
 
     public void updateInventory(){
@@ -105,8 +106,15 @@ public class InventoryPanel extends JPanel {
                 removeAll();
                 add(new choiceButton(ai, this));
             };
+            ToolTipManager.sharedInstance().setInitialDelay(0);
             setToolTipText(ai.getDescription());
             super.addActionListener(al);
+        }
+
+        @Override
+        public Point getToolTipLocation(MouseEvent event) {
+            Point p = new Point(panel.getLocation().x, panel.getLocation().y - 18);
+            return p;
         }
     }
 
@@ -144,6 +152,5 @@ public class InventoryPanel extends JPanel {
             throwAway.setFocusable(false);
             esc.setFocusable(false);
         }
-
     }
 }

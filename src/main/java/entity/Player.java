@@ -42,7 +42,7 @@ public class Player extends AbstractEntity {
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
-
+        //for (int i = 0; i < 10; i++) inventory.add(AbstractCollectableItem.generateAbstractCollItems(0, null));
     }
 
     private Player(EntityType speciality) throws ErrorPositionOutOfBound {
