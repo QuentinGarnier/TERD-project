@@ -101,8 +101,9 @@ public class Strategy {
 
         if (neighbors.size() == 0) return;
         Position rndPos = neighbors.get(rd.nextInt(neighbors.size()));
-        currentEntity.goTo(rndPos);
-
+        List<Position> playerNeighbor = Player.getInstancePlayer().getPosition().getNeighbor(true);
+        if (playerNeighbor.size() == 1 && rndPos.equals(playerNeighbor.get(0))) makeRandomMove();
+        else currentEntity.goTo(rndPos);
     }
 
     public boolean fleeHero() {
