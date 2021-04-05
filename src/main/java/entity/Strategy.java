@@ -18,9 +18,10 @@ public class Strategy {
         this.currentEntity = currentEntity;
     }
 
-    public void applyStrategy(){
+    public void applyStrategy() {
+        if(currentEntity.getState() == EntityState.FROZEN && currentEntity.entityType != EntityType.MONSTER_BOSS) return;  //Boss cannot be frozen
         hero = Player.getInstancePlayer();
-        switch (currentEntity.entityType){
+        switch (currentEntity.entityType) {
             case MONSTER_GOBLIN -> Goblin();
             case MONSTER_ORC, MONSTER_SPIDER -> OrcSpider();
             case MONSTER_WIZARD -> Wizard();
