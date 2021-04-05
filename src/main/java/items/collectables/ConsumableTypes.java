@@ -17,7 +17,7 @@ import java.util.Random;
 
 public enum ConsumableTypes {
     HEALTH_POTION( 15),
-    REGENERATION_POTION(10),
+    REGENERATION_POTION(20),
     TELEPORT_SCROLL(40),
     DIVINE_BLESSING(30),
     DRAGON_EXPLOSION(55),
@@ -46,7 +46,7 @@ public enum ConsumableTypes {
             case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);
             case TELEPORT_SCROLL -> teleport();
             case DIVINE_BLESSING -> pl.updateState(EntityState.INVULNERABLE);
-            case DRAGON_EXPLOSION -> {  //TODO : à peaufiner
+            case DRAGON_EXPLOSION -> {
                 WorldMap wm = WorldMap.getInstanceWorld();
                 Room r = wm.getCurrentRoom(pl.getPosition());
                 if (r == null) { GameWindow.addToLogs(Language.logDragonExplo1(), Color.WHITE); break; }

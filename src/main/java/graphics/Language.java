@@ -180,10 +180,10 @@ public enum Language {
     public static String logDealDamage(AbstractEntity entity1, AbstractEntity entity2) {
         boolean b = entity2 instanceof Player;
         int dmg = (Math.max(0, entity1.getAttack() - (b ? Player.getInstancePlayer().getDefense() : 0)));
-        return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attack]" : ""),
-                entity1 + " inflige " + dmg + " dégâts à " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attaque]" : ""),
-                entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? "[-" + (entity1.getAttack() - dmg) + " Attacco]" : ""),
-                entity1 + " يلحق " + dmg + " ضرر لأ " + entity2 + "." + (dmg != entity1.getAttack() ? " هجوم]" + (entity1.getAttack() - dmg) + "-]" : ""));
+        return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? " (Absorbed : " + (entity1.getAttack() - dmg) + ")" : ""),
+                entity1 + " inflige " + dmg + " dégâts à " + entity2 + "." + (dmg != entity1.getAttack() ? " (Absorbé : " + (entity1.getAttack() - dmg) + ")" : ""),
+                entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? " (Assorbito" + (entity1.getAttack() - dmg) + ")" : ""),
+                entity1 + " يلحق " + dmg + " ضرر لأ " + entity2 + "." + (dmg != entity1.getAttack() ? "(" + (entity1.getAttack() - dmg) + " (يمتص " : ""));
     }
     public static String logCriticalHit(AbstractEntity entity1, AbstractEntity entity2, int atk) {
         return lang(entity1 + " deals " + atk + " damage to " + entity2 + " (critical hit)!",
@@ -456,7 +456,7 @@ public enum Language {
             case TELEPORT_SCROLL -> lang("Teleportation Scroll", "Parchemin de Téléportation", "Teletrasporto", "انتقل من تخاطر");
             case DIVINE_BLESSING -> lang("Divine Blessing", "Bénédiction Divine", "Benedizione Divina","نعمة إلهية");
             case DRAGON_EXPLOSION -> lang("Dragon Explosion", "Explosion Draconique", "Esplosione Draconica","انفجار شديد القسوة");
-            case FREEZING_SCROLL -> lang("Freezing Scroll", "Parchemin de gel", "Pergamena di brina", "...");
+            case FREEZING_SCROLL -> lang("Freezing Scroll", "Parchemin de Gel", "Pergamena di Brina", "...");
         };
     }
     public static String translate(Theme theme) {
