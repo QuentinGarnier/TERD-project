@@ -75,12 +75,7 @@ public class WorldMap {
             placeEnd();
             placeMerchant();
             placePlayer();
-            for (Room r : rooms) {
-                if (!r.putObstacles()) {
-                    merchantRoomTL = r.getTopLeft();
-                    merchantRoomBR = r.getBottomRight();
-                }
-            }
+            for (Room r : rooms) r.putObstacles();
         }
     }
 
@@ -161,6 +156,8 @@ public class WorldMap {
             merchant.setSafeRoomId(safeRoomId);
             room.setVisited();
             room.addDoor(new Position(x, y));
+            merchantRoomTL = room.getTopLeft();
+            merchantRoomBR = room.getBottomRight();
         }
         else placeMerchant();
     }

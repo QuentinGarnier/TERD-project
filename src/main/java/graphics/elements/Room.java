@@ -131,18 +131,21 @@ public class Room {
     }
 
     public boolean putObstacles() {
-        if (id == Merchant.getInstanceMerchant().getSafeRoomId()) return false;
-        for (int x = topLeft.getX() + 1; x < bottomRight.getX(); x++)
-            for (int y = topLeft.getY() + 1; y < bottomRight.getY(); y++)
-                if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
-                    lab[x][y].setObstacle(theme.obstacle1);
+        boolean isMerchantRoom = id == Merchant.getInstanceMerchant().getSafeRoomId();
+        if (!isMerchantRoom) {
+            for (int x = topLeft.getX() + 1; x < bottomRight.getX(); x++)
+                for (int y = topLeft.getY() + 1; y < bottomRight.getY(); y++)
+                    if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()))
+                        lab[x][y].setObstacle(theme.obstacle1);
+        }
         Position start = doors.get(0);
         boolean[][] booleans = new boolean[getWidth() + 1][getHeight() + 1];
         for (boolean[] aBoolean : booleans) Arrays.fill(aBoolean, false);
         List<List<Position>> bfs = Tools.BFS(start, this, lab, null);
         doors.forEach(door -> Tools.findPath(bfs, start, door, this, lab, booleans));
         monsters.forEach(monster -> Tools.BFS(monster.getPosition(), this, lab, booleans));
-        currentRoomItems.forEach(item -> Tools.BFS(item.getPosition(), this, lab, booleans));
+        if (!isMerchantRoom) currentRoomItems.forEach(item -> Tools.BFS(item.getPosition(), this, lab, booleans));
+        else Tools.BFS(Merchant.getInstanceMerchant().getPosition(), this, lab, booleans);
         return true;
     }
 
