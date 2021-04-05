@@ -18,9 +18,10 @@ public class Strategy {
         this.currentEntity = currentEntity;
     }
 
-    public void applyStrategy(){
+    public void applyStrategy() {
+        if(currentEntity.getState() == EntityState.FROZEN && currentEntity.entityType != EntityType.MONSTER_BOSS) return;  //Boss cannot be frozen
         hero = Player.getInstancePlayer();
-        switch (currentEntity.entityType){
+        switch (currentEntity.entityType) {
             case MONSTER_GOBLIN -> Goblin();
             case MONSTER_ORC, MONSTER_SPIDER -> OrcSpider();
             case MONSTER_WIZARD -> Wizard();
@@ -68,9 +69,9 @@ public class Strategy {
     }
 
     public boolean makeMove(boolean goClose, Position p) {
+        if(currentEntity.getState() == EntityState.FROZEN) return false;
         List<Position> neighbors = currentEntity.getPosition().getNeighbor(false);
         WorldMap worldMap = WorldMap.getInstanceWorld();
-
         if (neighbors.size() == 0) return false;
         Position res = currentEntity.getPosition();
         double oldDist = res.distance(p);
@@ -110,6 +111,7 @@ public class Strategy {
         return makeMove(false, hero.getPosition());
     }
     public void goCloseHero() {
+        if(currentEntity.getState() == EntityState.FROZEN) return;
         Position pos = currentEntity.getPosition();
         Room r = WorldMap.getInstanceWorld().getCurrentRoom(pos);
         List<List<Position>> bfs = Tools.BFS(pos, r, null, null);

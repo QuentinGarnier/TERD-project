@@ -21,6 +21,7 @@ public class InventoryPanel extends JPanel {
     private final JLabel miniLog;
     private final JScrollPane scrollPane;
     private final GridLayout gl = new GridLayout(4,1);
+
     private InventoryPanel(){
         setLayout(new BorderLayout());
         miniLog = new JLabel();
@@ -40,36 +41,27 @@ public class InventoryPanel extends JPanel {
         fstCol.setForeground(ai.equals(Player.getInstancePlayer().getDefenceItem()) ||
                 ai.equals(Player.getInstancePlayer().getAttackItem())? Color.GREEN : Color.GRAY);
         JLabel sndCol = createLog(s2, Color.GRAY);
-        JLabel thrCol = createLog((s3 < Player.MAX_INVENTORY_SIZE ? " " : "") + s3, Color.GRAY);
+        JLabel thrCol = createLog((s3 < 10 ? " " : "") + s3 + " $", Color.GRAY);
 
         fstCol.setHorizontalAlignment(SwingConstants.LEFT);
         sndCol.setHorizontalAlignment(SwingConstants.CENTER);
         thrCol.setHorizontalAlignment(SwingConstants.RIGHT);
 
         panel.add(fstCol, BorderLayout.WEST);
-        //panel.add(sndCol, BorderLayout.CENTER);
         panel.add(thrCol, BorderLayout.EAST);
         myButton jButton = new myButton(ai, panel);
         contents.add(jButton);
-        Dimension parentSize = miniLog.getPreferredSize(); //components.getComponent(0).getPreferredSize();
-        /*int x = (int) parentSize.getWidth(), y = (int) parentSize.getHeight();
-        if (fstCol.getPreferredSize().getWidth() != 0) {
-            fstCol.setPreferredSize(new Dimension((int) (x * 10 / 24.0), y));
-            sndCol.setPreferredSize(new Dimension((int) (x * 11 / 24.0), y));
-            thrCol.setPreferredSize(new Dimension((int) (x *  3 / 24.0), y));
-        }*/
     }
 
-    public void updateInventory(){
+    public void updateInventory() {
         contents.removeAll();
         scrollPane.revalidate();
-        List<AbstractCollectableItem> items = Player.getInventory();//new ArrayList<>();
+        List<AbstractCollectableItem> items = Player.getInventory();
         gl.setRows(Math.max(4, items.size()));
-        //for (int i = 0; i < 20; i++)items.add(AbstractCollectableItems.generateAbstractCollItems(0, null));
         items.forEach(this::createLine);
     }
 
-    public void setInventoryText(Color c, String cnt){
+    public void setInventoryText(Color c, String cnt) {
         miniLog.setForeground(c);
         miniLog.setText(cnt);
     }
@@ -104,7 +96,7 @@ public class InventoryPanel extends JPanel {
                 if (Player.getInstancePlayer().getHP() == 0) return;
                 revalidate();
                 removeAll();
-                add(new choiceButton(ai, this));
+                add(new choiceButton(ai));
             };
             ToolTipManager.sharedInstance().setInitialDelay(0);
             setToolTipText(ai.getDescription());
@@ -113,15 +105,14 @@ public class InventoryPanel extends JPanel {
 
         @Override
         public Point getToolTipLocation(MouseEvent event) {
-            Point p = new Point(panel.getLocation().x, panel.getLocation().y - 18);
-            return p;
+            return new Point(panel.getLocation().x, panel.getLocation().y - 18);
         }
     }
 
 
 
     private class choiceButton extends JPanel {
-        public choiceButton(AbstractCollectableItem ai, myButton mb) {
+        public choiceButton(AbstractCollectableItem ai) {
             setLayout(new GridLayout(0,3));
             Player player = Player.getInstancePlayer();
             JButton equip = new JButton();

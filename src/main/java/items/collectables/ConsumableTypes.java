@@ -12,16 +12,16 @@ import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
 public enum ConsumableTypes {
     HEALTH_POTION( 15),
-    REGENERATION_POTION(10),
+    REGENERATION_POTION(20),
     TELEPORT_SCROLL(40),
     DIVINE_BLESSING(30),
-    DRAGON_EXPLOSION(55);
+    DRAGON_EXPLOSION(55),
+    FREEZING_SCROLL(90);
 
     public final int price;
 
@@ -46,19 +46,28 @@ public enum ConsumableTypes {
             case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);
             case TELEPORT_SCROLL -> teleport();
             case DIVINE_BLESSING -> pl.updateState(EntityState.INVULNERABLE);
-            case DRAGON_EXPLOSION -> {//TODO : à paufiner
+            case DRAGON_EXPLOSION -> {
                 WorldMap wm = WorldMap.getInstanceWorld();
                 Room r = wm.getCurrentRoom(pl.getPosition());
-                if (r == null) { GameWindow.addToLogs(Language.logDragonExplo1(), Color.WHITE); break;}
+                if (r == null) { GameWindow.addToLogs(Language.logDragonExplo1(), Color.WHITE); break; }
                 if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs(Language.logDragonExplo2(), Color.WHITE); break;}
                 int nbr = 0;
                 for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) {
                     if (m.getHP() != 0) { m.takeDamage((int) (m.getHPMax() * 0.25)); nbr++;}
                     if (m.getHP() != 0) m.updateState(EntityState.BURNT);
                     else wm.getCell(m.getPosition()).entityLeft();
-                    GameWindow.window.repaint();
                 }
+                GameWindow.window.repaint();
                 GameWindow.addToLogs(Language.logDragonExplo3(nbr), Color.WHITE);
+            }
+            case FREEZING_SCROLL -> {
+                WorldMap wm = WorldMap.getInstanceWorld();
+                Room r = wm.getCurrentRoom(pl.getPosition());
+                if (r == null) { GameWindow.addToLogs(Language.logFreezingScroll1(), Color.WHITE); break; }
+                if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs(Language.logFreezingScroll2(), Color.WHITE); break;}
+                for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) if (m.getHP() != 0) m.updateState(EntityState.FROZEN);
+                GameWindow.window.repaint();
+                GameWindow.addToLogs(Language.logFreezingScroll3(), Color.WHITE);
             }
         }
         return true;
@@ -94,7 +103,7 @@ public enum ConsumableTypes {
     }
 
     public String getEffect(){
-        return Language.logItemCons(this);
+        return Language.descriptionItemCons(this);
     }
 
     public int getPrice(){ return price;}

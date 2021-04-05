@@ -66,7 +66,7 @@ public class Player extends AbstractEntity {
         setHPMax(entityType.HPByType);
         setAttack(entityType.attackByType);
         setAttackMax(entityType.attackByType);
-        modifyHunger(100);
+        modifyHunger(100, false);
         setState(EntityState.NEUTRAL);
     }
 
@@ -193,12 +193,13 @@ public class Player extends AbstractEntity {
     }
 
     //Hunger is capped at 100.
-    public void modifyHunger(int x) {
+    public void modifyHunger(int x, boolean toDisplayMsg) {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
-        if (getState() != EntityState.POISONED || x >= 0) GameWindow.addToLogs(Language.logModifyHunger(x), Tools.WindowText.purple);
-        if (hunger == 0) GameWindow.addToLogs(Language.logHeroDeath(true), Color.RED);
-        //GameWindow.refreshInventory();
-        //TODO: add death by hunger
+        if (toDisplayMsg && (x >= 0)) GameWindow.addToLogs(Language.logModifyHunger(x), Tools.WindowText.purple);
+        if (hunger == 0) {
+            modifyHP(-getHPMax());
+            GameWindow.addToLogs(Language.logHeroDeath(true), Color.RED);
+        }
     }
 
     public static void chooseSpeciality(int sp) {
@@ -254,7 +255,7 @@ public class Player extends AbstractEntity {
         if(b) {
             hungerTurnCounter++;
             if(hungerTurnCounter >= 5) {
-                hunger--;
+                modifyHunger(-1, false);
                 hungerTurnCounter = 0;
             }
         }

@@ -9,7 +9,6 @@ import java.awt.*;
 public class Attack {
 
     public static void attack(AbstractEntity entity1, AbstractEntity entity2) {
-        System.out.println(entity1.getAttack());
         if (entity2 == null) return;
 
         if (entity2.getState() == EntityState.INVULNERABLE) {
@@ -40,7 +39,7 @@ public class Attack {
                 return;
 
             case HERO_WARRIOR:
-                ((Player) entity1).modifyHunger(-1);
+                ((Player) entity1).modifyHunger(-1, true);
                 if (entity2.entityType == EntityType.MONSTER_ORC && entity2.getHP() != 0) entity2.updateState(EntityState.ENRAGED);
                 break;
 
