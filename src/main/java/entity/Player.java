@@ -111,8 +111,8 @@ public class Player extends AbstractEntity {
     public void levelUp() {
         level ++;
         GameWindow.addToLogs(Language.logLevelUp(), Tools.WindowText.green);
-        setAttackMax((int) Math.round((getAttackMax() * 1.08)));
-        setAttack(getAttackMax());
+        setAttackMax((int) Math.round((getAttackMax() * 1.08 )));
+        setAttack(getAttackMax() + (getState() == EntityState.ENRAGED ? 10 : 0));
         setHPMax((int) Math.round((getHPMax() *  1.07)));
         fullHeal();
         if (!EntityState.isBeneficial(getState())) updateState(EntityState.NEUTRAL);

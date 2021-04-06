@@ -174,8 +174,8 @@ public enum Language {
                 "Si entra nel piano inferiore...",
                 "تدخل الطابق السفلي ...");
     }
-    public static String logNothingHappens() {
-        return lang("Immune.", "Immunisé.", "Immune.", "مناعة.");
+    public static String logNothingHappens(AbstractEntity e) {
+        return lang(e + " is Immune.", e + " est Immunisé.", e + " è Immune.", " محصن." + e);
     }
     public static String logDealDamage(AbstractEntity entity1, AbstractEntity entity2) {
         boolean b = entity2 instanceof Player;

@@ -11,13 +11,21 @@ public class Attack {
     public static void attack(AbstractEntity entity1, AbstractEntity entity2) {
         if (entity2 == null) return;
 
+        int oldHP = entity2.getHP();
+
         if (entity2.getState() == EntityState.INVULNERABLE) {
-            GameWindow.addToLogs(Language.logNothingHappens(), Color.LIGHT_GRAY);
+            GameWindow.addToLogs(Language.logNothingHappens(entity2), Color.LIGHT_GRAY);
             return;
         }
         if (entity1.entityType != EntityType.HERO_ARCHER) {
+
             GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
             entity2.takeDamage(Math.max(0, entity1.getAttack() - ((entity2 instanceof Player) ? Player.getInstancePlayer().getDefense() : 0)));
+
+            if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {
+                if (oldHP >= entity2.getHPMax()*0.75 && entity2.getHP() < entity2.getHPMax()*0.75 || oldHP >= entity2.getHPMax()*0.25 && entity2.getHP() < entity2.getHPMax()*0.25) entity2.updateState(EntityState.INVULNERABLE);
+            }
+
         }
         switch (entity1.entityType) {
             case HERO_ARCHER:
@@ -34,8 +42,12 @@ public class Attack {
                     GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
                     entity2.takeDamage(entity1.getAttack());
                 }
-                if (arrow < 0.20 && entity2.getHP() != 0) {entity2.updateState(EntityState.POISONED); return;}
-                if (arrow >= 0.80 && entity2.getHP() != 0) entity2.updateState(EntityState.PARALYSED);
+                if (arrow < 0.20 && entity2.getHP() != 0) { entity2.updateState(EntityState.POISONED); return; }
+                if (arrow >= 0.80 && entity2.getHP() != 0) { entity2.updateState(EntityState.PARALYSED); return; }
+
+                if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {
+                    if (oldHP >= entity2.getHPMax()*0.75 && entity2.getHP() < entity2.getHPMax()*0.75 || oldHP >= entity2.getHPMax()*0.25 && entity2.getHP() < entity2.getHPMax()*0.25) entity2.updateState(EntityState.INVULNERABLE);
+                }
                 return;
 
             case HERO_WARRIOR:
@@ -45,7 +57,7 @@ public class Attack {
 
             case HERO_MAGE:
                 entity1.modifyHP(2);
-                if (entity1.getState() != EntityState.PARALYSED && entity2.getHP() != 0) entity2.updateState(EntityState.BURNT);
+                if (entity1.getState() != EntityState.PARALYSED && entity2.getHP() != 0 && entity2.getState() != EntityState.INVULNERABLE) entity2.updateState(EntityState.BURNT);
                 return;
 
             case MONSTER_GOBLIN: break;
