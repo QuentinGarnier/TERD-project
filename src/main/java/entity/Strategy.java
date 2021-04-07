@@ -48,10 +48,9 @@ public class Strategy {
         }
 
         if (!isFled) {
-            goCloseHero();/*
             if (currentEntity.withinReach(hero, currentEntity.entityType.rangeByType)) Attack.attack(currentEntity, hero);
             else if (!fleeMode) goCloseHero();
-            else increaseHP(isInvulnerable ? 4 : 8);*/
+            else increaseHP(isInvulnerable ? 4 : 8);
         }
     }
 
