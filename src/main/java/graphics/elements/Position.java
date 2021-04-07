@@ -83,6 +83,18 @@ public class Position {
         return positionList;
     }
 
+    public boolean bossCanMove(){
+        System.out.println(Player.getInstancePlayer().getPosition());
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                Cell currentCell = WorldMap.getInstanceWorld().getCell(i, j);
+                if (!currentCell.isAccessible() && !currentCell.getMainContentType().equals(CellElementType.BOSS))
+                    return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean isBlockingPosition(Position p){
         List<Position> AntiBlockingCheck = p.getNeighbor(false);
         for (Position pos : AntiBlockingCheck){ if (WorldMap.getInstanceWorld().getCell(pos).isDoor()) return true; }

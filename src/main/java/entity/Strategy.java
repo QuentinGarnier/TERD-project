@@ -5,7 +5,6 @@ import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.map.WorldMap;
-import graphics.window.GameWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +48,10 @@ public class Strategy {
         }
 
         if (!isFled) {
+            goCloseHero();/*
             if (currentEntity.withinReach(hero, currentEntity.entityType.rangeByType)) Attack.attack(currentEntity, hero);
             else if (!fleeMode) goCloseHero();
-            else increaseHP(isInvulnerable ? 4 : 8);
+            else increaseHP(isInvulnerable ? 4 : 8);*/
         }
     }
 
@@ -170,23 +170,10 @@ public class Strategy {
         Room r = WorldMap.getInstanceWorld().getCurrentRoom(pos);
         List<List<Position>> bfs = Tools.BFS(pos, r, null, null);
         List<Position> path = Tools.findPath(bfs, pos, Player.getInstancePlayer().getPosition(), r, null, null);
+        if (path.size() < 2) return;
         Position res = path.get(path.size() - 2);
         Cell c = WorldMap.getInstanceWorld().getCell(res);
-
-        WorldMap wp = WorldMap.getInstanceWorld();
-
-        if (currentEntity.entityType == EntityType.MONSTER_BOSS) {
-            List<Position> resNeighbors = res.getNeighbor(true)
-                    .stream()
-                    .filter(p -> (wp.getCell(p).isAccessible() || Monster.boss.equals(wp.getCell(p).getEntity())))
-                    .collect(Collectors.toList());
-
-            if (resNeighbors.size() != 4) {
-                goCloseHero();
-                return;
-            }
-        }
-        if (c.isAccessible() || c.getEntity().entityType.equals(EntityType.MONSTER_BOSS)) currentEntity.goTo(res);
+        if (c.isAccessible() || (c.getEntity().entityType.equals(EntityType.MONSTER_BOSS) && res.bossCanMove())) currentEntity.goTo(res);
     }
 
     public void increaseHP(int x) {
