@@ -84,7 +84,7 @@ public class GamePanel extends JPanel {
             Cell currentCell = worldMap.getCell(x, y);
             CellElementType currentCet = currentCell.getBaseContent();
             CellElementType obstacle = currentCell.getObstacle();
-            boolean isInMerchantRoom = x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY();
+            boolean isInMerchantRoom = merchRoomTL != null && x >= merchRoomTL.getX() && x <= merchRoomBR.getX() && y >= merchRoomTL.getY() && y <= merchRoomBR.getY();
             if(!worldMap.lastLevel() && isInMerchantRoom)
                 img = new ImageIcon(Theme.MERCHANT.themeFor(currentCet).getImage());
             else {
