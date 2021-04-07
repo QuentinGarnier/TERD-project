@@ -70,11 +70,11 @@ public enum Language {
     public static String archerDescription() {
         String body1 = lang("The archer deals good distance damage with his very long range but has few HP.",
                 "L'archère inflige de bons dommages à distance avec une grande portée mais possède peu de PV.",
-                "L'arciere infligge danni a distanza grazia alla sua grande portata, ma possiede pochi HP.",
+                "L'arciere infligge danni a distanza grazie alla sua grande portata, ma possiede pochi HP.",
                 "يتعامل رامي السهام مع ضرر جيد بعيد المدى ولكنه يتمتع بصحة قليلة.");
         String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss the target.",
                 "Chaque attaque a une chance d'infliger plus de dégâts, d'apposer un effet... ou de rater la cible.",
-                "Ogni attacco ha la probabilità di essere più forte, di infliggere un effetto... o di mancare il bersaglio.",
+                "Ogni attacco ha la probabilità di essere più forte, di lanciare un effetto... o di mancare il bersaglio.",
                 "كل هجوم لديه فرصة لإحداث المزيد من الضرر ، أو إحداث تأثير ... أو تفويت الهدف.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
