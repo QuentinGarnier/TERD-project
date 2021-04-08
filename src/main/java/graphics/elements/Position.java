@@ -84,7 +84,6 @@ public class Position {
     }
 
     public boolean bossCanMove(){
-        System.out.println(Player.getInstancePlayer().getPosition());
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 Cell currentCell = WorldMap.getInstanceWorld().getCell(i, j);
