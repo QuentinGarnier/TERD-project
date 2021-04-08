@@ -30,7 +30,7 @@ public enum EntityState {
     FROZEN(Tools.TerminalText.blue("Frozen"), 2, "ice"),
     BURNT(Tools.TerminalText.red("Burnt"), 8, "flame"),
     POISONED(Tools.TerminalText.magenta("Poisoned"), 8, "poison"),
-    PARALYSED(Tools.TerminalText.yellow("Paralysed"), 3, ""),
+    PARALYSED(Tools.TerminalText.yellow("Paralysed"), 3, "para"),
 
     INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 4, ""),
     ENRAGED(Tools.TerminalText.red("Enraged"), 5, ""),
