@@ -250,44 +250,44 @@ public class Player extends AbstractEntity {
     }
 
     public boolean makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
-        if((m == null && p == null) || getHP() == 0) return false;
-        boolean b = isAttacking ? attack(p) : move(m);
+        boolean b;
+        if (getState().equals(EntityState.FROZEN)) {
+            GameWindow.addToLogs("YOU ARE FROZEN", Color.CYAN); // TODO
+            b = true;
+        } else {
+            if ((m == null && p == null) || getHP() == 0) return false;
+            b = isAttacking ? attack(p) : move(m);
+        }
         if(b) {
             hungerTurnCounter++;
             if(hungerTurnCounter >= 5) {
                 modifyHunger(-1, false);
                 hungerTurnCounter = 0;
             }
+            moveMonsters();
+            moveMerchant();
+            EntityState.turnEffects(this);
         }
         return b;
     }
 
     private boolean move(Move move) throws ErrorPositionOutOfBound {
         WorldMap worldMap = WorldMap.getInstanceWorld();
-        if(notFrozen()) {
-            Cell oldCell = worldMap.getCell(getPosition());
-            if (moveEntity(move)) {
-                Cell currentCell = worldMap.getCell(getPosition());
-                if (currentCell.getBaseContent().equals(CellElementType.END)) return false;
-                whatHeroDoes.setP(getPosition());
-                moveMonsters();
-                moveMerchant();
-                EntityState.turnEffects(this);
-                if (!currentCell.equals(oldCell)){
-                    if (currentCell.getBaseContent().equals(CellElementType.CORRIDOR)){
-                        worldMap.getCorridors().get(currentCell.getBaseId()).setVisited();
-                    } else {
-                        worldMap.getRooms().get(currentCell.getBaseId()).setVisited();
-                    }
+        Cell oldCell = worldMap.getCell(getPosition());
+        if (moveEntity(move)) {
+            Cell currentCell = worldMap.getCell(getPosition());
+            if (currentCell.getBaseContent().equals(CellElementType.END)) return false;
+            whatHeroDoes.setP(getPosition());
+            if (!currentCell.equals(oldCell)){
+                if (currentCell.getBaseContent().equals(CellElementType.CORRIDOR)){
+                    worldMap.getCorridors().get(currentCell.getBaseId()).setVisited();
+                } else {
+                    worldMap.getRooms().get(currentCell.getBaseId()).setVisited();
                 }
-                return true;
             }
-            return false;
+            return true;
         }
-        moveMonsters();
-        moveMerchant();
-        EntityState.turnEffects(this);
-        return true;
+        return false;
     }
 
     private boolean attack(Position position) {
@@ -301,9 +301,6 @@ public class Player extends AbstractEntity {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
             if (attackItem != null && m.getHP() != 0) attackItem.applyEffect(m);
-            moveMonsters();
-            moveMerchant();
-            EntityState.turnEffects(this);
             return true;
         }
         return false;
