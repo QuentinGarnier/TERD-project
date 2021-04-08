@@ -67,7 +67,7 @@ public class Player extends AbstractEntity {
         setAttack(entityType.attackByType);
         setAttackMax(entityType.attackByType);
         modifyHunger(100, false);
-        setState(EntityState.NEUTRAL);
+        updateState(EntityState.NEUTRAL);
     }
 
     public WhatHeroDoes getWhatHeroDoes() {

@@ -34,6 +34,7 @@ public class WorldMapTest {
     @Test
     public void testSecurityCell(){
         // test that lab do not modify
+        for (int i = 0; i < 9; i++) w.generateWorld();
         for (int i = 0; i < WorldMap.MAX_X; i++){
             for (int j = 0; j < WorldMap.MAX_Y; j++){
                 Cell c = w.getCell(i, j);

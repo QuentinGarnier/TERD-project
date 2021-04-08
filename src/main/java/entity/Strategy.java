@@ -87,9 +87,9 @@ public class Strategy {
 
     private void Wizard() {
         boolean b = false;
-        if (currentEntity.withinReach(hero, 1)) b = fleeHero();
+        if (currentEntity.withinReach(hero, 1)) b = fleeHero(); // TRUE = FLEE
         if(!b) {
-            if (!currentEntity.withinReach(hero, 3)) goCloseHero();
+            if (!currentEntity.withinReach(hero, currentEntity.getRange())) goCloseHero();
             else Attack.attack(currentEntity, hero);
         }
     }
@@ -101,7 +101,8 @@ public class Strategy {
 
     public boolean makeMove(boolean goClose, Position p) {
         if(currentEntity.getState() == EntityState.FROZEN) return false;
-        List<Position> neighbors = currentEntity.getPosition().getNeighbor(false);
+        Position oldPos = currentEntity.getPosition();
+        List<Position> neighbors = oldPos.getNeighbor(false);
         WorldMap worldMap = WorldMap.getInstanceWorld();
         if (neighbors.size() == 0) return false;
         Position res = currentEntity.getPosition();
@@ -116,7 +117,7 @@ public class Strategy {
             }
         }
         currentEntity.goTo(res);
-        return !p.equals(res);
+        return !oldPos.equals(res);
     }
 
     public void makeRandomMove(){

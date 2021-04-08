@@ -192,7 +192,7 @@ public abstract class AbstractEntity extends JPanel {
         return state;
     }
 
-    public void setState(EntityState state) {
+    private void setState(EntityState state) {
         this.state = state;
         updateRemainingTime();
     }

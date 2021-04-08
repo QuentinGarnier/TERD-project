@@ -66,7 +66,7 @@ public class WorldMap {
             theme = Theme.FINAL_BOSS;
             initializeBossLab();
             placePlayer();
-        } else if (stageNum < difficulty.stagesNumber){
+        } else /*if (stageNum < difficulty.stagesNumber)*/{
             theme = randomTheme();
             //difficulty = GameWindow.getDifficulty();
             items.add(AbstractItem.end);
@@ -96,12 +96,15 @@ public class WorldMap {
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
         getCell(Player.getInstancePlayer().getPosition()).entityLeft();
-        if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null) {
+        Position res = new Position(x, y);
+        if (getCell(x, y).isAccessible() && getCell(x, y).getItem() == null &&
+                (Player.getInstancePlayer().getPosition() == null ||
+                        !Player.getInstancePlayer().getPosition().equals(res))) {
             Player.getInstancePlayer().setPosition(x, y);
             getCell(x, y).setEntity(Player.getInstancePlayer());
-            Player.getInstancePlayer().getWhatHeroDoes().setP(new Position(x, y));
+            Player.getInstancePlayer().getWhatHeroDoes().setP(res);
             room.setVisited();
-            room.addDoor(new Position(x, y));
+            room.addDoor(res);
         }
         else placePlayer();
     }

@@ -78,13 +78,14 @@ public class Tools {
     }
 
     public static char universalCharOf(char key) {
-        return switch (key) {
+        /*return switch (key) {
             case 'z' -> 'w';
             case 'q' -> 'a';
             case 'a' -> 'q';
             case 'w' -> 'z';
             default -> key;
-        };
+        };*/
+        return key;
     }
 
     public static void showCommands() {

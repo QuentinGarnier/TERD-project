@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class ItemTrap extends AbstractItem{
 
-    private final int effect;
+    public final int effect;
     private final Random rndTrap = new Random();
 
     ItemTrap(int i, Position position) {
