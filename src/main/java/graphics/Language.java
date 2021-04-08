@@ -100,22 +100,22 @@ public enum Language {
         return lang("Game sound", "Son du jeu", "Suono del gioco", "صوت اللعبة");
     }
     public static String chooseTheDifficulty() {
-        return lang("Choose the difficulty", "Choisissez la difficulté", "Scegli la difficoltà", "...");
+        return lang("Choose the difficulty", "Choisissez la difficulté", "Scegli la difficoltà", "اختر الصعوبة");
     }
     public static String easy() {
-        return lang("Easy", "Facile", "Facile", "...");
+        return lang("Easy", "Facile", "Facile", "سهل");
     }
     public static String medium() {
-        return lang("Medium", "Moyen", "Medio", "...");
+        return lang("Medium", "Moyen", "Medio", "طريق");
     }
     public static String hard() {
-        return lang("Hard", "Difficile", "Difficile", "...");
+        return lang("Hard", "Difficile", "Difficile", "صعب");
     }
     public static String nightmare() {
-        return lang("Nightmare", "Cauchemar", "Incubo", "...");
+        return lang("Nightmare", "Cauchemar", "Incubo", "كابوس");
     }
     public static String endless() {
-        return lang("Endless", "Sans fin", "Infinito", "...");
+        return lang("Endless", "Sans fin", "Infinito", "بدون نهاية");
     }
 
 
@@ -150,7 +150,7 @@ public enum Language {
         return lang("Money","Monnaie ", "Moneta","فضة");
     }
     public static String stage() {
-        return lang("Stage", "Étage ", "Piano", "...");
+        return lang("Stage", "Étage ", "Piano", "طابق");
     }
 
 
@@ -263,10 +263,10 @@ public enum Language {
         };
         return lang(e + " effect", "Effet " + e, "Effetto " + e, "تأثير" + e);
     }
-    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario","...");}
-    public static String logEquipped() {return lang("equipped", "équipé(e)", "in uso","...");}
-    public static String logRejected() {return lang("rejected", "rejeté", "rifiutato", "...");}
-    public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","...");}
+    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario","المخزون");}
+    public static String logEquipped() {return lang("equipped", "équipé(e)", "in uso","مجهز");}
+    public static String logRejected() {return lang("rejected", "rejeté", "rifiutato", "مرفوض");}
+    public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","مستهلك");}
     private static String logIsParalysedEffect(EntityType entityType) {
         Language l = GameWindow.language();
         return switch (entityType) {
@@ -337,35 +337,35 @@ public enum Language {
         return lang("Casting this spell in a room would have been more judicious...",
                 "Incanter ce sort dans une salle aurait été plus judicieux...",
                 "Lanciare questo incantesimo in una stanza sarebbe stato più giudizioso...",
-                "...");
+                "كان من الممكن أن يكون إلقاء هذه التعويذة في غرفة أكثر حكمة ...");
     }
     public static String logFreezingScroll2() {
         return lang("The freeze spell does not affect the Merchant.",
                 "Le sort de gel n'affecte pas le Marchand.",
                 "L'incantesimo congelamento non ha effetto sul Mercante.",
-                "...");
+                "لا تؤثر تعويذة التجميد على التاجر.");
     }
     public static String logFreezingScroll3() {
         return lang("The monsters in the room are frozen!",
                 "Les monstres de la salle sont gelés !",
                 "I mostri nella stanza sono congelati!",
-                "...");
+                "تم تجميد الوحوش في الغرفة!");
     }
 
 
 
     // ===== Button Inventory Panel & Items effects ===== //
-    public static String buttonEquip(){return lang("Equip", "Équiper", "Usare", "...");}
-    public static String buttonUnequip(){return lang("Unequip", "Déséquiper", "Lasciare", "...");}
-    public static String buttonConsume() {return lang("Consume", "Consommer", "Consumare","...");}
-    public static String buttonThrow() {return lang("Throw away", "Jeter", "Buttare via", "...");}
+    public static String buttonEquip(){return lang("Equip", "Équiper", "Usare", "تجهيز");}
+    public static String buttonUnequip(){return lang("Unequip", "Déséquiper", "Lasciare", "غير مجهّز");}
+    public static String buttonConsume() {return lang("Consume", "Consommer", "Consumare","يستخدم");}
+    public static String buttonThrow() {return lang("Throw away", "Jeter", "Buttare via", "رمى");}
     public static String descriptionItemCons(ConsumableTypes ct) {
         return switch (ct) {
             case HEALTH_POTION -> lang("Heals 10% of your HP", "Soigne 10% de vos PV", "Cura il 10% dei tuoi HP", "+ 10٪ من الأرواح");
             case REGENERATION_POTION -> lang("Heals 10 HP each turn for 6 turns",
                     "Rend 10 PV chaque tour pendant 6 tours",
                     "Guarito 10 HP per turno per 6 turni",
-                    "تم علاجه بمرور الوقت");
+                    "يستعيد 10 أرواح كل منعطف لمدة 6 أدوار");
             case TELEPORT_SCROLL -> lang("Teleports you to the Merchant room",
                     "Vous téléporte chez le Marchand",
                     "Ti teletrasporta dal Mercante",
@@ -377,11 +377,11 @@ public enum Language {
             case DRAGON_EXPLOSION -> lang("Deals 25% of their HP to each monster in the room and burns them",
                     "Inflige 25% de leurs PV à chaque monstre de la salle et les brûle",
                     "Infligge il 25% dei loro HP a ogni mostro nella stanza e li brucia",
-                    "...");
+                    "يصيب 25٪ من صحته على كل وحش في الغرفة ويحرقه");
             case FREEZING_SCROLL -> lang("Freezes all enemies in the room for 2 turns",
                     "Gèle tous les ennemis dans la salle pendant 2 tours",
                     "Congela tutti i nemici nella stanza per 2 turni",
-                    "...");
+                    "يجمد كل الأعداء في الغرفة لمرتين");
         };
     }
 
@@ -398,7 +398,7 @@ public enum Language {
             case MONSTER_ORC -> lang("ORC", "ORC", "ORCO","مسخ");
             case MONSTER_SPIDER -> lang("SPIDER", "ARAIGNÉE", "RAGNO","عنكبوت");
             case MONSTER_WIZARD -> lang("WIZARD", "SORCIER", "STREGONE","ساحر");
-            case MONSTER_BOSS -> lang("BOSS", "BOSS", "BOSS", "...");
+            case MONSTER_BOSS -> lang("BOSS", "BOSS", "BOSS", "رئيس");
         };
     }
     public static String translateHungerState(String state) {
@@ -406,7 +406,7 @@ public enum Language {
             case "Sated" -> lang("Sated", "Repu", "Sazio","متخم");
             case "Peckish" -> lang("Peckish", "Petit creux", "Poco affamato","جوفاء صغيرة");
             case "Hungry" -> lang("Hungry", "Affamé", "Affamato","جائع");
-            case "Starving" -> lang("Starving", "Mort de faim", "Morto di fame","Mort de faim");
+            case "Starving" -> lang("Starving", "Mort de faim", "Morto di fame","يموت من الجوع");
             default -> "";
         };
     }
@@ -424,17 +424,17 @@ public enum Language {
     }
     public static String translate(EquipmentTypes equT) {
         return switch (equT) {
-            case WOODEN_SWORD -> lang("Wooden Sword", "Épée en Bois", "Spada di Legno","Épée en Bois");
+            case WOODEN_SWORD -> lang("Wooden Sword", "Épée en Bois", "Spada di Legno","سيف خشبي");
             case IRON_SWORD -> lang("Iron Sword", "Épée en Fer", "Spada di Ferro","سيف حديدي");
-            case MAGIC_SWORD -> lang("Magic Sword", "Épée Magique", "Spada Magica","Épée Magique");
+            case MAGIC_SWORD -> lang("Magic Sword", "Épée Magique", "Spada Magica","سيف سحري");
             case ICY_SWORD -> lang("Icy Sword", "Épée du Gel", "Spada di Ghiaccio","سيف فروست");
-            case DRAGON_SWORD -> lang("Dragon Sword", "Épée du Dragon", "Spada del Drago","Épée du Dragon");
+            case DRAGON_SWORD -> lang("Dragon Sword", "Épée du Dragon", "Spada del Drago","سيف التنين");
 
             case SHORT_BOW -> lang("Short Bow", "Arc Court", "Arco Corto","القوس القصير");
             case LONG_BOW -> lang("Long Bow", "Arc Long", "Arco Lungo","القوس الطويل");
             case DRAGON_BOW -> lang("Dragon Bow", "Arc du Dragon", "Arco del Drago","قوس التنين");
 
-            case WOODEN_STAFF -> lang("Wooden Staff", "Sceptre en Bois", "Scettro di Legno","Sceptre en Bois");
+            case WOODEN_STAFF -> lang("Wooden Staff", "Sceptre en Bois", "Scettro di Legno","صولجان خشبي");
             case MAGIC_STAFF -> lang("Magic Staff", "Sceptre Magique", "Scettro Magico","الصولجان السحري");
             case DRAGON_STAFF -> lang("Dragon Staff", "Sceptre du Dragon", "Scettro del Drago","صولجان التنين");
 
@@ -458,31 +458,31 @@ public enum Language {
             case TELEPORT_SCROLL -> lang("Teleportation Scroll", "Parchemin de Téléportation", "Teletrasporto", "انتقل من تخاطر");
             case DIVINE_BLESSING -> lang("Divine Blessing", "Bénédiction Divine", "Benedizione Divina","نعمة إلهية");
             case DRAGON_EXPLOSION -> lang("Dragon Explosion", "Explosion Draconique", "Esplosione Draconica","انفجار شديد القسوة");
-            case FREEZING_SCROLL -> lang("Freezing Scroll", "Parchemin de Gel", "Pergamena di Brina", "...");
+            case FREEZING_SCROLL -> lang("Freezing Scroll", "Parchemin de Gel", "Pergamena di Brina", "التمرير الجل");
         };
     }
     public static String translate(Theme theme) {
         return switch (theme) {
-            case DUNGEON -> lang("Dungeon", "Donjon", "Segreta", "...");
-            case ISLANDS -> lang("Islands", "Îles", "Isole", "...");
-            case FOREST -> lang("Forest", "Forêt", "Foresta", "...");
-            case MERCHANT -> lang("Store", "Magasin", "Negozio", "...");
-            case FINAL_BOSS -> lang("Final Boss", "Boss Final", "Boss Finale", "...");
+            case DUNGEON -> lang("Dungeon", "Donjon", "Segreta", "زنزانة");
+            case ISLANDS -> lang("Islands", "Îles", "Isole", "جزيرة");
+            case FOREST -> lang("Forest", "Forêt", "Foresta", "غابة");
+            case MERCHANT -> lang("Store", "Magasin", "Negozio", "المحل");
+            case FINAL_BOSS -> lang("Final Boss", "Boss Final", "Boss Finale", "نهائي بوس");
         };
     }
 
 
 
     // ===== Help Menu Panel ===== //
-    public static String history(){return lang("History", "Histoire", "Storia", "...");}
-    public static String description(){return lang("Description", "Description", "Descrizione", "...");}
-    public static String keys(){return lang("Keys", "Touches", "Tasti", "...");}
-    public static String credits(){return lang("Credits", "Crédits", "Crediti", "...");}
-    public static String item(){return lang("Item", "Objet", "Oggetto", "...");}
-    public static String trap(){return lang("Trap", "Piège", "Trappola", "...");}
-    public static String help(){return lang("Help", "Aide", "Aiuto", "...");}
-    public static String enemies(){return lang("Enemies", "Ennemis", "Nemici", "...");}
-    public static String heroes(){return lang("Heroes", "Héros", "Eroi", "...");}
+    public static String history(){return lang("History", "Histoire", "Storia", "تاريخ");}
+    public static String description(){return lang("Description", "Description", "Descrizione", "وصف");}
+    public static String keys(){return lang("Keys", "Touches", "Tasti", "مفاتيح");}
+    public static String credits(){return lang("Credits", "Crédits", "Crediti", "الاعتمادات");}
+    public static String item(){return lang("Item", "Objet", "Oggetto", "بالموضوع");}
+    public static String trap(){return lang("Trap", "Piège", "Trappola", "فخ");}
+    public static String help(){return lang("Help", "Aide", "Aiuto", "يساعد");}
+    public static String enemies(){return lang("Enemies", "Ennemis", "Nemici", "أعداء");}
+    public static String heroes(){return lang("Heroes", "Héros", "Eroi", "بطل");}
     public static String aboutDescription(){
         return lang("<html><center>" +
                 "<h1> Goal of the game </h1></center>" +
@@ -567,25 +567,51 @@ public enum Language {
                 "Ultima cosa prima di cominciare la missione:<br>" +
                 "Buona fortuna e salva il mondo !" +
                 "</html>",
-                "...");
+                "<html> <center>" +
+                        "<h1> هدف اللعبة </ h1> </center>" +
+                        "في هذه اللعبة أنت في عالم مليء بالوحوش <br>" +
+                        "أن عليك أن تقتل. <br>" +
+                        "كل منهم له خصوصية:" +
+                        "<ul>" +
+                        "<li> الأورك قوية جدًا </ li>" +
+                        "<li> سم العناكب </ li>" +
+                        "<li> السحراء يلقيون نوبات التجميد </ li>" +
+                        "<li> العفاريت ليسوا أقوياء جدًا ويهربون عند إضعافهم </ li>" +
+                        "</ul>" +
+                        "هدفك هو استكشاف جميع الطوابق للعثور على المخرج <br>" +
+                        "حتى تجد <b> التنين </ b> الرهيب. <br>" +
+                        "كلما تقدمت في اللعبة ، ستجد كائنات مختلفة <br>" +
+                        "مما يسمح لك بزيادة مهاراتك بالتفصيل: <br>" +
+                        "<ul>" +
+                        "<li> العملات المعدنية مفيدة للشراء من التاجر <br> </li>" +
+                        "<li> المعدات تزيد من القوة أو الدفاع </ li>" +
+                        "<li> الغذاء يعيد بعض الصحة والجوع </ li>" +
+                        "<li> آخرون بتأثيرات مختلفة </ li>" +
+                        "</ul>" +
+                        "في Salle du Marchant يمكنك شراء العناصر التي <br>" +
+                        "تريد بشرط أن يكون لديك ما يكفي من المال للحصول عليها. أنت <br>" +
+                        "لديك أيضًا إمكانية بيع العناصر الخاصة بك ولكن بسعر مخفض. <br>" +
+                        "آخر شيء قبل بدء المهمة: <br>" +
+                        "حظا سعيدا وإنقاذ العالم!" +
+                        "</html>" );
     }
     public static String charList(){
         return lang("<html><h1><center>List of characters</center></h1></html>",
                 "<html><h1><center>Liste des personnages</center></h1></html>",
                 "<html><h1><center>Lista dei personaggi</center></h1></html>",
-                "...");
+                "<html> <h1> <center> قائمة الأحرف </ Center> </h1> </html>");
     }
     public static String itemList(){
         return lang("<html><h1><center>List of items</center></h1></html>",
                 "<html><h1><center>Liste des objets</center></h1></html>",
                 "<html><h1><center>Lista degli oggetti</center></h1></html>",
-                "...");
+                "<html> <h1> <center> قائمة الكائنات </ مركز> </ h1> </html>");
     }
     public static String mainKeys(){
         return lang("<html><center><h1> Main keys </h1></center></html>",
                 "<html><center><h1> Touches principales </h1></center></html>",
                 "<html><center><h1> Tasti principali </h1></center></html>",
-                "...");
+                "<html> <center> <h1> المفاتيح الرئيسية </ h1> </center> </html>");
     }
     public static String infoQ1(){
         return lang(
@@ -616,7 +642,15 @@ public enum Language {
                 "se premi di nuovo Q, questo mostro sarà colpito.<br>" +
                 "Se vuoi usicre dalla modalità d'attacco, premi Q" +
                 "</center></html>",
-            "..."
+                "<html> <center> <h1> مزيد من المعلومات حول المفتاح A </h1>" +
+                        "<h2> هجوم </ h2> <br>" +
+                        "عند الضغط على A ، تظهر منطقة رمادية (ظل) <br>" +
+                        "تشير إلى نطاق هجومك بالإضافة إلى مربع أحمر. <br>" +
+                        "يمكنك تحريك هذا المربع باستخدام مفاتيح الحركة. <br>" +
+                        "إذا كان هناك وحش تحت الهدف ، يتحول المربع إلى اللون الأخضر و <br>" +
+                        "إذا ضغطت على A مرة أخرى ، فسيتم مهاجمة هذا الوحش. <br>" +
+                        "إذا كنت تريد الخروج من وضع الهجوم ، فاضغط على A" +
+                        "</center> </html>"
         );
     }
     public static String infoQ2(){
@@ -630,15 +664,17 @@ public enum Language {
                 "<html><center><h2>Mercante</h2><br>" +
                         "Quando sei dal Mercante, puoi parlare con lui<br>" +
                         "selezionando il tuo obiettivo su di lui e cliccando Q</center></html>",
-                "..."
+                "<html> <center> <h2> التاجر </ h2> <br>" +
+                        "عندما تكون في غرفة التاجر ، يمكنك جعله <br>" +
+                        "تحدث باستهدافها ثم الضغط على A </center> </html>"
         );
     }
     public static String directions(Move m){
         return switch (m){
-            case UP -> lang("Go up", "Monter", "Salire", "...");
-            case DOWN -> lang("Go down", "Descendre", "Scendere", "...");
-            case RIGHT -> lang("Go right", "Aller à droite", "Andare a destra", "...");
-            case LEFT -> lang("Go left", "Aller à gauche", "Andare a sinistra", "...");
+            case UP -> lang("Go up", "Monter", "Salire", "يصعد");
+            case DOWN -> lang("Go down", "Descendre", "Scendere", "انزل");
+            case RIGHT -> lang("Go right", "Aller à droite", "Andare a destra", "انعطف يمينا");
+            case LEFT -> lang("Go left", "Aller à gauche", "Andare a sinistra", "أذهب يسارا");
         };
     }
     public static String openTheInventory(){
@@ -646,7 +682,7 @@ public enum Language {
                 "Open the inventory",
                 "Ouvrir l'inventaire",
                 "Andare all'inventario",
-                "..."
+                "جرد مفتوحة"
         );
     }
     public static String newGameSameHero(){
@@ -654,11 +690,11 @@ public enum Language {
                 "<html>Start new game<br>with the same hero</html>",
                 "<html>Nouvelle partie<br>avec le même héros</html>",
                 "<html>Nuova partita<br>con lo stesso eroe</html>",
-                "..."
+                "<html> لعبة جديدة <br> بنفس البطل </ html>"
         );
     }
     public static String interactionReadBelow(){
-        return lang("Interaction (read below)", "Interaction (lire ci-dessous)", "Interazione (leggi sotto)", "...");
+        return lang("Interaction (read below)", "Interaction (lire ci-dessous)", "Interazione (leggi sotto)", "التفاعل (اقرأ أدناه)");
     }
     public static String creditsText(){
         return lang(
@@ -695,7 +731,17 @@ public enum Language {
                         "Professore: Rémy Garcia<br>" +
                         "Linguaggio di programmazione:" +
                         "</center></html>",
-                "..."
+                "<html> <center>" +
+                        "<h1> تم إنشاء هذا المشروع بواسطة </ h1> <br>" +
+                        "<h2> BenAmara Adam <br>" +
+                        "Fissore Davide <br>" +
+                        "غارنييه كوينتين <br>" +
+                        "Venturelli Antoine <br> </h2>" +
+                        "فترة التنفيذ: الفصل الدراسي الأول لعام 2021 <br>" +
+                        "Framework: UE TERD أثناء L3 Info <br>" +
+                        "المعلم: ريمي جارسيا <br>" +
+                        "لغة البرمجة:" +
+                        "</center> </html>"
         );
     }
     public static String historyText(){
@@ -756,10 +802,23 @@ public enum Language {
                     "entrando nella leggenda?</h3></center>" +
                     "</html>",
                 "<html>" +
-                        "<center><h1> That Time the Hero saved the Village </h1><br>" +
-                        "..." +
-                        "..." +
-                        "..." +
+                        "<center> <h1> تلك المرة أنقذ البطل القرية </ h1> <br>" +
+                        "منذ ستمائة عام استيقظ شر رهيب ودمّر العالم. <br>" +
+                        "لا أحد يستطيع أن يعارضها والأمل يتلاشى تدريجياً <br>" +
+                        "ثم جاء بطل باسم غير معروف قاتل الشر <br> <br>" +
+                        "انتصر ، وأعاده إلى الظلمة التي خرج منها. <br>" +
+                        "مرت السنوات وساد السلام مدة طويلة حتى يوم الموت <br>" +
+                        "حيث ظهر الشر مرة أخرى. <br>" +
+                        "بنى بقواه حصنًا شريرًا قريبًا جدًا من <br>" +
+                        "من قرية صغيرة معزولة ، ويستعد الآن لإنهاء ما <br>" +
+                        "بدأت قبل ستمائة عام. <br>" +
+                        "ومع ذلك ، لا يوجد ظل بدون ضوء: مدافع شجاع <br>" +
+                        "من القرية ظهرت وهي الآن تدخل الزنزانة من أجل <br>" +
+                        "قهر ، كما في الأسطورة ، الشر شخصيًا. <br>" +
+                        "<h3> يعود الأمر إليك لحماية قريتك اليوم <br>" +
+                        "ضد تهديد الأجداد هذا. <br>" +
+                        "هل ستصبح بدورها بطلاً في <br>" +
+                        "دخول وسيلة الإيضاح؟ </ h3> </center>" +
                         "</html>"
         );
     }
