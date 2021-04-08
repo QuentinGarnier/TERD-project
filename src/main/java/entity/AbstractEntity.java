@@ -89,7 +89,25 @@ public abstract class AbstractEntity extends JPanel {
         int realSize = GamePanel.size;
         int shift = entityType.equals(EntityType.MONSTER_BOSS) ? -1 : 0;
         if (position == null) super.setLocation(- size, - size);
-        else super.setLocation((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
+        else {
+            Point newLoc = new Point((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
+            Point res = new Point(Integer.compare(newLoc.x, getLocation().x), Integer.compare(newLoc.y, getLocation().y));
+            if ((Math.abs(newLoc.x - getLocation().x) == 32 && newLoc.y - getLocation().y == 0) ||
+                    (Math.abs(newLoc.y - getLocation().y) == 32 && newLoc.x - getLocation().x == 0)) {
+                Thread t = new Thread(() -> {
+                    while (!getLocation().equals(newLoc)) {
+                        setLocation(getLocation().x + res.x, getLocation().y + res.y);
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                t.start();
+            }
+            else setLocation(newLoc);
+        }
     }
 
     public boolean moveEntity(Position p) throws ErrorPositionOutOfBound {
