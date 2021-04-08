@@ -28,6 +28,7 @@ public abstract class AbstractEntity extends JPanel {
     private final int size;
     private final ImageIcon barIcon;
     private final JLabel barLabel;
+    private Animation animation;
 
     public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         super();
@@ -110,7 +111,6 @@ public abstract class AbstractEntity extends JPanel {
             } else if(Player.addItem()) {
                 GameWindow.addToLogs(Language.logGainItem(ai), Tools.WindowText.golden);
             }
-            //GameWindow.refreshInventory();
         }
         return moved;
     }
@@ -159,7 +159,6 @@ public abstract class AbstractEntity extends JPanel {
                 Player.getInstancePlayer().earnXP(entityType.experienceByType);
             }
         }
-        //GameWindow.refreshInventory();
         updateBar();
     }
     public void fullHeal() {
@@ -192,16 +191,18 @@ public abstract class AbstractEntity extends JPanel {
         return state;
     }
 
-    private void setState(EntityState state) {
-        this.state = state;
-        updateRemainingTime();
-    }
-
     public void updateState(EntityState state) {
         if (state == null) return;
-        setState(state);
+        if (!state.equals(EntityState.NEUTRAL)) {
+            if(animation != null) animation.end();
+            animation = new Animation(this, state);
+            animation.start();
+        }
+        else if(animation != null) animation.end();
+
+        this.state = state;
+        updateRemainingTime();
         EntityState.immediateEffects(this);
-        //GameWindow.refreshInventory();
     }
 
     public int getRemainingTime() {
@@ -222,6 +223,7 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     private void removeEntity() {
+        if(animation != null) animation.end(); //Stop the animation thread if it's running
         WorldMap worldMap = WorldMap.getInstanceWorld();
         setLocation(-size, -size);
         worldMap.getCell(position).entityLeft();

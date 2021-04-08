@@ -32,7 +32,7 @@ public enum CellElementType {
     SPIDER('S', false, "entities/monsters/spider"),
     WIZARD('W', false, "entities/monsters/wizard"),
     ORC('O', false, "entities/monsters/orc"),
-    BOSS('D', false, "entities/monsters/wizard"),
+    BOSS('D', false, "entities/monsters/dragon"),
     MERCHANT('M', false, "entities/merchant/merchant");
 
     private final char symbol;

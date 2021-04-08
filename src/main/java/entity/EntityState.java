@@ -4,6 +4,7 @@ import graphics.Language;
 import graphics.Tools;
 import graphics.window.GameWindow;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -24,23 +25,25 @@ import java.awt.*;
 
 public enum EntityState {
 
-    NEUTRAL("", -1),
+    NEUTRAL("", -1, ""),
 
-    FROZEN(Tools.TerminalText.blue("Frozen"), 2),
-    BURNT(Tools.TerminalText.red("Burnt"), 8),
-    POISONED(Tools.TerminalText.magenta("Poisoned"), 8),
-    PARALYSED(Tools.TerminalText.yellow("Paralysed"), 3),
+    FROZEN(Tools.TerminalText.blue("Frozen"), 2, "ice"),
+    BURNT(Tools.TerminalText.red("Burnt"), 8, "flame"),
+    POISONED(Tools.TerminalText.magenta("Poisoned"), 8, "poison"),
+    PARALYSED(Tools.TerminalText.yellow("Paralysed"), 3, ""),
 
-    INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 4),
-    ENRAGED(Tools.TerminalText.red("Enraged"), 5),
-    HEALED(Tools.TerminalText.green("Healed"), 6);
+    INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 4, ""),
+    ENRAGED(Tools.TerminalText.red("Enraged"), 5, ""),
+    HEALED(Tools.TerminalText.green("Healed"), 6, "");
 
     private final String text;
     private final int duration;
+    private final ImageIcon[] anim = new ImageIcon[4];
 
-    EntityState(String text, int duration) {
+    EntityState(String text, int duration, String animation) {
         this.text = text;
         this.duration = duration;
+        for(int i=0; i<4; i++) anim[i] = new ImageIcon("data/images/animations/"+ animation + (i+1) +".png");
     }
 
     public String getText() {
@@ -49,6 +52,10 @@ public enum EntityState {
 
     public int getDuration() {
         return duration;
+    }
+
+    public ImageIcon[] getAnim() {
+        return anim;
     }
 
     public static boolean isBeneficial(EntityState state){
