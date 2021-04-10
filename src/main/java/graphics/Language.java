@@ -9,6 +9,7 @@ import graphics.elements.Move;
 import graphics.map.Theme;
 import graphics.window.GameWindow;
 import items.AbstractItem;
+import items.ItemTrap;
 import items.collectables.ConsumableTypes;
 import items.collectables.EquipmentTypes;
 
@@ -234,14 +235,13 @@ public enum Language {
     public static String logLevelUp() {
         return lang(">>> LEVEL UP +1! <<<", ">>> NIVEAU +1! <<<", ">>> LIVELLO +1! <<<",">>> المستوى +1! <<<");
     }
-    public static String logTrap(int i) {
-        return switch (i) {
-            case 0 -> lang("You stepped on a burning trap!", "Vous avez marché sur un piège brûlant !", "Hai calpestato una trappola infiammata!","لقد داسوا على مصيدة ساخنة!");
-            case 1 -> lang("An intense surprise freezes you!", "Une intense surprise vous gèle !", "Un'intensa sorpresa ti congela!","مفاجأة شديدة تجمدك!");
-            case 2 -> lang("A poisonous trap!", "Un piège empoisonné !", "Una trappola velenosa!","فخ مسموم!");
-            case 3 -> lang("You got caught by a teleporter trap!", "Un piège téléporteur !", "Una trappola ti teletrasporta!","فخ الناقل الآني!");
-            case 4 -> lang("A bomb was planted here! [-15 HP]", "Une bombe était enterrée là ! [-15 PV]", "Una bomba è stata piazzata qui! [-15 HP]","هناك دفنت قنبلة! [-15 حياة]");
-            default -> "";
+    public static String logTrap(ItemTrap.Trap trap) {
+        return switch (trap) {
+            case BURNING -> lang("You stepped on a burning trap!", "Vous avez marché sur un piège brûlant !", "Hai calpestato una trappola infiammata!","لقد داسوا على مصيدة ساخنة!");
+            case FREEZING -> lang("A magic trap freezes you!", "Un piège magique vous gèle !", "Una trappola magica ti congela!","مفاجأة شديدة تجمدك!");
+            case POISONED -> lang("A poisoned dart!", "Un dard empoisonné !", "Un dardo avvelenato!","فخ مسموم!");
+            case TELEPORT -> lang("You got caught by a teleporter trap!", "Un piège téléporteur !", "Una trappola ti teletrasporta!","فخ الناقل الآني!");
+            case BOMB -> lang("A bomb was planted here! [-15 HP]", "Une bombe était enterrée là ! [-15 PV]", "Una bomba è stata piazzata qui! [-15 HP]","هناك دفنت قنبلة! [-15 حياة]");
         };
     }
     public static String logDie() {

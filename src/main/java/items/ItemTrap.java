@@ -23,15 +23,46 @@ public class ItemTrap extends AbstractItem{
 
     @Override
     public boolean usePrivate() {
-        Player player = Player.getInstancePlayer();
         switch (effect) {
-            case 0: GameWindow.addToLogs(Language.logTrap(effect), Tools.WindowText.orange); player.updateState(EntityState.BURNT); break;
-            case 1: GameWindow.addToLogs(Language.logTrap(effect), Tools.WindowText.cyan); player.updateState(EntityState.FROZEN); break;
-            case 2: GameWindow.addToLogs(Language.logTrap(effect), Tools.WindowText.purple); player.updateState(EntityState.POISONED); break;
-            case 3: GameWindow.addToLogs(Language.logTrap(effect), Color.WHITE); WorldMap.getInstanceWorld().placePlayer(); break;
-            case 4: GameWindow.addToLogs(Language.logTrap(effect), Tools.WindowText.red); player.takeDamage(15); break;
-            default: return false;
+            case 0 -> trapEffect(Trap.BURNING, Tools.WindowText.orange, EntityState.BURNT);
+            case 1 -> trapEffect(Trap.FREEZING, Tools.WindowText.cyan, EntityState.FROZEN);
+            case 2 -> trapEffect(Trap.POISONED, Tools.WindowText.purple, EntityState.POISONED);
+            case 3 -> trapEffect(Trap.TELEPORT, Color.WHITE, null);
+            case 4 -> trapEffect(Trap.BOMB, Tools.WindowText.red, null);
+            default -> { return false; }
         }
         return true;
+    }
+
+    private void trapEffect(Trap trap, Color c, EntityState state) {
+        Player player = Player.getInstancePlayer();
+        if(!GameWindow.isMuted()) Tools.play("data/audio/SE/" + trap.getSE() + ".wav", false);
+        GameWindow.addToLogs(Language.logTrap(trap), c);
+        if(state != null) player.updateState(state);
+        else {
+            switch (trap) {
+                case TELEPORT: WorldMap.getInstanceWorld().placePlayer(); break;
+                case BOMB: player.takeDamage(15); break;
+                default: break;
+            }
+        }
+    }
+
+
+
+    public enum Trap {
+        BURNING("fire"),
+        FREEZING("ice"),
+        POISONED("dart"),
+        TELEPORT("teleport"),
+        BOMB("explosion");
+
+        String se;
+        Trap(String soundEffect) {
+            this.se = soundEffect;
+        }
+        String getSE() {
+            return se;
+        }
     }
 }
