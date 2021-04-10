@@ -33,6 +33,8 @@ public class Animation extends Thread {
             j = (j + 1) % 4;
             entity.remove(0);
         }
+        entity.repaint();
+        entity.revalidate();
     }
 
     public void end() {

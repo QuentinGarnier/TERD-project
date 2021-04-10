@@ -92,10 +92,10 @@ public abstract class AbstractEntity extends JPanel {
         else {
             Point newLoc = new Point((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
             Point res = new Point(Integer.compare(newLoc.x, getLocation().x), Integer.compare(newLoc.y, getLocation().y));
-            if ((Math.abs(newLoc.x - getLocation().x) == 32 && newLoc.y - getLocation().y == 0) ||
-                    (Math.abs(newLoc.y - getLocation().y) == 32 && newLoc.x - getLocation().x == 0)) {
+            if ((Math.abs(newLoc.x - getLocation().x) == size && newLoc.y - getLocation().y == 0) ||
+                    (Math.abs(newLoc.y - getLocation().y) == size && newLoc.x - getLocation().x == 0)) {
                 Thread t = new Thread(() -> {
-                    while (!getLocation().equals(newLoc)) {
+                    while (res.x * (newLoc.getX() - getLocation().getX()) > 0 || res.y * (newLoc.getY() - getLocation().getY()) > 0) {
                         setLocation(getLocation().x + res.x, getLocation().y + res.y);
                         try {
                             Thread.sleep(1);
