@@ -6,8 +6,8 @@ import graphics.elements.cells.CellElementType;
 import javax.swing.*;
 
 public enum Theme {
-    DUNGEON("stone", "stone", "dirt", "lava", CellElementType.STONE, CellElementType.HOLE),
-    FOREST("grass", "stone", "wood", "water", CellElementType.TREE, CellElementType.STONE),
+    DUNGEON("stone", "stone", "stone", "lava", CellElementType.STONE, CellElementType.HOLE),
+    FOREST("grass", "stone", "dirt", "water", CellElementType.TREE, CellElementType.STONE),
     ISLANDS("grass", "fence", "sand", "water", CellElementType.PALM_TREE, CellElementType.STONE),
     FINAL_BOSS("brick", "brick", "stone", "lava", CellElementType.STONE, CellElementType.HOLE),
     MERCHANT("wood", "wood", "wood", "water", CellElementType.BOX, CellElementType.BOX);

@@ -33,7 +33,7 @@ public enum EntityState {
     PARALYSED(Tools.TerminalText.yellow("Paralysed"), 3, "para"),
 
     INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 4, "inv"),
-    ENRAGED(Tools.TerminalText.red("Enraged"), 5, ""),
+    ENRAGED(Tools.TerminalText.red("Enraged"), 5, "rage"),
     HEALED(Tools.TerminalText.green("Healed"), 6, "heal");
 
     private final String text;
