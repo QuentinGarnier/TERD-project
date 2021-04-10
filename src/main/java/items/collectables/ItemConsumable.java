@@ -38,5 +38,12 @@ public class ItemConsumable extends AbstractCollectableItem {
     }
 
     @Override
-    public int getPrice() { return ct.getPrice(); }
+    public int getPrice() {
+        return ct.getPrice();
+    }
+
+    @Override
+    public String getSE() {
+        return ct.getSE();
+    }
 }

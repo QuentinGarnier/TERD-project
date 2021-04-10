@@ -62,5 +62,12 @@ public class ItemEquip extends AbstractCollectableItem {
     }
 
     @Override
-    public int getPrice() { return et.getPrice(); }
+    public int getPrice() {
+        return et.getPrice();
+    }
+
+    @Override
+    public String getSE() {
+        return "equip";
+    }
 }

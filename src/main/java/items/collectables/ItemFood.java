@@ -46,5 +46,12 @@ public class ItemFood extends AbstractCollectableItem {
     }
 
     @Override
-    public int getPrice() { return 5;}
+    public int getPrice() {
+        return 5;
+    }
+
+    @Override
+    public String getSE() {
+        return "consume_food";
+    }
 }

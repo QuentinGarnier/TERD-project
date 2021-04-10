@@ -39,4 +39,6 @@ public abstract class AbstractCollectableItem extends AbstractItem {
     public abstract String getEffect();
 
     public abstract String getDescription();
+
+    public abstract String getSE();
 }

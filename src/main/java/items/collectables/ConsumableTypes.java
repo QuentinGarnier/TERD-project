@@ -16,17 +16,19 @@ import java.util.Locale;
 import java.util.Random;
 
 public enum ConsumableTypes {
-    HEALTH_POTION( 15),
-    REGENERATION_POTION(20),
-    TELEPORT_SCROLL(40),
-    DIVINE_BLESSING(30),
-    DRAGON_EXPLOSION(55),
-    FREEZING_SCROLL(90);
+    HEALTH_POTION( 15, "consume_potion"),
+    REGENERATION_POTION(20, "consume_potion"),
+    TELEPORT_SCROLL(40, "teleport"),
+    DIVINE_BLESSING(30, "divine"),
+    DRAGON_EXPLOSION(55, "explosion"),
+    FREEZING_SCROLL(90, "ice");
 
     public final int price;
+    private final String soundEffectName;
 
-    ConsumableTypes(int price) {
+    ConsumableTypes(int price, String soundEffect) {
         this.price = price;
+        this.soundEffectName = soundEffect;
     }
 
     public static ConsumableTypes createConsumableTypes() {
@@ -93,18 +95,20 @@ public enum ConsumableTypes {
         else teleport();
     }
 
-    private void potion() {
-
-    }
-
     @Override
     public String toString() {
         return this.name().charAt(0) + this.name().substring(1).replace("_", " ").toLowerCase(Locale.ROOT);
     }
 
-    public String getEffect(){
+    public String getEffect() {
         return Language.descriptionItemCons(this);
     }
 
-    public int getPrice(){ return price;}
+    public int getPrice() {
+        return price;
+    }
+
+    public String getSE() {
+        return soundEffectName;
+    }
 }

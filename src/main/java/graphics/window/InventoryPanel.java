@@ -2,6 +2,7 @@ package graphics.window;
 
 import entity.Player;
 import graphics.Language;
+import graphics.Tools;
 import items.collectables.AbstractCollectableItem;
 import items.collectables.ItemConsumable;
 import items.collectables.ItemEquip;
@@ -72,11 +73,11 @@ public class InventoryPanel extends JPanel {
 
     private void equipping(AbstractCollectableItem ai, boolean isEquipping){
         miniLog.setForeground(isEquipping ? Color.GREEN : Color.RED);
-         miniLog.setText(
-                 (ai instanceof ItemEquip) ?
-                         Language.translate(((ItemEquip) ai).getEquipmentType()) + " " + (((ItemEquip) ai).isEquipped() ? Language.logEquipped() : Language.logRejected()) :
-                         (((ai instanceof ItemFood) ?
-                                 Language.logFood() : Language.translate(((ItemConsumable) ai).ct)) + " " + Language.logConsumed()));
+        miniLog.setText(
+                (ai instanceof ItemEquip) ?
+                        Language.translate(((ItemEquip) ai).getEquipmentType()) + " " + (((ItemEquip) ai).isEquipped() ? Language.logEquipped() : Language.logRejected()) :
+                        (((ai instanceof ItemFood) ?
+                                Language.logFood() : Language.translate(((ItemConsumable) ai).ct)) + " " + Language.logConsumed()));
     }
 
 
@@ -120,6 +121,7 @@ public class InventoryPanel extends JPanel {
             JButton esc = new JButton(Language.back());
             equip.addActionListener(e -> {
                 equipping(ai, ai.use());
+                if(!GameWindow.isMuted()) Tools.play("data/audio/SE/" + ai.getSE() + ".wav", false);
                 GameWindow.refreshInventory();
                 updateInventory();
             });
