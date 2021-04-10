@@ -16,7 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 
 public class GameWindow extends JFrame {
     public static GameWindow window = new GameWindow();
@@ -180,24 +179,7 @@ public class GameWindow extends JFrame {
     }
 
     private static Clip play(String pathname) {
-        try {
-            File audioFile1 = new File(pathname);
-            AudioInputStream audioStream1 = AudioSystem.getAudioInputStream(audioFile1);
-
-            AudioFormat format = audioStream1.getFormat();
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
-
-            Clip clip = (Clip) AudioSystem.getLine(info);
-
-            clip.open(audioStream1);
-            clip.start();
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-            return clip;
-        }
-        catch(Exception e) {
-            System.err.println("Error: failed to load music.");
-            return null;
-        }
+        return Tools.play(pathname, true);
     }
 
     private static void stop(Clip clip) {

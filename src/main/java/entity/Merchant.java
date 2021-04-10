@@ -123,19 +123,21 @@ public class Merchant extends AbstractEntity{
         else SellPanel.sellPanel.add(jButton);
     }
 
+
+
     public static class BuyPanel extends JPanel {
 
         public final static BuyPanel buyPanel = new BuyPanel();
-        private BuyPanel(){
+        private BuyPanel() {
             setLayout(new GridLayout(0,1));
         }
 
         public void makeMarket(List<AbstractCollectableItem> items){ items.forEach((item) -> createLine(true, item)); }
 
-        private static class BuyItemButton extends JButton{
+        private static class BuyItemButton extends JButton {
             private final ActionListener al;
 
-            BuyItemButton(AbstractCollectableItem ai){
+            BuyItemButton(AbstractCollectableItem ai) {
                 super();
                 al = e -> {
                     Player pl = Player.getInstancePlayer();
@@ -148,6 +150,7 @@ public class Merchant extends AbstractEntity{
                     if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(); return; }
                     if (pl.enoughMoney(ai.getPrice())) {
                         pl.modifyMoney(-ai.getPrice());
+                        if(!GameWindow.isMuted()) Tools.play("data/audio/SE/coin_buy.wav", false);
                         GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(true, false), Color.GREEN);
                         Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
                         Player.addItem(ai);
@@ -160,16 +163,14 @@ public class Merchant extends AbstractEntity{
             }
         }
 
-        public void updateMarket(){
+        public void updateMarket() {
             Component[] tc = buyPanel.getComponents();
-            for (Component c : tc){
-                updateItem((JButton) c);
-            }
+            for(Component c : tc) updateItem((JButton) c);
         }
 
-        public void updateItem(JButton jb){
+        public void updateItem(JButton jb) {
             JLabel j = (JLabel) ((JPanel) jb.getComponent(0)).getComponent(2);
-            if (Player.getInstancePlayer().enoughMoney(Integer.parseInt(j.getText().replaceFirst(".$","")))) j.setForeground(Color.green);
+            if(Player.getInstancePlayer().enoughMoney(Integer.parseInt(j.getText().replaceFirst(".$","")))) j.setForeground(Color.green);
             else j.setForeground(Color.RED);
         }
     }
@@ -184,7 +185,9 @@ public class Merchant extends AbstractEntity{
             gl = new GridLayout(11, 1);
             setLayout(gl); }
         
-        public void makeInventory(List<AbstractCollectableItem> items){ items.forEach((item) -> createLine(false, item)); }
+        public void makeInventory(List<AbstractCollectableItem> items) {
+            items.forEach((item) -> createLine(false, item));
+        }
 
         public void addSellInventory(AbstractCollectableItem item) {
             createLine(false, item);
@@ -203,6 +206,8 @@ public class Merchant extends AbstractEntity{
             }
         }
 
+
+
         private static class SellItemButton extends JButton {
             private final ActionListener al;
             public final AbstractCollectableItem ai;
@@ -212,10 +217,10 @@ public class Merchant extends AbstractEntity{
                 this.ai = ai;
                 al = e -> {
                     if (Player.getInstancePlayer().getHP() == 0) return;
-
                     if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false, false), Language.confirmDialog(false, true), JOptionPane.YES_NO_OPTION)) {
                         int gain = (ai.getPrice()/2);
                         Player.getInstancePlayer().modifyMoney(gain);
+                        if(!GameWindow.isMuted()) Tools.play("data/audio/SE/coin_sell.wav", false);
                         GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(false, false) + " (+" + gain + " " + Language.logMoney() + ")", Tools.WindowText.golden);
                         Player.removeItem(ai); sellPanel.remove(this); sellPanel.revalidate(); sellPanel.repaint();
                         createLine(true, ai); BuyPanel.buyPanel.revalidate(); BuyPanel.buyPanel.repaint();

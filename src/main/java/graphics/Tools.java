@@ -7,6 +7,7 @@ import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.im.InputContext;
 import java.io.File;
@@ -91,6 +92,27 @@ public class Tools {
         char top = 'w', left = 'a', attack = 'q';
         if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; attack = 'a';}
         System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
+    }
+
+    public static Clip play(String pathname, boolean loop) {
+        try {
+            File audioFile1 = new File(pathname);
+            AudioInputStream audioStream1 = AudioSystem.getAudioInputStream(audioFile1);
+
+            AudioFormat format = audioStream1.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+            Clip clip = (Clip) AudioSystem.getLine(info);
+
+            clip.open(audioStream1);
+            clip.start();
+            if(loop) clip.loop(Clip.LOOP_CONTINUOUSLY);
+            return clip;
+        }
+        catch(Exception e) {
+            System.err.println("Error: failed to load music.");
+            return null;
+        }
     }
 
 
