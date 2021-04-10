@@ -252,7 +252,7 @@ public class Player extends AbstractEntity {
     public boolean makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
         boolean b;
         if (getState().equals(EntityState.FROZEN)) {
-            GameWindow.addToLogs("YOU ARE FROZEN", Color.CYAN); // TODO
+            GameWindow.addToLogs(Language.logYouAreFrozen(), Color.CYAN);
             b = true;
         } else {
             if ((m == null && p == null) || getHP() == 0) return false;

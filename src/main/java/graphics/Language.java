@@ -298,6 +298,12 @@ public enum Language {
                 "La bruciatura ti infligge " + amount + " danni.",
                 "يصيبك الحرق" + amount + " تلف.");
     }
+    public static String logYouAreFrozen() {
+        return lang("The gel keeps you from moving.",
+                "Le gel vous empêche de bouger.",
+                "Il gel ti impedisce di muoverti.",
+                "...");
+    }
     public static String logPoisonEffect(int amount) {
         return lang("You are suffering from poisoning. [-" + amount + " HP, -1 Hunger]",
                 "Vous souffrez du poison. [-" + amount + " PV, -1 Faim]",

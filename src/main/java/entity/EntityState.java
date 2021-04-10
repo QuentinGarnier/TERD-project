@@ -32,9 +32,9 @@ public enum EntityState {
     POISONED(Tools.TerminalText.magenta("Poisoned"), 8, "poison"),
     PARALYSED(Tools.TerminalText.yellow("Paralysed"), 3, "para"),
 
-    INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 4, ""),
+    INVULNERABLE(Tools.TerminalText.cyan("Invulnerable"), 4, "inv"),
     ENRAGED(Tools.TerminalText.red("Enraged"), 5, ""),
-    HEALED(Tools.TerminalText.green("Healed"), 6, "");
+    HEALED(Tools.TerminalText.green("Healed"), 6, "heal");
 
     private final String text;
     private final int duration;
