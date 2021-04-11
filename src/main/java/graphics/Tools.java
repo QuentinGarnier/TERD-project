@@ -177,6 +177,7 @@ public class Tools {
             } catch(IOException e) {
                 e.printStackTrace();
             }
+            loadSettings();
         }
 
         private static void defaultSettings() {

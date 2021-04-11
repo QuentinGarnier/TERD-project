@@ -69,6 +69,7 @@ public class Player extends AbstractEntity {
         setAttackMax(entityType.attackByType);
         modifyHunger(100, false);
         updateState(EntityState.NEUTRAL);
+        WorldMap.stageNum = 0;
     }
 
     public WhatHeroDoes getWhatHeroDoes() {
