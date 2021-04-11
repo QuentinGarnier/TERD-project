@@ -48,9 +48,8 @@ public class Attack {
                 }
 
                 ItemEquip ie = ((Player) entity1).getAttackItem();
-                if (ie != null && entity2.getHP() != 0) { ie.applyEffect((Monster) entity2); return; }
-
-                if (arrow < 0.20 && entity2.getHP() != 0) { entity2.updateState(EntityState.POISONED); return; }
+                if (ie != null && ie.getEquipmentType().getMagicEffect() != null && entity2.getHP() != 0) ie.applyEffect((Monster) entity2);
+                else if (arrow < 0.20 && entity2.getHP() != 0) entity2.updateState(EntityState.POISONED);
 
                 if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {
                     if (oldHP >= entity2.getHPMax()*0.75 && entity2.getHP() < entity2.getHPMax()*0.75 || oldHP >= entity2.getHPMax()*0.25 && entity2.getHP() < entity2.getHPMax()*0.25) entity2.updateState(EntityState.INVULNERABLE);
