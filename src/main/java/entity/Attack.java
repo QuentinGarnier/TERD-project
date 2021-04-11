@@ -6,6 +6,7 @@ import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
+import items.collectables.ItemEquip;
 
 import java.awt.*;
 
@@ -45,6 +46,10 @@ public class Attack {
                     GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
                     entity2.takeDamage(entity1.getAttack());
                 }
+
+                ItemEquip ie = ((Player) entity1).getAttackItem();
+                if (ie != null && entity2.getHP() != 0) { ie.applyEffect((Monster) entity2); return; }
+
                 if (arrow < 0.20 && entity2.getHP() != 0) { entity2.updateState(EntityState.POISONED); return; }
 
                 if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {

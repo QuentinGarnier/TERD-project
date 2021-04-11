@@ -208,7 +208,14 @@ public class Merchant extends AbstractEntity{
             }
         }
 
-
+        public void clearSell() {
+            Component[] cs = sellPanel.getComponents();
+            gl.setRows(Math.max(11, 0));
+            for (Component c : cs){
+                sellPanel.remove(c);
+                lineCount--;
+            }
+        }
 
         private static class SellItemButton extends JButton {
             private final ActionListener al;

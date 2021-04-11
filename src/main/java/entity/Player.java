@@ -55,6 +55,7 @@ public class Player extends AbstractEntity {
 
     public void restorePlayer() {
         inventory.clear();
+        Merchant.SellPanel.sellPanel.clearSell();
         attackItem = null;
         defenceItem = null;
         level = 1;
@@ -148,7 +149,7 @@ public class Player extends AbstractEntity {
                 ai.use();
             inventory.remove(ai);
             Merchant.SellPanel.sellPanel.removeSellInventory(ai);
-            GameWindow.addToLogs("Vous avez jeté " + ai.toString() + ".", Tools.WindowText.golden);
+            GameWindow.addToLogs("Vous avez jeté " + ai + ".", Tools.WindowText.golden);
             GameWindow.refreshInventory();
         }
         return true;
@@ -300,7 +301,7 @@ public class Player extends AbstractEntity {
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
-            if (attackItem != null && m.getHP() != 0) attackItem.applyEffect(m);
+            if (attackItem != null && m.getHP() != 0 && entityType != EntityType.HERO_ARCHER) attackItem.applyEffect(m);
             return true;
         }
         return false;
