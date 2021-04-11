@@ -32,7 +32,7 @@ public class GameMenuCustomPanel extends JPanel {
         return title;
     }
 
-    protected JButton createMenuButton(String text) {
+    public static JButton createMenuButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(text.length() * 16 + 32,40));
         button.setBackground(new Color(220, 200, 160));
@@ -50,7 +50,7 @@ public class GameMenuCustomPanel extends JPanel {
         return button;
     }
 
-    protected Border bigBorder(boolean colored) {
+    public static Border bigBorder(boolean colored) {
         return BorderFactory.createCompoundBorder(
                 BorderFactory.createCompoundBorder(
                         (colored? BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden): BorderFactory.createBevelBorder(BevelBorder.RAISED)),

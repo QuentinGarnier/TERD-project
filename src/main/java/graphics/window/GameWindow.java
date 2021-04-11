@@ -10,8 +10,9 @@ import graphics.elements.Position;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.menu.GameMenuPanel;
+import graphics.window.menu.GamePausePanel;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -78,11 +79,18 @@ public class GameWindow extends JFrame {
     }
 
     public static void playOrStopMenuMusic() {
+        muted = Tools.Settings.isMuted();
         if(!inGame) {
             if(!muted && menuClip == null) menuClip = play("data/audio/BGM/Destinys_Path.wav");
             else if(muted && menuClip != null) {
                 stop(menuClip);
                 menuClip = null;
+            }
+        } else  {
+            if(!muted && gameClip == null) gameClip = play("data/audio/BGM/Dark_Heroes.wav");
+            else if(muted && gameClip != null) {
+                stop(gameClip);
+                gameClip = null;
             }
         }
     }
@@ -146,6 +154,8 @@ public class GameWindow extends JFrame {
 
     private void clear() {
         if(getContentPane().getComponentCount() > 0) getContentPane().removeAll();
+        getContentPane().revalidate();
+        getContentPane().repaint();
     }
 
     public void setScrollFrameBar() {
@@ -254,8 +264,11 @@ public class GameWindow extends JFrame {
                     worldMap.generateWorld();
                     display();
                 }
+                case 'p' -> new GamePausePanel();
             }
             refreshInventory();
+
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) new GamePausePanel();
         }
     }
 

@@ -1,5 +1,7 @@
 package graphics.window.menu;
 
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -39,12 +41,14 @@ public class GameMenuPanel extends JPanel {
     }
 
     public void display() {
-        switch (state) {
+        Player.getInstancePlayer().restorePlayer();
+        displayStartScreen();
+        /*switch (state) {
             case START -> displayStartScreen();
             case CHARA -> displayCharaScreen();
             case OPTIONS -> displayOptionsScreen();
             case HELP -> displayHelpScreen();
-        }
+        }*/
     }
 
     void displayStartScreen() {

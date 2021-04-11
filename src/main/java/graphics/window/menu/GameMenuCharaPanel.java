@@ -204,7 +204,6 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
 
     //Launch the game:
     private void launch() {
-        GameMenuPanel.stateReset();
         Player.chooseSpeciality(charaSelected);
         GameWindow.enterInGame();
     }
