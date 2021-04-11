@@ -32,6 +32,7 @@ public class Merchant extends AbstractEntity{
     private int isMoving;
     private int safeRoomId;
     private final JDialog marketWindow;
+    public final ImageIcon merchantIcon;
 
     public Merchant() throws ErrorPositionOutOfBound {
         super(new Position(0, 0), 0, EntityType.ALLY_MERCHANT);
@@ -39,6 +40,7 @@ public class Merchant extends AbstractEntity{
         isMoving = 0;
         market = new ArrayList<>();
         marketWindow = new JDialog(GameWindow.window, Language.merketTitle(), true);
+        merchantIcon = new ImageIcon("./data/images/entities/merchant/merchant.png");
 
         generateMarket();
         SellPanel.sellPanel.makeInventory(Player.getInventory());
@@ -145,13 +147,13 @@ public class Merchant extends AbstractEntity{
                     if (ai instanceof ItemEquip) {
                         ItemEquip ie = (ItemEquip) ai;
                         if (pl.getEntityType() != ie.getEquipmentType().getEntityType())
-                            if (1 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(true, false), Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION)) return;
+                            if (0 != JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(true, false), Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) return;
                     }
                     if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(); return; }
                     if (pl.enoughMoney(ai.getPrice())) {
                         pl.modifyMoney(-ai.getPrice());
                         if(!GameWindow.isMuted()) Tools.play("data/audio/SE/coin_buy.wav", false);
-                        GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(true, false), Color.GREEN);
+                        GameWindow.addToLogs(ai + " " + Language.logBuyOrSell(true, false), Color.GREEN);
                         Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
                         Player.addItem(ai);
                         SellPanel.sellPanel.addSellInventory(ai);
@@ -217,7 +219,7 @@ public class Merchant extends AbstractEntity{
                 this.ai = ai;
                 al = e -> {
                     if (Player.getInstancePlayer().getHP() == 0) return;
-                    if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false, false), Language.confirmDialog(false, true), JOptionPane.YES_NO_OPTION)) {
+                    if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false, false), Language.confirmDialog(false, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) {
                         int gain = (ai.getPrice()/2);
                         Player.getInstancePlayer().modifyMoney(gain);
                         if(!GameWindow.isMuted()) Tools.play("data/audio/SE/coin_sell.wav", false);

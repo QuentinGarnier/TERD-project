@@ -2,6 +2,9 @@ package entity;
 
 import graphics.Language;
 import graphics.Tools;
+import graphics.elements.Move;
+import graphics.elements.Position;
+import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 
 import java.awt.*;
@@ -43,7 +46,6 @@ public class Attack {
                     entity2.takeDamage(entity1.getAttack());
                 }
                 if (arrow < 0.20 && entity2.getHP() != 0) { entity2.updateState(EntityState.POISONED); return; }
-                if (arrow >= 0.80 && entity2.getHP() != 0) { entity2.updateState(EntityState.PARALYSED); return; }
 
                 if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {
                     if (oldHP >= entity2.getHPMax()*0.75 && entity2.getHP() < entity2.getHPMax()*0.75 || oldHP >= entity2.getHPMax()*0.25 && entity2.getHP() < entity2.getHPMax()*0.25) entity2.updateState(EntityState.INVULNERABLE);
@@ -56,8 +58,12 @@ public class Attack {
                 break;
 
             case HERO_MAGE:
-                entity1.modifyHP(2);
-                if (entity1.getState() != EntityState.PARALYSED && entity2.getHP() != 0 && entity2.getState() != EntityState.INVULNERABLE) entity2.updateState(EntityState.BURNT);
+                entity1.modifyHP((int) (Math.random()*6) + 5);
+
+                Move move = Position.knockbackCalcul(entity1.getPosition(), entity2.getPosition());
+                //if (entity2.getHP() != 0 && entity2.getEntityType() != EntityType.MONSTER_BOSS && entity2.getPosition().nextPosition(move.getMove())) entity2.goTo(Position.sumPos(entity2.getPosition(), move));
+
+                if (entity1.getState() != EntityState.PARALYSED && entity2.getHP() != 0 && entity2.getState() != EntityState.INVULNERABLE) entity2.updateState(EntityState.getRandom());
                 return;
 
             case MONSTER_GOBLIN: break;

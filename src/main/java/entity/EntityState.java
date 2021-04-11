@@ -123,5 +123,9 @@ public enum EntityState {
         entity.decrementRemainingTime();
     }
 
+    public static EntityState getRandom() {
+        EntityState[] mageEffects = {BURNT, FROZEN, PARALYSED};
+        return mageEffects[(int) (Math.random() * 3)];
+    }
 
 }

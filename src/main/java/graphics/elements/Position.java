@@ -105,6 +105,14 @@ public class Position {
         return Math.round(Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
     }
 
+    public static Move knockbackCalcul(Position p1, Position p2){
+        int x = p1.getX() - p2.getX(); int y = p1.getY() - p2.getY();
+        boolean xB = x > 0; boolean yB = y > 0;
+
+        boolean r = x == y && Math.random() >= 0.50;
+        return Math.abs(x) > Math.abs(y) || r ? xB ? Move.LEFT : Move.RIGHT : yB ? Move.UP : Move.DOWN;
+    }
+
     public ArrayList<Position> calcRangePosition(int range, boolean isAccessible) {
         Player player = Player.getInstancePlayer();
         Position pos = player.getPosition();
