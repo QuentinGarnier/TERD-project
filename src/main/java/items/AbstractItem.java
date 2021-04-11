@@ -96,7 +96,7 @@ public abstract class AbstractItem extends JLabel {
         return usePrivate();
     }
 
-    public abstract boolean usePrivate() throws ErrorPositionOutOfBound;  //return true if consumed, else return false
+    protected abstract boolean usePrivate() throws ErrorPositionOutOfBound;  //return true if consumed, else return false
 
     public void setPosition(Position position) {
         this.position = position;
