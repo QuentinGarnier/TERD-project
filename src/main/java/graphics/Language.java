@@ -191,7 +191,7 @@ public enum Language {
         int dmg = (int) (Player.getInstancePlayer().getAttack() * 0.20);
         return lang("A" + (monster.getEntityType() == EntityType.MONSTER_ORC ? "n " : " ")  + monster + " suffers the Mage's area effect. [-" + dmg + " HP]",
                 "Un" + (monster.getEntityType() == EntityType.MONSTER_SPIDER ? "e " : " ") + monster + " subit l'effet de zone du Mage. [-" + dmg + " PV]",
-                "", "");
+                "Un " + monster + " subisce l'effetto a zona del Mago [-" + dmg + " HP]", "");
     }
 
     public static String logCriticalHit(AbstractEntity entity1, AbstractEntity entity2, int atk) {
