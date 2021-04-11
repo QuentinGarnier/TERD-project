@@ -60,8 +60,8 @@ public class Attack {
             case HERO_MAGE:
                 entity1.modifyHP((int) (Math.random()*6) + 5);
 
-                Move move = Position.knockbackCalcul(entity1.getPosition(), entity2.getPosition());
-                //if (entity2.getHP() != 0 && entity2.getEntityType() != EntityType.MONSTER_BOSS && entity2.getPosition().nextPosition(move.getMove())) entity2.goTo(Position.sumPos(entity2.getPosition(), move));
+                Move move = Position.knockbackCalcul(entity2.getPosition());
+                //if (entity2.getHP() != 0 && entity2.getEntityType() != EntityType.MONSTER_BOSS && entity2.getPosition().nextPosition(move.getMove()) && !WorldMap.getInstanceWorld().getCell(entity2.getPosition().getX(), entity2.getPosition().getX()).isDoor()) entity2.goTo(Position.sumPos(entity2.getPosition(), move));
 
                 if (entity1.getState() != EntityState.PARALYSED && entity2.getHP() != 0 && entity2.getState() != EntityState.INVULNERABLE) entity2.updateState(EntityState.getRandom());
                 return;
