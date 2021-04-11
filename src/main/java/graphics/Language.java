@@ -186,6 +186,14 @@ public enum Language {
                 entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? " (Assorbito" + (entity1.getAttack() - dmg) + ")" : ""),
                 entity1 + " يلحق " + dmg + " ضرر لأ " + entity2 + "." + (dmg != entity1.getAttack() ? "(" + (entity1.getAttack() - dmg) + " (يمتص " : ""));
     }
+
+    public static String logAreaDamage(AbstractEntity monster) {
+        int dmg = (int) (Player.getInstancePlayer().getAttack() * 0.50);
+        return lang("A" + (monster.getEntityType() == EntityType.MONSTER_ORC ? "n " : " ")  + monster + " suffers the Mage's area effect. [-" + dmg + " HP]",
+                "Un" + (monster.getEntityType() == EntityType.MONSTER_SPIDER ? "e " : " ") + monster + " subit l'effet de zone du Mage. [-" + dmg + " PV]",
+                "", "");
+    }
+
     public static String logCriticalHit(AbstractEntity entity1, AbstractEntity entity2, int atk) {
         return lang(entity1 + " deals " + atk + " damage to " + entity2 + " (critical hit)!",
                 entity1 + " inflige " + atk + " de dégât à " + entity2 + " (coup critique) !",
