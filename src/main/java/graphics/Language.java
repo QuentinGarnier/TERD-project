@@ -191,7 +191,7 @@ public enum Language {
         int dmg = (int) (Player.getInstancePlayer().getAttack() * 0.20);
         return lang("A" + (monster.getEntityType() == EntityType.MONSTER_ORC ? "n " : " ")  + monster + " suffers the Mage's area effect. [-" + dmg + " HP]",
                 "Un" + (monster.getEntityType() == EntityType.MONSTER_SPIDER ? "e " : " ") + monster + " subit l'effet de zone du Mage. [-" + dmg + " PV]",
-                "Un " + monster + " subisce l'effetto a zona del Mago [-" + dmg + " HP]", "");
+                "Un " + monster + " subisce l'effetto a zona del Mago [-" + dmg + " HP]", "يعان" + monster + "من تأثير منطقة الساحر [-" + dmg + "HP]");
     }
 
     public static String logCriticalHit(AbstractEntity entity1, AbstractEntity entity2, int atk) {
@@ -310,7 +310,7 @@ public enum Language {
         return lang("The gel keeps you from moving.",
                 "Le gel vous empêche de bouger.",
                 "Il gel ti impedisce di muoverti.",
-                "...");
+                "يمنعك الجل من الحركة.");
     }
     public static String logPoisonEffect(int amount) {
         return lang("You are suffering from poisoning. [-" + amount + " HP, -1 Hunger]",
@@ -749,7 +749,7 @@ public enum Language {
                         "<h1> تم إنشاء هذا المشروع بواسطة </ h1> <br>" +
                         "<h2> BenAmara Adam <br>" +
                         "Fissore Davide <br>" +
-                        "غارنييه كوينتين <br>" +
+                        "Garnier Quentin <br>" +
                         "Venturelli Antoine <br> </h2>" +
                         "فترة التنفيذ: الفصل الدراسي الأول لعام 2021 <br>" +
                         "Framework: UE TERD أثناء L3 Info <br>" +
