@@ -128,4 +128,10 @@ public enum EntityState {
         return rn < 0.20 ? FROZEN : rn >= 0.60 ? BURNT : PARALYSED;
     }
 
+    public boolean isNegatifState() {
+        return switch (this) {
+            case ENRAGED, HEALED, INVULNERABLE -> false;
+            default -> true;
+        };
+    }
 }

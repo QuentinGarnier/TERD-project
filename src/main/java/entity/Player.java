@@ -61,7 +61,7 @@ public class Player extends AbstractEntity {
         level = 1;
         money = 0;
         experiencePoints = 0;
-        hunger = 100;  //100 is the max value for the Hunger Bar
+        hunger = 100;
         whatHeroDoes = WhatHeroDoes.MOVING;
         modifyHP(entityType.HPByType);
         setHPMax(entityType.HPByType);
@@ -216,20 +216,10 @@ public class Player extends AbstractEntity {
     }
 
     @Override
-    public void setAttack(int att) {
-        super.setAttack(att);
-        //GameWindow.refreshInventory();
-    }
+    public void setAttack(int att) { super.setAttack(att); }
 
     @Override
-    public void decrementRemainingTime() {
-        super.decrementRemainingTime();
-        //GameWindow.refreshInventory();
-    }
-
-    public boolean notFrozen() {
-        return getState() != EntityState.FROZEN;
-    }
+    public void decrementRemainingTime() { super.decrementRemainingTime(); }
 
     private void moveMonsters() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
@@ -329,7 +319,5 @@ public class Player extends AbstractEntity {
     }
 
     @Override
-    public int getAttack() {
-        return super.getAttack() + (attackItem == null ? 0 : attackItem.getEquipmentType().getEffectInt());
-    }
+    public int getAttack() { return super.getAttack() + (attackItem == null ? 0 : attackItem.getEquipmentType().getEffectInt()); }
 }
