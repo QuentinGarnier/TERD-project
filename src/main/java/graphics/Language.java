@@ -74,7 +74,7 @@ public enum Language {
                 "L'arciere infligge danni a distanza grazie alla sua grande portata, ma possiede pochi HP.",
                 "يتعامل رامي السهام مع ضرر جيد بعيد المدى ولكنه يتمتع بصحة قليلة.");
         String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss the target.",
-                "Chaque attaque a une chance d'infliger plus de dégâts, d'apposer un effet... ou de rater la cible.",
+                "Chaque attaque a une chance d'infliger plus de dégâts, d'empoisonner l'adversaire... ou de rater la cible.",
                 "Ogni attacco ha la probabilità di essere più forte, di lanciare un effetto... o di mancare il bersaglio.",
                 "كل هجوم لديه فرصة لإحداث المزيد من الضرر ، أو إحداث تأثير ... أو تفويت الهدف.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
@@ -84,8 +84,8 @@ public enum Language {
                 "Le mage inflige des dégâts modérés dans une portée moyenne.",
                 "Il mago infligge dei danni moderati con un raggio d'attacco medio.",
                 "يتسبب السحرة في ضرر معتدل في مدى متوسط.");
-        String body2 = lang("His power lies in his ability to burn his opponents and heal himself slightly with each attack.",
-                "Sa force réside dans sa capactié à brûler ses adversaires et se soigner légèrement à chaque attaque.",
+        String body2 = lang("His power lies in his ability to burn, freeze or paralyse his opponents and heal himself slightly with each attack.",
+                "Sa force réside dans sa capactié à brûler, geler ou paralyser ses adversaires et se soigner légèrement à chaque attaque.",
                 "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente a ogni attacco.",
                 "تكمن قوته في قدرته على حرق خصومه وشفاء نفسه قليلاً مع كل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
@@ -280,7 +280,7 @@ public enum Language {
         return switch (entityType) {
             case HERO_WARRIOR -> " [-20% " + (l.equals(FR) ? attack().replaceFirst(".$","") : attack()) + "]";
             case HERO_ARCHER -> " [-2 " + range() + "]";
-            case HERO_MAGE -> " [" + lang("Don't burn monsters anymore.", "Ne brûle plus les monstres." ,"Non brucia più mostri.","لم تعد تحرق الوحوش.") + "]";
+            case HERO_MAGE -> " [" + lang("Magic effect of attack neutralized.", "Effet magique de l'attaque neutralisé." ,"Effetto magico dell'attacco neutralizzato.","تحييد التأثير السحري للهجوم.") + "]";
             default -> "";
         };
     }

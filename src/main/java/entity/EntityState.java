@@ -124,8 +124,8 @@ public enum EntityState {
     }
 
     public static EntityState getRandom() {
-        EntityState[] mageEffects = {BURNT, FROZEN, PARALYSED};
-        return mageEffects[(int) (Math.random() * 3)];
+        double rn = Math.random();
+        return rn < 0.20 ? FROZEN : rn >= 0.60 ? BURNT : PARALYSED;
     }
 
 }

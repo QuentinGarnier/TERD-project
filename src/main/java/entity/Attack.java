@@ -64,9 +64,6 @@ public class Attack {
             case HERO_MAGE:
                 entity1.modifyHP((int) (Math.random()*6) + 5);
 
-                //Move move = Position.knockbackCalcul(entity2.getPosition());
-                //if (entity2.getHP() != 0 && entity2.getEntityType() != EntityType.MONSTER_BOSS && entity2.getPosition().nextPosition(move.getMove()) && !WorldMap.getInstanceWorld().getCell(entity2.getPosition().getX(), entity2.getPosition().getX()).isDoor()) entity2.goTo(Position.sumPos(entity2.getPosition(), move));
-
                 for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(entity2.getPosition()).getMonsters()) {
                     if (m.getHP() != 0  && Position.distance(entity2.getPosition(), m.getPosition()) == 1) {
                         GameWindow.addToLogs(Language.logAreaDamage(m), Tools.WindowText.red);
