@@ -14,6 +14,7 @@ import items.AbstractItem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractEntity extends JPanel {
     private Position position;
@@ -29,6 +30,11 @@ public abstract class AbstractEntity extends JPanel {
     private final ImageIcon barIcon;
     private final JLabel barLabel;
     private Animation animation;
+
+    // MOVE WITH THREAD
+    private final AtomicInteger a;
+    private final Timer t;
+    private final Point res;
 
     public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         super();
@@ -52,6 +58,27 @@ public abstract class AbstractEntity extends JPanel {
 
         barLabel.setHorizontalAlignment(SwingConstants.LEFT);
         setup();
+
+        // MOVE WITH THREAD
+        this.a = new AtomicInteger();
+        this.res = new Point(-1,-1);
+        this.t = new Timer(5, e -> {
+            a.getAndIncrement();
+            myFun();
+            setScrollBar();
+            if (a.get() == size) {
+                ((Timer)e.getSource()).stop();
+                a.set(0);
+            }
+        });
+    }
+
+    private void myFun(){
+        setLocation(getLocation().x + res.x , getLocation().y + res.y);
+    }
+
+    public void stopTimer(){
+        if (t != null) t.stop();
     }
 
     private JLabel image() {
@@ -85,29 +112,31 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     // Graphics
-    public void setLocation() {
+    private void setLocation() {
         int realSize = GamePanel.size;
         int shift = entityType.equals(EntityType.MONSTER_BOSS) ? -1 : 0;
+        boolean isPlayer = this instanceof Player;
         if (position == null) super.setLocation(- size, - size);
         else {
             Point newLoc = new Point((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
-            Point res = new Point(Integer.compare(newLoc.x, getLocation().x), Integer.compare(newLoc.y, getLocation().y));
             if ((Math.abs(newLoc.x - getLocation().x) == size && newLoc.y - getLocation().y == 0) ||
                     (Math.abs(newLoc.y - getLocation().y) == size && newLoc.x - getLocation().x == 0)) {
-                Thread t = new Thread(() -> {
-                    while (res.x * (newLoc.getX() - getLocation().getX()) > 0 || res.y * (newLoc.getY() - getLocation().getY()) > 0) {
-                        setLocation(getLocation().x + res.x, getLocation().y + res.y);
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                res.setLocation(Integer.compare(newLoc.x, getLocation().x), Integer.compare(newLoc.y, getLocation().y));
                 t.start();
             }
-            else setLocation(newLoc);
+            else {
+                setLocation(newLoc);
+                setScrollBar();
+            }
         }
+    }
+
+    public boolean listenerOn(){
+        return this instanceof Player && a.get() == 0;
+    }
+
+    private void setScrollBar(){
+        if (this instanceof Player && GameWindow.window != null && HP != 0) GameWindow.window.setScrollFrameBar();
     }
 
     public boolean moveEntity(Position p) throws ErrorPositionOutOfBound {

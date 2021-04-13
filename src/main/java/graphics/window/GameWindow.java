@@ -141,7 +141,6 @@ public class GameWindow extends JFrame {
         clear();
         add(jScrollPane);
         add(gameInterfacePanel, BorderLayout.SOUTH);
-        setScrollFrameBar();
         gamePanel.display();
         gameInterfacePanel.display();
     }
@@ -204,6 +203,7 @@ public class GameWindow extends JFrame {
         private void applyCommand(Move m){
             gamePanel.repaint();
             Player player = Player.getInstancePlayer();
+            if (!player.listenerOn()) return;
             if (player.getHP() == 0) return;
             WhatHeroDoes choice = player.getWhatHeroDoes();
             Position pos = player.getWhatHeroDoes().getP();
@@ -220,9 +220,9 @@ public class GameWindow extends JFrame {
                     player.getWhatHeroDoes().setP(player.getPosition());
                 }
             }
-            if (player.getHP() != 0) window.setScrollFrameBar();
             InventoryPanel.inventoryPane.setInventoryText();
             gamePanel.setObjective();
+            WorldMap.getInstanceWorld().repaint();
         }
 
         @Override

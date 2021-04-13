@@ -89,6 +89,7 @@ public class WorldMap {
     }
 
     public void placePlayer() {
+        Player.getInstancePlayer().stopTimer();
         Random rnd = new Random();
         int iRoom = rnd.nextInt(rooms.size());
         Room room = rooms.get(iRoom);
