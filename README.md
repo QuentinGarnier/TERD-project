@@ -23,9 +23,11 @@ Particularité en jeu : pour jouer, l'application ouvre une fenêtre graphique a
 <ins>**Vous pouvez également retrouver toutes les informations nécessaires à la compréhension (touches, entités, objectifs, scénario...) directement en jeu dans le menu "AIDE".**</ins>  
 
 <br /> 
+
 Les options enregistrées sont sauvegardées pour chaque exécution de l'application (langue, sons et difficulté).  
 
 <br />
+
 L'affichage de la carte est en fenêtre graphique (JFrame), toutefois il est possible d'afficher la carte sur le Terminal (utile pour voir la carte sans les éléments graphiques).
 
 
