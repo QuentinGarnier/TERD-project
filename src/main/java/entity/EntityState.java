@@ -130,7 +130,7 @@ public enum EntityState {
 
     public boolean isNegatifState() {
         return switch (this) {
-            case ENRAGED, HEALED, INVULNERABLE -> false;
+            case NEUTRAL, ENRAGED, HEALED, INVULNERABLE -> false;
             default -> true;
         };
     }
