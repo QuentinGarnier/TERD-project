@@ -324,6 +324,12 @@ public enum Language {
                 "Sei guarito di " + amount + " HP.",
                 "أنت مهتم" + amount + "الحياة.");
     }
+    public static String logTeleportBossRoom() {
+        return lang("The surrounding dark magic prevents you from teleporting...",
+                "La magie noire environnante vous empêche de vous téléporter...",
+                "...",
+                "...");
+    }
     public static String logDragonExplo1() {
         return lang("Throwing the explosion in a room would have been more judicious...",
                 "Lancer l'explosion dans une salle aurait été plus judicieux...",

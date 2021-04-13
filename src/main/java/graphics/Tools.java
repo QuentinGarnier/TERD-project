@@ -148,6 +148,7 @@ public class Tools {
                                 };
                                 case "sMusic" -> mute = info[1].equals("false");
                                 case "sDifficulty" -> difficulty = switch (info[1]) {
+                                    case "TUTORIAL" -> GameWindow.Difficulty.TUTORIAL;
                                     case "EASY" -> GameWindow.Difficulty.EASY;
                                     case "HARD" -> GameWindow.Difficulty.HARD;
                                     case "NIGHTMARE" -> GameWindow.Difficulty.NIGHTMARE;

@@ -46,7 +46,10 @@ public enum ConsumableTypes {
                 pl.modifyHP(heal);
             }
             case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);
-            case TELEPORT_SCROLL -> teleport();
+            case TELEPORT_SCROLL -> {
+                if (WorldMap.getInstanceWorld().lastLevel()) GameWindow.addToLogs(Language.logTeleportBossRoom(), Color.WHITE);
+                else teleport();
+            }
             case DIVINE_BLESSING -> pl.updateState(EntityState.INVULNERABLE);
             case DRAGON_EXPLOSION -> {
                 WorldMap wm = WorldMap.getInstanceWorld();
