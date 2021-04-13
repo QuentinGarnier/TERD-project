@@ -17,9 +17,9 @@ public class GamePanel extends JPanel {
     private final ImageIcon shadow = new ImageIcon("data/images/map/miscellaneous/shadow.png");
     private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
     private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
-    private final ImageIcon green2 = new ImageIcon("data/images/map/miscellaneous/slide_square_green.png");//added by Antoine
+    private final ImageIcon green2 = new ImageIcon("data/images/map/miscellaneous/slide_square_green.png");
     private final JLabel squareLabel = new JLabel(green);
-    private final JLabel[][] squareLabels;//added by Antoine
+    private final JLabel[][] squareLabels;
     private final List<JLabel> opaqueLabels;
     private final WorldMap worldMap = WorldMap.getInstanceWorld();
     public static final int size = 32;
@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(WorldMap.MAX_X * size,WorldMap.MAX_Y * size));
-        squareLabels = new JLabel[3][3];//added by Antoine
+        squareLabels = new JLabel[3][3];
         opaqueLabels = new ArrayList<>();
     }
 
@@ -73,7 +73,7 @@ public class GamePanel extends JPanel {
         // AIMS
         add(squareLabel);
         squareLabel.setBounds(-size,-size, size, size);
-        makeSquareLabels();//added by Antoine
+        makeSquareLabels();
 
 
         // ===== BASE CONTENT ===== //
@@ -150,7 +150,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void makeSquareLabels() {//added by Antoine
+    private void makeSquareLabels() {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 JLabel l = new JLabel(green2);
@@ -172,7 +172,7 @@ public class GamePanel extends JPanel {
                 Position current = opaquePos.get(i);
                 opaqueLabels.get(i).setLocation(current.getX() * size, current.getY() * size);
             }
-            if (player.entityType == EntityType.HERO_MAGE) {//added by Antoine
+            if (player.entityType == EntityType.HERO_MAGE) {
                 Position p = whatHeroDoes.getP();
                 for (int x = 0; x < 3; x++) {
                     for (int y = 0; y < 3; y++) {
@@ -188,7 +188,7 @@ public class GamePanel extends JPanel {
         } else {
             opaqueLabels.forEach(x -> x.setLocation(-size, -size));
             squareLabel.setLocation(-size, -size);
-            if (player.entityType == EntityType.HERO_MAGE) {//added by Antoine
+            if (player.entityType == EntityType.HERO_MAGE) {
                 for (int x = 0; x < 3; x++) {
                     for (int y = 0; y < 3; y++) {
                         squareLabels[x][y].setBounds(-size, -size, size, size);

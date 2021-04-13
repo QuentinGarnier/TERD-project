@@ -136,27 +136,6 @@ public class Position {
         return res;
     }
 
-    public ArrayList<Position> calcRangePositionSelect(int range, boolean isAccessible) {//added by Antoine
-        WorldMap worldMap = WorldMap.getInstanceWorld();
-        ArrayList<Position> res = new ArrayList<>();
-        int roomId = worldMap.getCell(this).getBaseId();
-        for (int x = 0; x < 2 * range + 1; x++)
-            for (int y = 0; y < 2 * range + 1; y++){
-                Position p = new Position(this.getX() - range + x, this.getY() - range + y);
-                if (!p.insideWorld()) continue;
-                Cell c = worldMap.getCell(p);
-                if ((!isAccessible && !c.getBaseContent().equals(CellElementType.EMPTY)) || (
-                        isAccessible &&
-                                p.insideWorld() &&
-                                !(distance(p, this) > range) &&
-                                c.getBaseContent().equals(CellElementType.EMPTY) &&
-                                c.getBaseId() == roomId)) {
-                    res.add(p);
-                }
-            }
-        return res;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o instanceof Position){
