@@ -16,11 +16,17 @@ Particularité en jeu : pour jouer, l'application ouvre une fenêtre graphique a
 - **WASD** / **ZQSD** (fr) : touches de **déplacement**  
 - **Q** / **A** (fr) : touche d'**attaque** (appuyer une fois pour commencer une attaque, puis déplacer le curseur avec les touches de déplacement jusqu'à une cible et appuyer à nouveau sur la touche d'attaque)  
 - **I** : touche pour ouvrir/fermer l'**inventaire** (naviguer dans l'inventaire avec **W** / **Z** (fr))  
+- **ESC** ou **P** : touche pour ouvrir le **menu en jeu** (interactif avec la souris) pour couper/remettre le son ou revenir au menu de départ  
 - **Touches fléchées** : permettent de visualiser la carte en dehors de l'écran sans avoir à se déplacer  
-<br />
-L'affichage de la carte est en fenêtre graphique (JFrame), toutefois il est possible d'afficher la carte sur le Terminal (utile pour voir la carte sans les éléments graphiques).  
+<br /> 
 
-Les options enregistrées sont sauvegardées pour chaque exécution de l'application.  
+<ins>**Vous pouvez également retrouver toutes les informations nécessaires à la compréhension (touches, entités, objectifs, scénario...) directement en jeu dans le menu "AIDE".**</ins>  
+
+<br /> 
+Les options enregistrées sont sauvegardées pour chaque exécution de l'application (langue, sons et difficulté).  
+
+<br />
+L'affichage de la carte est en fenêtre graphique (JFrame), toutefois il est possible d'afficher la carte sur le Terminal (utile pour voir la carte sans les éléments graphiques).
 
 
 ## Documentation :
