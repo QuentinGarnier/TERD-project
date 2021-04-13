@@ -57,6 +57,7 @@ public class InventoryPanel extends JPanel {
     public void updateInventory() {
         contents.removeAll();
         scrollPane.revalidate();
+        setInventoryText();
         List<AbstractCollectableItem> items = Player.getInventory();
         gl.setRows(Math.max(4, items.size()));
         items.forEach(this::createLine);
