@@ -32,9 +32,9 @@ public abstract class AbstractEntity extends JPanel {
     private Animation animation;
 
     // MOVE WITH THREAD
-    private final AtomicInteger a;
-    private final Timer t;
-    private final Point res;
+    private final AtomicInteger counter;
+    private final Timer timer;
+    private final Point comparePosition;
 
     public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
         super();
@@ -60,25 +60,25 @@ public abstract class AbstractEntity extends JPanel {
         setup();
 
         // MOVE WITH THREAD
-        this.a = new AtomicInteger();
-        this.res = new Point(-1,-1);
-        this.t = new Timer(5, e -> {
-            a.getAndIncrement();
+        this.counter = new AtomicInteger();
+        this.comparePosition = new Point(-1,-1);
+        this.timer = new Timer(5, e -> {
+            counter.getAndIncrement();
             myFun();
             setScrollBar();
-            if (a.get() == size) {
+            if (counter.get() == size) {
                 ((Timer)e.getSource()).stop();
-                a.set(0);
+                counter.set(0);
             }
         });
     }
 
     private void myFun(){
-        setLocation(getLocation().x + res.x , getLocation().y + res.y);
+        setLocation(getLocation().x + comparePosition.x , getLocation().y + comparePosition.y);
     }
 
     public void stopTimer(){
-        if (t != null) t.stop();
+        if (timer != null) timer.stop();
     }
 
     private JLabel image() {
@@ -121,8 +121,8 @@ public abstract class AbstractEntity extends JPanel {
             Point newLoc = new Point((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
             if ((Math.abs(newLoc.x - getLocation().x) == size && newLoc.y - getLocation().y == 0) ||
                     (Math.abs(newLoc.y - getLocation().y) == size && newLoc.x - getLocation().x == 0)) {
-                res.setLocation(Integer.compare(newLoc.x, getLocation().x), Integer.compare(newLoc.y, getLocation().y));
-                t.start();
+                comparePosition.setLocation(Integer.compare(newLoc.x, getLocation().x), Integer.compare(newLoc.y, getLocation().y));
+                timer.start();
             }
             else {
                 setLocation(newLoc);
@@ -132,7 +132,7 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     public boolean listenerOn(){
-        return this instanceof Player && a.get() == 0;
+        return this instanceof Player && counter.get() == 0;
     }
 
     private void setScrollBar(){
