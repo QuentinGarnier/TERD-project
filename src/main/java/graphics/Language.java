@@ -80,8 +80,8 @@ public enum Language {
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String mageDescription() {
-        String body1 = lang("The mage deals moderate damage in a medium range.",
-                "Le mage inflige des dégâts modérés dans une portée moyenne.",
+        String body1 = lang("The mage deals moderate area damage in a medium range.",
+                "Le mage inflige des dégâts de zone modérés avec une portée moyenne.",
                 "Il mago infligge dei danni moderati con un raggio d'attacco medio.",
                 "يتسبب السحرة في ضرر معتدل في مدى متوسط.");
         String body2 = lang("His power lies in his ability to burn, freeze or paralyse his opponents and heal himself slightly with each attack.",
