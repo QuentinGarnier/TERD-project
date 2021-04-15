@@ -70,7 +70,7 @@ public enum ConsumableTypes {
                 Room r = wm.getCurrentRoom(pl.getPosition());
                 if (r == null) { GameWindow.addToLogs(Language.logFreezingScroll1(), Color.WHITE); break; }
                 if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs(Language.logFreezingScroll2(), Color.WHITE); break;}
-                for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) if (m.getHP() != 0) m.updateState(EntityState.FROZEN);
+                for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) m.updateState(EntityState.FROZEN);
                 GameWindow.window.repaint();
                 GameWindow.addToLogs(Language.logFreezingScroll3(), Color.WHITE);
             }

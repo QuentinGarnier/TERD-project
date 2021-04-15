@@ -48,8 +48,8 @@ public class Attack {
                 }
 
                 ItemEquip ie = ((Player) entity1).getAttackItem();
-                if (ie != null && ie.getEquipmentType().getMagicEffect() != null && entity2.getHP() != 0) ie.applyEffect((Monster) entity2);
-                else if (arrow < 0.20 && entity2.getHP() != 0) entity2.updateState(EntityState.POISONED);
+                if (ie != null && ie.getEquipmentType().getMagicEffect() != null) ie.applyEffect((Monster) entity2);
+                else if (arrow < 0.20) entity2.updateState(EntityState.POISONED);
 
                 if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {
                     if (oldHP >= entity2.getHPMax()*0.75 && entity2.getHP() < entity2.getHPMax()*0.75 || oldHP >= entity2.getHPMax()*0.25 && entity2.getHP() < entity2.getHPMax()*0.25) entity2.updateState(EntityState.INVULNERABLE);
@@ -58,7 +58,7 @@ public class Attack {
 
             case HERO_WARRIOR:
                 ((Player) entity1).modifyHunger(-1, true);
-                if (entity2.entityType == EntityType.MONSTER_ORC && entity2.getHP() != 0) entity2.updateState(EntityState.ENRAGED);
+                if (entity2.entityType == EntityType.MONSTER_ORC) entity2.updateState(EntityState.ENRAGED);
                 break;
 
             case HERO_MAGE:
@@ -71,18 +71,18 @@ public class Attack {
                     }
                 }
 
-                if (entity1.getState() != EntityState.PARALYSED && entity2.getHP() != 0 && entity2.getState() != EntityState.INVULNERABLE) entity2.updateState(EntityState.getRandom());
+                if (entity1.getState() != EntityState.PARALYSED && entity2.getState() != EntityState.INVULNERABLE) entity2.updateState(EntityState.getRandom());
                 return;
 
             case MONSTER_GOBLIN: break;
-            case MONSTER_ORC: if(entity2.getState() != EntityState.PARALYSED && entity2.getHP() != 0) entity2.updateState(EntityState.PARALYSED); break;
-            case MONSTER_SPIDER: if(entity2.getState() != EntityState.POISONED && entity2.getHP() != 0) entity2.updateState(EntityState.POISONED); break;
-            case MONSTER_WIZARD: if (Math.random() > 0.80 && entity2.getState() != EntityState.FROZEN && entity2.getHP() != 0) entity2.updateState(EntityState.FROZEN); break;
-            case MONSTER_BOSS: if(entity2.getState() != EntityState.BURNT && entity2.getHP() != 0) entity2.updateState(EntityState.BURNT); break;
+            case MONSTER_ORC: if(entity2.getState() != EntityState.PARALYSED) entity2.updateState(EntityState.PARALYSED); break;
+            case MONSTER_SPIDER: if(entity2.getState() != EntityState.POISONED) entity2.updateState(EntityState.POISONED); break;
+            case MONSTER_WIZARD: if (Math.random() > 0.80 && entity2.getState() != EntityState.FROZEN) entity2.updateState(EntityState.FROZEN); break;
+            case MONSTER_BOSS: if(entity2.getState() != EntityState.BURNT) entity2.updateState(EntityState.BURNT); break;
 
         }
 
-        if (entity1.isMonster() && entity2.entityType == EntityType.HERO_WARRIOR && entity2.getHP() <= entity2.getHPMax()/10 && entity2.getState() != EntityState.ENRAGED && entity2.getHP() != 0) entity2.updateState(EntityState.ENRAGED);
+        if (entity1.isMonster() && entity2.entityType == EntityType.HERO_WARRIOR && entity2.getHP() <= entity2.getHPMax()/10 && entity2.getState() != EntityState.ENRAGED) entity2.updateState(EntityState.ENRAGED);
 
     }
 

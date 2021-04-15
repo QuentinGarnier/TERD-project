@@ -242,7 +242,7 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     public void updateState(EntityState state) {
-        if (state == null || entityType == EntityType.MONSTER_BOSS && state.isNegatifState()) return;
+        if (state == null || getHP() == 0 || entityType == EntityType.MONSTER_BOSS && state.isNegatifState()) return;
         if (!state.equals(EntityState.NEUTRAL)) {
             if(animation != null) animation.end();
             animation = new Animation(this, state);
