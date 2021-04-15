@@ -62,7 +62,7 @@ public abstract class AbstractEntity extends JPanel {
         // MOVE WITH THREAD
         this.counter = new AtomicInteger();
         this.comparePosition = new Point(-1,-1);
-        this.timer = new Timer(5, e -> {
+        this.timer = new Timer(1, e -> {
             counter.getAndIncrement();
             myFun();
             setScrollBar();
@@ -117,6 +117,8 @@ public abstract class AbstractEntity extends JPanel {
         int shift = entityType.equals(EntityType.MONSTER_BOSS) ? -1 : 0;
         boolean isPlayer = this instanceof Player;
         if (position == null) super.setLocation(- size, - size);
+        else super.setLocation((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
+        /*
         else {
             Point newLoc = new Point((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
             if ((Math.abs(newLoc.x - getLocation().x) == size && newLoc.y - getLocation().y == 0) ||
@@ -129,6 +131,7 @@ public abstract class AbstractEntity extends JPanel {
                 setScrollBar();
             }
         }
+        */
     }
 
     public boolean listenerOn(){

@@ -32,6 +32,10 @@ public class Animation extends Thread {
             }
             j = (j + 1) % 4;
             entity.remove(0);
+            if(entity.getState() != state) {
+                running = false;
+                break;
+            }
         }
         entity.repaint();
         entity.revalidate();

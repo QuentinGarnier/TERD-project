@@ -200,14 +200,13 @@ public class GameWindow extends JFrame {
 
     private static class KeysActions implements KeyListener {
 
-        private void applyCommand(Move m){
-            gamePanel.repaint();
+        private void applyCommand(Move m) {
             Player player = Player.getInstancePlayer();
             if (!player.listenerOn()) return;
             if (player.getHP() == 0) return;
             WhatHeroDoes choice = player.getWhatHeroDoes();
             Position pos = player.getWhatHeroDoes().getP();
-            switch (choice){
+            switch (choice) {
                 case MOVING -> player.makeAction(false, m, null);
                 case CHOOSING_ATTACK -> {
                     Position p = ChooseAttackCell.selectCase(pos, m);
