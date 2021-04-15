@@ -81,7 +81,6 @@ public class GameWindow extends JFrame {
     }
 
     public static void playOrStopMenuMusic() {
-        muted = Tools.Settings.isMuted();
         if(!inGame) {
             if(!muted && menuClip == null) menuClip = play(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("data/audio/BGM/Destinys_Path.wav")));
             else if(muted && menuClip != null) {
