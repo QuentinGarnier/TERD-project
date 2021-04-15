@@ -63,7 +63,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         langFRButton = createFlagButton(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_fr.png")));
         langITButton = createFlagButton(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_it.png")));
         langARButton = createFlagButton(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_ar.png")));
-        System.out.println(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_uk.png")));
+
         langBorders();
         addMouseEffectFlag(langENButton, Language.EN);
         addMouseEffectFlag(langFRButton, Language.FR);
