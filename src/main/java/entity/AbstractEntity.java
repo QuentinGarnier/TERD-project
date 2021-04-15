@@ -118,8 +118,8 @@ public abstract class AbstractEntity extends JPanel {
         boolean isPlayer = this instanceof Player;
         if (position == null) super.setLocation(- size, - size);
         else {
-            setScrollBar();
             super.setLocation((position.getX() + shift) * realSize, (position.getY() + shift) * realSize);
+            setScrollBar();
         }
         /*
         else {
@@ -142,7 +142,9 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     private void setScrollBar(){
-        if (this instanceof Player && GameWindow.window != null && HP != 0) GameWindow.window.setScrollFrameBar();
+        if (this instanceof Player && Player.getInstancePlayer() != null
+                && GameWindow.window != null && HP != 0)
+            GameWindow.window.setScrollFrameBar();
     }
 
     public boolean moveEntity(Position p) throws ErrorPositionOutOfBound {
