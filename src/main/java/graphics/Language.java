@@ -327,7 +327,7 @@ public enum Language {
     public static String logTeleportBossRoom() {
         return lang("The surrounding dark magic prevents you from teleporting...",
                 "La magie noire environnante vous empêche de vous téléporter...",
-                "...",
+                "La magia nera que ti circonda ti impedisce il teletrasporto...",
                 "...");
     }
     public static String logDragonExplo1() {
