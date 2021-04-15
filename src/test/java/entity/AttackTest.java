@@ -16,8 +16,8 @@ public class AttackTest {
     @Before
     public void initialisation(){
         entityList = new ArrayList<>();
-        for (int i = 0; i < 50; i++){
-            entityList.add(Monster.generateRandomMonster(new Position(i, 0), -1));
+        for (int i = 0; i < 1000; i++){
+            entityList.add(Monster.generateRandomMonster(new Position(0, 0), -1));
         }
     }
 

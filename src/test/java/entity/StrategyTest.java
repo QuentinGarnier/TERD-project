@@ -15,39 +15,36 @@ public class StrategyTest {
     public void StrategyTest() throws ErrorPositionOutOfBound {
         WorldMap w = WorldMap.getInstanceWorld();
         Player hero = Player.getInstancePlayer();
-        List<Monster> monsters = w.getCurrentRoom(hero.getPosition()).getMonsters();
-        monsters.forEach(m -> {
-            Position oldPos = m.getPosition();
-            int oldHeroHp = hero.getHP();
-            System.out.println("HERO POSITION = " + hero.getPosition());
-            boolean isClose = false;
-            for (int i = 0; i < 100; i++) {
-                m.applyStrategy();
-                if (!m.withinReach(hero, m.getRange())) {
-                    List<Position> p = Tools.findPath(
-                            Tools.BFS(
-                                    oldPos,
-                                    w.getCurrentRoom(hero.getPosition()),
-                                    null,
-                                    null),
-                            oldPos,
-                            hero.getPosition(),
-                            w.getCurrentRoom(hero.getPosition()), null, null);
-                    if (p.size() > 2){
-                        if (w.getCell(p.get(p.size() - 2)).isAccessible()) assertNotEquals(oldPos, m.getPosition());
-                    }
-                    oldPos = m.getPosition();
-                } else {
-                    if (!isClose) isClose = true;
-                    else {
-                        if (hero.getHP() == 0) break;
-                        assertTrue(oldHeroHp != hero.getHP());
-                        oldHeroHp = hero.getHP();
+        for (int kk = 0; kk < 20; kk++) {
+            List<Monster> monsters = w.getCurrentRoom(hero.getPosition()).getMonsters();
+            monsters.forEach(m -> {
+                Position oldPos = m.getPosition();
+                boolean isClose;
+                for (int i = 0; i < 50; i++) {
+                    isClose = m.withinReach(hero, m.getRange());
+                    m.applyStrategy();
+                    if (!isClose) {
+                        List<Position> p = Tools.findPath(
+                                Tools.BFS(
+                                        oldPos,
+                                        w.getCurrentRoom(hero.getPosition()),
+                                        null,
+                                        null),
+                                oldPos,
+                                hero.getPosition(),
+                                w.getCurrentRoom(hero.getPosition()), null, null);
+                        if (p.size() > 2) {
+                            if (w.getCell(p.get(p.size() - 2)).isAccessible())
+                                assertNotEquals(m.getPosition(), p.get(p.size() - 2));
+                        }
+                        oldPos = m.getPosition();
+                    } else if (!m.entityType.equals(EntityType.HERO_MAGE)){
+                        assertTrue(hero.getHP() < hero.getHPMax());
+                        hero.fullHeal();
                     }
                 }
-                System.out.println("MONSTER POS = " + m.getPosition() + " | Hero HP = " + hero.getHP());
-            }
-            System.out.println("MONSTER POS = " + m.getPosition() + " | Hero HP = " + hero.getHP());
-        });
+            });
+            w.generateWorld();
+        }
     }
 }
