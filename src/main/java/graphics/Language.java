@@ -158,16 +158,16 @@ public enum Language {
 
     // ===== Menu/pause panel (in game) ===== //
     public static String optionsPanel() {
-        return lang("Options", "Options", "Opzioni", "...");
+        return lang("Options", "Options", "Opzioni", "خيارات");
     }
     public static String sound() {
-        return lang("Sound", "Son", "Suono", "...");
+        return lang("Sound", "Son", "Suono", "له");
     }
     public static String resume() {
-        return lang("Resume", "Reprendre", "Riprendere", "...");
+        return lang("Resume", "Reprendre", "Riprendere", "الاستئناف");
     }
     public static String menu() {
-        return lang("Menu", "Menu", "Menu", "...");
+        return lang("Menu", "Menu", "Menu", "القائمة");
     }
 
 
@@ -344,7 +344,7 @@ public enum Language {
         return lang("The surrounding dark magic prevents you from teleporting...",
                 "La magie noire environnante vous empêche de vous téléporter...",
                 "La magia nera que ti circonda ti impedisce il teletrasporto...",
-                "...");
+                "يمنعك السحر المظلم المحيط من النقل الآني ...");
     }
     public static String logDragonExplo1() {
         return lang("Throwing the explosion in a room would have been more judicious...",
