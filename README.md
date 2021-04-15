@@ -32,4 +32,25 @@ L'affichage de la carte est en fenêtre graphique (JFrame), toutefois il est pos
 
 
 ## Documentation :
-Toute la documentation relative au projet peut être consultée sur notre [page wiki](https://github.com/QuentinGarnier/TERD-project/wiki).
+Toute la documentation relative au projet peut être consultée sur notre [page wiki](https://github.com/QuentinGarnier/TERD-project/wiki).  
+
+
+## Notes de mise à jour (v4.0) :
+
+- Ajout du brouillard de guerre
+- Ajout des musiques du jeu
+- Niveau et expérience du joueur effectifs
+- Traductions du jeu en 4 langues
+- Ajout du menu de départ
+- Ajout du marchand et des prix sur les items
+- Ajout du système d'étages
+- Ajout des thèmes par étages (+ thème Marchand et Boss Final)
+- Ajout des obstacles dans les salles
+- Finition de l'inventaire (consommer/jeter/équiper… un item)
+- Ajout d'un décrément de la famine tous les 5 tours et de la mort par famine
+- Ajout du Boss Final et de sa stratégie
+- Ajout des effets sonores à l'utilisation des items + à l'activation d'un piège
+- Ajout des animations (Threads) pour les états
+- Ajout de la touche ESC / P pour accéder à un petit "menu en jeu"
+- Divers équilibrages et ajouts d'items
+- Correctifs divers
