@@ -37,7 +37,7 @@ Toute la documentation relative au projet peut être consultée sur notre [page 
 
 ## Notes de mise à jour (v4.0) :
 
-- Ajout du brouillard de guerre
+- Optimisation du brouillard de guerre (avec exploration progressive)
 - Ajout des musiques du jeu
 - Niveau et expérience du joueur effectifs
 - Traductions du jeu en 4 langues
