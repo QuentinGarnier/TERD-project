@@ -17,6 +17,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.URL;
+import java.util.Objects;
 
 public class GameWindow extends JFrame {
     public static GameWindow window = new GameWindow();
@@ -67,27 +69,27 @@ public class GameWindow extends JFrame {
                 stop(menuClip);
                 menuClip = null;
             }
-            if(gameClip == null && !muted) gameClip = play("data/audio/BGM/Dark_Heroes.wav");
+            if(gameClip == null && !muted) gameClip = play(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("data/audio/BGM/Dark_Heroes.wav")));
         }
         else {
             if(gameClip != null) {
                 stop(gameClip);
                 gameClip = null;
             }
-            if(menuClip == null && !muted) menuClip = play("data/audio/BGM/Destinys_Path.wav");
+            if(menuClip == null && !muted) menuClip = play(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("data/audio/BGM/Destinys_Path.wav")));
         }
     }
 
     public static void playOrStopMenuMusic() {
         muted = Tools.Settings.isMuted();
         if(!inGame) {
-            if(!muted && menuClip == null) menuClip = play("data/audio/BGM/Destinys_Path.wav");
+            if(!muted && menuClip == null) menuClip = play(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("data/audio/BGM/Destinys_Path.wav")));
             else if(muted && menuClip != null) {
                 stop(menuClip);
                 menuClip = null;
             }
         } else  {
-            if(!muted && gameClip == null) gameClip = play("data/audio/BGM/Dark_Heroes.wav");
+            if(!muted && gameClip == null) gameClip = play(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("data/audio/BGM/Dark_Heroes.wav")));
             else if(muted && gameClip != null) {
                 stop(gameClip);
                 gameClip = null;
@@ -102,10 +104,10 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("data/images/system/icon.png");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/icon.png")));
         setIconImage(icon.getImage());
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage("data/images/system/cursor.png");
+        Image image = toolkit.getImage(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/cursor.png")));
         Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
         setCursor(cursor);
         getContentPane().setBackground(Color.DARK_GRAY);
@@ -187,7 +189,7 @@ public class GameWindow extends JFrame {
         display();
     }
 
-    private static Clip play(String pathname) {
+    private static Clip play(URL pathname) {
         return Tools.play(pathname, true);
     }
 

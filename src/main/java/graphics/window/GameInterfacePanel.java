@@ -10,6 +10,7 @@ import graphics.map.WorldMap;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.util.Objects;
 
 public class GameInterfacePanel extends JPanel {
     private final JPanel bigPanel;
@@ -139,7 +140,7 @@ public class GameInterfacePanel extends JPanel {
 
     public void displayTopPanel() {
         Player p = Player.getInstancePlayer();
-        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/bar_xp.png");
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/interfaces/bar_xp.png")));
         float ratio = (float)(p.getXP()) / (float)(p.getMaxXP());
         int length = (int)(imageIcon.getIconWidth() * ratio);
         Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
@@ -179,7 +180,7 @@ public class GameInterfacePanel extends JPanel {
 
     private void refreshTopPanel() {
         Player p = Player.getInstancePlayer();
-        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/bar_xp.png");
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/interfaces/bar_xp.png")));
         float ratio = (float)(p.getXP()) / (float)(p.getMaxXP());
         int length = (int)(imageIcon.getIconWidth() * ratio);
         Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
@@ -217,7 +218,7 @@ public class GameInterfacePanel extends JPanel {
 
     private void createBarGroup(JPanel p, String str, Color c, String imageName, float maxVal, float val) {
         JPanel group = new JPanel(new GridLayout(2,1));
-        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/" + imageName);
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/interfaces/" + imageName)));
         int length = (int)(imageIcon.getIconWidth() * 0.8 * (val/maxVal));
         Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(image);
@@ -230,7 +231,7 @@ public class GameInterfacePanel extends JPanel {
     }
 
     private void refreshBarGroup(JPanel p, String str, float maxVal, float val, String imageName) {
-        ImageIcon imageIcon = new ImageIcon("data/images/interfaces/" + imageName);
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/interfaces/" + imageName)));
         int length = (int)(imageIcon.getIconWidth() * 0.8 * (val/maxVal));
         Image image = imageIcon.getImage().getScaledInstance(length==0? 1: length, imageIcon.getIconHeight(), Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(image);

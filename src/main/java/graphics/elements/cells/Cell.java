@@ -46,7 +46,7 @@ public class Cell extends JLabel {
 
         // Graphics
         this.size = GamePanel.size;
-        setIcon(new ImageIcon("data/images/map/grounds/fog.png"));
+        setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/grounds/fog.png"))));
         setSize(size, size);
         super.setLocation(position.getX() * size, position.getY() * size);
     }

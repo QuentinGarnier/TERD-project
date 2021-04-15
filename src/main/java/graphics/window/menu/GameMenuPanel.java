@@ -4,6 +4,7 @@ import entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class GameMenuPanel extends JPanel {
     public final static GameMenuPanel getMenuPanel = new GameMenuPanel();
@@ -85,7 +86,7 @@ public class GameMenuPanel extends JPanel {
     }
 
     private void setupBigPanel() {
-        JLabel backgroundImage = new JLabel(new ImageIcon("data/images/system/title.png"));
+        JLabel backgroundImage = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/title.png"))));
         backgroundImage.setBounds(0, 0, screenWidth, screenHeight);
         JPanel panel1 = new JPanel(new GridBagLayout());
         panel1.setOpaque(false);

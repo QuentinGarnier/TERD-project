@@ -4,6 +4,7 @@ import graphics.Language;
 import graphics.elements.cells.CellElementType;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public enum Theme {
     DUNGEON("stone", "stone", "stone", "lava", CellElementType.STONE, CellElementType.HOLE),
@@ -29,14 +30,14 @@ public enum Theme {
     public final CellElementType obstacle1, obstacle2;
 
     Theme(String groundStr, String wallsStr, String corridorsStr, String outsideStr, CellElementType obstacle1Str, CellElementType obstacle2Str) {
-        ground = new ImageIcon("data/images/map/grounds/" + groundStr + ".png");
-        corridor = new ImageIcon("data/images/map/grounds/" + corridorsStr + ".png");
-        outside = new ImageIcon("data/images/map/grounds/" + outsideStr + ".png");
+        ground = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/grounds/" + groundStr + ".png")));
+        corridor = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/grounds/" + corridorsStr + ".png")));
+        outside = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/grounds/" + outsideStr + ".png")));
 
-        wall_horizontal = new ImageIcon("data/images/map/walls/" + wallsStr + "_horizontal.png");
-        wall_vertical = new ImageIcon("data/images/map/walls/" + wallsStr + "_vertical.png");
-        corner_top = new ImageIcon("data/images/map/walls/" + wallsStr + "_corner_top.png");
-        corner_bot = new ImageIcon("data/images/map/walls/" + wallsStr + "_corner_bot.png");
+        wall_horizontal = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/walls/" + wallsStr + "_horizontal.png")));
+        wall_vertical = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/walls/" + wallsStr + "_vertical.png")));
+        corner_top = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/walls/" + wallsStr + "_corner_top.png")));
+        corner_bot = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/walls/" + wallsStr + "_corner_bot.png")));
 
         obstacle1 = obstacle1Str;
         obstacle2 = obstacle2Str;

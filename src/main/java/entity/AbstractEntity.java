@@ -14,6 +14,7 @@ import items.AbstractItem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractEntity extends JPanel {
@@ -41,10 +42,10 @@ public abstract class AbstractEntity extends JPanel {
         this.position = position;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
-        this.HP = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() -2;
-        this.HPMax = entityType.isHeroType()? entityType.HPByType : entityType.HPByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() - 2;
-        this.attack = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() - 2;
-        this.attackMax = entityType.isHeroType()? entityType.attackByType : entityType.attackByType + WorldMap.stageNum + Player.getInstancePlayer().getLvl() - 2;
+        this.HP = entityType.isHeroType()? entityType.HPByType : entityType.HPByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() -2;
+        this.HPMax = entityType.isHeroType()? entityType.HPByType : entityType.HPByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
+        this.attack = entityType.isHeroType()? entityType.attackByType : entityType.attackByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
+        this.attackMax = entityType.isHeroType()? entityType.attackByType : entityType.attackByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
         this.range = entityType.rangeByType;
         this.state = EntityState.NEUTRAL;
         this.remainingTime = EntityState.NEUTRAL.getDuration();
@@ -54,7 +55,7 @@ public abstract class AbstractEntity extends JPanel {
         setLayout(new BorderLayout());
         this.size = GamePanel.size * (entityType == EntityType.MONSTER_BOSS? 3 : 1);
         this.barLabel = new JLabel();
-        this.barIcon = new ImageIcon("data/images/interfaces/" + "bar_red.png");
+        this.barIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/interfaces/" + "bar_red.png")));
 
         barLabel.setHorizontalAlignment(SwingConstants.LEFT);
         setup();

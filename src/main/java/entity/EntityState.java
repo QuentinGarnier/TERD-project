@@ -6,6 +6,7 @@ import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * List all different types of states
@@ -43,7 +44,8 @@ public enum EntityState {
     EntityState(String text, int duration, String animation) {
         this.text = text;
         this.duration = duration;
-        for(int i=0; i<4; i++) anim[i] = new ImageIcon("data/images/animations/"+ animation + (i+1) +".png");
+        if(!animation.equals("")) for(int i=0; i<4; i++)
+            anim[i] = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/animations/"+ animation + (i+1) +".png")));
     }
 
     public String getText() {

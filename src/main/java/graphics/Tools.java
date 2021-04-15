@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.*;
 
@@ -94,9 +95,9 @@ public class Tools {
         System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
     }
 
-    public static Clip play(String pathname, boolean loop) {
+    public static Clip play(URL pathname, boolean loop) {
         try {
-            File audioFile1 = new File(pathname);
+            File audioFile1 = new File(pathname.toURI());
             AudioInputStream audioStream1 = AudioSystem.getAudioInputStream(audioFile1);
 
             AudioFormat format = audioStream1.getFormat();
@@ -127,7 +128,7 @@ public class Tools {
 
         public static void loadSettings() {
             try {
-                File f = new File("data/settings.set");
+                File f = new File(Objects.requireNonNull(Settings.class.getClassLoader().getResource("data/settings.set")).getFile());
                 if(!f.exists()) {
                     defaultSettings();
                     return;
@@ -168,7 +169,7 @@ public class Tools {
 
         public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff) {
             try {
-                File f = new File("data/settings.set");
+                File f = new File(Objects.requireNonNull(Settings.class.getClassLoader().getResource("data/settings.set")).getFile());
                 if(!f.exists()) if(!f.createNewFile()) return;
                 FileWriter writer = new FileWriter(f);
                 writer.write("sLanguage " + lang + "\n");

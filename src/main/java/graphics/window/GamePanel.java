@@ -11,13 +11,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GamePanel extends JPanel {
     private JPanel heroLabel = Player.getInstancePlayer();
-    private final ImageIcon shadow = new ImageIcon("data/images/map/miscellaneous/shadow.png");
-    private final ImageIcon red = new ImageIcon("data/images/map/miscellaneous/square_red.png");
-    private final ImageIcon green = new ImageIcon("data/images/map/miscellaneous/square_green.png");
-    private final ImageIcon green2 = new ImageIcon("data/images/map/miscellaneous/slide_square_green.png");
+    private final ImageIcon shadow = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/miscellaneous/shadow.png")));
+    private final ImageIcon red = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/miscellaneous/square_red.png")));
+    private final ImageIcon green = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/miscellaneous/square_green.png")));
+    private final ImageIcon green2 = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/miscellaneous/slide_square_green.png")));
     private final JLabel squareLabel = new JLabel(green);
     private final JLabel[][] squareLabels;
     private final List<JLabel> opaqueLabels;

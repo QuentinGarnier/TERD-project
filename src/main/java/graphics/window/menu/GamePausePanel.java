@@ -6,6 +6,7 @@ import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 import static graphics.Tools.*;
 
@@ -34,7 +35,7 @@ public class GamePausePanel extends JDialog{
         setContentPane(container);
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage("data/images/system/cursor.png");
+        Image image = toolkit.getImage(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/cursor.png")));
         Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
         setCursor(cursor);
 
@@ -61,7 +62,7 @@ public class GamePausePanel extends JDialog{
         container.add(soundCheckBox);
         soundCheckBox.addActionListener(
             e -> {
-                soundCheckBox.setIcon(new ImageIcon("data/images/system/checkbox" + (soundCheckBox.isSelected()?"_true":"") + ".png"));
+                soundCheckBox.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox" + (soundCheckBox.isSelected()?"_true":"") + ".png"))));
                 Settings.saveSettings(GameWindow.language(), soundCheckBox.isSelected(), GameWindow.difficulty());
                 GameWindow.playOrStopMenuMusic();
             });

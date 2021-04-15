@@ -3,6 +3,7 @@ package graphics.elements.cells;
 import graphics.Tools;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public enum CellElementType {
     EMPTY('.', true, "map/grounds/grass"), // work also for doors
@@ -42,7 +43,7 @@ public enum CellElementType {
     CellElementType(char c, boolean isAccessible, String pathEnd) {
         this.symbol = c;
         this.isAccessible = isAccessible;
-        this.icon = new ImageIcon("data/images/" + pathEnd + ".png");
+        this.icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/" + pathEnd + ".png")));
     }
 
     public char getSymbol() {

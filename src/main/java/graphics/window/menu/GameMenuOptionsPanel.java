@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
+import java.util.Objects;
 
 public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     private JButton backButton, validateButton;
@@ -57,10 +59,11 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         flagArea.setOpaque(false);
         flagArea.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,0),14));
         flagArea.setMaximumSize(new Dimension(500, 75));
-        langENButton = createFlagButton("data/images/menu/opt_uk.png");
-        langFRButton = createFlagButton("data/images/menu/opt_fr.png");
-        langITButton = createFlagButton("data/images/menu/opt_it.png");
-        langARButton = createFlagButton("data/images/menu/opt_ar.png");
+        langENButton = createFlagButton(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_uk.png")));
+        langFRButton = createFlagButton(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_fr.png")));
+        langITButton = createFlagButton(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_it.png")));
+        langARButton = createFlagButton(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_ar.png")));
+        System.out.println(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_uk.png")));
         langBorders();
         addMouseEffectFlag(langENButton, Language.EN);
         addMouseEffectFlag(langFRButton, Language.FR);
@@ -95,10 +98,10 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         soundCheckBox.setOpaque(false);
         refreshCheckbox();
         soundCheckBox.addMouseListener(new MouseListener() {
-            final Icon bg = new ImageIcon("data/images/system/checkbox.png");
-            final ImageIcon hover = new ImageIcon("data/images/system/checkbox_hover.png");
-            final Icon bgT = new ImageIcon("data/images/system/checkbox_true.png");
-            final ImageIcon hoverT = new ImageIcon("data/images/system/checkbox_true_hover.png");
+            final Icon bg = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox.png")));
+            final ImageIcon hover = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox_hover.png")));
+            final Icon bgT = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox_true.png")));
+            final ImageIcon hoverT = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox_true_hover.png")));
             @Override
             public void mouseClicked(MouseEvent e) {
                 soundCheckBox.setIcon(soundCheckBox.isSelected()?hoverT:hover);
@@ -146,11 +149,16 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         diffNightmareLabel = createTitle(Language.nightmare(), 14, Color.BLACK);
         diffEndlessLabel = createTitle(Language.endless(), 14, Color.BLACK);
 
-        diffEasyPanel = buildDifficultyPanel(diffEasyLabel, "data/images/menu/difficulty_easy", GameWindow.Difficulty.EASY);
-        diffMediumPanel = buildDifficultyPanel(diffMediumLabel, "data/images/menu/difficulty_medium", GameWindow.Difficulty.MEDIUM);
-        diffHardPanel = buildDifficultyPanel(diffHardLabel, "data/images/menu/difficulty_hard", GameWindow.Difficulty.HARD);
-        diffNightmarePanel = buildDifficultyPanel(diffNightmareLabel, "data/images/menu/difficulty_nightmare", GameWindow.Difficulty.NIGHTMARE);
-        diffEndlessPanel = buildDifficultyPanel(diffEndlessLabel, "data/images/menu/difficulty_endless", GameWindow.Difficulty.ENDLESS);
+        diffEasyPanel = buildDifficultyPanel(diffEasyLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_easy.png")),
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_easy_hover.png")), GameWindow.Difficulty.EASY);
+        diffMediumPanel = buildDifficultyPanel(diffMediumLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_medium.png")),
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_medium_hover.png")), GameWindow.Difficulty.MEDIUM);
+        diffHardPanel = buildDifficultyPanel(diffHardLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_hard.png")),
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_hard_hover.png")), GameWindow.Difficulty.HARD);
+        diffNightmarePanel = buildDifficultyPanel(diffNightmareLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_nightmare.png")),
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_nightmare_hover.png")), GameWindow.Difficulty.NIGHTMARE);
+        diffEndlessPanel = buildDifficultyPanel(diffEndlessLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_endless.png")),
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_endless_hover.png")), GameWindow.Difficulty.ENDLESS);
 
         difficultiesPanel.add(diffEasyPanel);
         difficultiesPanel.add(diffMediumPanel);
@@ -163,12 +171,12 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         return bigPanel;
     }
 
-    private JPanel buildDifficultyPanel(JLabel labelName, String pathImg, GameWindow.Difficulty difficulty) {
+    private JPanel buildDifficultyPanel(JLabel labelName, URL pathImg, URL pathImgHover, GameWindow.Difficulty difficulty) {
         JPanel diffPanel = new JPanel(new BorderLayout());
         diffPanel.setBackground(Color.GRAY);
 
-        ImageIcon img = new ImageIcon(pathImg + ".png");
-        ImageIcon imgHover = new ImageIcon(pathImg + "_hover.png");
+        ImageIcon img = new ImageIcon(pathImg);
+        ImageIcon imgHover = new ImageIcon(pathImgHover);
         JLabel diffImgLabel = new JLabel(img);
 
         diffPanel.add(labelName, BorderLayout.SOUTH);
@@ -218,7 +226,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
 
     private void refreshCheckbox() {
         soundCheckBox.setSelected(!GameWindow.isMuted());
-        soundCheckBox.setIcon(new ImageIcon("data/images/system/checkbox" + (soundCheckBox.isSelected()?"_true":"") + ".png"));
+        soundCheckBox.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox" + (soundCheckBox.isSelected()?"_true":"") + ".png"))));
     }
 
     private void addForFlagArea(JPanel area, JButton button) {
@@ -228,7 +236,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         area.add(panel);
     }
 
-    private JButton createFlagButton(String pathname) {
+    private JButton createFlagButton(URL pathname) {
         ImageIcon img = new ImageIcon(pathname);
         JButton button = new JButton(img);
         button.setMaximumSize(new Dimension(175, 109));
@@ -279,7 +287,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             case AR -> "ar";
         };
         Icon img = button.getIcon();
-        ImageIcon hover = new ImageIcon("data/images/menu/opt_" + langURL + "_hover.png");
+        ImageIcon hover = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_" + langURL + "_hover.png")));
         button.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

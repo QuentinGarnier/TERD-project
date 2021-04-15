@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Objects;
 
 public class GameMenuStartPanel extends GameMenuCustomPanel {
     private JButton newGameButton, optionsButton, helpButton, exitButton;
@@ -35,7 +36,7 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
         addMouseEffect(exitButton, Effect.EXIT);
 
         JPanel titlePanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel(new ImageIcon("data/images/menu/title.png"));
+        JLabel titleLabel = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/title.png"))));
         titlePanel.add(titleLabel);
         titlePanel.setPreferredSize(new Dimension(800, 146));
         titlePanel.setOpaque(false);

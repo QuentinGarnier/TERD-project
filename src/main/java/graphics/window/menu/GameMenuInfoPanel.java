@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Objects;
 
 public class GameMenuInfoPanel extends GameMenuCustomPanel {
     private final JPanel leftPane;
@@ -174,9 +175,9 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         // THIRD LINE
         JPanel thrLine = new JPanel();
         int x = (int) fstLine.getPreferredSize().getHeight();
-        thrLine.add(createImageIcon(x,"data/images/menu/helpPane/attack1.png"));
-        thrLine.add(createImageIcon(x,"data/images/menu/helpPane/attack2.png"));
-        thrLine.add(createImageIcon(x,"data/images/menu/helpPane/attack3.png"));
+        thrLine.add(createImageIcon(x, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/attack1.png")).getPath()));
+        thrLine.add(createImageIcon(x, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/attack2.png")).getPath()));
+        thrLine.add(createImageIcon(x, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/attack3.png")).getPath()));
 
         JPanel fourthLine = new JPanel();
         fourthLine.add(new JLabel(Language.infoQ2()));
@@ -283,7 +284,7 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         JPanel sndLine = new JPanel();
 
         // JAVA IMAGE
-        sndLine.add(createImageIcon(140, "data/images/menu/helpPane/java.png"));
+        sndLine.add(createImageIcon(140, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/java.png")).getPath()));
         creditsPanel.add(sndLine);
 
         creditsPanel.revalidate();

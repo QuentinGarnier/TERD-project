@@ -1,10 +1,15 @@
 package entity;
 
 import graphics.map.WorldMap;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PlayerTest {
-    WorldMap wmap = WorldMap.getInstanceWorld();
+    WorldMap wmap;
+
+    @Before void init() {
+        wmap = WorldMap.getInstanceWorld();
+    }
 
     @Test
     public void testAddItem() {

@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Objects;
 
 import static graphics.window.GameInterfacePanel.createLog;
 
@@ -122,7 +123,7 @@ public class InventoryPanel extends JPanel {
             JButton esc = new JButton(Language.back());
             equip.addActionListener(e -> {
                 equipping(ai, ai.use());
-                if(!GameWindow.isMuted()) Tools.play("data/audio/SE/" + ai.getSE() + ".wav", false);
+                if(!GameWindow.isMuted()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/" + ai.getSE() + ".wav")), false);
                 GameWindow.refreshInventory();
                 updateInventory();
             });

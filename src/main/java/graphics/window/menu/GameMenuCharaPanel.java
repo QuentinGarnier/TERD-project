@@ -11,6 +11,8 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
+import java.util.Objects;
 
 public class GameMenuCharaPanel extends GameMenuCustomPanel {
     private JButton backButton, launchButton;
@@ -76,9 +78,9 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
         warLabel = createTitle(Language.warriorCL(), 16, Tools.WindowText.red);
         arcLabel = createTitle(Language.archerCL(), 16, Tools.WindowText.green);
         magLabel = createTitle(Language.mageCL(), 16, Tools.WindowText.blue);
-        warSpecPanel = buildSpecPanel(warLabel, "data/images/menu/spec_war.png", 0);
-        arcSpecPanel = buildSpecPanel(arcLabel, "data/images/menu/spec_arc.png", 1);
-        magSpecPanel = buildSpecPanel(magLabel, "data/images/menu/spec_mag.png", 2);
+        warSpecPanel = buildSpecPanel(warLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/spec_war.png")), 0);
+        arcSpecPanel = buildSpecPanel(arcLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/spec_arc.png")), 1);
+        magSpecPanel = buildSpecPanel(magLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/spec_mag.png")), 2);
 
         warSpecPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden));
 
@@ -106,7 +108,7 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
         magSpecPanel.setBorder(n == 2? BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden) : BorderFactory.createBevelBorder(BevelBorder.RAISED));
     }
 
-    private JPanel buildSpecPanel(JLabel nameLabel, String pathImg, int numMouseEffect) {
+    private JPanel buildSpecPanel(JLabel nameLabel, URL pathImg, int numMouseEffect) {
         JPanel specPanel = new JPanel(new BorderLayout());
         JLabel specImgLabel = new JLabel(new ImageIcon(pathImg));
 
