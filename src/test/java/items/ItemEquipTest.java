@@ -16,7 +16,7 @@ public class ItemEquipTest {
     public void useTest() {
         Player player = Player.getInstancePlayer();
         List<AbstractItem> itemList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2000; i++) {
             itemList.add(AbstractItem.generateRandomItem(i, new Position(i, i)));
         }
         itemList.forEach(item -> {
@@ -25,7 +25,7 @@ public class ItemEquipTest {
                 item.use();
                 assertTrue(money < player.getMoney());
             } else if (item instanceof ItemTrap) {
-                Position p = player.getPosition();
+                Position p = new Position(player.getPosition().getX(), player.getPosition().getY());
                 int hp = player.getHP();
                 item.use();
                 ItemTrap it = (ItemTrap) item;
