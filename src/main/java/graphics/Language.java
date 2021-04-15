@@ -156,6 +156,22 @@ public enum Language {
 
 
 
+    // ===== Menu/pause panel (in game) ===== //
+    public static String optionsPanel() {
+        return lang("Options", "Options", "Opzioni", "...");
+    }
+    public static String sound() {
+        return lang("Sound", "Son", "Suono", "...");
+    }
+    public static String resume() {
+        return lang("Resume", "Reprendre", "Riprendere", "...");
+    }
+    public static String menu() {
+        return lang("Menu", "Menu", "Menu", "...");
+    }
+
+
+
     // ===== Logs ===== //
     public static String logGainMoney(int value) {
         return lang("You have found: " + value + " coin" + (value>1? "s!": "!"),

@@ -1,5 +1,6 @@
 package graphics.window.menu;
 
+import graphics.Language;
 import graphics.Tools;
 import graphics.window.GameWindow;
 
@@ -13,17 +14,18 @@ public class GamePausePanel extends JDialog{
     private final JCheckBox soundCheckBox;
     private final JButton playButton;
     private final JButton mainMenu;
-    public GamePausePanel(){
+
+    public GamePausePanel() {
         super(GameWindow.window, true);
         setResizable(false);
         container = new JPanel();
         container.setLayout(new GridLayout(0,1));
         container.setBorder(GameMenuCustomPanel.bigBorder(false));
-        JLabel title = new JLabel("<html><center><h2>Game in pause</h></center></html>");
+        JLabel title = new JLabel("<html><center><h2>" + Language.optionsPanel() + "</h></center></html>");
         container.add(title);
-        soundCheckBox = new JCheckBox("Sound");
-        playButton = GameMenuCustomPanel.createMenuButton("Play");
-        mainMenu = GameMenuCustomPanel.createMenuButton("Menu");
+        soundCheckBox = new JCheckBox(Language.sound());
+        playButton = GameMenuCustomPanel.createMenuButton(Language.resume());
+        mainMenu = GameMenuCustomPanel.createMenuButton(Language.menu());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setup();
     }

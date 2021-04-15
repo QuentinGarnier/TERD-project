@@ -221,7 +221,6 @@ public class GameWindow extends JFrame {
             }
             InventoryPanel.inventoryPane.setInventoryText();
             gamePanel.setObjective();
-            WorldMap.getInstanceWorld().repaint();
         }
 
         @Override
