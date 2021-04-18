@@ -4,38 +4,41 @@ import entity.EntityState;
 import entity.EntityType;
 import graphics.Language;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public enum EquipmentTypes {
     //Offensive equipments:
-    WOODEN_SWORD(10, null, true, EntityType.HERO_WARRIOR, 10),
-    IRON_SWORD(20, null, true, EntityType.HERO_WARRIOR, 25),
-    MAGIC_SWORD(40, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 50),
-    ICY_SWORD(30, EntityState.FROZEN, true, EntityType.HERO_WARRIOR, 35),
-    DRAGON_SWORD(100, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 125),
+    WOODEN_SWORD(10, null, true, EntityType.HERO_WARRIOR, 10, EquipmentRarity.COMMON),
+    IRON_SWORD(20, null, true, EntityType.HERO_WARRIOR, 25, EquipmentRarity.RARE),
+    MAGIC_SWORD(40, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 70, EquipmentRarity.EPIC),
+    ICY_SWORD(30, EntityState.FROZEN, true, EntityType.HERO_WARRIOR, 65, EquipmentRarity.EPIC),
+    DRAGON_SWORD(100, EntityState.BURNT, true, EntityType.HERO_WARRIOR, 145, EquipmentRarity.LEGENDARY),
 
-    SHORT_BOW(10, null, true, EntityType.HERO_ARCHER, 20),
-    LONG_BOW(40, null, true, EntityType.HERO_ARCHER, 55),
-    DRAGON_BOW(100, EntityState.BURNT, true, EntityType.HERO_ARCHER, 145),
+    SHORT_BOW(10, null, true, EntityType.HERO_ARCHER, 20, EquipmentRarity.COMMON),
+    LONG_BOW(20, null, true, EntityType.HERO_ARCHER, 60, EquipmentRarity.EPIC),
+    DRAGON_BOW(80, EntityState.BURNT, true, EntityType.HERO_ARCHER, 165, EquipmentRarity.LEGENDARY),
 
-    WOODEN_STAFF(10, null, true, EntityType.HERO_MAGE, 15),
-    MAGIC_STAFF(40, EntityState.FROZEN, true, EntityType.HERO_MAGE, 45),
-    DRAGON_STAFF(100, EntityState.BURNT, true, EntityType.HERO_MAGE, 135),
+    WOODEN_STAFF(10, null, true, EntityType.HERO_MAGE, 15,EquipmentRarity.COMMON),
+    MAGIC_STAFF(40, EntityState.FROZEN, true, EntityType.HERO_MAGE, 45, EquipmentRarity.RARE),
+    DRAGON_STAFF(90, EntityState.BURNT, true, EntityType.HERO_MAGE, 155, EquipmentRarity.LEGENDARY),
 
 
     //Defensive equipments:
-    WOOD_SHIELD(6, null, false, EntityType.HERO_WARRIOR, 35),
-    IRON_SHIELD(9, null, false, EntityType.HERO_WARRIOR, 70),
-    DRAGON_SHIELD(20, null, false, EntityType.HERO_WARRIOR, 150),
+    WOOD_SHIELD(6, null, false, EntityType.HERO_WARRIOR, 35, EquipmentRarity.COMMON),
+    IRON_SHIELD(9, null, false, EntityType.HERO_WARRIOR, 70, EquipmentRarity.RARE),
+    DRAGON_SHIELD(20, null, false, EntityType.HERO_WARRIOR, 150, EquipmentRarity.LEGENDARY),
 
-    LEATHER_GAUNTLET(5, null, false, EntityType.HERO_ARCHER, 30),
-    LEATHER_ARMBAND(7, null, false, EntityType.HERO_ARCHER, 65),
-    LEATHER_CHESTPLATE(10, null, false, EntityType.HERO_ARCHER, 110),
+    LEATHER_GAUNTLET(5, null, false, EntityType.HERO_ARCHER, 30, EquipmentRarity.COMMON),
+    LEATHER_ARMBAND(7, null, false, EntityType.HERO_ARCHER, 65, EquipmentRarity.RARE),
+    LEATHER_CHESTPLATE(10, null, false, EntityType.HERO_ARCHER, 110, EquipmentRarity.EPIC),
 
-    MAGIC_HAT(5, null, false, EntityType.HERO_MAGE, 30),
-    MAGIC_TUNIC(8, null, false, EntityType.HERO_MAGE, 70),
-    MAGIC_SPHERE(12, null, false, EntityType.HERO_MAGE, 130);
+    MAGIC_HAT(5, null, false, EntityType.HERO_MAGE, 30, EquipmentRarity.COMMON),
+    MAGIC_TUNIC(8, null, false, EntityType.HERO_MAGE, 70, EquipmentRarity.RARE),
+    MAGIC_SPHERE(12, null, false, EntityType.HERO_MAGE, 130, EquipmentRarity.EPIC);
 
 
     private final int effect;
@@ -43,18 +46,22 @@ public enum EquipmentTypes {
     public final boolean isOffensive;
     public final EntityType entityType;
     public final int price;
+    private final EquipmentRarity rarity;
 
-    EquipmentTypes(int coefficient, EntityState magic_effect, boolean isOffensive, EntityType entityType, int price) {
+    EquipmentTypes(int coefficient, EntityState magic_effect, boolean isOffensive, EntityType entityType, int price, EquipmentRarity rarity) {
         this.effect = coefficient; // TODO -> RANDOM EFFECT related to hero Lvl, XP ...
         this.magicEffect = magic_effect;
         this.isOffensive = isOffensive;
         this.entityType = entityType;
         this.price = price;
+        this.rarity = rarity;
     }
 
     public static EquipmentTypes createRandomEquip() {
-        EquipmentTypes[] equipmentTypes = EquipmentTypes.values();
-        int rndElt = new Random().nextInt(equipmentTypes.length);
+        double rn = Math.random();
+        EquipmentRarity raritySelected = rn <= 0.50 ? EquipmentRarity.COMMON : rn <= 0.75 ? EquipmentRarity.RARE : rn <= 0.90 ? EquipmentRarity.EPIC : EquipmentRarity.LEGENDARY;
+        EquipmentTypes[] equipmentTypesByRarity = Arrays.stream(EquipmentTypes.values()).filter(elt -> elt.rarity == raritySelected).toArray(EquipmentTypes[]::new);
+        int rndElt = new Random().nextInt(equipmentTypesByRarity.length);
         return EquipmentTypes.values()[rndElt];
     }
 
@@ -68,6 +75,10 @@ public enum EquipmentTypes {
 
     public EntityType getEntityType() { return entityType; }
 
+    public EquipmentRarity getRarity() {
+        return rarity;
+    }
+
     @Override
     public String toString() {
         return this.name().charAt(0) + this.name().substring(1).replace("_", " ").toLowerCase(Locale.ROOT);
@@ -79,5 +90,9 @@ public enum EquipmentTypes {
 
     public int getPrice() {
         return price;
+    }
+
+    private enum EquipmentRarity {
+        COMMON, RARE, EPIC, LEGENDARY
     }
 }
