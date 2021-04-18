@@ -1,5 +1,6 @@
 package graphics.window.menu;
 
+import entity.Merchant;
 import entity.Player;
 
 import javax.swing.*;
@@ -68,7 +69,10 @@ public class GameMenuPanel extends JPanel {
      */
     private void goToScreen(Screen screen) {
         if(state != screen) switch (screen) {
-            case START -> replaceWith(startScreen);
+            case START -> {
+                replaceWith(startScreen);
+                Merchant.getInstanceMerchant().refreshWindows();
+            }
             case CHARA -> replaceWith(charaScreen);
             case OPTIONS -> {
                 optionsScreen.prepareScreen();

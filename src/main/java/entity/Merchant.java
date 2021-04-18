@@ -39,14 +39,10 @@ public class Merchant extends AbstractEntity{
         counter = WorldMap.MAX_X * WorldMap.MAX_Y + 1;
         isMoving = 0;
         market = new ArrayList<>();
-        marketWindow = new JDialog(GameWindow.window, Language.merketTitle(), true);
+        marketWindow = new JDialog(GameWindow.window, true);
         merchantIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/entities/merchant/merchant.png")));
 
-        generateMarket();
-        SellPanel.sellPanel.makeInventory(Player.getInventory());
-        marketWindow.repaint(); marketWindow.revalidate();
         initializeWindow();
-
     }
 
     public static Merchant getInstanceMerchant() {
@@ -55,15 +51,23 @@ public class Merchant extends AbstractEntity{
 
     public void generateMarket(){
         market.clear();
+
         BuyPanel.buyPanel.removeAll();
 
         for(int i = 0; i < marketSize; i++) {
             market.add(AbstractCollectableItem.generateAbstractCollItems(counter++, null));
         }
+
         BuyPanel.buyPanel.makeMarket(market);
         marketWindow.repaint(); marketWindow.revalidate();
     }
-
+    public void refreshWindows() {
+        marketWindow.setTitle(Language.merketTitle());
+        JTabbedPane jtp = (JTabbedPane) marketWindow.getContentPane().getComponent(0);
+        jtp.setTitleAt(0, Language.logBuyOrSell(true, true));
+        jtp.setTitleAt(1, Language.logBuyOrSell(false, true));
+        generateMarket();
+    }
     private void initializeWindow(){
         marketWindow.setPreferredSize(new Dimension(900, 300));
         marketWindow.setResizable(false);
@@ -78,6 +82,12 @@ public class Merchant extends AbstractEntity{
         tabs.addTab(Language.logBuyOrSell(false, true), new JScrollPane(SellPanel.sellPanel));
 
         marketWindow.add(tabs);
+
+        refreshWindows();
+
+        SellPanel.sellPanel.makeInventory(Player.getInventory());
+
+        marketWindow.repaint(); marketWindow.revalidate();
     }
 
     public void openMarket(){ marketWindow.setVisible(true); }

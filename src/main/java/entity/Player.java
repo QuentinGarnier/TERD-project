@@ -55,6 +55,7 @@ public class Player extends AbstractEntity {
 
     public void restorePlayer() {
         inventory.clear();
+        Merchant.getInstanceMerchant().generateMarket();
         Merchant.SellPanel.sellPanel.clearSell();
         attackItem = null;
         defenceItem = null;
