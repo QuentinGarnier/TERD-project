@@ -22,7 +22,9 @@ public class StrategyTest {
                 boolean isClose;
                 for (int i = 0; i < 50; i++) {
                     isClose = m.withinReach(hero, m.getRange());
+                    System.out.println(m.entityType + " " + m.getPosition());
                     m.applyStrategy();
+                    System.out.println(m.getPosition());
                     if (!isClose) {
                         List<Position> p = Tools.findPath(
                                 Tools.BFS(
@@ -38,7 +40,7 @@ public class StrategyTest {
                                 assertNotEquals(m.getPosition(), p.get(p.size() - 2));
                         }
                         oldPos = m.getPosition();
-                    } else if (!m.entityType.equals(EntityType.HERO_MAGE)){
+                    } else if (!m.entityType.equals(EntityType.MONSTER_WIZARD)){
                         assertTrue(hero.getHP() < hero.getHPMax());
                         hero.fullHeal();
                     }

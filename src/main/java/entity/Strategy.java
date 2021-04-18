@@ -81,7 +81,7 @@ public class Strategy {
     }
 
     private void OrcSpider() {
-        if (currentEntity.withinReach(hero, 1)) Attack.attack(currentEntity, hero);
+        if (currentEntity.withinReach(hero, currentEntity.getRange())) Attack.attack(currentEntity, hero);
         else goCloseHero();
     }
 
