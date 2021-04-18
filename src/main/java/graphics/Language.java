@@ -63,8 +63,8 @@ public enum Language {
                 "Le guerrier inflige de puissants dommages de mêlée et possède une large quantité de PV.",
                 "Il guerriero infligge grandi danni di mischia e possiede una grossa quantità di HP.",
                 "يلحق المحارب ضررًا قويًا بالاشتباك ويتمتع بقدر كبير من الصحة.");
-        String body2 = lang("In counterpart, he loses 1 Hunger Point for each attack.",
-                "En contrepartie, il perd 1 Point de Faim à chaque attaque.",
+        String body2 = lang("He becomes Enraged when his HP is low. In counterpart, he loses 1 Hunger Point for each attack.",
+                "Il devient Enragé quand ses PV sont bas. En contrepartie, il perd 1 Point de Faim à chaque attaque.",
                 "Tuttavia, perde un Punto Fame a ogni attacco.",
                 "في المقابل ، يخسر نقطة جوع واحدة لكل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
@@ -158,9 +158,6 @@ public enum Language {
 
 
     // ===== Menu/pause panel (in game) ===== //
-    public static String optionsPanel() {
-        return lang("Options", "Options", "Opzioni", "خيارات");
-    }
     public static String sound() {
         return lang("Sound", "Son", "Suono", "له");
     }
@@ -531,7 +528,7 @@ public enum Language {
     public static String help(){return lang("Help", "Aide", "Aiuto", "يساعد");}
     public static String enemies(){return lang("Enemies", "Ennemis", "Nemici", "أعداء");}
     public static String heroes(){return lang("Heroes", "Héros", "Eroi", "بطل");}
-    public static String aboutDescription(){
+    public static String aboutDescription() {
         return lang("<html><center>" +
                 "<h1> Goal of the game </h1></center>" +
                 "In this game you are in a world full of monsters<br>" +
@@ -643,25 +640,25 @@ public enum Language {
                         "حظا سعيدا وإنقاذ العالم!" +
                         "</html>" );
     }
-    public static String charList(){
+    public static String charList() {
         return lang("<html><h1><center>List of characters</center></h1></html>",
                 "<html><h1><center>Liste des personnages</center></h1></html>",
                 "<html><h1><center>Lista dei personaggi</center></h1></html>",
                 "<html> <h1> <center> قائمة الأحرف </ Center> </h1> </html>");
     }
-    public static String itemList(){
+    public static String itemList() {
         return lang("<html><h1><center>List of items</center></h1></html>",
                 "<html><h1><center>Liste des objets</center></h1></html>",
                 "<html><h1><center>Lista degli oggetti</center></h1></html>",
                 "<html> <h1> <center> قائمة الكائنات </ مركز> </ h1> </html>");
     }
-    public static String mainKeys(){
+    public static String mainKeys() {
         return lang("<html><center><h1> Main keys </h1></center></html>",
                 "<html><center><h1> Touches principales </h1></center></html>",
                 "<html><center><h1> Tasti principali </h1></center></html>",
                 "<html> <center> <h1> المفاتيح الرئيسية </ h1> </center> </html>");
     }
-    public static String infoQ1(){
+    public static String infoQ1() {
         return lang(
                 "<html><center><h1> More info about Q key </h1>" +
                 "<h2>Attack</h2><br>" +
@@ -670,16 +667,16 @@ public enum Language {
                 "You can move this square with your move keys. <br>" +
                 "If a monster is under your aim, the square become green & <br>" +
                 "if you press Q again, this monster will be hit.<br>" +
-                "If you want to quit attack mode, press Q" +
+                "If you want to quit attack mode, press Q." +
                 "</center></html>",
                 "<html><center><h1> Plus d'info sur la touche A </h1>" +
                 "<h2>Attaque</h2><br>" +
                 "Quand vous appuyez sur A, une zone grise (ombre) apparaît<br>" +
                 "vous indiquant votre portée d'attaque ainsi qu'un carré rouge.<br>" +
-                "Vous pouvez déplacer ce carré avec les touche de déplacement. <br>" +
+                "Vous pouvez déplacer ce carré avec les touches de déplacement. <br>" +
                 "Si un monstre est sous la cible, le carré devient vert et <br>" +
                 "si vous appuyez à nouveau sur A, ce monstre sera attaqué.<br>" +
-                "Si vous souhaitez sortir du mode attaque, appuyez sur A" +
+                "Si vous souhaitez sortir du mode attaque, appuyez sur A." +
                 "</center></html>",
                 "<html><center><h1> Maggiori informazioni sul tasto Q </h1>" +
                 "<h2>Attacco</h2><br>" +
@@ -688,7 +685,7 @@ public enum Language {
                 "Puoi spostare questo quadrato con i tasti d'azione <br>" +
                 "Se un mostro è sotto la tua mira, il quadrato diventa verde & <br>" +
                 "se premi di nuovo Q, questo mostro sarà colpito.<br>" +
-                "Se vuoi usicre dalla modalità d'attacco, premi Q" +
+                "Se vuoi usicre dalla modalità d'attacco, premi Q." +
                 "</center></html>",
                 "<html> <center> <h1> مزيد من المعلومات حول المفتاح A </h1>" +
                         "<h2> هجوم </ h2> <br>" +
@@ -701,23 +698,23 @@ public enum Language {
                         "</center> </html>"
         );
     }
-    public static String infoQ2(){
+    public static String infoQ2() {
         return lang(
                 "<html><center><h2>Merchant</h2><br>" +
                         "When you are in the Merchant room, you can talk with<br>" +
-                        "the Merchant setting the aim on him and clicking Q</center></html>",
+                        "the Merchant setting the aim on him and clicking Q.</center></html>",
                 "<html><center><h2>Marchand</h2><br>" +
                         "Quand vous êtes dans la salle du Marchand, vous pouvez lui<br>" +
-                        "parler en le ciblant puis en appuyant sur A</center></html>",
+                        "parler en le ciblant puis en appuyant sur A.</center></html>",
                 "<html><center><h2>Mercante</h2><br>" +
                         "Quando sei dal Mercante, puoi parlare con lui<br>" +
-                        "selezionando il tuo obiettivo su di lui e cliccando Q</center></html>",
+                        "selezionando il tuo obiettivo su di lui e cliccando Q.</center></html>",
                 "<html> <center> <h2> التاجر </ h2> <br>" +
                         "عندما تكون في غرفة التاجر ، يمكنك جعله <br>" +
                         "تحدث باستهدافها ثم الضغط على A </center> </html>"
         );
     }
-    public static String directions(Move m){
+    public static String directions(Move m) {
         return switch (m){
             case UP -> lang("Go up", "Monter", "Salire", "يصعد");
             case DOWN -> lang("Go down", "Descendre", "Scendere", "انزل");
@@ -725,7 +722,7 @@ public enum Language {
             case LEFT -> lang("Go left", "Aller à gauche", "Andare a sinistra", "أذهب يسارا");
         };
     }
-    public static String openTheInventory(){
+    public static String openTheInventory() {
         return lang(
                 "Open the inventory",
                 "Ouvrir l'inventaire",
@@ -733,7 +730,7 @@ public enum Language {
                 "جرد مفتوحة"
         );
     }
-    public static String newGameSameHero(){
+    public static String newGameSameHero() {
         return lang(
                 "<html>Start new game<br>with the same hero</html>",
                 "<html>Nouvelle partie<br>avec le même héros</html>",
@@ -741,10 +738,10 @@ public enum Language {
                 "<html> لعبة جديدة <br> بنفس البطل </ html>"
         );
     }
-    public static String interactionReadBelow(){
+    public static String interactionReadBelow() {
         return lang("Interaction (read below)", "Interaction (lire ci-dessous)", "Interazione (leggi sotto)", "التفاعل (اقرأ أدناه)");
     }
-    public static String creditsText(){
+    public static String creditsText() {
         return lang(
                 "<html><center>" +
                         "<h1> This project has been realised by </h1><br>" +
@@ -792,7 +789,7 @@ public enum Language {
                         "</center> </html>"
         );
     }
-    public static String historyText(){
+    public static String historyText() {
         return lang(
                 "<html>" +
                     "<center><h1> That Time the Hero saved the Village </h1><br>" +

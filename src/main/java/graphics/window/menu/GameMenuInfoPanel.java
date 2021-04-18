@@ -220,21 +220,25 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         JPanel panel = new JPanel(new BorderLayout());
 
         // ARROWS
-        JPanel arrows = new JPanel(new GridLayout(2,3));
+        JPanel arrows = new JPanel(new GridLayout(3,3));
         arrows.add(makeSquareLabel(""));
         arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "Z": "W"));
         arrows.add(makeSquareLabel(""));
         arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "Q": "A"));
         arrows.add(makeSquareLabel("S"));
         arrows.add(makeSquareLabel("D"));
+        arrows.add(makeSquareLabel(""));
+        arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "A": "Q"));
+        arrows.add(makeSquareLabel(""));
         panel.add(arrows, BorderLayout.WEST);
 
         // ARROW DESCRIPTION
-        JPanel arrowD = new JPanel(new GridLayout(4, 1));
+        JPanel arrowD = new JPanel(new GridLayout(5, 1));
         arrowD.add(new JLabel((GameWindow.language() == Language.FR? "Z": "W") + " : " + Language.directions(Move.UP)));
         arrowD.add(new JLabel((GameWindow.language() == Language.FR? "Q": "A") + " : " + Language.directions(Move.LEFT)));
         arrowD.add(new JLabel("S : " + Language.directions(Move.DOWN)));
         arrowD.add(new JLabel("D : " + Language.directions(Move.RIGHT)));
+        arrowD.add(new JLabel((GameWindow.language() == Language.FR? "A": "Q") + " : " + Language.interactionReadBelow()));
         arrowD.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.add(arrowD);
 
@@ -244,8 +248,8 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
     private JPanel arrowSecondColumn() {
         JPanel panel = new JPanel(new GridLayout(0,1));
         panel.add(makeKeyDescription("I", Language.openTheInventory()));
+        panel.add(makeKeyDescription("P", "/ [ESC] : " + Language.options()));
         panel.add(makeKeyDescription("R", Language.newGameSameHero()));
-        panel.add(makeKeyDescription((GameWindow.language() == Language.FR? "A": "Q"), Language.interactionReadBelow()));
         return panel;
     }
 

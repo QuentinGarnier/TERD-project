@@ -22,7 +22,7 @@ public class GamePausePanel extends JDialog{
         container = new JPanel();
         container.setLayout(new GridLayout(0,1));
         container.setBorder(GameMenuCustomPanel.bigBorder(false));
-        JLabel title = new JLabel("<html><center><h2>" + Language.optionsPanel() + "</h></center></html>");
+        JLabel title = new JLabel("<html><center><h2>" + Language.options() + "</h></center></html>");
         container.add(title);
         soundCheckBox = new JCheckBox(Language.sound());
         playButton = GameMenuCustomPanel.createMenuButton(Language.resume());
