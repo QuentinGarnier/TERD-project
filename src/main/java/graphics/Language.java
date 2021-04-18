@@ -12,6 +12,7 @@ import items.AbstractItem;
 import items.ItemTrap;
 import items.collectables.ConsumableTypes;
 import items.collectables.EquipmentTypes;
+import items.collectables.ItemEquip;
 
 public enum Language {
     EN, FR, IT, AR;
@@ -183,7 +184,18 @@ public enum Language {
         return lang("You have found: " + i + "!",
                 "Vous avez trouvé : " + i + " !",
                 "Hai trovato: " + i + "!",
-                "انت وجدت : " + i + " !");
+                "انت وجدت : " + i + " !")
+                + (i instanceof ItemEquip ? " [" + logEquipmentRarity((ItemEquip)i) + "]" : "");
+    }
+
+    public static String logEquipmentRarity(ItemEquip ie) {
+        return switch (ie.getEquipmentType().getRarity()) {
+            case COMMON -> lang("Common", "Commun", "...", "...");
+            case RARE -> lang("Rare", "Rare", "...", "...");
+            case EPIC -> lang("Epic", "Épique", "...", "...");
+            case LEGENDARY -> lang("Legendary", "Légendaire", "...", "...");
+
+        };
     }
     public static String logLowerFloor() {
         return lang("You enter the lower floor...",

@@ -92,7 +92,7 @@ public enum EquipmentTypes {
         return price;
     }
 
-    private enum EquipmentRarity {
+    public enum EquipmentRarity {
         COMMON, RARE, EPIC, LEGENDARY
     }
 }
