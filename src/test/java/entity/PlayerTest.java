@@ -1,24 +1,24 @@
 package entity;
 
-import graphics.map.WorldMap;
-import org.junit.Before;
+import graphics.elements.Position;
+import items.collectables.AbstractCollectableItem;
 import org.junit.Test;
 
-public class PlayerTest {
-    WorldMap wmap;
+import static org.junit.Assert.assertEquals;
 
-    @Before void init() {
-        wmap = WorldMap.getInstanceWorld();
-    }
+public class PlayerTest {
 
     @Test
     public void testAddItem() {
-        wmap.repaint();
-        /*Player.addItem(2);
-        Player.addItem(0);
-        Player.addItem(501);*/
-        System.out.println(Player.getInventory());
-
-        //assertEquals(3, Player.getInventory().size());
+        Player.addItem(AbstractCollectableItem.generateAbstractCollItems(0, new Position(0,0)));
+        assertEquals(1, Player.getInventory().size());
+        // Try catch because addItem don't add the item in the merchant inventory,
+        // So when we try to do Merchant.SellPanel.sellPanel.removeSellInventory(ai); in
+        // throwItem we will have ArrayIndexOutOfBoundsException
+        try {
+            Player.getInstancePlayer().throwItem(Player.getInventory().get(0));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            assertEquals(0, Player.getInventory().size());
+        }
     }
 }
