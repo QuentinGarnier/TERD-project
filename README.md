@@ -35,7 +35,7 @@ L'affichage de la carte est en fenêtre graphique (JFrame), toutefois il est pos
 Toute la documentation relative au projet peut être consultée sur notre [page wiki](https://github.com/QuentinGarnier/TERD-project/wiki).  
 
 
-## Notes de mise à jour (v4.0) :
+## Notes de mise à jour ([v4.0](https://github.com/QuentinGarnier/TERD-project/wiki/Version-4.0)) :
 
 - Optimisation du brouillard de guerre (avec exploration progressive)
 - Ajout des musiques du jeu
