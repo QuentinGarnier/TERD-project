@@ -20,11 +20,9 @@ public class StrategyTest {
             monsters.forEach(m -> {
                 Position oldPos = m.getPosition();
                 boolean isClose;
-                for (int i = 0; i < 50; i++) {
+                for (int i = 0; i < 20; i++) {
                     isClose = m.withinReach(hero, m.getRange());
-                    System.out.println(m.entityType + " " + m.getPosition());
                     m.applyStrategy();
-                    System.out.println(m.getPosition());
                     if (!isClose) {
                         List<Position> p = Tools.findPath(
                                 Tools.BFS(
