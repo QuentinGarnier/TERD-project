@@ -20,11 +20,11 @@ public abstract class AbstractItem extends JLabel {
     public final static AbstractItem end = new AbstractItem(0, ItemType.END, null, true) {
         @Override
         public boolean usePrivate() throws ErrorPositionOutOfBound {
-            GameWindow.addToLogs(Language.logLowerFloor(), Color.GREEN);
             WorldMap worldMap = WorldMap.getInstanceWorld();
             worldMap.generateWorld();
             Merchant.getInstanceMerchant().generateMarket();
             GameWindow.display();
+            GameWindow.addToLogs(Language.logLowerFloor(), Color.GREEN);
             // TODO
             return false;
         }

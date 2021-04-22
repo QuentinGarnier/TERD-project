@@ -113,7 +113,7 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     // Graphics
-    private void setLocation() {
+    protected void setLocation() {
         int realSize = GamePanel.size;
         int shift = entityType.equals(EntityType.MONSTER_BOSS) ? -1 : 0;
         boolean isPlayer = this instanceof Player;

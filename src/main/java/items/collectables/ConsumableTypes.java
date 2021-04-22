@@ -92,7 +92,6 @@ public enum ConsumableTypes {
         if (wp.getCell(x, y).isAccessible() && wp.getCell(x, y).getItem() == null) {
             pl.setPosition(x, y);
             wp.getCell(x, y).setEntity(pl);
-            pl.getWhatHeroDoes().setP(new Position(x, y));
             GameWindow.window.setScrollFrameBar();
         }
         else teleport();

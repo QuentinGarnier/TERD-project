@@ -7,6 +7,7 @@ import entity.EntityType;
 import entity.Player;
 import graphics.elements.Move;
 import graphics.map.Theme;
+import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 import items.ItemTrap;
@@ -65,7 +66,7 @@ public enum Language {
                 "يلحق المحارب ضررًا قويًا بالاشتباك ويتمتع بقدر كبير من الصحة.");
         String body2 = lang("He becomes Enraged when his HP is low. In counterpart, he loses 1 Hunger Point for each attack.",
                 "Il devient Enragé quand ses PV sont bas. En contrepartie, il perd 1 Point de Faim à chaque attaque.",
-                "Tuttavia, perde un Punto Fame a ogni attacco.",
+                "Si arrabbia quando i suoi HP sono bassi. Tuttavia, perde 1 Punto Fame a ogni attacco",
                 "في المقابل ، يخسر نقطة جوع واحدة لكل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
@@ -76,18 +77,18 @@ public enum Language {
                 "يتعامل رامي السهام مع ضرر جيد بعيد المدى ولكنه يتمتع بصحة قليلة.");
         String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss the target.",
                 "Chaque attaque a une chance d'infliger plus de dégâts, d'empoisonner l'adversaire... ou de rater la cible.",
-                "Ogni attacco ha la probabilità di essere più forte, di lanciare un effetto... o di mancare il bersaglio.",
+                "Ogni attacco ha la probabilità d'infliggere più danni, di avvelenare l'avversario... o di mancare il bersaglio.",
                 "كل هجوم لديه فرصة لإحداث المزيد من الضرر ، أو إحداث تأثير ... أو تفويت الهدف.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String mageDescription() {
         String body1 = lang("The mage deals moderate area damage in a medium range.",
                 "Le mage inflige des dégâts de zone modérés avec une portée moyenne.",
-                "Il mago infligge dei danni moderati con un raggio d'attacco medio.",
+                "Il mago infligge dei danni a zona moderati con un raggio d'attacco medio.",
                 "يتسبب السحرة في ضرر معتدل في مدى متوسط.");
         String body2 = lang("His power lies in his ability to burn, freeze or paralyse his opponents and heal himself slightly with each attack.",
                 "Sa force réside dans sa capacité à brûler, geler ou paralyser ses adversaires et se soigner légèrement à chaque attaque.",
-                "La sua forza è la capacità di bruciare i suoi avversari e curarsi leggermente a ogni attacco.",
+                "La sua forza è la capacità di bruciare, gelare o paralizzare i suoi avversari e curarsi leggermente a ogni attacco.",
                 "تكمن قوته في قدرته على حرق خصومه وشفاء نفسه قليلاً مع كل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
@@ -187,18 +188,21 @@ public enum Language {
 
     public static String logEquipmentRarity(ItemEquip ie) {
         return switch (ie.getEquipmentType().getRarity()) {
-            case COMMON -> lang("Common", "Commun", "...", "...");
-            case RARE -> lang("Rare", "Rare", "...", "...");
-            case EPIC -> lang("Epic", "Épique", "...", "...");
-            case LEGENDARY -> lang("Legendary", "Légendaire", "...", "...");
+            case COMMON -> lang("Common", "Commun", "Comune", "...");
+            case RARE -> lang("Rare", "Rare", "Raro", "...");
+            case EPIC -> lang("Epic", "Épique", "Epico", "...");
+            case LEGENDARY -> lang("Legendary", "Légendaire", "Leggendario", "...");
 
         };
     }
     public static String logLowerFloor() {
-        return lang("You enter the lower floor...",
+        return !WorldMap.getInstanceWorld().lastLevel()?
+                lang("You enter the lower floor...",
                 "Vous pénétrez à l'étage inférieur...",
                 "Si entra nel piano inferiore...",
-                "تدخل الطابق السفلي ...");
+                "تدخل الطابق السفلي ...") :
+                lang("Darkness is coming...", "Les ténèbres se rapprochent...",
+                        "Le tenebre si avvicinano...", "...");
     }
     public static String logNothingHappens(AbstractEntity e) {
         return lang(e + " is Immune.", e + " est Immunisé.", e + " è Immune.", " محصن." + e);

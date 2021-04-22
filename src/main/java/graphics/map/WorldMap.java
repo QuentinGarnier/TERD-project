@@ -1,5 +1,6 @@
 package graphics.map;
 
+
 import entity.Monster;
 import entity.Player;
 import entity.Merchant;
@@ -8,7 +9,7 @@ import graphics.Tools;
 import graphics.elements.*;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
-import entity.WhatHeroDoes;
+import entity.Player.WhatHeroDoes;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 
@@ -103,7 +104,6 @@ public class WorldMap {
                         !Player.getInstancePlayer().getPosition().equals(res))) {
             Player.getInstancePlayer().setPosition(x, y);
             getCell(x, y).setEntity(Player.getInstancePlayer());
-            Player.getInstancePlayer().getWhatHeroDoes().setP(res);
             room.setVisited();
             room.addDoor(res);
         }
@@ -273,8 +273,8 @@ public class WorldMap {
 
     private static void applyCommand(Move m){
         Player player = Player.getInstancePlayer();
-        WhatHeroDoes choice = player.getWhatHeroDoes();
-        Position pos = player.getWhatHeroDoes().getP();
+        Player.WhatHeroDoes choice = player.getWhatHeroDoes();
+        Position pos = player.getAttackPosition();
         switch (choice){
             case MOVING -> {
                 player.makeAction(false, m, null);
@@ -282,14 +282,13 @@ public class WorldMap {
             }
             case CHOOSING_ATTACK -> {
                 Position p = ChooseAttackCell.selectCase(pos, m);
-                player.getWhatHeroDoes().setP(p);
+                player.setAttackPosition(p);
                 gamePlayer();
             }
             case ATTACKING -> {
-                player.makeAction(true, null, player.getWhatHeroDoes().getP());
+                player.makeAction(true, null, player.getAttackPosition());
                 ChooseAttackCell.unselectCase(pos);
-                player.setWhatHeroDoes(WhatHeroDoes.MOVING);
-                player.getWhatHeroDoes().setP(player.getPosition());
+                player.setWhatHeroDoes(Player.WhatHeroDoes.MOVING);
                 gamePlayer();
             }
         }
@@ -315,12 +314,10 @@ public class WorldMap {
                 case 's' -> applyCommand(Move.DOWN);
                 case 'd' -> applyCommand(Move.RIGHT);
                 case 'q' -> {
-                    Position oldPos = player.getWhatHeroDoes().getP();
                     switch (choice) {
                         case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
                         case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
                     }
-                    player.getWhatHeroDoes().setP(oldPos);
                     applyCommand(null);
                 }
                 case 'p' -> System.out.println("You left the game.");

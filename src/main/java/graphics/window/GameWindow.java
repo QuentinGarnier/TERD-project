@@ -1,7 +1,7 @@
 package graphics.window;
 
 import entity.Player;
-import entity.WhatHeroDoes;
+import entity.Player.WhatHeroDoes;
 import graphics.ChooseAttackCell;
 import graphics.Language;
 import graphics.Tools;
@@ -205,19 +205,22 @@ public class GameWindow extends JFrame {
             Player player = Player.getInstancePlayer();
             if (!player.listenerOn()) return;
             if (player.getHP() == 0) return;
-            WhatHeroDoes choice = player.getWhatHeroDoes();
-            Position pos = player.getWhatHeroDoes().getP();
+            Player.WhatHeroDoes choice = player.getWhatHeroDoes();
+            Position pos = player.getAttackPosition();
             switch (choice) {
-                case MOVING -> player.makeAction(false, m, null);
+                case MOVING -> {
+                    player.restoreAttackPos();
+                    player.makeAction(false, m, null);
+                }
                 case CHOOSING_ATTACK -> {
-                    Position p = ChooseAttackCell.selectCase(pos, m);
-                    player.getWhatHeroDoes().setP(p);
+                    if (player.getPosition().distance(player.getAttackPosition()) > player.getRange())
+                        player.restoreAttackPos();
+                    player.setAttackPosition(ChooseAttackCell.selectCase(player.getAttackPosition(), m));
                 }
                 case ATTACKING -> {
-                    player.makeAction(true, null, player.getWhatHeroDoes().getP());
+                    player.makeAction(true, null, player.getAttackPosition());
                     ChooseAttackCell.unselectCase(pos);
-                    player.setWhatHeroDoes(WhatHeroDoes.MOVING);
-                    player.getWhatHeroDoes().setP(player.getPosition());
+                    player.setWhatHeroDoes(Player.WhatHeroDoes.MOVING);
                 }
             }
             InventoryPanel.inventoryPane.setInventoryText();
@@ -244,12 +247,10 @@ public class GameWindow extends JFrame {
                 case 'a' -> applyCommand(Move.LEFT);
                 case 'q' -> {
                     if (worldMap.getCell(player.getPosition()).getBaseContent().equals(CellElementType.EMPTY)) {
-                        Position oldPos = player.getWhatHeroDoes().getP();
                         switch (choice) {
                             case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
                             case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
                         }
-                        player.getWhatHeroDoes().setP(oldPos);
                         applyCommand(null);
                     }
                 }

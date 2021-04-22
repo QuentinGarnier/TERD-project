@@ -1,6 +1,7 @@
 package graphics.window;
 
 import entity.*;
+import entity.Player.*;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
@@ -174,18 +175,19 @@ public class GamePanel extends JPanel {
                 opaqueLabels.get(i).setLocation(current.getX() * size, current.getY() * size);
             }
             if (player.entityType == EntityType.HERO_MAGE) {
-                Position p = whatHeroDoes.getP();
+                Position p = player.getAttackPosition();
                 for (int x = 0; x < 3; x++) {
                     for (int y = 0; y < 3; y++) {
                         Position current = new Position(x-1 + p.getX(), y-1 + p.getY());
-                        if (worldMap.getCell(whatHeroDoes.getP()).getEntity() instanceof Monster && worldMap.getCell(current).getEntity() instanceof Monster && !current.equals(whatHeroDoes.getP())) squareLabels[x][y].setLocation(current.getX() * size, current.getY() * size);
+                        if (worldMap.getCell(p).getEntity() instanceof Monster && worldMap.getCell(current).getEntity() instanceof Monster && !current.equals(p)) squareLabels[x][y].setLocation(current.getX() * size, current.getY() * size);
                         else squareLabels[x][y].setLocation(-size, -size);
                     }
                 }
             }
 
-            squareLabel.setIcon(worldMap.getCell(whatHeroDoes.getP()).getEntity() instanceof Monster ? green : red);
-            squareLabel.setLocation(whatHeroDoes.getP().getX() * size, whatHeroDoes.getP().getY() * size);
+            Position p = player.getAttackPosition();
+            squareLabel.setIcon(worldMap.getCell(p).getEntity() instanceof Monster ? green : red);
+            squareLabel.setLocation(p.getX() * size, p.getY() * size);
         } else {
             opaqueLabels.forEach(x -> x.setLocation(-size, -size));
             squareLabel.setLocation(-size, -size);

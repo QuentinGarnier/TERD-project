@@ -125,10 +125,15 @@ public class Tools {
         private static Language language;
         private static boolean mute = false;
         private static GameWindow.Difficulty difficulty; //0 to 4
+        private static final String path =
+                (System.getProperty("os.name").startsWith("Windows") ?
+                        System.getProperty("ProgramFiles") :
+                        System.getProperty("user.home")) + "/.settings_project_TERD";
 
         public static void loadSettings() {
             try {
-                File f = new File(Objects.requireNonNull(Settings.class.getClassLoader().getResource("data/settings.set")).getPath());
+                //File f = new File(Objects.requireNonNull(Settings.class.getClassLoader().getResource("data/settings.set")).getPath());
+                File f = new File(path);
                 if(!f.exists()) {
                     defaultSettings();
                     return;
@@ -169,7 +174,8 @@ public class Tools {
 
         public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff) {
             try {
-                File f = new File(Objects.requireNonNull(Settings.class.getClassLoader().getResource("data/settings.set")).getPath());
+                //File f = new File(Objects.requireNonNull(Settings.class.getClassLoader().getResource("data/settings.set")).getPath());
+                File f = new File(path);
                 if(!f.exists()) if(!f.createNewFile()) return;
                 FileWriter writer = new FileWriter(f);
                 writer.write("sLanguage " + lang + "\n");

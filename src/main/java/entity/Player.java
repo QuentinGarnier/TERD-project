@@ -32,6 +32,7 @@ public class Player extends AbstractEntity {
     private ItemEquip defenseItem;
     private int money;
     private WhatHeroDoes whatHeroDoes;
+    private Position attackPosition;
 
     private Player(Position p, EntityType speciality) throws ErrorPositionOutOfBound {
         super(p, -1, speciality);
@@ -270,7 +271,6 @@ public class Player extends AbstractEntity {
         if (moveEntity(move)) {
             Cell currentCell = worldMap.getCell(getPosition());
             if (currentCell.getBaseContent().equals(CellElementType.END)) return false;
-            whatHeroDoes.setP(getPosition());
             if (!currentCell.equals(oldCell)){
                 if (currentCell.getBaseContent().equals(CellElementType.CORRIDOR)){
                     worldMap.getCorridors().get(currentCell.getBaseId()).setVisited();
@@ -320,7 +320,27 @@ public class Player extends AbstractEntity {
     }
 
     @Override
-    public int getAttack() {
-        return super.getAttack() + (attackItem == null ? 0 : attackItem.getEffectInt());
+    public int getAttack() { return super.getAttack() + (attackItem == null ? 0 : attackItem.getEquipmentType().getEffectInt()); }
+
+    public void restoreAttackPos(){
+        attackPosition = getPosition();
+    }
+
+    public Position getAttackPosition() {
+        return attackPosition;
+    }
+
+    public void setAttackPosition(Position p){
+        this.attackPosition = p;
+    }
+
+    @Override
+    protected void setLocation(){
+        restoreAttackPos();
+        super.setLocation();
+    }
+
+    public enum WhatHeroDoes {
+        MOVING, CHOOSING_ATTACK, ATTACKING;
     }
 }
