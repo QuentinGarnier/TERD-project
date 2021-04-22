@@ -23,7 +23,6 @@ public class AttackTest {
 
     @Test
     public void testAttack() {
-        // TODO
         entityList.forEach(e -> {
             int playerPV = player.getHP();
             int monsterPV = e.getHP();

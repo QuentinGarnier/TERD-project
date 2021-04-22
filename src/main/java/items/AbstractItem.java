@@ -25,7 +25,6 @@ public abstract class AbstractItem extends JLabel {
             Merchant.getInstanceMerchant().generateMarket();
             GameWindow.display();
             GameWindow.addToLogs(Language.logLowerFloor(), Color.GREEN);
-            // TODO
             return false;
         }
     };

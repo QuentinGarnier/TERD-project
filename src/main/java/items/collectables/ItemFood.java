@@ -15,7 +15,6 @@ public class ItemFood extends AbstractCollectableItem {
 
     public ItemFood(int id, Position p) {
         super(id, ItemType.FOOD, p,false);
-        // TODO put correct hp and hunger -> maybe a class 'FoodTypes' can be useful for the diversity
         Random gen = new Random();
         this.hungerGain = 10 + gen.nextInt(11);
         this.hpGain = 1 + gen.nextInt(10);
