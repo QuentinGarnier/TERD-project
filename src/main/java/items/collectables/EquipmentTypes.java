@@ -4,11 +4,9 @@ import entity.EntityState;
 import entity.EntityType;
 import graphics.Language;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public enum EquipmentTypes {
     //Offensive equipments:
@@ -49,7 +47,7 @@ public enum EquipmentTypes {
     private final EquipmentRarity rarity;
 
     EquipmentTypes(int coefficient, EntityState magic_effect, boolean isOffensive, EntityType entityType, int price, EquipmentRarity rarity) {
-        this.effect = coefficient; // TODO -> RANDOM EFFECT related to hero Lvl, XP ...
+        this.effect = coefficient;
         this.magicEffect = magic_effect;
         this.isOffensive = isOffensive;
         this.entityType = entityType;
@@ -59,7 +57,7 @@ public enum EquipmentTypes {
 
     public static EquipmentTypes createRandomEquip() {
         double rn = Math.random();
-        EquipmentRarity raritySelected = rn <= 0.50 ? EquipmentRarity.COMMON : rn <= 0.75 ? EquipmentRarity.RARE : rn <= 0.90 ? EquipmentRarity.EPIC : EquipmentRarity.LEGENDARY;
+        EquipmentRarity raritySelected = rn <= 0.50 ? EquipmentRarity.COMMON : rn <= 0.80 ? EquipmentRarity.RARE : rn <= 0.95 ? EquipmentRarity.EPIC : EquipmentRarity.LEGENDARY;
         EquipmentTypes[] equipmentTypesByRarity = Arrays.stream(EquipmentTypes.values()).filter(elt -> elt.rarity == raritySelected).toArray(EquipmentTypes[]::new);
         int rndElt = new Random().nextInt(equipmentTypesByRarity.length);
         return EquipmentTypes.values()[rndElt];
@@ -84,8 +82,8 @@ public enum EquipmentTypes {
         return this.name().charAt(0) + this.name().substring(1).replace("_", " ").toLowerCase(Locale.ROOT);
     }
 
-    public String getEffect() {
-        return "+" + effect + " " + (isOffensive ? Language.attack() : Language.defense()) + (magicEffect == null ? "" : " + " + Language.logEffect(magicEffect));
+    public String getEffect(int val) {
+        return "+" + val + " " + (isOffensive ? Language.attack() : Language.defense()) + (magicEffect == null ? "" : " + " + Language.logEffect(magicEffect));
     }
 
     public int getPrice() {

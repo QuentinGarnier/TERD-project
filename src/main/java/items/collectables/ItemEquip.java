@@ -11,11 +11,16 @@ import items.ItemType;
 public class ItemEquip extends AbstractCollectableItem {
     private boolean isEquipped;
     private final EquipmentTypes et;
+    private final int effect;
+    private final int price;
 
     public ItemEquip(int id, Position p) {
         super(id, ItemType.EQUIP, p, false);
         isEquipped = false;
         et = EquipmentTypes.createRandomEquip();
+        int rnd = (int) (Math.random()*6);
+        effect = et.getEffectInt() + Player.getInstancePlayer().getLvl() - 1 + rnd;
+        price = et.getPrice() + Player.getInstancePlayer().getLvl() - 1 + rnd;
     }
 
     @Override
@@ -46,6 +51,10 @@ public class ItemEquip extends AbstractCollectableItem {
         return isEquipped;
     }
 
+    public int getEffectInt() {
+        return effect;
+    }
+
     @Override
     public String toString() {
         return Language.translate(et);
@@ -53,7 +62,7 @@ public class ItemEquip extends AbstractCollectableItem {
 
     @Override
     public String getEffect() {
-        return et.getEffect();
+        return et.getEffect(effect);
     }
 
     @Override
@@ -63,7 +72,7 @@ public class ItemEquip extends AbstractCollectableItem {
 
     @Override
     public int getPrice() {
-        return et.getPrice();
+        return price;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Player extends AbstractEntity {
     private int hunger;
     private final List<AbstractCollectableItem> inventory;
     private ItemEquip attackItem;
-    private ItemEquip defenceItem;
+    private ItemEquip defenseItem;
     private int money;
     private WhatHeroDoes whatHeroDoes;
 
@@ -55,21 +55,21 @@ public class Player extends AbstractEntity {
 
     public void restorePlayer() {
         inventory.clear();
-        Merchant.getInstanceMerchant().generateMarket();
-        Merchant.SellPanel.sellPanel.clearSell();
-        attackItem = null;
-        defenceItem = null;
-        level = 1;
-        money = 0;
         experiencePoints = 0;
+        level = 1;
         hunger = 100;
+        money = 0;
+        attackItem = null;
+        defenseItem = null;
         whatHeroDoes = WhatHeroDoes.MOVING;
-        modifyHP(entityType.HPByType);
         setHPMax(entityType.HPByType);
+        modifyHP(entityType.HPByType);
         setAttack(entityType.attackByType);
         setAttackMax(entityType.attackByType);
         modifyHunger(100, false);
         updateState(EntityState.NEUTRAL);
+        Merchant.getInstanceMerchant().generateMarket();
+        Merchant.SellPanel.sellPanel.clearSell();
         WorldMap.stageNum = 0;
     }
 
@@ -304,7 +304,7 @@ public class Player extends AbstractEntity {
     }
 
     public void setDefenceItem(ItemEquip defenceItem) {
-        this.defenceItem = defenceItem;
+        this.defenseItem = defenceItem;
     }
 
     public ItemEquip getAttackItem() {
@@ -312,13 +312,15 @@ public class Player extends AbstractEntity {
     }
 
     public ItemEquip getDefenceItem() {
-        return defenceItem;
+        return defenseItem;
     }
 
     public int getDefense() {
-        return defenceItem == null ? 0 : defenceItem.getEquipmentType().getEffectInt();
+        return defenseItem == null ? 0 : defenseItem.getEffectInt();
     }
 
     @Override
-    public int getAttack() { return super.getAttack() + (attackItem == null ? 0 : attackItem.getEquipmentType().getEffectInt()); }
+    public int getAttack() {
+        return super.getAttack() + (attackItem == null ? 0 : attackItem.getEffectInt());
+    }
 }
