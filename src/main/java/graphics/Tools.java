@@ -127,8 +127,8 @@ public class Tools {
         private static GameWindow.Difficulty difficulty; //0 to 4
         private static final String path =
                 (System.getProperty("os.name").startsWith("Windows") ?
-                        System.getProperty("ProgramFiles") :
-                        System.getProperty("user.home")) + "/.settings_project_TERD";
+                        System.getenv("APPDATA") + "\\" :
+                        System.getProperty("user.home") + "/") + ".settings_project_TERD";
 
         public static void loadSettings() {
             try {
