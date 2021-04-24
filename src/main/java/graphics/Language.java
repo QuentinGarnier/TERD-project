@@ -160,16 +160,16 @@ public enum Language {
 
     // ===== Menu/pause panel (in game) ===== //
     public static String sound(boolean b) {
-        return lang((b ? "Activate" : "Stop") + " the Sound",
-               (b ? "Activer" : "Désactiver") + " le Son",
-                (b ? "Attivare" : "Disattivare") + "l'Audio",
-                (b ? "..." : "...") + "...");
+        return lang((b ? "Activate" : "Stop") + " the sound",
+               (b ? "Activer" : "Désactiver") + " le son",
+                (b ? "Attivare" : "Disattivare") + "l'audio",
+                (b ? "..." : "...") + "له");
     }
     public static String resume() {
         return lang("Resume", "Reprendre", "Riprendere", "الاستئناف");
     }
     public static String menu() {
-        return lang("Menu", "Menu", "Menu", "القائمة");
+        return lang("Main menu", "Menu principal", "Menu principale", "القائمة");
     }
 
 
@@ -875,38 +875,38 @@ public enum Language {
         );
     }
 
-    public static String quitGameConfirmation(){
+    public static String quitGameConfirmation() {
         return lang("Do you really want to leave the game?",
-                "Vous êtes sûr de vouloir quitter le jeu?",
+                "Êtes-vous sûr de vouloir quitter le jeu ?",
                 "Sei sicuro di voler chiudere il gioco?",
                 "...");
     }
 
-    public static String goToMenuConfirmation(){
-        return lang("Do you really want to go to main menu?",
-                "Vous êtes sûr de vouloir aller au menu principal?",
+    public static String goToMenuConfirmation() {
+        return lang("Do you really want to go back to the main menu?",
+                "Êtes-vous sûr de vouloir revenir au menu principal ?",
                 "Sei sicuro di voler andare al menu principale?",
                 "...");
     }
 
-    public static String restartConfirmation(){
+    public static String restartConfirmation() {
         return lang("Do you really want to restart the game?",
-                "Vous êtes sûr de vouloir redémarrer la partie?",
+                "Êtes-vous sûr de vouloir recommencer la partie ?",
                 "Sei sicuro di voler ricominciare la partita?",
                 "...");
     }
 
-    public static String quitTheGame(){
+    public static String quitTheGame() {
         return lang("Quit the game",
-                "Sortir du jeu",
+                "Quitter le jeu",
                 "Usire dal gioco",
                 "...");
     }
 
-    public static String restart(){
-        return lang("Restart this game",
-                "Relancer cette partie",
-                "Ricominciare questa partita",
+    public static String restart() {
+        return lang("Restart the game",
+                "Relancer la partie",
+                "Ricominciare la partita",
                 "...");
     }
 }
