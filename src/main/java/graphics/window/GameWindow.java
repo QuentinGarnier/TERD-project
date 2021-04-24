@@ -260,9 +260,14 @@ public class GameWindow extends JFrame {
                 }
                 case '0' -> GameWindow.window.dispose();
                 case 'r' -> {
-                    player.restorePlayer();
-                    worldMap.generateWorld();
-                    display();
+                    int apply = JOptionPane.showConfirmDialog(GameWindow.window,
+                            Language.restartConfirmation(),
+                            "", JOptionPane.YES_NO_OPTION);
+                    if (apply == JOptionPane.YES_OPTION) {
+                        player.restorePlayer();
+                        worldMap.generateWorld();
+                        display();
+                    }
                 }
                 case 'p' -> new GamePausePanel();
             }
