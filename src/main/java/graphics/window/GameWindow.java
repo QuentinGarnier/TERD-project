@@ -105,11 +105,8 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/icon.png")));
         setIconImage(icon.getImage());
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/cursor.png")));
-        Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
-        setCursor(cursor);
-        getContentPane().setBackground(Color.DARK_GRAY);
+        setCursor(Tools.cursor());
+        getContentPane().setBackground(Color.BLACK);
         loadSettings();
     }
 
@@ -152,10 +149,10 @@ public class GameWindow extends JFrame {
         gameMenuPanel.display();
     }
 
-    private void clear() {
-        if(getContentPane().getComponentCount() > 0) getContentPane().removeAll();
-        getContentPane().revalidate();
-        getContentPane().repaint();
+    public static void clear() {
+        if(window.getContentPane().getComponentCount() > 0) window.getContentPane().removeAll();
+        window.getContentPane().repaint();
+        window.getContentPane().revalidate();
     }
 
     public void setScrollFrameBar() {
@@ -263,11 +260,7 @@ public class GameWindow extends JFrame {
                     int apply = JOptionPane.showConfirmDialog(GameWindow.window,
                             Language.restartConfirmation(),
                             "", JOptionPane.YES_NO_OPTION);
-                    if (apply == JOptionPane.YES_OPTION) {
-                        player.restorePlayer();
-                        worldMap.generateWorld();
-                        display();
-                    }
+                    if (apply == JOptionPane.YES_OPTION) Tools.restartGame();
                 }
                 case 'p' -> new GamePausePanel();
             }

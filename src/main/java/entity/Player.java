@@ -202,7 +202,7 @@ public class Player extends AbstractEntity {
         if (toDisplayMsg && (x >= 0)) GameWindow.addToLogs(Language.logModifyHunger(x), Tools.WindowText.purple);
         if (hunger == 0) {
             modifyHP(-getHPMax());
-            GameWindow.addToLogs(Language.logHeroDeath(true), Color.RED);
+            Tools.gameOver(true);
         }
     }
 
@@ -234,7 +234,7 @@ public class Player extends AbstractEntity {
                 }
             });
         }
-        if (getHP() == 0) GameWindow.addToLogs(Language.logHeroDeath(false), Color.RED);
+        if (getHP() == 0 && getHunger() > 0) Tools.gameOver(false);
     }
 
     private void moveMerchant(){

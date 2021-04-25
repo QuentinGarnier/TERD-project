@@ -897,16 +897,14 @@ public enum Language {
     }
 
     public static String quitTheGame() {
-        return lang("Quit the game",
-                "Quitter le jeu",
-                "Usire dal gioco",
-                "...");
+        return lang("Quit the game", "Quitter le jeu", "Usire dal gioco", "...");
     }
 
     public static String restart() {
-        return lang("Restart the game",
-                "Relancer la partie",
-                "Ricominciare la partita",
-                "...");
+        return lang("Restart the game", "Relancer la partie", "Ricominciare la partita", "...");
+    }
+
+    public static String gameOver() {
+        return lang("GAME OVER!", "VOUS AVEZ PERDU !", "HAI PERSO!", "...");
     }
 }

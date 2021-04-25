@@ -1,9 +1,7 @@
 package graphics.window.menu;
 
-import entity.Player;
 import graphics.Language;
 import graphics.Tools;
-import graphics.map.WorldMap;
 import graphics.window.GameWindow;
 
 import javax.swing.*;
@@ -48,11 +46,7 @@ public class GamePausePanel extends JDialog {
     private void setup() {
         setContentPane(container);
         getContentPane().setBackground(Color.LIGHT_GRAY);
-
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/cursor.png")));
-        Cursor cursor = toolkit.createCustomCursor(image, new Point(0,0), "cursor");
-        setCursor(cursor);
+        setCursor(Tools.cursor());
 
         addMouseEffects();
 
@@ -97,11 +91,7 @@ public class GamePausePanel extends JDialog {
                 "", JOptionPane.YES_NO_OPTION);
         if (apply == JOptionPane.YES_OPTION) {
             dispose();
-            Player player = Player.getInstancePlayer();
-            WorldMap worldMap = WorldMap.getInstanceWorld();
-            player.restorePlayer();
-            worldMap.generateWorld();
-            GameWindow.display();
+            Tools.restartGame();
         }
     }
 
@@ -135,7 +125,6 @@ public class GamePausePanel extends JDialog {
         button.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(123);
                 button.setBackground(bg);
                 switch (effect) {
                     case RESTART -> restartGame();

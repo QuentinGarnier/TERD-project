@@ -1,13 +1,16 @@
 package graphics;
 
+import entity.Player;
 import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.map.WorldMap;
+import graphics.window.GameOverPanel;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 
 import javax.sound.sampled.*;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.im.InputContext;
 import java.io.File;
@@ -114,6 +117,27 @@ public class Tools {
             System.err.println("Error: failed to load music.");
             return null;
         }
+    }
+
+    public static Cursor cursor() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage(Objects.requireNonNull(Tools.class.getClassLoader().getResource("data/images/system/cursor.png")));
+        return toolkit.createCustomCursor(image, new Point(0,0), "cursor");
+    }
+
+    public static void restartGame() {
+        GameWindow.clear();
+        Player.getInstancePlayer().restorePlayer();
+        WorldMap.getInstanceWorld().generateWorld();
+        GameWindow.display();
+    }
+
+    public static void gameOver(boolean deathByHunger) {
+        GameWindow.addToLogs(Language.logHeroDeath(deathByHunger), Color.RED);
+        GameWindow.refreshInventory();
+        GameWindow.window.repaint();
+        GameWindow.window.revalidate();
+        new GameOverPanel();
     }
 
 

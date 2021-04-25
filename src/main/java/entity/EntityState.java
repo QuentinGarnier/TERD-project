@@ -118,7 +118,7 @@ public enum EntityState {
                 break;
             default: break;
         }
-        if (entity.getHP() == 0 && entity.isHero()) GameWindow.addToLogs(Language.logHeroDeath(false), Color.RED);
+        if (entity.getHP() == 0 && entity.isHero()) Tools.gameOver(false);
     }
 
     private static void decrementRemainingTime(AbstractEntity entity) {
