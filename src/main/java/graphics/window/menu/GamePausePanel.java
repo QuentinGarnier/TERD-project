@@ -8,9 +8,11 @@ import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Objects;
 
-import static graphics.Tools.*;
+import static graphics.Tools.Settings;
 
 public class GamePausePanel extends JDialog{
     private final JPanel container;
@@ -33,6 +35,8 @@ public class GamePausePanel extends JDialog{
         mainMenu = GameMenuCustomPanel.createMenuButton(Language.menu());
         quitGame = GameMenuCustomPanel.createMenuButton(Language.quitTheGame());
         restartGame = GameMenuCustomPanel.createMenuButton(Language.restart());
+        container.addKeyListener(new KeysActions(this, mainMenu, quitGame, restartGame));
+        container.setFocusable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setup();
     }
@@ -56,6 +60,7 @@ public class GamePausePanel extends JDialog{
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        setFocusable(true);
     }
 
     private void restartGame(){
@@ -118,5 +123,23 @@ public class GamePausePanel extends JDialog{
     private void play(){
         playButton.addActionListener(e -> dispose());
         container.add(playButton);
+    }
+
+    private static class KeysActions extends KeyAdapter {
+        private final JDialog jd;
+        private final JButton mainMenu, quitGame, restartGame;
+        public KeysActions(JDialog jd, JButton mainMenu, JButton quitGame, JButton restartGame){
+            this.jd = jd;
+            this.mainMenu = mainMenu; this.quitGame = quitGame; this.restartGame = restartGame;
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            switch (e.getKeyCode()){
+                case KeyEvent.VK_ESCAPE, KeyEvent.VK_P -> jd.dispose();
+                case KeyEvent.VK_R -> restartGame.doClick();
+                case KeyEvent.VK_M -> mainMenu.doClick();
+                case KeyEvent.VK_Q -> quitGame.doClick();
+            }
+        }
     }
 }
