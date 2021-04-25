@@ -8,11 +8,13 @@ import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Objects;
 
-import static graphics.Tools.*;
+import static graphics.Tools.Settings;
 
 public class GamePausePanel extends JDialog {
     private final JPanel container;
@@ -37,6 +39,8 @@ public class GamePausePanel extends JDialog {
         mainMenu = GameMenuCustomPanel.createMenuButton(Language.menu());
         quitGame = GameMenuCustomPanel.createMenuButton(Language.quitTheGame());
         restartGame = GameMenuCustomPanel.createMenuButton(Language.restart());
+        container.addKeyListener(new KeysActions(this, soundCheckBox));
+        container.setFocusable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setup();
     }
@@ -131,6 +135,7 @@ public class GamePausePanel extends JDialog {
         button.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                System.out.println(123);
                 button.setBackground(bg);
                 switch (effect) {
                     case RESTART -> restartGame();
@@ -154,9 +159,27 @@ public class GamePausePanel extends JDialog {
         });
     }
 
-
-
     private enum Effect {
         RESTART, MENU, EXIT, RESUME
+    }
+
+    private static class KeysActions extends KeyAdapter {
+        private final GamePausePanel jd;
+        private final JCheckBox cb;
+
+        public KeysActions(GamePausePanel jd, JCheckBox cb){
+            this.jd = jd;
+            this.cb = cb;
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            switch (e.getKeyCode()){
+                case KeyEvent.VK_ESCAPE, KeyEvent.VK_P -> jd.dispose();
+                case KeyEvent.VK_R -> jd.restartGame();
+                case KeyEvent.VK_M -> jd.mainMenu();
+                case KeyEvent.VK_Q -> jd.quitGame();
+                case KeyEvent.VK_V -> cb.doClick();
+            }
+        }
     }
 }
