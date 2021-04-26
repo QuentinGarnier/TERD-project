@@ -255,7 +255,11 @@ public class Tools {
                 for (int i = 0; i < res.size(); i++){
                     resS[i][0] = res.get(i)[0];
                     resS[i][1] = res.get(i)[4];
-                    resS[i][2] = res.get(i)[3];
+                    resS[i][2] = switch(res.get(i)[3]) {
+                        case "1"-> Language.archerCL();
+                        case "2"-> Language.mageCL();
+                        default -> Language.warriorCL();
+                    };
                     resS[i][3] = res.get(i)[1];
                     resS[i][4] = res.get(i)[2];
                 }
@@ -263,7 +267,7 @@ public class Tools {
             } catch (FileNotFoundException e){
                 return null;
             } catch (Exception e){
-                System.err.println("Can't parse the file of ranking");
+                System.err.println("Can't parse the ranking file.");
                 return null;
             }
         }
@@ -276,10 +280,15 @@ public class Tools {
                 //true = appends the string to the file
                 FileWriter fw = new FileWriter(path, true);
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String numSpec = switch(Player.getInstancePlayer().entityType) {
+                    case HERO_ARCHER -> "1";
+                    case HERO_MAGE -> "2";
+                    default -> "0";
+                };
                 fw.write(formatter.format(new Date()) + " " +
                         Player.getInstancePlayer().getLvl() + " " +
                         WorldMap.stageNum + " " +
-                        Language.translate(Player.getInstancePlayer().entityType) + " " +
+                        numSpec + " " +
                         (GameWindow.name == null || GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
                 fw.close();
             } catch (IOException e){
