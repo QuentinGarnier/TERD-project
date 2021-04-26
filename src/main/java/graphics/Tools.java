@@ -249,7 +249,7 @@ public class Tools {
                 Scanner scanner = new Scanner(f);
                 while (scanner.hasNextLine()){
                     String line = scanner.nextLine();
-                    if (!line.equals("")) res.add(line.split(" "));
+                    if (!line.equals("")) res.add(line.split(" ", 5));
                 }
                 String[][] resS = new String[res.size()][5];
                 for (int i = 0; i < res.size(); i++){
