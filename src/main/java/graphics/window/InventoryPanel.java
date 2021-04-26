@@ -123,7 +123,7 @@ public class InventoryPanel extends JPanel {
             JButton esc = new JButton(Language.back());
             equip.addActionListener(e -> {
                 equipping(ai, ai.use());
-                if(!GameWindow.isMuted()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/" + ai.getSE() + ".wav")), false);
+                if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/" + ai.getSE() + ".wav")), false);
                 GameWindow.refreshInventory();
                 updateInventory();
             });

@@ -27,6 +27,7 @@ public class GameWindow extends JFrame {
     private static Language lang;
     private static boolean muted;
     private static Difficulty difficulty;
+    private static boolean[] difficultiesUnlocked;
 
     private static GameMenuPanel gameMenuPanel;
     private static GamePanel gamePanel;
@@ -116,6 +117,7 @@ public class GameWindow extends JFrame {
         lang = Tools.Settings.getLanguage();
         muted = Tools.Settings.isMuted();
         difficulty = Tools.Settings.getDifficulty();
+        difficultiesUnlocked = Tools.Settings.getDifficultiesUnlocked();
     }
 
     public static void setSettings(Language l, boolean sound, Difficulty d) {
@@ -128,12 +130,21 @@ public class GameWindow extends JFrame {
         return lang;
     }
 
-    public static boolean isMuted() {
-        return muted;
+    public static boolean hasSound() {
+        return !muted;
     }
 
     public static Difficulty difficulty() {
         return difficulty;
+    }
+
+    public static boolean[] getDifficultiesUnlocked() {
+        return difficultiesUnlocked;
+    }
+
+    public static void unlock(boolean[] dif, boolean needToRefresh) {
+        difficultiesUnlocked = dif;
+        if(needToRefresh) gameMenuPanel.refreshDifficulties();
     }
 
     private void displayGamePanels() {

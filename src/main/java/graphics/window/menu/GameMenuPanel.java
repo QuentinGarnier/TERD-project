@@ -11,7 +11,7 @@ public class GameMenuPanel extends JPanel {
     public final static GameMenuPanel getMenuPanel = new GameMenuPanel();
     private final GameMenuStartPanel startScreen = new GameMenuStartPanel();  //Launch a new game, load a save, see options/credits or quit the game.
     private final GameMenuCharaPanel charaScreen = new GameMenuCharaPanel();  //Select a character between 3 specialities: warrior, archer or mage.
-    private final GameMenuOptionsPanel optionsScreen = new GameMenuOptionsPanel();  //Change options of the game, like language.
+    private GameMenuOptionsPanel optionsScreen = new GameMenuOptionsPanel();  //Change options of the game, like language.
     private final GameMenuInfoPanel infoPanel = new GameMenuInfoPanel();  //See all the info about the game.
     private final JPanel bigPanel;
 
@@ -124,8 +124,9 @@ public class GameMenuPanel extends JPanel {
         infoPanel.setTexts();
     }
 
-    static void stateReset() {
-        state = Screen.START;
+    public void refreshDifficulties() {
+        optionsScreen = new GameMenuOptionsPanel();
+        optionsScreen.fillScreen();
     }
 
     private enum Screen {

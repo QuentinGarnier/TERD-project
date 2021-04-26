@@ -38,7 +38,7 @@ public class WorldMap {
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         items = new ArrayList<>();
-        difficulty = GameWindow.Difficulty.MEDIUM;
+        difficulty = GameWindow.Difficulty.EASY;
         generateWorld();
     }
 

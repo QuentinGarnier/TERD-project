@@ -37,7 +37,7 @@ public class ItemTrap extends AbstractItem{
 
     private void trapEffect(Trap trap, Color c, EntityState state) {
         Player player = Player.getInstancePlayer();
-        if(!GameWindow.isMuted()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/" + trap.getSE() + ".wav")), false);
+        if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/" + trap.getSE() + ".wav")), false);
         GameWindow.addToLogs(Language.logTrap(trap), c);
         if(state != null) player.updateState(state);
         else {

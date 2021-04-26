@@ -162,7 +162,7 @@ public class Merchant extends AbstractEntity{
                     if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(); return; }
                     if (pl.enoughMoney(ai.getPrice())) {
                         pl.modifyMoney(-ai.getPrice());
-                        if(!GameWindow.isMuted()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_buy.wav")), false);
+                        if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_buy.wav")), false);
                         GameWindow.addToLogs(ai + " " + Language.logBuyOrSell(true, false), Color.GREEN);
                         Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
                         Player.addItem(ai);
@@ -239,7 +239,7 @@ public class Merchant extends AbstractEntity{
                     if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false, false), Language.confirmDialog(false, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) {
                         int gain = (ai.getPrice()/2);
                         Player.getInstancePlayer().modifyMoney(gain);
-                        if(!GameWindow.isMuted()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_sell.wav")), false);
+                        if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_sell.wav")), false);
                         GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(false, false) + " (+" + gain + " " + Language.logMoney() + ")", Tools.WindowText.golden);
                         Player.removeItem(ai); sellPanel.remove(this); sellPanel.revalidate(); sellPanel.repaint();
                         createLine(true, ai); BuyPanel.buyPanel.revalidate(); BuyPanel.buyPanel.repaint();

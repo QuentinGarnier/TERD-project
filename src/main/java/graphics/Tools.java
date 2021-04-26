@@ -155,6 +155,7 @@ public class Tools {
         private static Language language;
         private static boolean mute = false;
         private static GameWindow.Difficulty difficulty; //0 to 4
+        private static boolean[] difficultiesUnlocked; //1 to 5
         private static final String path =
                 (System.getProperty("os.name").startsWith("Windows") ?
                         System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage\\.settings" :
@@ -184,12 +185,17 @@ public class Tools {
                                 case "sMusic" -> mute = info[1].equals("false");
                                 case "sDifficulty" -> difficulty = switch (info[1]) {
                                     case "TUTORIAL" -> GameWindow.Difficulty.TUTORIAL;
-                                    case "EASY" -> GameWindow.Difficulty.EASY;
+                                    case "MEDIUM" -> GameWindow.Difficulty.MEDIUM;
                                     case "HARD" -> GameWindow.Difficulty.HARD;
                                     case "NIGHTMARE" -> GameWindow.Difficulty.NIGHTMARE;
                                     case "ENDLESS" -> GameWindow.Difficulty.ENDLESS;
-                                    default -> GameWindow.Difficulty.MEDIUM;
+                                    default -> GameWindow.Difficulty.EASY;
                                 };
+                                case "sUnlocked" -> {
+                                    int n = Integer.parseInt(info[1]);
+                                    difficultiesUnlocked = new boolean[5];
+                                    for(int i = 0; i < 5; i++) difficultiesUnlocked[i] = i < n;
+                                }
                             }
                         }
                     }
@@ -201,7 +207,7 @@ public class Tools {
             }
         }
 
-        public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff) {
+        public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff, boolean[] unlocked) {
             try {
                 if (!makeDir()) return;
                 File f = new File(path);
@@ -210,6 +216,9 @@ public class Tools {
                 writer.write("sLanguage " + lang + "\n");
                 writer.write("sMusic " + sound + "\n");
                 writer.write("sDifficulty " + diff + "\n");
+                int res = 0;
+                for(boolean b: unlocked) if(b) res++;
+                writer.write("sUnlocked " + res + "\n");
                 writer.close();
             } catch(IOException e) {
                 e.printStackTrace();
@@ -220,7 +229,8 @@ public class Tools {
         private static void defaultSettings() {
             language = Language.EN; //Default language
             mute = false; //Default value
-            difficulty = GameWindow.Difficulty.MEDIUM; //Default value
+            difficulty = GameWindow.Difficulty.EASY; //Default value
+            difficultiesUnlocked = new boolean[]{true, false, false, false, false};
         }
 
         public static Language getLanguage() {
@@ -233,6 +243,10 @@ public class Tools {
 
         public static GameWindow.Difficulty getDifficulty() {
             return difficulty;
+        }
+
+        public static boolean[] getDifficultiesUnlocked() {
+            return difficultiesUnlocked;
         }
     }
 

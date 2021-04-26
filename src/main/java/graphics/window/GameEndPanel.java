@@ -20,6 +20,20 @@ public class GameEndPanel extends JDialog {
     public GameEndPanel(Tools.Victory_Death vd) {
         super(GameWindow.window, true);
         this.vd = vd;
+
+        if(vd == Tools.Victory_Death.WIN) {
+            boolean[] unlocked = GameWindow.getDifficultiesUnlocked();
+            boolean needToRefresh = false;
+            switch(GameWindow.difficulty()) {
+                case EASY -> {if(!unlocked[1]) needToRefresh = true; unlocked[1] = true;}
+                case MEDIUM -> {if(!unlocked[2]) needToRefresh = true; unlocked[2] = true;}
+                case HARD -> {if(!unlocked[3]) needToRefresh = true; unlocked[3] = true;}
+                case NIGHTMARE -> {if(!unlocked[4]) needToRefresh = true; unlocked[4] = true;}
+            }
+            Tools.Settings.saveSettings(GameWindow.language(), GameWindow.hasSound(), GameWindow.difficulty(), unlocked);
+            GameWindow.unlock(unlocked, needToRefresh);
+        }
+
         setResizable(false);
         setUndecorated(true);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

@@ -22,14 +22,17 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     private JButton langARButton;
     private final JCheckBox soundCheckBox = new JCheckBox();
 
+    private JPanel bigDiffPanel;
     private JPanel diffEasyPanel, diffMediumPanel, diffHardPanel, diffNightmarePanel, diffEndlessPanel;
     private JLabel diffEasyLabel, diffMediumLabel, diffHardLabel, diffNightmareLabel, diffEndlessLabel;
     private GameWindow.Difficulty difficultySelected;
+    private final ImageIcon imgLocked;
 
     GameMenuOptionsPanel() {
         super();
         language = GameWindow.language();
         difficultySelected = GameWindow.difficulty();
+        imgLocked = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/locked.png")));
     }
     
     void fillScreen() {
@@ -123,7 +126,8 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         JPanel lastLastP = new JPanel();
         lastLastP.setOpaque(false);
         difficultyLabel = createTitle("— " + Language.chooseTheDifficulty() + " —", 18, Color.BLACK);
-        lastP.add(createDifficultiesPanel());
+        bigDiffPanel = createDifficultiesPanel();
+        lastP.add(bigDiffPanel);
         diffBorders();
 
         muteP.add(checkBoxPanel);
@@ -149,16 +153,17 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         diffNightmareLabel = createTitle(Language.nightmare(), 14, Color.BLACK);
         diffEndlessLabel = createTitle(Language.endless(), 14, Color.BLACK);
 
+        boolean[] unlocked = GameWindow.getDifficultiesUnlocked();
         diffEasyPanel = buildDifficultyPanel(diffEasyLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_easy.png")),
-                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_easy_hover.png")), GameWindow.Difficulty.EASY);
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_easy_hover.png")), GameWindow.Difficulty.EASY, unlocked[0]);
         diffMediumPanel = buildDifficultyPanel(diffMediumLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_medium.png")),
-                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_medium_hover.png")), GameWindow.Difficulty.MEDIUM);
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_medium_hover.png")), GameWindow.Difficulty.MEDIUM, unlocked[1]);
         diffHardPanel = buildDifficultyPanel(diffHardLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_hard.png")),
-                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_hard_hover.png")), GameWindow.Difficulty.HARD);
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_hard_hover.png")), GameWindow.Difficulty.HARD, unlocked[2]);
         diffNightmarePanel = buildDifficultyPanel(diffNightmareLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_nightmare.png")),
-                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_nightmare_hover.png")), GameWindow.Difficulty.NIGHTMARE);
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_nightmare_hover.png")), GameWindow.Difficulty.NIGHTMARE, unlocked[3]);
         diffEndlessPanel = buildDifficultyPanel(diffEndlessLabel, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_endless.png")),
-                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_endless_hover.png")), GameWindow.Difficulty.ENDLESS);
+                Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/difficulty_endless_hover.png")), GameWindow.Difficulty.ENDLESS, unlocked[4]);
 
         difficultiesPanel.add(diffEasyPanel);
         difficultiesPanel.add(diffMediumPanel);
@@ -171,18 +176,19 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         return bigPanel;
     }
 
-    private JPanel buildDifficultyPanel(JLabel labelName, URL pathImg, URL pathImgHover, GameWindow.Difficulty difficulty) {
+    private JPanel buildDifficultyPanel(JLabel labelName, URL pathImg, URL pathImgHover, GameWindow.Difficulty difficulty, boolean unlocked) {
         JPanel diffPanel = new JPanel(new BorderLayout());
         diffPanel.setBackground(Color.GRAY);
 
+        JLabel diffImgLabel;
         ImageIcon img = new ImageIcon(pathImg);
         ImageIcon imgHover = new ImageIcon(pathImgHover);
-        JLabel diffImgLabel = new JLabel(img);
+        diffImgLabel = new JLabel(unlocked? img : imgLocked);
 
         diffPanel.add(labelName, BorderLayout.SOUTH);
         diffPanel.add(diffImgLabel);
 
-        diffPanel.addMouseListener(new MouseListener() {
+        if(unlocked) diffPanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setDifficulty(difficulty);
@@ -225,7 +231,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     }
 
     private void refreshCheckbox() {
-        soundCheckBox.setSelected(!GameWindow.isMuted());
+        soundCheckBox.setSelected(GameWindow.hasSound());
         soundCheckBox.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox" + (soundCheckBox.isSelected()?"_true":"") + ".png"))));
     }
 
@@ -262,7 +268,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     }
 
     private void setSettings() {
-        Tools.Settings.saveSettings(language, soundCheckBox.isSelected(), difficultySelected);
+        Tools.Settings.saveSettings(language, soundCheckBox.isSelected(), difficultySelected, GameWindow.getDifficultiesUnlocked());
         GameWindow.setSettings(language, soundCheckBox.isSelected(), difficultySelected);
         setTexts();
         GameWindow.playOrStopMenuMusic();
@@ -271,11 +277,18 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
 
     void prepareScreen() {
         language = GameWindow.language();
-        soundCheckBox.setSelected(!GameWindow.isMuted());
+        soundCheckBox.setSelected(GameWindow.hasSound());
         difficultySelected = GameWindow.difficulty();
         langBorders();
         diffBorders();
         refreshCheckbox();
+    }
+
+    public void refreshDifficulties() {
+        bigDiffPanel = null;
+        bigDiffPanel = createDifficultiesPanel();
+        repaint();
+        revalidate();
     }
 
 

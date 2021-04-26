@@ -79,7 +79,7 @@ public class GamePausePanel extends JDialog {
         soundCheckBox.addActionListener(
                 e -> {
                     soundCheckBox.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox" + (soundCheckBox.isSelected()?"_true":"") + ".png"))));
-                    Settings.saveSettings(GameWindow.language(), soundCheckBox.isSelected(), GameWindow.difficulty());
+                    Settings.saveSettings(GameWindow.language(), soundCheckBox.isSelected(), GameWindow.difficulty(), GameWindow.getDifficultiesUnlocked());
                     GameWindow.setSettings(GameWindow.language(), soundCheckBox.isSelected(), GameWindow.difficulty());
                     soundCheckBox.setText(Language.sound(Tools.Settings.isMuted()));
                     GameWindow.playOrStopMenuMusic();
