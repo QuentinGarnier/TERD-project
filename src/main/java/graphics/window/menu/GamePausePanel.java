@@ -13,14 +13,14 @@ import java.awt.event.MouseListener;
 import java.util.Objects;
 
 import static graphics.Tools.Settings;
+import static graphics.window.menu.GameMenuInfoPanel.setHelpPanel;
 
 public class GamePausePanel extends JDialog {
     private final JPanel container;
     private final JCheckBox soundCheckBox;
-    private final JButton quitGame;
+    private final JButton helpButton;
+    private final JButton restartGame, mainMenu, quitGame;
     private final JButton playButton;
-    private final JButton mainMenu;
-    private final JButton restartGame;
 
     public GamePausePanel() {
         super(GameWindow.window, true);
@@ -33,6 +33,7 @@ public class GamePausePanel extends JDialog {
         title.setHorizontalAlignment(SwingConstants.CENTER);
         container.add(title);
         soundCheckBox = new JCheckBox("");
+        helpButton = GameMenuCustomPanel.createMenuButton(Language.help());
         playButton = GameMenuCustomPanel.createMenuButton(Language.resume());
         mainMenu = GameMenuCustomPanel.createMenuButton(Language.menu());
         quitGame = GameMenuCustomPanel.createMenuButton(Language.quitTheGame());
@@ -52,6 +53,7 @@ public class GamePausePanel extends JDialog {
         addMouseEffects();
 
         soundEffect();
+        container.add(helpButton);
         container.add(restartGame);
         container.add(mainMenu);
         container.add(quitGame);
@@ -64,6 +66,7 @@ public class GamePausePanel extends JDialog {
     }
 
     private void addMouseEffects() {
+        addMouseEffect(helpButton, Effect.HELP);
         addMouseEffect(restartGame, Effect.RESTART);
         addMouseEffect(mainMenu, Effect.MENU);
         addMouseEffect(quitGame, Effect.EXIT);
@@ -84,6 +87,10 @@ public class GamePausePanel extends JDialog {
         soundCheckBox.setSelected(Tools.Settings.isMuted());
         soundCheckBox.doClick();
         container.add(soundCheckBox);
+    }
+
+    private void helpPanel() {
+        new KeyPanel(this);
     }
 
     private void restartGame() {
@@ -128,6 +135,7 @@ public class GamePausePanel extends JDialog {
             public void mouseClicked(MouseEvent e) {
                 button.setBackground(bg);
                 switch (effect) {
+                    case HELP -> helpPanel();
                     case RESTART -> restartGame();
                     case MENU -> mainMenu();
                     case EXIT -> quitGame();
@@ -150,7 +158,7 @@ public class GamePausePanel extends JDialog {
     }
 
     private enum Effect {
-        RESTART, MENU, EXIT, RESUME
+        HELP, RESTART, MENU, EXIT, RESUME
     }
 
     private static class KeysActions extends KeyAdapter {
@@ -170,6 +178,62 @@ public class GamePausePanel extends JDialog {
                 case KeyEvent.VK_Q -> jd.quitGame();
                 case KeyEvent.VK_V -> cb.doClick();
             }
+        }
+    }
+
+    private static class KeyPanel extends JDialog {
+        private final JButton backButton;
+
+        KeyPanel(GamePausePanel gmp) {
+            super(gmp, true);
+            setResizable(false);
+            setUndecorated(true);
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            JPanel bigPanel = new JPanel(new BorderLayout());
+            bigPanel.setOpaque(false);
+            JPanel container = new JPanel();
+            JScrollPane scroller = new JScrollPane(container);
+            scroller.setOpaque(false);
+            scroller.setPreferredSize(new Dimension(760,480));
+            setHelpPanel(container);
+            bigPanel.setBorder(GameMenuCustomPanel.bigBorder(true));
+            bigPanel.setFocusable(true);
+            bigPanel.add(scroller);
+
+            backButton = GameMenuCustomPanel.createMenuButton(Language.back());
+            backButton.addMouseListener(new MouseListener() {
+                final Color bg = backButton.getBackground();
+                final Color hoverBG = new Color(180, 150, 110);
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    backButton.setBackground(bg);
+                    dispose();
+                }
+                @Override
+                public void mousePressed(MouseEvent e) {}
+                @Override
+                public void mouseReleased(MouseEvent e) {}
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    backButton.setBackground(hoverBG);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    backButton.setBackground(bg);
+                }
+            });
+            JPanel southPanel = new JPanel(new GridBagLayout());
+            southPanel.setOpaque(false);
+            southPanel.add(backButton);
+            bigPanel.add(southPanel, BorderLayout.SOUTH);
+
+            setContentPane(bigPanel);
+            setCursor(Tools.cursor());
+
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
         }
     }
 }

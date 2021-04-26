@@ -117,7 +117,7 @@ public enum EntityState {
                 break;
             default: break;
         }
-        if (entity.getHP() == 0 && entity.isHero()) Tools.gameEnd(Tools.Victory_Death.WIN);
+        if (entity.getHP() == 0 && entity.isHero()) Tools.gameEnd(Tools.Victory_Death.DEATH_BY_HP);
     }
 
     private static void decrementRemainingTime(AbstractEntity entity) {

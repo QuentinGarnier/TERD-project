@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.Objects;
 
 public class GameMenuInfoPanel extends GameMenuCustomPanel {
@@ -154,9 +155,12 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
 
     // HELP PANEL
     private void setHelpPanel() {
-        helpPanel.removeAll();
+        setHelpPanel(helpPanel);
+    }
+    public static void setHelpPanel(JPanel panel) {
+        panel.removeAll();
 
-        helpPanel.setLayout(new BoxLayout(helpPanel, BoxLayout.Y_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // ZERO LINE
         JPanel zerLine = new JPanel();
@@ -175,21 +179,21 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         // THIRD LINE
         JPanel thrLine = new JPanel();
         int x = (int) fstLine.getPreferredSize().getHeight();
-        thrLine.add(createImageIcon(x, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/attack1.png")).getPath()));
-        thrLine.add(createImageIcon(x, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/attack2.png")).getPath()));
-        thrLine.add(createImageIcon(x, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/attack3.png")).getPath()));
+        thrLine.add(createImageIcon(x, Objects.requireNonNull(GameMenuInfoPanel.class.getClassLoader().getResource("data/images/menu/helpPane/attack1.png"))));
+        thrLine.add(createImageIcon(x, Objects.requireNonNull(GameMenuInfoPanel.class.getClassLoader().getResource("data/images/menu/helpPane/attack2.png"))));
+        thrLine.add(createImageIcon(x, Objects.requireNonNull(GameMenuInfoPanel.class.getClassLoader().getResource("data/images/menu/helpPane/attack3.png"))));
 
         JPanel fourthLine = new JPanel();
         fourthLine.add(new JLabel(Language.infoQ2()));
 
-        helpPanel.add(zerLine);
-        helpPanel.add(fstLine);
-        helpPanel.add(sndLine);
-        helpPanel.add(thrLine);
-        helpPanel.add(fourthLine);
+        panel.add(zerLine);
+        panel.add(fstLine);
+        panel.add(sndLine);
+        panel.add(thrLine);
+        panel.add(fourthLine);
 
-        helpPanel.revalidate();
-        helpPanel.repaint();
+        panel.revalidate();
+        panel.repaint();
     }
 
     private JPanel createLine(String title, CellElementType... icons) {
@@ -204,7 +208,7 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         return panel;
     }
 
-    private JLabel createImageIcon(int xy, ImageIcon img) {
+    private static JLabel createImageIcon(int xy, ImageIcon img) {
         JLabel label = new JLabel();
         Image i = img.getImage().getScaledInstance(xy, xy, Image.SCALE_SMOOTH);
         img.setImage(i);
@@ -212,11 +216,11 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         return label;
     }
 
-    private JLabel createImageIcon(int xy, String s) {
-        return createImageIcon(xy, new ImageIcon(s));
+    private static JLabel createImageIcon(int xy, URL url) {
+        return createImageIcon(xy, new ImageIcon(url));
     }
 
-    private JPanel arrowFirstColumn() {
+    private static JPanel arrowFirstColumn() {
         JPanel panel = new JPanel(new BorderLayout());
 
         // ARROWS
@@ -245,7 +249,7 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         return panel;
     }
 
-    private JPanel arrowSecondColumn() {
+    private static JPanel arrowSecondColumn() {
         JPanel panel = new JPanel(new GridLayout(0,1));
         panel.add(makeKeyDescription("I", Language.openTheInventory()));
         panel.add(makeKeyDescription("P", "/ [ESC] : " + Language.options()));
@@ -253,7 +257,7 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         return panel;
     }
 
-    private JPanel makeKeyDescription(String key, String description) {
+    private static JPanel makeKeyDescription(String key, String description) {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = makeSquareLabel(key);
         JLabel descr = new JLabel(description);
@@ -263,7 +267,7 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         return panel;
     }
 
-    private JLabel makeSquareLabel(String s) {
+    private static JLabel makeSquareLabel(String s) {
         JLabel label = new JLabel(s);
         label.setOpaque(true);
         label.setFont(new Font("monospaced", Font.PLAIN, 30));
@@ -288,7 +292,7 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         JPanel sndLine = new JPanel();
 
         // JAVA IMAGE
-        sndLine.add(createImageIcon(140, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/java.png")).getPath()));
+        sndLine.add(createImageIcon(140, Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/helpPane/java.png"))));
         creditsPanel.add(sndLine);
 
         creditsPanel.revalidate();
