@@ -60,7 +60,7 @@ public enum EquipmentTypes {
         EquipmentRarity raritySelected = rn <= 0.50 ? EquipmentRarity.COMMON : rn <= 0.80 ? EquipmentRarity.RARE : rn <= 0.95 ? EquipmentRarity.EPIC : EquipmentRarity.LEGENDARY;
         EquipmentTypes[] equipmentTypesByRarity = Arrays.stream(EquipmentTypes.values()).filter(elt -> elt.rarity == raritySelected).toArray(EquipmentTypes[]::new);
         int rndElt = new Random().nextInt(equipmentTypesByRarity.length);
-        return EquipmentTypes.values()[rndElt];
+        return equipmentTypesByRarity[rndElt];
     }
 
     public int getEffectInt() {
