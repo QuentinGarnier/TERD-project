@@ -133,6 +133,7 @@ public class Tools {
     }
 
     public static void gameEnd(Victory_Death vd) {
+        System.out.println(123);
         switch (vd){
             case DEATH_BY_HUNGER, DEATH_BY_HP -> GameWindow.addToLogs(Language.logHeroDeath(vd.equals(Victory_Death.DEATH_BY_HUNGER)), Color.RED);
             case WIN -> GameWindow.addToLogs(Language.logHeroVictory(), Color.RED);
@@ -280,7 +281,7 @@ public class Tools {
                         Player.getInstancePlayer().getLvl() + " " +
                         WorldMap.stageNum + " " +
                         Language.translate(Player.getInstancePlayer().entityType) + " " +
-                        (GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
+                        (GameWindow.name == null || GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
                 fw.close();
             } catch (IOException e){
                 e.printStackTrace();
