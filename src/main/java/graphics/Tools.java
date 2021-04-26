@@ -306,7 +306,7 @@ public class Tools {
                         System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage" :
                         System.getProperty("user.home") + "/.ThatTimeTheHeroSavedTheVillage");
         if(!directory.exists())
-            return !directory.mkdir();
+            return directory.mkdir();
         return true;
     }
 
