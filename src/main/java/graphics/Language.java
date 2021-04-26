@@ -31,6 +31,12 @@ public enum Language {
     public static String options() {
         return lang("Options", "Options", "Opzioni", "خيارات");
     }
+    public static String help() {
+        return lang("Help", "Aide", "Aiuto", "يساعد");
+    }
+    public static String ranking() {
+        return lang("Ranking", "Classement", "Classifica", "...");
+    }
     public static String exitGame() {
         return lang("Exit Game", "Quitter le Jeu", "Esci dal Gioco", "اترك اللعبة");
     }
@@ -92,6 +98,12 @@ public enum Language {
                 "تكمن قوته في قدرته على حرق خصومه وشفاء نفسه قليلاً مع كل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
+    public static String enterYourName() {
+        return lang("Enter your name:", "Entrez votre nom :", "Inserisci il tuo nome:", "...");
+    }
+    public static String emptyName() {
+        return lang("Empty name!", "Le nom est vide !", "Il nome è vuoto!", "...");
+    }
 
 
 
@@ -139,15 +151,11 @@ public enum Language {
     public static String attack() {
         return lang("Attack", "Attaque ", "Attacco", "هجوم");
     }
-    public static String defense() { return lang("Defense", "Défense", "Difesa", "دفاع");}
+    public static String defense() {
+        return lang("Defense", "Défense", "Difesa", "دفاع");
+    }
     public static String range() {
         return lang("Range", "Portée ", "Portata", "مدى");
-    }
-    public static String pressIForInventory(boolean b) {
-        return lang("Press [i] to " + (b? "open":"close") + " INVENTORY.",
-                "Appuyez sur [i] pour " + (b? "ouvrir":"fermer") + " l'INVENTAIRE.",
-                "Premere [i] per " + (b? "aprire":"chiudere") + " l'INVENTARIO.",
-                "اضغط [i] إلى " + (b? "لفتح":"اغلاق") + " المخزون.");
     }
     public static String money() {
         return lang("Money","Monnaie ", "Moneta","فضة");
@@ -295,7 +303,7 @@ public enum Language {
         return lang("Food", "Nourriture", "Cibo","طعام");
     }
     public static String logEffect(EntityState es) {
-        String e = switch (es){
+        String e = switch (es) {
             case BURNT -> lang("Burning", "de brûlure", "bruciante","احتراق");
             case FROZEN -> lang("Frozing", "de gel", "congelante","الصقيع");
             case HEALED -> lang("Healing", "de guérison", "curativo","شفاء");
@@ -307,10 +315,18 @@ public enum Language {
         };
         return lang(e + " effect", "Effet " + e, "Effetto " + e, "تأثير" + e);
     }
-    public static String logInventory() {return lang("Inventory", "Inventaire", "Inventario","المخزون");}
-    public static String logEquipped() {return lang("equipped", "équipé(e)", "in uso","مجهز");}
-    public static String logRejected() {return lang("rejected", "rejeté", "rifiutato", "مرفوض");}
-    public static String logConsumed() {return lang("consumed", "consommé(e)", "consumato","مستهلك");}
+    public static String logInventory() {
+        return lang("Inventory", "Inventaire", "Inventario","المخزون");
+    }
+    public static String logEquipped() {
+        return lang("equipped", "équipé(e)", "in uso","مجهز");
+    }
+    public static String logRejected() {
+        return lang("rejected", "rejeté", "rifiutato", "مرفوض");
+    }
+    public static String logConsumed() {
+        return lang("consumed", "consommé(e)", "consumato","مستهلك");
+    }
     private static String logIsParalysedEffect(EntityType entityType) {
         Language l = GameWindow.language();
         return switch (entityType) {
@@ -411,10 +427,18 @@ public enum Language {
 
 
     // ===== Button Inventory Panel & Items effects ===== //
-    public static String buttonEquip(){return lang("Equip", "Équiper", "Usare", "تجهيز");}
-    public static String buttonUnequip(){return lang("Unequip", "Déséquiper", "Lasciare", "غير مجهّز");}
-    public static String buttonConsume() {return lang("Consume", "Consommer", "Consumare","يستخدم");}
-    public static String buttonThrow() {return lang("Throw away", "Jeter", "Buttare via", "رمى");}
+    public static String buttonEquip() {
+        return lang("Equip", "Équiper", "Usare", "تجهيز");
+    }
+    public static String buttonUnequip() {
+        return lang("Unequip", "Déséquiper", "Lasciare", "غير مجهّز");
+    }
+    public static String buttonConsume() {
+        return lang("Consume", "Consommer", "Consumare","يستخدم");
+    }
+    public static String buttonThrow() {
+        return lang("Throw away", "Jeter", "Buttare via", "رمى");
+    }
     public static String descriptionItemCons(ConsumableTypes ct) {
         return switch (ct) {
             case HEALTH_POTION -> lang("Heals 10% of your HP", "Soigne 10% de vos PV", "Cura il 10% dei tuoi HP", "+ 10٪ من الأرواح");
@@ -530,15 +554,30 @@ public enum Language {
 
 
     // ===== Help Menu Panel ===== //
-    public static String history(){return lang("History", "Histoire", "Storia", "تاريخ");}
-    public static String description(){return lang("Description", "Description", "Descrizione", "وصف");}
-    public static String keys(){return lang("Keys", "Touches", "Tasti", "مفاتيح");}
-    public static String credits(){return lang("Credits", "Crédits", "Crediti", "الاعتمادات");}
-    public static String item(){return lang("Item", "Objet", "Oggetto", "بالموضوع");}
-    public static String trap(){return lang("Trap", "Piège", "Trappola", "فخ");}
-    public static String help(){return lang("Help", "Aide", "Aiuto", "يساعد");}
-    public static String enemies(){return lang("Enemies", "Ennemis", "Nemici", "أعداء");}
-    public static String heroes(){return lang("Heroes", "Héros", "Eroi", "بطل");}
+    public static String history() {
+        return lang("History", "Histoire", "Storia", "تاريخ");
+    }
+    public static String description() {
+        return lang("Description", "Description", "Descrizione", "وصف");
+    }
+    public static String keys() {
+        return lang("Keys", "Touches", "Tasti", "مفاتيح");
+    }
+    public static String credits() {
+        return lang("Credits", "Crédits", "Crediti", "الاعتمادات");
+    }
+    public static String item() {
+        return lang("Item", "Objet", "Oggetto", "بالموضوع");
+    }
+    public static String trap() {
+        return lang("Trap", "Piège", "Trappola", "فخ");
+    }
+    public static String enemies() {
+        return lang("Enemies", "Ennemis", "Nemici", "أعداء");
+    }
+    public static String heroes() {
+        return lang("Heroes", "Héros", "Eroi", "بطل");
+    }
     public static String aboutDescription() {
         return lang("<html><center>" +
                 "<h1> Goal of the game </h1></center>" +
@@ -589,7 +628,7 @@ public enum Language {
                 "<li>La nourriture restaure un peu de PV et de Faim</li>" +
                 "<li>Autres avec des effets différents</li>" +
                 "</ul>" +
-                "Dans la salle du Marchant vous pouvez acheter les items que vous<br>" +
+                "Dans la salle du Marchand, vous pouvez acheter les items que vous<br>" +
                 "désirez à condition d'avoir assez d'argent pour l'obtenir. Vous<br>" +
                 "avez aussi la possibilité de vendre vos items mais à un prix réduit.<br>" +
                 "Dernière chose avant de commencer votre Quête :<br>" +
@@ -644,7 +683,7 @@ public enum Language {
                         "<li> الغذاء يعيد بعض الصحة والجوع </ li>" +
                         "<li> آخرون بتأثيرات مختلفة </ li>" +
                         "</ul>" +
-                        "في Salle du Marchant يمكنك شراء العناصر التي <br>" +
+                        "في Salle du Marchand يمكنك شراء العناصر التي <br>" +
                         "تريد بشرط أن يكون لديك ما يكفي من المال للحصول عليها. أنت <br>" +
                         "لديك أيضًا إمكانية بيع العناصر الخاصة بك ولكن بسعر مخفض. <br>" +
                         "آخر شيء قبل بدء المهمة: <br>" +
@@ -726,7 +765,7 @@ public enum Language {
         );
     }
     public static String directions(Move m) {
-        return switch (m){
+        return switch (m) {
             case UP -> lang("Go up", "Monter", "Salire", "يصعد");
             case DOWN -> lang("Go down", "Descendre", "Scendere", "انزل");
             case RIGHT -> lang("Go right", "Aller à droite", "Andare a destra", "انعطف يمينا");
@@ -879,20 +918,24 @@ public enum Language {
         );
     }
 
+    public static String quitTheGame() {
+        return lang("Quit the game", "Quitter le jeu", "Usire dal gioco", "اترك اللعبة");
+    }
+    public static String restart() {
+        return lang("Restart the game", "Relancer la partie", "Ricominciare la partita", "أعد تشغيل اللعبة");
+    }
     public static String quitGameConfirmation() {
         return lang("Do you really want to leave the game?",
                 "Êtes-vous sûr de vouloir quitter le jeu ?",
                 "Sei sicuro di voler chiudere il gioco?",
                 "هل أنت متأكد أنك تريد إنهاء اللعبة؟");
     }
-
     public static String goToMenuConfirmation() {
         return lang("Do you really want to go back to the main menu?",
                 "Êtes-vous sûr de vouloir revenir au menu principal ?",
                 "Sei sicuro di voler andare al menu principale?",
                 "هل أنت متأكد أنك تريد العودة إلى القائمة الرئيسية؟");
     }
-
     public static String restartConfirmation() {
         return lang("Do you really want to restart the game?",
                 "Êtes-vous sûr de vouloir recommencer la partie ?",
@@ -900,22 +943,44 @@ public enum Language {
                 "هل أنت متأكد أنك تريد بدء اللعبة من جديد؟");
     }
 
-    public static String quitTheGame() {
-        return lang("Quit the game", "Quitter le jeu", "Usire dal gioco", "اترك اللعبة");
-    }
 
-    public static String restart() {
-        return lang("Restart the game", "Relancer la partie", "Ricominciare la partita", "أعد تشغيل اللعبة");
-    }
 
+    // ===== End Panel (Victory or Defeat) =====
     public static String gameOver() {
         return lang("GAME OVER!", "VOUS AVEZ PERDU !", "HAI PERSO!", "انتهت اللعبة!");
     }
-
     public static String gameVictory() {
         return lang("YOU SAVED THE WORLD FROM DARKNESS!",
                 "VOUS AVEZ SAUVÉ LE MONDE DE L'OBSCURITÉ !",
                 "HAI SALVATO IL MONDO DALL'OSCURITÀ!",
                 "لقد أنقذت العالم من الظلام!");
+    }
+
+
+
+    // ===== Ranking Panel =====
+    public static String clear() {
+        return lang("Clear", "Effacer", "Cancellare", "...");
+    }
+    public static String date() {
+        return lang("Date", "Date", "Data", "...");
+    }
+    public static String heroName() {
+        return lang("Name", "Nom", "Nome", "...");
+    }
+    public static String speciality() {
+        return lang("Speciality", "Spécialité", "Specialità", "...");
+    }
+    public static String confirmClear() {
+        return lang("You are about to erase the entire ranking history. This action is irreversible.",
+                "Vous êtes sur le point d'effacer tout l'historique du classement. Cette action est irréversible.",
+                "Stai per cancellare l'intera cronologia della classifica. Questa azione è irreversibile.",
+                "...");
+    }
+    public static String erase() {
+        return lang("Erase", "Effacer", "Cancellare", "...");
+    }
+    public static String cancel() {
+        return lang("Cancel", "Annuler", "Annullare", "...");
     }
 }

@@ -133,7 +133,6 @@ public class Tools {
     }
 
     public static void gameEnd(Victory_Death vd) {
-        System.out.println(123);
         switch (vd){
             case DEATH_BY_HUNGER, DEATH_BY_HP -> GameWindow.addToLogs(Language.logHeroDeath(vd.equals(Victory_Death.DEATH_BY_HUNGER)), Color.RED);
             case WIN -> GameWindow.addToLogs(Language.logHeroVictory(), Color.RED);

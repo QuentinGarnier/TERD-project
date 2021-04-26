@@ -19,13 +19,13 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
 
     void fillScreen() {
         setLayout(new BorderLayout());
-        JPanel midPanel = new JPanel(new GridLayout(0, 1, 0, 20));
+        JPanel midPanel = new JPanel(new GridLayout(0, 1, 0, 10));
 
         newGameButton = createMenuButton(Language.newGame());
         optionsButton = createMenuButton(Language.options());
         helpButton = createMenuButton(Language.help());
         exitButton = createMenuButton(Language.exitGame());
-        rankingButton = createMenuButton("Ranking");
+        rankingButton = createMenuButton(Language.ranking());
         addMenuButton(newGameButton, midPanel);
         addMenuButton(optionsButton, midPanel);
         addMenuButton(helpButton, midPanel);
@@ -64,6 +64,7 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
         optionsButton.setText(Language.options());
         helpButton.setText(Language.help());
         exitButton.setText(Language.exitGame());
+        rankingButton.setText(Language.ranking());
     }
 
     /**
