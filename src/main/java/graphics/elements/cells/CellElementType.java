@@ -33,7 +33,7 @@ public enum CellElementType {
     SPIDER('S', false, "entities/monsters/spider"),
     WIZARD('W', false, "entities/monsters/wizard"),
     ORC('O', false, "entities/monsters/orc"),
-    BOSS('D', false, "entities/monsters/dragon"),
+    BOSS('D', false, "entities/monsters/dragonL"),
     MERCHANT('M', false, "entities/merchant/merchant");
 
     private final char symbol;
@@ -56,6 +56,11 @@ public enum CellElementType {
 
     public ImageIcon getIcon() {
         return icon;
+    }
+
+    public static ImageIcon getBossIcon(boolean left){
+        return new ImageIcon(Objects.requireNonNull(
+                CellElementType.class.getClassLoader().getResource("data/images/entities/monsters/dragon" + (left ? "L" : "R") + ".png")));
     }
 
     public void setIcon(ImageIcon i) {

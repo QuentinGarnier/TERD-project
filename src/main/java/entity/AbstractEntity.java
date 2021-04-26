@@ -30,6 +30,7 @@ public abstract class AbstractEntity extends JPanel {
     private final int size;
     private final ImageIcon barIcon;
     private final JLabel barLabel;
+    private final JLabel image;
     private Animation animation;
 
     // MOVE WITH THREAD
@@ -56,6 +57,7 @@ public abstract class AbstractEntity extends JPanel {
         this.size = GamePanel.size * (entityType == EntityType.MONSTER_BOSS? 3 : 1);
         this.barLabel = new JLabel();
         this.barIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/interfaces/" + "bar_red.png")));
+        this.image = new JLabel();
 
         barLabel.setHorizontalAlignment(SwingConstants.LEFT);
         setup();
@@ -82,13 +84,17 @@ public abstract class AbstractEntity extends JPanel {
         if (timer != null) timer.stop();
     }
 
-    private JLabel image() {
-        ImageIcon entityImg = new ImageIcon(entityType.cellElementType.getIcon().getImage());
+    private void image(Position p) {
+        ImageIcon entityImg;
+        if (p == null) entityImg = new ImageIcon(entityType.cellElementType.getIcon().getImage());
+        else if (p.getX() < 0) entityImg = new ImageIcon(CellElementType.getBossIcon(false).getImage());
+        else if (p.getX() > 0) entityImg = new ImageIcon(CellElementType.getBossIcon(true).getImage());
+        else return;
         Image img = entityImg.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
         entityImg.setImage(img);
-        JLabel entityP = new JLabel(entityImg);
-        entityP.setSize(size, size);
-        return entityP;
+        image.setIcon(entityImg);
+        image.repaint();
+        image.revalidate();
     }
 
     private JLabel bar() {
@@ -107,7 +113,8 @@ public abstract class AbstractEntity extends JPanel {
     private void setup() {
         setOpaque(false);
         if(!entityType.isHeroType() && !entityType.isMerchantType()) add(bar(), BorderLayout.NORTH);
-        add(image());
+        if (!setBossImage(null)) image(null);
+        add(image);
         setSize(size, size);
         setLocation();
     }
@@ -306,6 +313,14 @@ public abstract class AbstractEntity extends JPanel {
         this.position = p;
         setLocation();
         worldMap.getCell(position).setEntity(this);
+    }
+
+    public boolean setBossImage(Position p){
+        if (entityType.equals(EntityType.MONSTER_BOSS)) {
+            image(p != null ? p : new Position(position.getX() - Player.getInstancePlayer().getPosition().getX(), 0));
+            return true;
+        }
+        return false;
     }
 
     public boolean isHero() {

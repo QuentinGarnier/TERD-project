@@ -44,14 +44,29 @@ public class Strategy {
                 increaseHP(isInvulnerable ? 4 : 8);
                 return;
             }
-            else {increaseHP(1); isFled = bossFleeHero();}
+            else {
+                increaseHP(1);
+                Position p = currentEntity.getPosition();
+                isFled = bossFleeHero();
+                if (isFled){
+                    Position p1 = currentEntity.getPosition();
+                    Position diff = new Position(p.getX() - p1.getX(), 0);
+                    currentEntity.setBossImage(diff);
+                    return;
+                }
+            }
         }
 
         if (!isFled) {
             if (currentEntity.withinReach(hero, currentEntity.entityType.rangeByType)) Attack.attack(currentEntity, hero);
-            else if (!fleeMode) goCloseHero();
+            else if (!fleeMode) {
+                currentEntity.setBossImage(null);
+                goCloseHero();
+                return;
+            }
             else increaseHP(isInvulnerable ? 4 : 8);
         }
+        currentEntity.setBossImage(null);
     }
 
     private boolean withinReachBossByType() {
