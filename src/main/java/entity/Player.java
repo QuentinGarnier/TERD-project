@@ -202,7 +202,7 @@ public class Player extends AbstractEntity {
         if (toDisplayMsg && (x >= 0)) GameWindow.addToLogs(Language.logModifyHunger(x), Tools.WindowText.purple);
         if (hunger == 0) {
             modifyHP(-getHPMax());
-            Tools.gameOver(true);
+            Tools.gameEnd(Tools.Victory_Death.DEATH_BY_HUNGER);
         }
     }
 
@@ -234,7 +234,7 @@ public class Player extends AbstractEntity {
                 }
             });
         }
-        if (getHP() == 0 && getHunger() > 0) Tools.gameOver(false);
+        if (getHP() == 0 && getHunger() > 0) Tools.gameEnd(Tools.Victory_Death.DEATH_BY_HP);
     }
 
     private void moveMerchant(){

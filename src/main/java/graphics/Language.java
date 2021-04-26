@@ -245,6 +245,9 @@ public enum Language {
         if(deathByHunger) return lang("HERO DIED OF HUNGER", "LE HÉROS EST MORT DE FAIM", "L'EROE È MORTO DI FAME","البطل مات من الجوع");
         return lang("HERO IS DEAD", "LE HÉROS EST MORT", "L'EROE È MORTO","البطل ميت");
     }
+    public static String logHeroVictory(){
+        return lang("You win the darkness", "Vous avez vaincu le Mal", "Hai sconfitto il male", "...");
+    }
     public static String logCantDropItem() {
         return lang("You can't drop the item here.", "Vous ne pouvez pas jeter l'objet ici.", "Non puoi lasciare l'oggetto qui.","لا يمكنك رمي العنصر هنا.");
     }
@@ -906,5 +909,11 @@ public enum Language {
 
     public static String gameOver() {
         return lang("GAME OVER!", "VOUS AVEZ PERDU !", "HAI PERSO!", "...");
+    }
+
+    public static String gameVictory() {
+        return lang("YOU SAVED THE WORLD FROM DARKNESS!",
+                "VOUS AVEZ SAUVÉ LE MODE DE L'OBSCURITÉ!",
+                "HAI SALVATO IL MONDO DALL'OSCURITÀ!", "...");
     }
 }

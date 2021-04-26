@@ -5,12 +5,11 @@ import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
 import graphics.map.WorldMap;
-import graphics.window.GameOverPanel;
+import graphics.window.GameEndPanel;
 import graphics.window.GameWindow;
 import items.AbstractItem;
 
 import javax.sound.sampled.*;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.im.InputContext;
 import java.io.File;
@@ -132,15 +131,21 @@ public class Tools {
         GameWindow.display();
     }
 
-    public static void gameOver(boolean deathByHunger) {
-        GameWindow.addToLogs(Language.logHeroDeath(deathByHunger), Color.RED);
+    public static void gameEnd(Victory_Death vd) {
+        switch (vd){
+            case DEATH_BY_HUNGER, DEATH_BY_HP -> GameWindow.addToLogs(Language.logHeroDeath(vd.equals(Victory_Death.DEATH_BY_HUNGER)), Color.RED);
+            case WIN -> GameWindow.addToLogs(Language.logHeroVictory(), Color.RED);
+        }
+
         GameWindow.refreshInventory();
         GameWindow.window.repaint();
         GameWindow.window.revalidate();
-        new GameOverPanel();
+        new GameEndPanel(vd);
     }
 
-
+    public enum Victory_Death {
+        DEATH_BY_HUNGER, DEATH_BY_HP, WIN;
+    }
 
     /**
      * A sub class for the settings of the game.

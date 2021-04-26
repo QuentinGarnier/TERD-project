@@ -5,7 +5,6 @@ import graphics.Tools;
 import graphics.window.GameWindow;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Objects;
 
 /**
@@ -118,7 +117,7 @@ public enum EntityState {
                 break;
             default: break;
         }
-        if (entity.getHP() == 0 && entity.isHero()) Tools.gameOver(false);
+        if (entity.getHP() == 0 && entity.isHero()) Tools.gameEnd(Tools.Victory_Death.WIN);
     }
 
     private static void decrementRemainingTime(AbstractEntity entity) {

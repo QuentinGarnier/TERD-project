@@ -9,15 +9,17 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GameOverPanel extends JDialog {
+public class GameEndPanel extends JDialog {
     private final JPanel container;
     private final JPanel buttonsPanel;
     private final JButton restartButton;
     private final JButton menuButton;
     private final JButton exitButton;
+    private final Tools.Victory_Death vd;
 
-    public GameOverPanel() {
+    public GameEndPanel(Tools.Victory_Death vd) {
         super(GameWindow.window, true);
+        this.vd = vd;
         setResizable(false);
         setUndecorated(true);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -41,7 +43,7 @@ public class GameOverPanel extends JDialog {
         getContentPane().setBackground(Color.LIGHT_GRAY);
         setCursor(Tools.cursor());
 
-        JLabel title = new JLabel("<html><h2>" + Language.gameOver() + "</h2></html>");
+        JLabel title = new JLabel("<html><h2>" + (vd.equals(Tools.Victory_Death.WIN) ? Language.gameVictory() : Language.gameOver()) + "</h2></html>");
         title.setHorizontalAlignment(SwingConstants.CENTER);
 
         container.add(title);

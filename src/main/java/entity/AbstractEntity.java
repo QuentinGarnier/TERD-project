@@ -214,6 +214,9 @@ public abstract class AbstractEntity extends JPanel {
                 GameWindow.addToLogs(Language.translate(this.entityType) + " " + Language.logDie() + "!", Tools.WindowText.red);
                 Player.getInstancePlayer().earnXP(entityType.experienceByType);
             }
+            if (this.entityType.equals(EntityType.MONSTER_BOSS)){
+                Tools.gameEnd(Tools.Victory_Death.WIN);
+            }
         }
         updateBar();
     }
