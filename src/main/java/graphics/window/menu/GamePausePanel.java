@@ -39,6 +39,7 @@ public class GamePausePanel extends JDialog {
         restartGame = GameMenuCustomPanel.createMenuButton(Language.restart());
         container.addKeyListener(new KeysActions(this, soundCheckBox));
         container.setFocusable(true);
+        soundCheckBox.setFocusable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setup();
     }
