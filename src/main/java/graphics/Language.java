@@ -163,7 +163,7 @@ public enum Language {
         return lang((b ? "Activate" : "Stop") + " the sound",
                (b ? "Activer" : "Désactiver") + " le son",
                 (b ? "Attivare" : "Disattivare") + "l'audio",
-                (b ? "..." : "...") + "له");
+                (b ? "تفعيل" : "تعطيل") + "الصوت");
     }
     public static String resume() {
         return lang("Resume", "Reprendre", "Riprendere", "الاستئناف");
@@ -191,10 +191,10 @@ public enum Language {
 
     public static String logEquipmentRarity(ItemEquip ie) {
         return switch (ie.getEquipmentType().getRarity()) {
-            case COMMON -> lang("Common", "Commun", "Comune", "...");
-            case RARE -> lang("Rare", "Rare", "Raro", "...");
-            case EPIC -> lang("Epic", "Épique", "Epico", "...");
-            case LEGENDARY -> lang("Legendary", "Légendaire", "Leggendario", "...");
+            case COMMON -> lang("Common", "Commun", "Comune", "مشترك");
+            case RARE -> lang("Rare", "Rare", "Raro", "نادر");
+            case EPIC -> lang("Epic", "Épique", "Epico", "ملحمي");
+            case LEGENDARY -> lang("Legendary", "Légendaire", "Leggendario", "أسطوري");
 
         };
     }
@@ -205,7 +205,7 @@ public enum Language {
                 "Si entra nel piano inferiore...",
                 "تدخل الطابق السفلي ...") :
                 lang("Darkness is coming...", "Les ténèbres se rapprochent...",
-                        "Le tenebre si avvicinano...", "...");
+                        "Le tenebre si avvicinano...", "الظلام يقترب ...");
     }
     public static String logNothingHappens(AbstractEntity e) {
         return lang(e + " is Immune.", e + " est Immunisé.", e + " è Immune.", " محصن." + e);
@@ -223,7 +223,8 @@ public enum Language {
         int dmg = (int) (Player.getInstancePlayer().getAttack() * 0.20);
         return lang("A" + (monster.getEntityType() == EntityType.MONSTER_ORC ? "n " : " ")  + monster + " suffers the Mage's area effect. [-" + dmg + " HP]",
                 "Un" + (monster.getEntityType() == EntityType.MONSTER_SPIDER ? "e " : " ") + monster + " subit l'effet de zone du Mage. [-" + dmg + " PV]",
-                "Un " + monster + " subisce l'effetto a zona del Mago [-" + dmg + " HP]", "يعان" + monster + "من تأثير منطقة الساحر [-" + dmg + "HP]");
+                "Un " + monster + " subisce l'effetto a zona del Mago [-" + dmg + " HP]",
+                "يعان" + monster + "من تأثير منطقة الساحر [-" + dmg + "HP]");
     }
 
     public static String logCriticalHit(AbstractEntity entity1, AbstractEntity entity2, int atk) {
@@ -246,7 +247,7 @@ public enum Language {
         return lang("HERO IS DEAD", "LE HÉROS EST MORT", "L'EROE È MORTO","البطل ميت");
     }
     public static String logHeroVictory() {
-        return lang("You defeated the Evil!", "Vous avez vaincu le Mal !", "Hai sconfitto il Male!", "...");
+        return lang("You defeated the Evil!", "Vous avez vaincu le Mal !", "Hai sconfitto il Male!", "لقد انتصرت على الشر!");
     }
     public static String logCantDropItem() {
         return lang("You can't drop the item here.", "Vous ne pouvez pas jeter l'objet ici.", "Non puoi lasciare l'oggetto qui.","لا يمكنك رمي العنصر هنا.");
@@ -882,39 +883,39 @@ public enum Language {
         return lang("Do you really want to leave the game?",
                 "Êtes-vous sûr de vouloir quitter le jeu ?",
                 "Sei sicuro di voler chiudere il gioco?",
-                "...");
+                "هل أنت متأكد أنك تريد إنهاء اللعبة؟");
     }
 
     public static String goToMenuConfirmation() {
         return lang("Do you really want to go back to the main menu?",
                 "Êtes-vous sûr de vouloir revenir au menu principal ?",
                 "Sei sicuro di voler andare al menu principale?",
-                "...");
+                "هل أنت متأكد أنك تريد العودة إلى القائمة الرئيسية؟");
     }
 
     public static String restartConfirmation() {
         return lang("Do you really want to restart the game?",
                 "Êtes-vous sûr de vouloir recommencer la partie ?",
                 "Sei sicuro di voler ricominciare la partita?",
-                "...");
+                "هل أنت متأكد أنك تريد بدء اللعبة من جديد؟");
     }
 
     public static String quitTheGame() {
-        return lang("Quit the game", "Quitter le jeu", "Usire dal gioco", "...");
+        return lang("Quit the game", "Quitter le jeu", "Usire dal gioco", "اترك اللعبة");
     }
 
     public static String restart() {
-        return lang("Restart the game", "Relancer la partie", "Ricominciare la partita", "...");
+        return lang("Restart the game", "Relancer la partie", "Ricominciare la partita", "أعد تشغيل اللعبة");
     }
 
     public static String gameOver() {
-        return lang("GAME OVER!", "VOUS AVEZ PERDU !", "HAI PERSO!", "...");
+        return lang("GAME OVER!", "VOUS AVEZ PERDU !", "HAI PERSO!", "انتهت اللعبة!");
     }
 
     public static String gameVictory() {
         return lang("YOU SAVED THE WORLD FROM DARKNESS!",
                 "VOUS AVEZ SAUVÉ LE MONDE DE L'OBSCURITÉ !",
                 "HAI SALVATO IL MONDO DALL'OSCURITÀ!",
-                "...");
+                "لقد أنقذت العالم من الظلام!");
     }
 }
