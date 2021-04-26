@@ -253,8 +253,8 @@ public class Tools {
                 }
                 String[][] resS = new String[res.size()][5];
                 for (int i = 0; i < res.size(); i++){
-                    resS[i][0] = res.get(i)[4];
-                    resS[i][1] = res.get(i)[0];
+                    resS[i][0] = res.get(i)[0];
+                    resS[i][1] = res.get(i)[4];
                     resS[i][2] = res.get(i)[3];
                     resS[i][3] = res.get(i)[1];
                     resS[i][4] = res.get(i)[2];
