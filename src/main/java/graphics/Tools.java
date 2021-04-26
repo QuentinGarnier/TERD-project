@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.*;
 
@@ -136,7 +137,7 @@ public class Tools {
             case DEATH_BY_HUNGER, DEATH_BY_HP -> GameWindow.addToLogs(Language.logHeroDeath(vd.equals(Victory_Death.DEATH_BY_HUNGER)), Color.RED);
             case WIN -> GameWindow.addToLogs(Language.logHeroVictory(), Color.RED);
         }
-
+        Ranking.saveRanking();
         GameWindow.refreshInventory();
         GameWindow.window.repaint();
         GameWindow.window.revalidate();
@@ -144,7 +145,7 @@ public class Tools {
     }
 
     public enum Victory_Death {
-        DEATH_BY_HUNGER, DEATH_BY_HP, WIN;
+        DEATH_BY_HUNGER, DEATH_BY_HP, WIN
     }
 
     /**
@@ -157,7 +158,7 @@ public class Tools {
         private static final String path =
                 (System.getProperty("os.name").startsWith("Windows") ?
                         System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage\\.settings" :
-                        System.getProperty("user.home") + "/.settings_project_TERD");
+                        System.getProperty("user.home") + "/.ThatTimeTheHeroSavedTheVillage/settings_project_TERD");
 
         public static void loadSettings() {
             try {
@@ -202,10 +203,7 @@ public class Tools {
 
         public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff) {
             try {
-                if(System.getProperty("os.name").startsWith("Windows")) {
-                    File directory = new File(System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage");
-                    if(!directory.exists()) if(!directory.mkdir()) return;
-                }
+                if (!makeDir()) return;
                 File f = new File(path);
                 if(!f.exists()) if(!f.createNewFile()) return;
                 FileWriter writer = new FileWriter(f);
@@ -238,7 +236,79 @@ public class Tools {
         }
     }
 
+    public static class Ranking {
+        private static final String path =
+                (System.getProperty("os.name").startsWith("Windows") ?
+                        System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage\\.ranking" :
+                        System.getProperty("user.home") + "/.ThatTimeTheHeroSavedTheVillage/ranking");
 
+        public static String[][] getRankings() {
+            File f = new File(path);
+            try {
+                List<String[]> res = new ArrayList<>();
+                Scanner scanner = new Scanner(f);
+                while (scanner.hasNextLine()){
+                    String line = scanner.nextLine();
+                    if (!line.equals("")) res.add(line.split(" "));
+                }
+                String[][] resS = new String[res.size()][5];
+                for (int i = 0; i < res.size(); i++){
+                    resS[i][0] = res.get(i)[4];
+                    resS[i][1] = res.get(i)[0];
+                    resS[i][2] = res.get(i)[3];
+                    resS[i][3] = res.get(i)[1];
+                    resS[i][4] = res.get(i)[2];
+                }
+                return resS;
+            } catch (FileNotFoundException e){
+                return null;
+            } catch (Exception e){
+                System.err.println("Can't parse the file of ranking");
+                return null;
+            }
+        }
+
+        public static void saveRanking() {
+            if(!makeDir()) return;
+            File f = new File(path);
+            try {
+                if (!f.exists()) if (!f.createNewFile()) return;
+                //true = appends the string to the file
+                FileWriter fw = new FileWriter(path, true);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                fw.write(formatter.format(new Date()) + " " +
+                        Player.getInstancePlayer().getLvl() + " " +
+                        WorldMap.stageNum + " " +
+                        Language.translate(Player.getInstancePlayer().entityType) + " " +
+                        (GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
+                fw.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        public static void clearRanking() {
+            File f = new File(path);
+            try {
+                if (!f.exists()) if (!f.createNewFile()) return;
+                FileWriter fw = new FileWriter(path);
+                fw.write("");
+                fw.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static boolean makeDir(){
+        File directory = new File(
+                System.getProperty("os.name").startsWith("Windows") ?
+                        System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage" :
+                        System.getProperty("user.home") + "/.ThatTimeTheHeroSavedTheVillage");
+        if(!directory.exists())
+            return !directory.mkdir();
+        return true;
+    }
 
     /**
      * Sub classes for the text.

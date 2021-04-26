@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.Objects;
 
 public class GameWindow extends JFrame {
+    public static String name = "";
     public static GameWindow window = new GameWindow();
 
     private static Language lang;

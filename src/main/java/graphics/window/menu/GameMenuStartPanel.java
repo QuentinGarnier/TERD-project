@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.Objects;
 
 public class GameMenuStartPanel extends GameMenuCustomPanel {
-    private JButton newGameButton, optionsButton, helpButton, exitButton;
+    private JButton newGameButton, optionsButton, helpButton, rankingButton, exitButton;
 
     GameMenuStartPanel() {
         super();
@@ -19,20 +19,23 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
 
     void fillScreen() {
         setLayout(new BorderLayout());
-        JPanel midPanel = new JPanel(new GridLayout(4, 1, 0, 20));
+        JPanel midPanel = new JPanel(new GridLayout(0, 1, 0, 20));
 
         newGameButton = createMenuButton(Language.newGame());
         optionsButton = createMenuButton(Language.options());
         helpButton = createMenuButton(Language.help());
         exitButton = createMenuButton(Language.exitGame());
+        rankingButton = createMenuButton("Ranking");
         addMenuButton(newGameButton, midPanel);
         addMenuButton(optionsButton, midPanel);
         addMenuButton(helpButton, midPanel);
+        addMenuButton(rankingButton, midPanel);
         addMenuButton(exitButton, midPanel);
 
         addMouseEffect(newGameButton, Effect.GOTO_CHARA);
         addMouseEffect(optionsButton, Effect.GOTO_OPTIONS);
         addMouseEffect(helpButton, Effect.GOTO_HELP);
+        addMouseEffect(rankingButton, Effect.GOTO_RANKING);
         addMouseEffect(exitButton, Effect.EXIT);
 
         JPanel titlePanel = new JPanel(new BorderLayout());
@@ -80,6 +83,7 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
                     case GOTO_CHARA -> GameMenuPanel.getMenuPanel.displayCharaScreen();
                     case GOTO_OPTIONS -> GameMenuPanel.getMenuPanel.displayOptionsScreen();
                     case GOTO_HELP -> GameMenuPanel.getMenuPanel.displayHelpScreen();
+                    case GOTO_RANKING -> GameMenuPanel.getMenuPanel.displayRankingScreen();
                     case EXIT -> System.exit(0);
                 }
             }
@@ -100,6 +104,6 @@ public class GameMenuStartPanel extends GameMenuCustomPanel {
 
 
     private enum Effect {
-        GOTO_CHARA, GOTO_OPTIONS, GOTO_HELP, EXIT;
+        GOTO_CHARA, GOTO_OPTIONS, GOTO_HELP, GOTO_RANKING, EXIT;
     }
 }

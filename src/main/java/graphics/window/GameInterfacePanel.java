@@ -125,7 +125,7 @@ public class GameInterfacePanel extends JPanel {
         cons.gridx = 0;
         cons.gridwidth = 3;
         cons.weightx = 0.7;
-        createTxtLabel(inventoryPanel, Language.pressIForInventory(displayInventory), null, 0, cons);
+        createTxtLabel(inventoryPanel, GameWindow.name, null, 0, cons);
 
         //Money:
         JLabel moneyLabel = new JLabel(Language.money() + ": " + Player.getInstancePlayer().getMoney() + " ● ");
@@ -174,7 +174,7 @@ public class GameInterfacePanel extends JPanel {
     }
 
     private void refreshInventory() {
-        ((JLabel)(inventoryPanel.getComponent(0))).setText(Language.pressIForInventory(displayInventory));
+        ((JLabel)(inventoryPanel.getComponent(0))).setText(GameWindow.name);
         ((JLabel)(inventoryPanel.getComponent(1))).setText(Language.money() + ": " + Player.getInstancePlayer().getMoney() + " ● ");
     }
 

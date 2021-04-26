@@ -2,6 +2,7 @@ package graphics.window.menu;
 
 import entity.Merchant;
 import entity.Player;
+import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,6 +64,10 @@ public class GameMenuPanel extends JPanel {
         goToScreen(Screen.HELP);
     }
 
+    void displayRankingScreen(){
+        goToScreen(Screen.RANKING);
+    }
+
     /**
      * Go to the screen with the associated number.
      * @param screen one of START, CHARA, OPTIONS or HELP
@@ -73,12 +78,17 @@ public class GameMenuPanel extends JPanel {
                 replaceWith(startScreen);
                 Merchant.getInstanceMerchant().refreshWindows();
             }
-            case CHARA -> replaceWith(charaScreen);
+            case CHARA -> {
+                replaceWith(charaScreen);
+                GameWindow.name = JOptionPane.showInputDialog("Before starting the game, enter your name :");
+                System.out.println(GameWindow.name);
+            }
             case OPTIONS -> {
                 optionsScreen.prepareScreen();
                 replaceWith(optionsScreen);
             }
             case HELP -> replaceWith(infoPanel);
+            case RANKING -> replaceWith(new GameMenuStat());
         }
         state = screen;
     }
@@ -124,6 +134,6 @@ public class GameMenuPanel extends JPanel {
     }
 
     private enum Screen {
-        START, CHARA, OPTIONS, HELP;
+        START, CHARA, OPTIONS, HELP, RANKING;
     }
 }
