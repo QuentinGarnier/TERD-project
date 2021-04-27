@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     private JButton backButton, validateButton;
-    private JLabel optionsLabel, setLangLabel, soundLabel, difficultyLabel;
+    private JLabel optionsLabel, setLangLabel, soundLabel, resolutionsLabel, difficultyLabel;
     private JComboBox resolutions;
     private static final String[] sizes = {"800 x 600", "1024 x 768", "1280 x 800", "1440 x 900", "1680 x 1050", "1920 x 1080"};
 
@@ -143,7 +143,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         //Resolution part:
         JPanel interRight = new JPanel(new BorderLayout());
         JPanel resCenterPanel = new JPanel();
-        JLabel resolutionsLabel = createTitle(Language.resolution(), 16, Color.BLACK);
+        resolutionsLabel = createTitle(Language.resolution(), 16, Color.BLACK);
 
         interRight.setOpaque(false);
         resCenterPanel.setOpaque(false);
@@ -297,6 +297,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         optionsLabel.setText(Language.options());
         setLangLabel.setText(Language.selectTheLanguage());
         soundLabel.setText(" " + Language.gameSound());
+        resolutionsLabel.setText(Language.resolution());
 
         difficultyLabel.setText("— " + Language.chooseTheDifficulty() + " —");
         diffEasyLabel.setText(Language.easy());
