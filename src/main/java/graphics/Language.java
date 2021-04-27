@@ -101,9 +101,6 @@ public enum Language {
     public static String enterYourName() {
         return lang("Enter your name:", "Entrez votre nom :", "Inserisci il tuo nome:", "...");
     }
-    public static String emptyName() {
-        return lang("Empty name!", "Le nom est vide !", "Il nome è vuoto!", "...");
-    }
 
 
 

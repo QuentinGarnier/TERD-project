@@ -1,9 +1,6 @@
 package items.collectables;
 
-import entity.EntityState;
-import entity.Merchant;
-import entity.Monster;
-import entity.Player;
+import entity.*;
 import graphics.Language;
 import graphics.Tools;
 import graphics.elements.Position;
@@ -37,8 +34,9 @@ public enum ConsumableTypes {
         return ConsumableTypes.values()[rndElt];
     }
 
-    public boolean applyEffect() {
+    public void applyEffect() {
         Player pl = Player.getInstancePlayer();
+        WorldMap map = WorldMap.getInstanceWorld();
         switch (this) {
             case HEALTH_POTION -> {
                 int heal = (int) (Math.round(pl.getHPMax() * 0.10));
@@ -47,35 +45,38 @@ public enum ConsumableTypes {
             }
             case REGENERATION_POTION -> pl.updateState(EntityState.HEALED);
             case TELEPORT_SCROLL -> {
-                if (WorldMap.getInstanceWorld().lastLevel()) GameWindow.addToLogs(Language.logTeleportBossRoom(), Color.WHITE);
+                if (map.lastLevel()) GameWindow.addToLogs(Language.logTeleportBossRoom(), Color.WHITE);
                 else teleport();
             }
             case DIVINE_BLESSING -> pl.updateState(EntityState.INVULNERABLE);
             case DRAGON_EXPLOSION -> {
-                WorldMap wm = WorldMap.getInstanceWorld();
-                Room r = wm.getCurrentRoom(pl.getPosition());
-                if (r == null) { GameWindow.addToLogs(Language.logDragonExplo1(), Color.WHITE); break; }
-                if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs(Language.logDragonExplo2(), Color.WHITE); break;}
+                Room r = map.getCurrentRoom(pl.getPosition());
+                if (r == null) {
+                    GameWindow.addToLogs(Language.logDragonExplo1(), Color.WHITE);
+                    break;
+                }
+                if (map.getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId() && !map.lastLevel()) {
+                    GameWindow.addToLogs(Language.logDragonExplo2(), Color.WHITE);
+                    break;
+                }
                 int nbr = 0;
-                for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) {
-                    if (m.getHP() != 0) { m.takeDamage((int) (m.getHPMax() * 0.25)); nbr++;}
+                for (Monster m : map.getCurrentRoom(pl.getPosition()).getMonsters()) {
+                    if (m.getHP() != 0) { m.takeDamage((int) (m.getHPMax() * (m.entityType == EntityType.MONSTER_BOSS? 0.05 : 0.25))); nbr++;}
                     if (m.getHP() != 0) m.updateState(EntityState.BURNT);
-                    else wm.getCell(m.getPosition()).entityLeft();
+                    else map.getCell(m.getPosition()).entityLeft();
                 }
                 GameWindow.window.repaint();
                 GameWindow.addToLogs(Language.logDragonExplo3(nbr), Color.WHITE);
             }
             case FREEZING_SCROLL -> {
-                WorldMap wm = WorldMap.getInstanceWorld();
-                Room r = wm.getCurrentRoom(pl.getPosition());
+                Room r = map.getCurrentRoom(pl.getPosition());
                 if (r == null) { GameWindow.addToLogs(Language.logFreezingScroll1(), Color.WHITE); break; }
-                if (WorldMap.getInstanceWorld().getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs(Language.logFreezingScroll2(), Color.WHITE); break;}
-                for (Monster m : WorldMap.getInstanceWorld().getCurrentRoom(pl.getPosition()).getMonsters()) m.updateState(EntityState.FROZEN);
+                if (map.getCell(pl.getPosition()).getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId()) { GameWindow.addToLogs(Language.logFreezingScroll2(), Color.WHITE); break;}
+                for (Monster m : map.getCurrentRoom(pl.getPosition()).getMonsters()) m.updateState(EntityState.FROZEN);
                 GameWindow.window.repaint();
                 GameWindow.addToLogs(Language.logFreezingScroll3(), Color.WHITE);
             }
         }
-        return true;
     }
 
     private void teleport() {

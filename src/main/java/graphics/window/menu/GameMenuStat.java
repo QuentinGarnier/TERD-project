@@ -91,7 +91,6 @@ public class GameMenuStat extends GameMenuCustomPanel {
             columnModel.getColumn(column).setCellRenderer(centerRenderer);
             finalSize += width;
         }
-        System.out.println(finalSize);
         return finalSize;
     }
 

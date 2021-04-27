@@ -114,13 +114,7 @@ public class GameWindow extends JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if (JOptionPane.showConfirmDialog(getContentPane(),
-                        "Are you sure you want to close this window?", "Close Window?",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-                    if (inGame) Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
-                    System.exit(0);
-                }
+                if (inGame) Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
             }
         });
     }

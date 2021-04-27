@@ -208,10 +208,6 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
     private void launch() {
         GameWindow.name = JOptionPane.showInputDialog(Language.enterYourName());
         if(GameWindow.name == null) return;
-        /*if(GameWindow.name.equals("")) {
-            JOptionPane.showMessageDialog(this, Language.emptyName());
-            return;
-        }*/
         Player.chooseSpeciality(charaSelected);
         GameWindow.enterInGame();
     }
