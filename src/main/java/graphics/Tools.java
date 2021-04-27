@@ -137,7 +137,7 @@ public class Tools {
             case DEATH_BY_HUNGER, DEATH_BY_HP -> GameWindow.addToLogs(Language.logHeroDeath(vd.equals(Victory_Death.DEATH_BY_HUNGER)), Color.RED);
             case WIN -> GameWindow.addToLogs(Language.logHeroVictory(), Color.RED);
         }
-        Ranking.saveRanking();
+        Ranking.saveRanking(vd);
         GameWindow.refreshInventory();
         GameWindow.window.repaint();
         GameWindow.window.revalidate();
@@ -145,7 +145,21 @@ public class Tools {
     }
 
     public enum Victory_Death {
-        DEATH_BY_HUNGER, DEATH_BY_HP, WIN
+        DEATH_BY_HUNGER(0), DEATH_BY_HP(1), WIN(2);
+        public final int id;
+        private Victory_Death(int i){
+            id = i;
+        }
+        public static Victory_Death findById(int id){
+            for (Victory_Death vd : Victory_Death.values())
+                if (vd.id == id) return vd;
+            throw new RuntimeException("Int not known in Victory_Death");
+        }
+
+        @Override
+        public String toString() {
+            return Language.translate(this);
+        }
     }
 
     /**
@@ -261,32 +275,44 @@ public class Tools {
             try {
                 List<String[]> res = new ArrayList<>();
                 Scanner scanner = new Scanner(f);
+                int limit = 7;
                 while (scanner.hasNextLine()){
                     String line = scanner.nextLine();
-                    if (!line.equals("")) res.add(line.split(" ", 5));
+                    if (!line.equals("")) res.add(line.split(" ", limit));
                 }
-                String[][] resS = new String[res.size()][5];
+                String[][] resS = new String[res.size()][limit];
                 for (int i = 0; i < res.size(); i++){
-                    resS[i][0] = res.get(i)[0];
-                    resS[i][1] = res.get(i)[4];
-                    resS[i][2] = switch(res.get(i)[3]) {
+                    int a = 0;
+                    int b = 0;
+                    resS[i][a++] = res.get(i)[b++];
+                    resS[i][a++] = res.get(i)[limit - 1];
+                    resS[i][a++] = Victory_Death.findById(Integer.decode(res.get(i)[b++])).toString();
+                    resS[i][a++] = GameWindow.Difficulty.findById(Integer.decode(res.get(i)[b++])).toString();
+                    resS[i][a++] = switch(res.get(i)[b++]) {
                         case "1"-> Language.archerCL();
                         case "2"-> Language.mageCL();
                         default -> Language.warriorCL();
                     };
-                    resS[i][3] = res.get(i)[1];
-                    resS[i][4] = res.get(i)[2];
+                    resS[i][a++] = res.get(i)[b++];
+                    resS[i][a] = res.get(i)[b];
                 }
                 return resS;
             } catch (FileNotFoundException e){
                 return null;
             } catch (Exception e){
+                System.out.println(e);
                 System.err.println("Can't parse the ranking file.");
                 return null;
             }
         }
 
-        public static void saveRanking() {
+        /*
+        * Save file :
+        * Date | VictoryDefeat | Spec | Level | Stage | Name
+        * the name is at the end since it can be composed by any char
+         */
+
+        public static void saveRanking(Victory_Death vd) {
             if(!makeDir()) return;
             File f = new File(path);
             try {
@@ -300,9 +326,11 @@ public class Tools {
                     default -> "0";
                 };
                 fw.write(formatter.format(new Date()) + " " +
-                        Player.getInstancePlayer().getLvl() + " " +
-                        WorldMap.stageNum + " " +
+                        vd.id + " " +
+                        GameWindow.difficulty().id + " " +
                         numSpec + " " +
+                        WorldMap.stageNum + " " +
+                        Player.getInstancePlayer().getLvl() + " " +
                         (GameWindow.name == null || GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
                 fw.close();
             } catch (IOException e){

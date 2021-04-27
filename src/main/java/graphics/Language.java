@@ -490,6 +490,15 @@ public enum Language {
             default -> "";
         };
     }
+
+    public static String translate(Tools.Victory_Death vd){
+        return switch (vd){
+            case DEATH_BY_HP -> lang("Death by HP", "Mort par PV", "Morte per HP", "...");
+            case DEATH_BY_HUNGER -> lang("Death by hunger", "Mort par famine", "Morte par fame", "...");
+            case WIN -> lang("Victory", "Victoire", "Vittoria", "...");
+        };
+    }
+
     public static String translate(EntityState e) {
         return switch (e) {
             case BURNT -> lang("BURNT", "BRÛLÉ", "BRUCIATO","أحرق");
@@ -982,5 +991,11 @@ public enum Language {
     }
     public static String cancel() {
         return lang("Cancel", "Annuler", "Annullare", "...");
+    }
+    public static String end(){
+        return lang("End", "Fin", "Fine", "...");
+    }
+    public static String difficulty(){
+        return lang("Difficulty", "Difficulté", "Difficoltà", "...");
     }
 }

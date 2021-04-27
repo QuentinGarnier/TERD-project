@@ -284,13 +284,34 @@ public class GameWindow extends JFrame {
 
 
     public enum Difficulty {
-        TUTORIAL(2), EASY(10), MEDIUM(20), HARD(50), NIGHTMARE(100), ENDLESS(-1);
+        TUTORIAL(2, 0), EASY(10, 1), MEDIUM(20, 2), HARD(50, 3), NIGHTMARE(100, 4), ENDLESS(-1, 5);
         /* ===== No Final Boss in Endless mod ===== */
 
         public final int stagesNumber;
+        public final int id;
 
-        Difficulty(int x) {
+        Difficulty(int x, int i) {
             stagesNumber = x;
+            id = i;
+        }
+
+        public static Difficulty findById(int id){
+            for (Difficulty diff : Difficulty.values()){
+                if (id == diff.id) return diff;
+            }
+            throw new RuntimeException("Int not known in Difficulty");
+        }
+
+        @Override
+        public String toString() {
+            return switch (this){
+                case TUTORIAL -> "Tutorial";
+                case EASY -> Language.easy();
+                case MEDIUM -> Language.medium();
+                case HARD -> Language.hard();
+                case NIGHTMARE -> Language.nightmare();
+                case ENDLESS -> Language.endless();
+            };
         }
     }
 }
