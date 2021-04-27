@@ -69,7 +69,7 @@ public class Merchant extends AbstractEntity{
         generateMarket();
     }
     private void initializeWindow(){
-        marketWindow.setPreferredSize(new Dimension(600, 300));
+        marketWindow.setPreferredSize(new Dimension(900, 300));
         marketWindow.setResizable(false);
         marketWindow.pack();
         marketWindow.setLocationRelativeTo(null);
@@ -109,7 +109,8 @@ public class Merchant extends AbstractEntity{
     private static void createLine(boolean isBuy, AbstractCollectableItem ai) {
         String s1 = ai.toString(), s2 = ai.getEffect(), s3 = (isBuy ? ai.getPrice() : ai.getPrice()/2) + "$";
         JButton jButton = isBuy ? new BuyPanel.BuyItemButton(ai) : new SellPanel.SellItemButton(ai);
-        JPanel panel = new JPanel(new GridLayout(0,1));
+        JPanel panel = new JPanel(new GridLayout(1,2));
+        JPanel mainLine = new JPanel(new GridLayout(1, 2));
 
         JLabel fstCol = createLog(s1, Color.GRAY);
         JLabel sndCol = createLog(s2, Color.GRAY);
@@ -123,10 +124,11 @@ public class Merchant extends AbstractEntity{
 
 
         panel.add(fstCol);
-        panel.add(sndCol);
         panel.add(thrCol);
+        mainLine.add(panel);
+        mainLine.add(sndCol);
 
-        jButton.add(panel);
+        jButton.add(mainLine);
 
         if (isBuy) BuyPanel.buyPanel.add(jButton);
         else SellPanel.sellPanel.add(jButton);
@@ -178,7 +180,7 @@ public class Merchant extends AbstractEntity{
         }
 
         public void updateItem(JButton jb) {
-            JLabel j = (JLabel) ((JPanel) jb.getComponent(0)).getComponent(2);
+            JLabel j = (JLabel) ((JPanel) ((JPanel) jb.getComponent(0)).getComponent(0)).getComponent(1);
             if(Player.getInstancePlayer().enoughMoney(Integer.parseInt(j.getText().replaceFirst(".$","")))) j.setForeground(Color.green);
             else j.setForeground(Color.RED);
         }
