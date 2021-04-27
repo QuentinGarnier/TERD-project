@@ -143,7 +143,6 @@ public class Strategy {
                 p -> !wp.getCell(p).isDoor() &&
                         p.getNeighbor(false).stream().noneMatch(p1 -> wp.getCell(p1).isDoor()))
                 .collect(Collectors.toList());
-        System.out.println(neighbors);
         List<Position> neighborsTemp = neighbors;
 
         if(!wp.getCell(currentEntity.getPosition()).isDoor()){

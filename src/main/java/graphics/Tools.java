@@ -332,8 +332,8 @@ public class Tools {
                         vd.id + " " +
                         GameWindow.difficulty().id + " " +
                         numSpec + " " +
-                        WorldMap.stageNum + " " +
                         Player.getInstancePlayer().getLvl() + " " +
+                        WorldMap.stageNum + " " +
                         (GameWindow.name == null || GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
                 fw.close();
             } catch (IOException e){
