@@ -3,7 +3,6 @@ package items.collectables;
 import entity.*;
 import graphics.Language;
 import graphics.Tools;
-import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;

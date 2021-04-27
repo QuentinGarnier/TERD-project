@@ -1,7 +1,6 @@
 package graphics.window.menu;
 
 import graphics.Language;
-import graphics.Tools;
 import graphics.elements.Move;
 import graphics.elements.cells.CellElementType;
 import graphics.map.Theme;

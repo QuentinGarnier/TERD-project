@@ -99,7 +99,7 @@ public class GameWindow extends JFrame {
     }
 
     private void setup() {
-        setTitle("That Time the Hero saved the Village"); //temp game name
+        setTitle("That Time the Hero saved the Village");
         setSize(800,600);
         setMinimumSize(new Dimension(800,600));
         setLocationRelativeTo(null);

@@ -43,11 +43,10 @@ public class Player extends AbstractEntity {
         inventory = new ArrayList<>();
         money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
-        //for (int i = 0; i < 10; i++) inventory.add(AbstractCollectableItem.generateAbstractCollItems(0, null));
     }
 
     private Player(EntityType speciality) throws ErrorPositionOutOfBound {
-        this(new Position(0, 0), EntityType.HERO_WARRIOR);
+        this(new Position(0, 0), speciality);
     }
 
     private Player() throws ErrorPositionOutOfBound {
@@ -175,11 +174,11 @@ public class Player extends AbstractEntity {
         }
     }
 
-    public static void addItem(AbstractCollectableItem ai){
+    public static void addItem(AbstractCollectableItem ai) {
         instancePlayer.inventory.add(ai);
     }
 
-    public static void removeItem(AbstractCollectableItem ai){
+    public static void removeItem(AbstractCollectableItem ai) {
         instancePlayer.inventory.remove(ai);
         if (ai instanceof ItemEquip && ((ItemEquip) ai).isEquipped()) ai.use();
         Merchant.SellPanel.sellPanel.removeSellInventory(ai);
@@ -218,10 +217,14 @@ public class Player extends AbstractEntity {
     }
 
     @Override
-    public void setAttack(int att) { super.setAttack(att); }
+    public void setAttack(int att) {
+        super.setAttack(att);
+    }
 
     @Override
-    public void decrementRemainingTime() { super.decrementRemainingTime(); }
+    public void decrementRemainingTime() {
+        super.decrementRemainingTime();
+    }
 
     private void moveMonsters() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
@@ -237,19 +240,19 @@ public class Player extends AbstractEntity {
         if (getHP() == 0 && getHunger() > 0) Tools.gameEnd(Tools.Victory_Death.DEATH_BY_HP);
     }
 
-    private void moveMerchant(){
+    private void moveMerchant() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(getPosition());
         if (cell.getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId() && (!cell.getBaseContent().equals(CellElementType.CORRIDOR))) Merchant.getInstanceMerchant().applyStrategy();
     }
 
-    public boolean makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
+    public void makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
         boolean b;
         if (getState().equals(EntityState.FROZEN)) {
             GameWindow.addToLogs(Language.logYouAreFrozen(), Color.CYAN);
             b = true;
         } else {
-            if ((m == null && p == null) || getHP() == 0) return false;
+            if ((m == null && p == null) || getHP() == 0) return;
             b = isAttacking ? attack(p) : move(m);
         }
         if(b) {
@@ -262,7 +265,6 @@ public class Player extends AbstractEntity {
             moveMerchant();
             EntityState.turnEffects(this);
         }
-        return b;
     }
 
     private boolean move(Move move) throws ErrorPositionOutOfBound {
@@ -335,7 +337,7 @@ public class Player extends AbstractEntity {
     }
 
     @Override
-    protected void setLocation(){
+    protected void setLocation() {
         restoreAttackPos();
         super.setLocation();
     }
