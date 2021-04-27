@@ -35,6 +35,10 @@ public enum CellElementType {
     ORC('O', false, "entities/monsters/orc"),
     BOSS('D', false, "entities/monsters/dragonL"),
     MERCHANT('M', false, "entities/merchant/merchant");
+    private static final ImageIcon bossL = new ImageIcon(Objects.requireNonNull(
+            CellElementType.class.getClassLoader().getResource("data/images/entities/monsters/dragonL.png")));
+    private static final ImageIcon bossR = new ImageIcon(Objects.requireNonNull(
+            CellElementType.class.getClassLoader().getResource("data/images/entities/monsters/dragonR.png")));
 
     private final char symbol;
     private final boolean isAccessible;
@@ -59,8 +63,7 @@ public enum CellElementType {
     }
 
     public static ImageIcon getBossIcon(boolean left){
-        return new ImageIcon(Objects.requireNonNull(
-                CellElementType.class.getClassLoader().getResource("data/images/entities/monsters/dragon" + (left ? "L" : "R") + ".png")));
+        return left ? bossL : bossR;
     }
 
     public void setIcon(ImageIcon i) {

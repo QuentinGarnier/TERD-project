@@ -290,9 +290,9 @@ public class GameWindow extends JFrame {
         public final int stagesNumber;
         public final int id;
 
-        Difficulty(int x, int i) {
-            stagesNumber = x;
-            id = i;
+        Difficulty(int stagesNumber, int id) {
+            this.stagesNumber = stagesNumber;
+            this.id = id;
         }
 
         public static Difficulty findById(int id){
