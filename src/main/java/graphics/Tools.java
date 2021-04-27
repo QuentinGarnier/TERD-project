@@ -301,13 +301,14 @@ public class Tools {
             } catch (Exception e){
                 System.out.println(e);
                 System.err.println("Can't parse the ranking file.");
+                clearRanking();
                 return null;
             }
         }
 
         /*
         * Save file :
-        * Date | VictoryDefeat | Spec | Level | Stage | Name
+        * Date | VictoryDefeat | Difficulty | Spec | Level | Stage | Name
         * the name is at the end since it can be composed by any char
          */
 
