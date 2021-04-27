@@ -282,19 +282,18 @@ public class Tools {
                 }
                 String[][] resS = new String[res.size()][limit];
                 for (int i = 0; i < res.size(); i++){
-                    int a = 0;
-                    int b = 0;
-                    resS[i][a++] = res.get(i)[b++];
-                    resS[i][a++] = res.get(i)[limit - 1];
-                    resS[i][a++] = Victory_Death.findById(Integer.decode(res.get(i)[b++])).toString();
-                    resS[i][a++] = GameWindow.Difficulty.findById(Integer.decode(res.get(i)[b++])).toString();
-                    resS[i][a++] = switch(res.get(i)[b++]) {
-                        case "1"-> Language.archerCL();
-                        case "2"-> Language.mageCL();
+                    int j = 0;
+                    resS[i][j] = res.get(i)[j++];
+                    resS[i][j] = Victory_Death.findById(Integer.decode(res.get(i)[j++])).toString();
+                    resS[i][j] = GameWindow.Difficulty.findById(Integer.decode(res.get(i)[j++])).toString();
+                    resS[i][j] = switch (res.get(i)[j++]) {
+                        case "1" -> Language.archerCL();
+                        case "2" -> Language.mageCL();
                         default -> Language.warriorCL();
                     };
-                    resS[i][a++] = res.get(i)[b++];
-                    resS[i][a] = res.get(i)[b];
+                    resS[i][j] = res.get(i)[j++];
+                    resS[i][j] = res.get(i)[j++];
+                    resS[i][j] = res.get(i)[j];
                 }
                 return resS;
             } catch (FileNotFoundException e){

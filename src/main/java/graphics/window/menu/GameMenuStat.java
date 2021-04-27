@@ -5,9 +5,7 @@ import graphics.Tools;
 import graphics.window.GameWindow;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -45,29 +43,56 @@ public class GameMenuStat extends GameMenuCustomPanel {
     }
 
     private void setup() {
-        add(table.getTableHeader(), BorderLayout.NORTH);
+
+        // SCROLL PANE
         JPanel panel = new JPanel();
         JScrollPane js = new JScrollPane(table);
         panel.add(js);
-        js.setFocusable(false);
-        add(table, BorderLayout.CENTER);
+        int verticalBarWidth = js.getVerticalScrollBar().getPreferredSize().width + 3;
+        int tableWidth = Math.min(resizeColumnWidth(table) + verticalBarWidth, 700);
+        js.setPreferredSize(new Dimension(tableWidth,400));
+
+        // BUTTON RETURN && CLEAR
         JPanel panel1 = new JPanel();
         panel1.add(goToMenu);
         panel1.add(clearButton);
+
+        add(panel, BorderLayout.CENTER);
         add(panel1, BorderLayout.SOUTH);
     }
 
     private void setTableModel() {
         model.addColumn(Language.date());
-        model.addColumn(Language.heroName());
         model.addColumn(Language.end());
         model.addColumn(Language.difficulty());
         model.addColumn(Language.speciality());
         model.addColumn(Language.level());
         model.addColumn(Language.stage());
+        model.addColumn(Language.heroName());
         if (Tools.Ranking.getRankings() != null)
             Arrays.stream(Tools.Ranking.getRankings()).forEach(model::addRow);
+    }
 
+    public int resizeColumnWidth(JTable table) {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        final TableColumnModel columnModel = table.getColumnModel();
+        int finalSize = 0;
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            int width = 70; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width + 7 , width);
+            }
+            if(width > 100)
+                width=100;
+            columnModel.getColumn(column).setPreferredWidth(width);
+            columnModel.getColumn(column).setCellRenderer(centerRenderer);
+            finalSize += width;
+        }
+        System.out.println(finalSize);
+        return finalSize;
     }
 
     private void makeSorter(){
@@ -90,14 +115,14 @@ public class GameMenuStat extends GameMenuCustomPanel {
                 return Integer.compare(0, 0);
             }
         });
-        Comparator<Integer> integerComparator = new Comparator<Integer>() {
+        Comparator<String> integerComparator = new Comparator<String>() {
             @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1.compareTo(o2);
+            public int compare(String o1, String o2) {
+                return Integer.compare(Integer.decode(o1), Integer.decode(o2));
             }
         };
+        sorter.setComparator(4, integerComparator);
         sorter.setComparator(5, integerComparator);
-        sorter.setComparator(6, integerComparator);
 
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         int columnIndexToSort = 0;
@@ -109,9 +134,11 @@ public class GameMenuStat extends GameMenuCustomPanel {
 
     private void setTable() {
         table.setModel(model);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(sorter);
+        table.moveColumn(6,1);
+        table.getTableHeader().setReorderingAllowed(false);
+        table.getTableHeader().setResizingAllowed(false);
     }
 
 
