@@ -13,7 +13,9 @@ import java.util.Objects;
 
 public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     private JButton backButton, validateButton;
-    private JLabel optionsLabel, setLangLabel, muteLabel, difficultyLabel;
+    private JLabel optionsLabel, setLangLabel, soundLabel, difficultyLabel;
+    private JComboBox resolutions;
+    private static final String[] sizes = {"800 x 600", "1024 x 768", "1280 x 800", "1440 x 900", "1680 x 1050", "1920 x 1080"};
 
     private Language language;
     private JButton langENButton;
@@ -22,7 +24,6 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     private JButton langARButton;
     private final JCheckBox soundCheckBox = new JCheckBox();
 
-    private JPanel bigDiffPanel;
     private JPanel diffEasyPanel, diffMediumPanel, diffHardPanel, diffNightmarePanel, diffEndlessPanel;
     private JLabel diffEasyLabel, diffMediumLabel, diffHardLabel, diffNightmareLabel, diffEndlessLabel;
     private GameWindow.Difficulty difficultySelected;
@@ -81,22 +82,36 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         setLangLabel = createTitle(Language.selectTheLanguage(), 16, Color.BLACK);
         setLangLabel.setPreferredSize(new Dimension(500, 40));
 
-        JPanel muteP = new JPanel(new GridLayout(1, 2));
-        muteP.setOpaque(false);
-        muteLabel = createTitle(Language.gameSound() + " ", 16, Color.BLACK);
-        muteLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        JPanel inter = new JPanel(new BorderLayout());
-        inter.setOpaque(false);
-        inter.add(muteLabel, BorderLayout.NORTH);
-        muteP.add(inter);
 
-        JPanel checkBoxPanel = new JPanel(new BorderLayout());
-        checkBoxPanel.setOpaque(false);
-        JPanel cbp = new JPanel(new BorderLayout());
-        cbp.setPreferredSize(new Dimension(32, 32));
-        cbp.setOpaque(false);
-        cbp.add(soundCheckBox, BorderLayout.NORTH);
-        checkBoxPanel.add(cbp, BorderLayout.WEST);
+
+        // ===== Middle panel (sound & resolution) =====
+        JPanel inter = new JPanel(new GridLayout(1, 2));
+        inter.setOpaque(false);
+
+
+
+        //Sound part:
+        soundLabel = createTitle(" " + Language.gameSound(), 16, Color.BLACK);
+        JPanel interLeft = new JPanel(new GridLayout(1, 2));
+        JPanel panelForBox = new JPanel(new BorderLayout());
+        JPanel panelForLabel = new JPanel(new BorderLayout());
+        JPanel aroundBox = new JPanel(new BorderLayout());
+        JPanel aroundLabel = new JPanel(new BorderLayout());
+
+        interLeft.setOpaque(false);
+        panelForBox.setOpaque(false);
+        panelForLabel.setOpaque(false);
+        aroundBox.setOpaque(false);
+        aroundLabel.setOpaque(false);
+
+        aroundBox.add(soundCheckBox, BorderLayout.NORTH);
+        panelForBox.add(aroundBox, BorderLayout.EAST);
+        interLeft.add(panelForBox);
+        aroundLabel.add(soundLabel, BorderLayout.NORTH);
+        panelForLabel.add(aroundLabel, BorderLayout.WEST);
+        interLeft.add(panelForLabel);
+        inter.add(interLeft);
+
         soundCheckBox.setBorder(null);
         soundCheckBox.setOpaque(false);
         refreshCheckbox();
@@ -123,18 +138,44 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             }
         });
 
+
+
+        //Resolution part:
+        JPanel interRight = new JPanel(new BorderLayout());
+        JPanel resCenterPanel = new JPanel();
+        JLabel resolutionsLabel = createTitle(Language.resolution(), 16, Color.BLACK);
+
+        interRight.setOpaque(false);
+        resCenterPanel.setOpaque(false);
+
+        resolutions = new JComboBox(sizes);
+        String sz = GameWindow.resolution()[0] + " x " + GameWindow.resolution()[1];
+        for(int i = 0; i<resolutions.getItemCount(); i++) {
+            if(resolutions.getItemAt(i).equals(sz)) {
+                resolutions.setSelectedIndex(i);
+                break;
+            }
+        }
+
+        interRight.add(resolutionsLabel, BorderLayout.NORTH);
+        resCenterPanel.add(resolutions);
+        interRight.add(resCenterPanel);
+        inter.add(interRight);
+
+
+
+        // ===== Difficulties panel =====
         JPanel lastLastP = new JPanel();
         lastLastP.setOpaque(false);
         difficultyLabel = createTitle("— " + Language.chooseTheDifficulty() + " —", 18, Color.BLACK);
-        bigDiffPanel = createDifficultiesPanel();
+        JPanel bigDiffPanel = createDifficultiesPanel();
         lastP.add(bigDiffPanel);
         diffBorders();
 
-        muteP.add(checkBoxPanel);
-        muteP.setPreferredSize(new Dimension(500, 50));
+        inter.setPreferredSize(new Dimension(500, 80));
         langArea.add(setLangLabel, BorderLayout.NORTH);
         langArea.add(flagArea, BorderLayout.SOUTH);
-        lastP.add(muteP, BorderLayout.NORTH);
+        lastP.add(inter, BorderLayout.NORTH);
         lastLastP.add(lastP, BorderLayout.NORTH);
         centerP.add(langArea, BorderLayout.NORTH);
         centerP.add(lastLastP);
@@ -255,7 +296,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         validateButton.setText(Language.validate());
         optionsLabel.setText(Language.options());
         setLangLabel.setText(Language.selectTheLanguage());
-        muteLabel.setText(Language.gameSound() + " ");
+        soundLabel.setText(" " + Language.gameSound());
 
         difficultyLabel.setText("— " + Language.chooseTheDifficulty() + " —");
         diffEasyLabel.setText(Language.easy());
@@ -268,11 +309,15 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     }
 
     private void setSettings() {
-        Tools.Settings.saveSettings(language, soundCheckBox.isSelected(), difficultySelected, GameWindow.getDifficultiesUnlocked());
+        String[] sz = sizes[resolutions.getSelectedIndex()].split(" x ");
+        int[] res = {Integer.parseInt(sz[0]), Integer.parseInt(sz[1])};
+        Tools.Settings.saveSettings(language, soundCheckBox.isSelected(), difficultySelected, GameWindow.getDifficultiesUnlocked(), res);
         GameWindow.setSettings(language, soundCheckBox.isSelected(), difficultySelected);
         setTexts();
         GameWindow.playOrStopMenuMusic();
         GameMenuPanel.getMenuPanel.displayStartScreen();
+        GameWindow.window.setSize(res[0], res[1]);
+        GameWindow.window.setLocationRelativeTo(null);
     }
 
     void prepareScreen() {
@@ -282,13 +327,6 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         langBorders();
         diffBorders();
         refreshCheckbox();
-    }
-
-    public void refreshDifficulties() {
-        bigDiffPanel = null;
-        bigDiffPanel = createDifficultiesPanel();
-        repaint();
-        revalidate();
     }
 
 

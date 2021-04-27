@@ -30,7 +30,7 @@ public class GameEndPanel extends JDialog {
                 case HARD -> {if(!unlocked[3]) needToRefresh = true; unlocked[3] = true;}
                 case NIGHTMARE -> {if(!unlocked[4]) needToRefresh = true; unlocked[4] = true;}
             }
-            Tools.Settings.saveSettings(GameWindow.language(), GameWindow.hasSound(), GameWindow.difficulty(), unlocked);
+            Tools.Settings.saveSettings(GameWindow.language(), GameWindow.hasSound(), GameWindow.difficulty(), unlocked, GameWindow.resolution());
             GameWindow.unlock(unlocked, needToRefresh);
         }
 

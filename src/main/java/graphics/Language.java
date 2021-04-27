@@ -129,6 +129,9 @@ public enum Language {
     public static String endless() {
         return lang("Endless", "Sans fin", "Infinito", "بدون نهاية");
     }
+    public static String resolution() {
+        return lang("Screen resolution", "Résolution d'écran", "Risoluzione dello schermo", "...");
+    }
 
 
 

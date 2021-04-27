@@ -166,6 +166,7 @@ public class Tools {
      * A sub class for the settings of the game.
      */
     public static class Settings {
+        private static int[] resolution;
         private static Language language;
         private static boolean mute = false;
         private static GameWindow.Difficulty difficulty; //0 to 4
@@ -190,6 +191,7 @@ public class Tools {
                         String[] info = line.split(" "); //info[0] = var_name ; info[1] = var_value
                         if (info.length > 1) {
                             switch (info[0]) {
+                                case "sResolution" -> resolution = new int[]{Integer.parseInt(info[1].split("_")[0]), Integer.parseInt(info[1].split("_")[2])};
                                 case "sLanguage" -> language = switch (info[1]) {
                                     case "FR" -> Language.FR;
                                     case "IT" -> Language.IT;
@@ -197,14 +199,7 @@ public class Tools {
                                     default -> Language.EN;
                                 };
                                 case "sMusic" -> mute = info[1].equals("false");
-                                case "sDifficulty" -> difficulty = switch (info[1]) {
-                                    case "TUTORIAL" -> GameWindow.Difficulty.TUTORIAL;
-                                    case "MEDIUM" -> GameWindow.Difficulty.MEDIUM;
-                                    case "HARD" -> GameWindow.Difficulty.HARD;
-                                    case "NIGHTMARE" -> GameWindow.Difficulty.NIGHTMARE;
-                                    case "ENDLESS" -> GameWindow.Difficulty.ENDLESS;
-                                    default -> GameWindow.Difficulty.EASY;
-                                };
+                                case "sDifficulty" -> difficulty = GameWindow.Difficulty.findById(Integer.parseInt(info[1]));
                                 case "sUnlocked" -> {
                                     int n = Integer.parseInt(info[1]);
                                     difficultiesUnlocked = new boolean[5];
@@ -215,36 +210,44 @@ public class Tools {
                     }
                 }
                 scanner.close();
-                if(language == null || difficulty == null) defaultSettings(); //If at least 1 line is missing, then restore the default settings.
-            } catch(FileNotFoundException e) {
-                e.printStackTrace();
+                if(resolution == null || language == null || difficulty == null || difficultiesUnlocked == null)
+                    defaultSettings(); //If at least 1 line is missing, then restore the default settings.
+            } catch(Exception e) {
+                defaultSettings(); //If at least 1 line is missing, then restore the default settings.
+                saveSettings(language, !mute, difficulty, difficultiesUnlocked, resolution);
             }
         }
 
-        public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff, boolean[] unlocked) {
+        public static void saveSettings(Language lang, boolean sound, GameWindow.Difficulty diff, boolean[] unlocked, int[] resolution) {
             try {
                 if (!makeDir()) return;
                 File f = new File(path);
                 if(!f.exists()) if(!f.createNewFile()) return;
                 FileWriter writer = new FileWriter(f);
+                writer.write("sResolution " + resolution[0] + "_x_" + resolution[1] + "\n");
                 writer.write("sLanguage " + lang + "\n");
                 writer.write("sMusic " + sound + "\n");
-                writer.write("sDifficulty " + diff + "\n");
+                writer.write("sDifficulty " + diff.id + "\n");
                 int res = 0;
                 for(boolean b: unlocked) if(b) res++;
                 writer.write("sUnlocked " + res + "\n");
                 writer.close();
+                loadSettings();
             } catch(IOException e) {
                 e.printStackTrace();
             }
-            loadSettings();
         }
 
         private static void defaultSettings() {
+            resolution = new int[]{800,600};
             language = Language.EN; //Default language
             mute = false; //Default value
             difficulty = GameWindow.Difficulty.EASY; //Default value
             difficultiesUnlocked = new boolean[]{true, false, false, false, false};
+        }
+
+        public static int[] getResolution() {
+            return resolution;
         }
 
         public static Language getLanguage() {

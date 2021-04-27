@@ -24,6 +24,7 @@ public class GameWindow extends JFrame {
     public static String name = "";
     public static GameWindow window = new GameWindow();
 
+    private static int[] resolution;
     private static Language lang;
     private static boolean muted;
     private static Difficulty difficulty;
@@ -99,8 +100,9 @@ public class GameWindow extends JFrame {
     }
 
     private void setup() {
+        loadSettings();
         setTitle("That Time the Hero saved the Village");
-        setSize(800,600);
+        setSize(resolution[0], resolution[1]);
         setMinimumSize(new Dimension(800,600));
         setLocationRelativeTo(null);
         setResizable(true);
@@ -109,8 +111,6 @@ public class GameWindow extends JFrame {
         setIconImage(icon.getImage());
         setCursor(Tools.cursor());
         getContentPane().setBackground(Color.BLACK);
-        loadSettings();
-
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -121,6 +121,7 @@ public class GameWindow extends JFrame {
 
     private void loadSettings() {
         Tools.Settings.loadSettings();
+        resolution = Tools.Settings.getResolution();
         lang = Tools.Settings.getLanguage();
         muted = Tools.Settings.isMuted();
         difficulty = Tools.Settings.getDifficulty();
@@ -131,6 +132,10 @@ public class GameWindow extends JFrame {
         lang = l;
         muted = !sound;
         difficulty = d;
+    }
+
+    public static int[] resolution() {
+        return resolution;
     }
 
     public static Language language() {
