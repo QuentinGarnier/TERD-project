@@ -145,9 +145,9 @@ public class Tools {
     }
 
     public enum Victory_Death {
-        DEATH_BY_HUNGER(0), DEATH_BY_HP(1), WIN(2);
+        DEATH_BY_HUNGER(0), DEATH_BY_HP(1), WIN(2), ABANDON(3);
         public final int id;
-        private Victory_Death(int i){
+        Victory_Death(int i){
             id = i;
         }
         public static Victory_Death findById(int id){

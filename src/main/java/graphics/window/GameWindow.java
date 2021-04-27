@@ -110,6 +110,19 @@ public class GameWindow extends JFrame {
         setCursor(Tools.cursor());
         getContentPane().setBackground(Color.BLACK);
         loadSettings();
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(getContentPane(),
+                        "Are you sure you want to close this window?", "Close Window?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                    if (inGame) Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     private void loadSettings() {
@@ -272,7 +285,10 @@ public class GameWindow extends JFrame {
                     int apply = JOptionPane.showConfirmDialog(GameWindow.window,
                             Language.restartConfirmation(),
                             "", JOptionPane.YES_NO_OPTION);
-                    if (apply == JOptionPane.YES_OPTION) Tools.restartGame();
+                    if (apply == JOptionPane.YES_OPTION) {
+                        Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
+                        Tools.restartGame();
+                    }
                 }
                 case 'p' -> new GamePausePanel();
             }

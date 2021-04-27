@@ -99,6 +99,7 @@ public class GamePausePanel extends JDialog {
                 "", JOptionPane.YES_NO_OPTION);
         if (apply == JOptionPane.YES_OPTION) {
             dispose();
+            Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
             Tools.restartGame();
         }
     }
@@ -109,6 +110,7 @@ public class GamePausePanel extends JDialog {
                 "", JOptionPane.YES_NO_OPTION);
         if (apply == JOptionPane.YES_OPTION) {
             dispose();
+            Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
             GameWindow.returnToMenu();
         }
     }
@@ -117,7 +119,10 @@ public class GamePausePanel extends JDialog {
         int apply = JOptionPane.showConfirmDialog(GameWindow.window,
                 Language.quitGameConfirmation(),
                 "", JOptionPane.YES_NO_OPTION);
-        if(apply == JOptionPane.YES_OPTION) System.exit(0);
+        if(apply == JOptionPane.YES_OPTION) {
+            Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
+            System.exit(0);
+        }
     }
 
 

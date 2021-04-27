@@ -496,6 +496,7 @@ public enum Language {
             case DEATH_BY_HP -> lang("Death by HP", "Mort par PV", "Morte per HP", "...");
             case DEATH_BY_HUNGER -> lang("Death by hunger", "Mort par famine", "Morte par fame", "...");
             case WIN -> lang("Victory", "Victoire", "Vittoria", "...");
+            case ABANDON -> lang("Abandon", "Abandon", "Abbandono", "...");
         };
     }
 
