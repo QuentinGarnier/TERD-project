@@ -146,10 +146,10 @@ public class Player extends AbstractEntity {
             return false;
         }
         else {
-            currentCell.setItem(ai);
-            ai.setPosition(getPosition());
             if (ai instanceof ItemEquip && ((ItemEquip) ai).isEquipped())
                 ai.use();
+            currentCell.setItem(ai);
+            ai.setPosition(getPosition());
             inventory.remove(ai);
             Merchant.SellPanel.sellPanel.removeSellInventory(ai);
             GameWindow.addToLogs("Vous avez jeté " + ai + ".", Tools.WindowText.golden);
