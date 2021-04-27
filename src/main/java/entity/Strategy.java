@@ -139,7 +139,11 @@ public class Strategy {
         Random rd = new Random();
         WorldMap wp = WorldMap.getInstanceWorld();
         List<Position> neighbors = currentEntity.getPosition().getNeighbor(false);
-        neighbors = neighbors.stream().filter(p -> !wp.getCell(p).isDoor()).collect(Collectors.toList());
+        neighbors = neighbors.stream().filter(
+                p -> !wp.getCell(p).isDoor() &&
+                        p.getNeighbor(false).stream().noneMatch(p1 -> wp.getCell(p1).isDoor()))
+                .collect(Collectors.toList());
+        System.out.println(neighbors);
         List<Position> neighborsTemp = neighbors;
 
         if(!wp.getCell(currentEntity.getPosition()).isDoor()){
