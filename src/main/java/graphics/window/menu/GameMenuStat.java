@@ -21,6 +21,7 @@ public class GameMenuStat extends GameMenuCustomPanel {
     private final JTable table;
 
     public GameMenuStat() {
+        super();
         setLayout(new BorderLayout());
         model = new DefaultTableModel(){
             @Override
@@ -29,6 +30,7 @@ public class GameMenuStat extends GameMenuCustomPanel {
             }
         };
         table = new JTable();
+        table.setBackground(new Color(220, 220, 220));
         clearButton  = createMenuButton(Language.clear());
         goToMenu = createMenuButton(Language.back());
 
@@ -40,7 +42,6 @@ public class GameMenuStat extends GameMenuCustomPanel {
         makeSorter();
 
         setup();
-
     }
 
     private void setup() {
@@ -48,16 +49,25 @@ public class GameMenuStat extends GameMenuCustomPanel {
         // SCROLL PANE
         JPanel panel = new JPanel();
         JScrollPane js = new JScrollPane(table);
-        panel.add(js);
-        int verticalBarWidth = js.getVerticalScrollBar().getPreferredSize().width + 3;
-        int tableWidth = Math.min(resizeColumnWidth(table) + verticalBarWidth, 700);
-        js.setPreferredSize(new Dimension(tableWidth,400));
+        panel.setOpaque(false);
+        js.setOpaque(false);
+
+        // TABLE SIZE & COLUMNS
+        js.setPreferredSize(new Dimension(700,400));
+        int[] columnsWidth = {90, 170, 100, 100, 100, 70, 70};
+        int i = 0;
+        for (int width : columnsWidth) {
+            TableColumn column = table.getColumnModel().getColumn(i++);
+            column.setPreferredWidth(width);
+        }
 
         // BUTTON RETURN && CLEAR
         JPanel panel1 = new JPanel();
+        panel1.setOpaque(false);
         panel1.add(goToMenu);
         panel1.add(clearButton);
 
+        panel.add(js);
         add(panel, BorderLayout.CENTER);
         add(panel1, BorderLayout.SOUTH);
     }
@@ -74,25 +84,7 @@ public class GameMenuStat extends GameMenuCustomPanel {
             Arrays.stream(Tools.Ranking.getRankings()).forEach(model::addRow);
     }
 
-    public int resizeColumnWidth(JTable table) {
-        final TableColumnModel columnModel = table.getColumnModel();
-        int finalSize = 0;
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 70; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width + 7 , width);
-            }
-            if(width > 100)
-                width=100;
-            columnModel.getColumn(column).setPreferredWidth(width);
-            finalSize += width;
-        }
-        return finalSize;
-    }
-
-    private void makeSorter(){
+    private void makeSorter() {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(sorter);
 
@@ -138,12 +130,13 @@ public class GameMenuStat extends GameMenuCustomPanel {
         table.getTableHeader().setResizingAllowed(false);
     }
 
-    private class MyTableHeaderRenderer extends JLabel implements TableCellRenderer{
+    private static class MyTableHeaderRenderer extends JLabel implements TableCellRenderer {
 
-        private MyTableHeaderRenderer(){
-            setFont(new Font("Consolas", Font.ROMAN_BASELINE, 12));
+        private MyTableHeaderRenderer() {
+            setFont(new Font("Consolas", Font.BOLD, 12));
             setForeground(Color.BLUE);
             setBorder(BorderFactory.createEtchedBorder());
+            setVerticalAlignment(BOTTOM);
         }
 
         @Override
@@ -175,7 +168,6 @@ public class GameMenuStat extends GameMenuCustomPanel {
 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                //comp.setOpaque(true);
                 comp.setForeground(Color.BLACK); // text color
 
                 if (value != null) {
@@ -192,13 +184,13 @@ public class GameMenuStat extends GameMenuCustomPanel {
                     } else if (val.equals(Tools.Victory_Death.WIN.toString())) {
                         comp.setForeground(Color.GREEN);
                     } else if (val.equals(Language.mageCL())) {
-                        comp.setForeground(Color.MAGENTA);
+                        comp.setForeground(Tools.WindowText.blue);
                     } else if (val.equals(Language.warriorCL())){
-                        comp.setForeground(Color.DARK_GRAY);
+                        comp.setForeground(Tools.WindowText.red);
                     } else if (val.equals(Language.archerCL())){
-                        comp.setForeground(Color.GREEN);
+                        comp.setForeground(Tools.WindowText.green);
                     } else if (column == 3){
-                        comp.setForeground(Color.GRAY);
+                        comp.setForeground(Color.DARK_GRAY);
                     }
                 }
                 return comp;
