@@ -179,7 +179,7 @@ public class GamePanel extends JPanel {
                 for (int x = 0; x < 3; x++) {
                     for (int y = 0; y < 3; y++) {
                         Position current = new Position(x-1 + p.getX(), y-1 + p.getY());
-                        if (worldMap.getCell(p).getEntity() instanceof Monster && worldMap.getCell(current).getEntity() instanceof Monster && !current.equals(p)) squareLabels[x][y].setLocation(current.getX() * size, current.getY() * size);
+                        if (worldMap.getCell(p).getEntity() instanceof Monster && worldMap.getCell(current).getEntity() instanceof Monster && worldMap.getCell(p).getEntity() != Monster.boss && !current.equals(p)) squareLabels[x][y].setLocation(current.getX() * size, current.getY() * size);
                         else squareLabels[x][y].setLocation(-size, -size);
                     }
                 }
