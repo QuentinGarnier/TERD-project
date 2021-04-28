@@ -32,6 +32,7 @@ public class GameMenuStat extends GameMenuCustomPanel {
         clearButton  = createMenuButton(Language.clear());
         goToMenu = createMenuButton(Language.back());
 
+        setCellRenderer();
         setTableModel();
         setTable();
         addMouseEffect(clearButton, Effect.ERASE);
@@ -74,8 +75,6 @@ public class GameMenuStat extends GameMenuCustomPanel {
     }
 
     public int resizeColumnWidth(JTable table) {
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         final TableColumnModel columnModel = table.getColumnModel();
         int finalSize = 0;
         for (int column = 0; column < table.getColumnCount(); column++) {
@@ -88,7 +87,6 @@ public class GameMenuStat extends GameMenuCustomPanel {
             if(width > 100)
                 width=100;
             columnModel.getColumn(column).setPreferredWidth(width);
-            columnModel.getColumn(column).setCellRenderer(centerRenderer);
             finalSize += width;
         }
         return finalSize;
@@ -138,6 +136,75 @@ public class GameMenuStat extends GameMenuCustomPanel {
         table.moveColumn(6,1);
         table.getTableHeader().setReorderingAllowed(false);
         table.getTableHeader().setResizingAllowed(false);
+    }
+
+    private class MyTableHeaderRenderer extends JLabel implements TableCellRenderer{
+
+        private MyTableHeaderRenderer(){
+            setFont(new Font("Consolas", Font.ROMAN_BASELINE, 12));
+            setForeground(Color.BLUE);
+            setBorder(BorderFactory.createEtchedBorder());
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText(value.toString());
+            setHorizontalAlignment(CENTER);
+            return this;
+        }
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            Color color1 = getBackground();
+            Color color2 = color1.darker();
+            int w = getWidth();
+            int h = getHeight();
+            GradientPaint gp = new GradientPaint(
+                    0, 0, color1, 0, h, color2);
+            g2d.setPaint(gp);
+            g2d.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+            g2d.dispose();
+            getUI().paint(g, this);
+        }
+    }
+
+    private void setCellRenderer(){
+        table.setDefaultRenderer(Object.class, new TableCellRenderer() {
+            final JLabel comp = new JLabel();
+            String val;
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                //comp.setOpaque(true);
+                comp.setForeground(Color.BLACK); // text color
+
+                if (value != null) {
+                    val = value.toString();
+                    comp.setText(val);
+                    comp.setFont(new Font("Serif", Font.ITALIC, 12));
+                    comp.setHorizontalAlignment(JTextField.CENTER);
+                    if (val.equals(Tools.Victory_Death.ABANDON.toString())) {
+                        comp.setForeground(Color.BLUE);
+                    } else if (val.equals(Tools.Victory_Death.DEATH_BY_HP.toString())) {
+                        comp.setForeground(Color.RED);
+                    } else if (val.equals(Tools.Victory_Death.DEATH_BY_HUNGER.toString())) {
+                        comp.setForeground(Color.RED);
+                    } else if (val.equals(Tools.Victory_Death.WIN.toString())) {
+                        comp.setForeground(Color.GREEN);
+                    } else if (val.equals(Language.mageCL())) {
+                        comp.setForeground(Color.MAGENTA);
+                    } else if (val.equals(Language.warriorCL())){
+                        comp.setForeground(Color.DARK_GRAY);
+                    } else if (val.equals(Language.archerCL())){
+                        comp.setForeground(Color.GREEN);
+                    } else if (column == 3){
+                        comp.setForeground(Color.GRAY);
+                    }
+                }
+                return comp;
+            }
+        });
+        table.getTableHeader().setDefaultRenderer(new MyTableHeaderRenderer());
     }
 
 
