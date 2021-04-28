@@ -73,9 +73,8 @@ public class InventoryPanel extends JPanel {
         miniLog.setForeground(c);
         miniLog.setText(cnt);
     }
-    private static int i = 0;
+
     public void setInventoryText() {
-        System.out.println(i++);
         setInventoryText(Color.BLUE , Language.logInventory() + " (" + Player.getInventory().size() + "/" + Player.MAX_INVENTORY_SIZE + ")");
     }
 

@@ -47,7 +47,6 @@ public class GameInterfacePanel extends JPanel {
         if(topPanel.getComponentCount() > 0) topPanel.removeAll();
         displayTopPanel();
         if(logsPanel.getComponentCount() > 0) clearLogs();
-        System.out.println("DISPLAY");
         realInventoryPanel.updateInventory(true);
     }
 
@@ -55,7 +54,6 @@ public class GameInterfacePanel extends JPanel {
         refreshStats();
         refreshInventory();
         refreshTopPanel();
-        System.out.println("REFRESH");
         realInventoryPanel.updateInventory(refreshInventoryLabel);
         repaint();
         revalidate();
