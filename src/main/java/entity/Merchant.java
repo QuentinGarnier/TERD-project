@@ -10,8 +10,11 @@ import items.collectables.AbstractCollectableItem;
 import items.collectables.ItemEquip;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
@@ -108,12 +111,22 @@ public class Merchant extends AbstractEntity{
 
     private static void createLine(boolean isBuy, AbstractCollectableItem ai) {
         String s1 = ai.toString(), s2 = ai.getEffect(), s3 = (isBuy ? ai.getPrice() : ai.getPrice()/2) + "$";
+        Color c = Color.BLACK;
+        if (ai instanceof ItemEquip) {
+            ItemEquip ie = (ItemEquip) ai;
+            switch (ie.getEquipmentType().getEntityType()) {
+                case HERO_WARRIOR -> c = Tools.WindowText.red;
+                case HERO_MAGE -> c = Tools.WindowText.blue;
+                case HERO_ARCHER -> c = Tools.WindowText.green;
+            }
+        }
+        
         JButton jButton = isBuy ? new BuyPanel.BuyItemButton(ai) : new SellPanel.SellItemButton(ai);
         JPanel panel = new JPanel(new FlowLayout());
 
-        JLabel fstCol = createLog(s1, Color.GRAY);
-        JLabel sndCol = createLog(s2, Color.GRAY);
-        JLabel thrCol = createLog(s3, Color.GRAY);
+        JLabel fstCol = createLog(s1, c);
+        JLabel sndCol = createLog("<html><body><i />" + s2 + "</body></html>", Color.DARK_GRAY);
+        JLabel thrCol = createLog(s3, Color.BLACK);
 
         if (isBuy) {
             if (Player.getInstancePlayer().enoughMoney(ai.getPrice())) thrCol.setForeground(Color.green);
@@ -131,9 +144,26 @@ public class Merchant extends AbstractEntity{
         panel.add(thrCol);
 
         jButton.add(panel);
+        MerchantMouseListener(jButton);
 
         if (isBuy) BuyPanel.buyPanel.add(jButton);
         else SellPanel.sellPanel.add(jButton);
+    }
+
+    private static void MerchantMouseListener(JButton button){
+        button.getComponent(0).setBackground(Color.WHITE);
+        button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createBevelBorder(BevelBorder.RAISED, Tools.WindowText.golden, Tools.WindowText.dark_golden),
+                        BorderFactory.createLineBorder(Tools.WindowText.golden, 2)),
+                BorderFactory.createLineBorder(new Color(140, 110, 70))));
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {button.getComponent(0).setBackground(new Color(180, 150, 110)); }
+            @Override
+            public void mouseExited(MouseEvent e) { button.getComponent(0).setBackground(Color.WHITE); }
+        });
     }
 
 
