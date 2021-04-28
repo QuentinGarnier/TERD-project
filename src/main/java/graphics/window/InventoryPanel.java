@@ -127,7 +127,10 @@ public class InventoryPanel extends JPanel {
 
         private void restoreOtherButtons(){
             buttons.forEach(b -> {
-                if (!b.ai.equals(this.ai)) b.restoreContent();
+                if (!b.ai.equals(this.ai)) {
+                    b.restoreContent();
+                    addBorder(b);
+                }
             });
         }
 
