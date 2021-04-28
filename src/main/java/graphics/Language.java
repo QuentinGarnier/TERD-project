@@ -280,6 +280,9 @@ public enum Language {
         return lang("coins", "pièces", "monete", "عملات معدنية");
     }
 
+    public static String confirmBuy() {
+        return lang("Are you sure you want to purchase the item?", "Êtes-vous sûr de vouloir acheter l'item ?", "Sei sicuro di voler acquistare l'articolo?", "هل أنت متأكد أنك تريد شراء العنصر؟");
+    }
     public static String confirmDialog(boolean isBuy, boolean isTitle) {
         return isTitle ? (isBuy ? lang("Confirmation of purchase", "Confirmation d'achat", "Conferma di acquisto","تأكيد الشراء") : lang("Confirmation of sale", "Confirmation de vente", "Conferma di vendita","تأكيد البيع")) :
                 (isBuy ? lang("Are you sure you want to buy an item that you cannot equip?", "Voulez-vous vraiment acheter un item dont vous ne pourrez vous équiper ?", "Sei sicuro di voler acquistare un oggetto che non puoi equipaggiare?","هل أنت متأكد أنك تريد شراء عنصر لا يمكنك تجهيزه؟") : lang("Are you sure you want to sell the item?", "Voulez-vous vraiment vendre l'objet ?", "Sei sicuro di voler vendere l'articolo?","هل أنت متأكد أنك تريد بيع العنصر؟"));

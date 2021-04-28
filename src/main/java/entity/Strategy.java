@@ -139,12 +139,12 @@ public class Strategy {
         Random rd = new Random();
         WorldMap wp = WorldMap.getInstanceWorld();
         List<Position> neighbors = currentEntity.getPosition().getNeighbor(false);
+
         neighbors = neighbors.stream().filter(
                 p -> !wp.getCell(p).isDoor() &&
                         p.getNeighbor(false).stream().noneMatch(p1 -> wp.getCell(p1).isDoor()))
                 .collect(Collectors.toList());
         List<Position> neighborsTemp = neighbors;
-
         if(!wp.getCell(currentEntity.getPosition()).isDoor()){
             neighbors = neighbors.stream().filter(p -> !Position.isBlockingPosition(p)).collect(Collectors.toList());
             if (neighbors.size() == 0 && Position.isBlockingPosition(currentEntity.getPosition())) neighbors = neighborsTemp;
@@ -153,6 +153,12 @@ public class Strategy {
         if (neighbors.size() == 0) return;
         Position rndPos = neighbors.get(rd.nextInt(neighbors.size()));
         List<Position> playerNeighbor = Player.getInstancePlayer().getPosition().getNeighbor(true);
+
+        if (wp.getCell(Player.getInstancePlayer().getPosition()).isDoor()) {
+            for (Position p : playerNeighbor) if (rndPos.equals(p)) neighbors.remove(p);
+            if (neighbors.size() == 0) return;
+            rndPos = neighbors.get(rd.nextInt(neighbors.size()));
+        }
         if (playerNeighbor.size() == 1 && rndPos.equals(playerNeighbor.get(0))) makeRandomMove();
         else currentEntity.goTo(rndPos);
     }

@@ -154,12 +154,14 @@ public class Merchant extends AbstractEntity{
                 super();
                 al = e -> {
                     Player pl = Player.getInstancePlayer();
+                    String confirmText = Language.confirmBuy();
                     if (pl.getHP() == 0) return;
                     if (ai instanceof ItemEquip) {
                         ItemEquip ie = (ItemEquip) ai;
                         if (pl.getEntityType() != ie.getEquipmentType().getEntityType())
-                            if (0 != JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(true, false), Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) return;
+                            confirmText = Language.confirmDialog(true, false);
                     }
+                    if (0 != JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), confirmText, Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) return;
                     if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(true); return; }
                     if (pl.enoughMoney(ai.getPrice())) {
                         pl.modifyMoney(-ai.getPrice());
