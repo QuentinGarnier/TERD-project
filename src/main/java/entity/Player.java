@@ -153,7 +153,7 @@ public class Player extends AbstractEntity {
             inventory.remove(ai);
             Merchant.SellPanel.sellPanel.removeSellInventory(ai);
             GameWindow.addToLogs("Vous avez jeté " + ai + ".", Tools.WindowText.golden);
-            GameWindow.refreshInventory();
+            GameWindow.refreshInventory(false);
         }
         return true;
     }

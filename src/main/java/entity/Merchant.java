@@ -160,7 +160,7 @@ public class Merchant extends AbstractEntity{
                         if (pl.getEntityType() != ie.getEquipmentType().getEntityType())
                             if (0 != JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(true, false), Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) return;
                     }
-                    if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(); return; }
+                    if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(true); return; }
                     if (pl.enoughMoney(ai.getPrice())) {
                         pl.modifyMoney(-ai.getPrice());
                         if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_buy.wav")), false);
@@ -170,7 +170,7 @@ public class Merchant extends AbstractEntity{
                         SellPanel.sellPanel.addSellInventory(ai);
                     }
                     else GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
-                    GameWindow.refreshInventory();
+                    GameWindow.refreshInventory(true);
                 };
                 super.addActionListener(al);
             }
@@ -244,7 +244,7 @@ public class Merchant extends AbstractEntity{
                         GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(false, false) + " (+" + gain + " " + Language.logMoney() + ")", Tools.WindowText.golden);
                         Player.removeItem(ai); sellPanel.remove(this); sellPanel.revalidate(); sellPanel.repaint();
                         createLine(true, ai); BuyPanel.buyPanel.revalidate(); BuyPanel.buyPanel.repaint();
-                        GameWindow.refreshInventory();
+                        GameWindow.refreshInventory(true);
                     }
                 };
                 super.addActionListener(al);

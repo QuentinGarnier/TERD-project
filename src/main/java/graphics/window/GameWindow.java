@@ -185,8 +185,8 @@ public class GameWindow extends JFrame {
         jScrollPane.getVerticalScrollBar().setValue(pos.y - 150);
     }
 
-    public static void refreshInventory() {
-        gameInterfacePanel.refresh();
+    public static void refreshInventory(boolean refreshInventoryLog) {
+        gameInterfacePanel.refresh(refreshInventoryLog);
     }
 
     public static void addToLogs(String txt, Color c) {
@@ -291,7 +291,7 @@ public class GameWindow extends JFrame {
                 }
                 case 'p' -> new GamePausePanel();
             }
-            refreshInventory();
+            refreshInventory(true);
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) new GamePausePanel();
         }

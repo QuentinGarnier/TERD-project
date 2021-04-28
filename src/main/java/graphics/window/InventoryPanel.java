@@ -10,8 +10,7 @@ import items.collectables.ItemFood;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,10 +54,10 @@ public class InventoryPanel extends JPanel {
         contents.add(jButton);
     }
 
-    public void updateInventory() {
+    public void updateInventory(boolean refreshTest) {
         contents.removeAll();
         scrollPane.revalidate();
-        setInventoryText();
+        if (refreshTest) setInventoryText();
         List<AbstractCollectableItem> items = Player.getInventory();
         gl.setRows(Math.max(4, items.size()));
         items.forEach(this::createLine);
@@ -68,8 +67,9 @@ public class InventoryPanel extends JPanel {
         miniLog.setForeground(c);
         miniLog.setText(cnt);
     }
-
+    private static int i = 0;
     public void setInventoryText() {
+        System.out.println(i++);
         setInventoryText(Color.BLUE , Language.logInventory() + " (" + Player.getInventory().size() + "/" + Player.MAX_INVENTORY_SIZE + ")");
     }
 
@@ -115,30 +115,45 @@ public class InventoryPanel extends JPanel {
 
 
     private class choiceButton extends JPanel {
+        private void addMouseListener(JButton button){
+            button.setBorder(null);
+            button.addMouseListener(new MouseAdapter() {
+                Color bg = button.getBackground();
+                Color hoverBG = new Color(180, 150, 110);
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBackground(hoverBG);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBackground(bg);
+                }
+            });
+        }
         public choiceButton(AbstractCollectableItem ai) {
             setLayout(new GridLayout(0,3));
             Player player = Player.getInstancePlayer();
-            JButton equip = new JButton();
+            JButton equip = new JButton((ai instanceof ItemEquip) ?
+                    (((ItemEquip) ai).isEquipped() ? Language.buttonUnequip() : Language.buttonEquip()) :
+                    Language.buttonConsume());
             JButton throwAway = new JButton(Language.buttonThrow());
             JButton esc = new JButton(Language.back());
+            addMouseListener(equip);
+            addMouseListener(throwAway);
+            addMouseListener(esc);
             equip.addActionListener(e -> {
                 equipping(ai, ai.use());
                 if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/" + ai.getSE() + ".wav")), false);
-                GameWindow.refreshInventory();
-                updateInventory();
+                GameWindow.refreshInventory(false);
             });
             throwAway.addActionListener(e -> {
                 if(!player.throwItem(ai))
                     setInventoryText(Color.RED, Language.logCantDropItem());
-                updateInventory();
+                updateInventory(false);
             });
             esc.addActionListener(e -> {
-                updateInventory();
+                updateInventory(false);
             });
-            equip.setText(
-                    (ai instanceof ItemEquip) ?
-                            (((ItemEquip) ai).isEquipped() ? Language.buttonUnequip() : Language.buttonEquip()) :
-                            Language.buttonConsume());
             add(equip);
             add(throwAway);
             add(esc);

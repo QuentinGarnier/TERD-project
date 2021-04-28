@@ -138,7 +138,7 @@ public class Tools {
             case WIN -> GameWindow.addToLogs(Language.logHeroVictory(), Color.RED);
         }
         Ranking.saveRanking(vd);
-        GameWindow.refreshInventory();
+        GameWindow.refreshInventory(true);
         GameWindow.window.repaint();
         GameWindow.window.revalidate();
         new GameEndPanel(vd);
