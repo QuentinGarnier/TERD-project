@@ -107,7 +107,7 @@ public class GameMenuStat extends GameMenuCustomPanel {
         Comparator<String> integerComparator = new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                return Integer.compare(Integer.decode(o1), Integer.decode(o2));
+                return Integer.compare(Integer.decode(o2), Integer.decode(o1));
             }
         };
         sorter.setComparator(4, integerComparator);
