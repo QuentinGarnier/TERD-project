@@ -19,7 +19,7 @@ public class WorldMapTest {
         //w.setDifficulty(GameWindow.Difficulty.ENDLESS);
 
         Position endPos;
-        for (int i = 0; i < 22; i++) {
+        for (int i = 0; i < 10; i++) {
             endPos = AbstractItem.end.getPosition();
             for (Room r : w.getRooms()) {
                 assertEquals(r.getLowestRoomNeighbor(), 0);
