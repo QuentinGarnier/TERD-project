@@ -150,8 +150,8 @@ public class InventoryPanel extends JPanel {
     public static void myAddMouseListener(JButton button){
         addBorder(button);
         button.addMouseListener(new MouseAdapter() {
-            Color bg = button.getBackground();
-            Color hoverBG = new Color(180, 150, 110);
+            final Color bg = button.getBackground();
+            final Color hoverBG = new Color(180, 150, 110);
             @Override
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(hoverBG);
@@ -164,10 +164,7 @@ public class InventoryPanel extends JPanel {
     }
 
     private class choiceButton extends JPanel {
-        private final AbstractCollectableItem ai;
-
         public choiceButton(AbstractCollectableItem ai) {
-            this.ai = ai;
             setLayout(new GridLayout(0,3));
             Player player = Player.getInstancePlayer();
             JButton equip = new JButton((ai instanceof ItemEquip) ?
@@ -175,6 +172,9 @@ public class InventoryPanel extends JPanel {
                     Language.buttonConsume());
             JButton throwAway = new JButton(Language.buttonThrow());
             JButton esc = new JButton(Language.back());
+            equip.setOpaque(true);
+            throwAway.setOpaque(true);
+            esc.setOpaque(true);
             InventoryPanel.myAddMouseListener(equip);
             InventoryPanel.myAddMouseListener(throwAway);
             InventoryPanel.myAddMouseListener(esc);
