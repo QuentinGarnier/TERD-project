@@ -3,6 +3,7 @@ package items;
 import entity.EntityState;
 import entity.Player;
 import graphics.elements.Position;
+import graphics.window.GameWindow;
 import items.collectables.ItemEquip;
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.*;
 public class ItemEquipTest {
     @Test
     public void useTest() {
+        GameWindow.setSettings(GameWindow.language(), false, GameWindow.Difficulty.ENDLESS);
         Player player = Player.getInstancePlayer();
         List<AbstractItem> itemList = new ArrayList<>();
         for (int i = 0; i < 2000; i++) {
