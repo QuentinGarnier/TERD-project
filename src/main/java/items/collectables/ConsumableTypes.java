@@ -62,7 +62,6 @@ public enum ConsumableTypes {
                 for (Monster m : map.getCurrentRoom(pl.getPosition()).getMonsters()) {
                     if (m.getHP() != 0) { m.takeDamage((int) (m.getHPMax() * (m.entityType == EntityType.MONSTER_BOSS? 0.05 : 0.25))); nbr++;}
                     if (m.getHP() != 0) m.updateState(EntityState.BURNT);
-                    else map.getCell(m.getPosition()).entityLeft();
                 }
                 GameWindow.window.repaint();
                 GameWindow.addToLogs(Language.logDragonExplo3(nbr), Color.WHITE);
