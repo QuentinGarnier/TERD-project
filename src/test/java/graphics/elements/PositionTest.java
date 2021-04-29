@@ -24,22 +24,26 @@ public class PositionTest {
             switch (gen) {
                 case 0:
                     p0.nextPosition(Move.UP.getMove());
-                    assertTrue(w.getCell(p1.getX(), p1.getY() - 1).isAccessible() != p0.equals(p1));
+                    if(p1.getY() - 1 >= 0) assertTrue(w.getCell(p1.getX(), p1.getY() - 1).isAccessible() != p0.equals(p1));
+                    else assertEquals(p0, p1);
                     break;
 
                 case 1:
                     p0.nextPosition(Move.LEFT.getMove());
-                    assertTrue(w.getCell(p1.getX() - 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    if(p1.getX() - 1 >= 0)assertTrue(w.getCell(p1.getX() - 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    else assertEquals(p0, p1);
                     break;
 
                 case 2:
                     p0.nextPosition(Move.RIGHT.getMove());
-                    assertTrue(w.getCell(p1.getX() + 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    if(p1.getX() + 1 < WorldMap.MAX_X)assertTrue(w.getCell(p1.getX() + 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    else assertEquals(p0, p1);
                     break;
 
                 case 3:
                     p0.nextPosition(Move.DOWN.getMove());
-                    assertTrue(w.getCell(p1.getX(), p1.getY() + 1).isAccessible() != p0.equals(p1));
+                    if(p1.getY() + 1 < WorldMap.MAX_Y)assertTrue(w.getCell(p1.getX(), p1.getY() + 1).isAccessible() != p0.equals(p1));
+                    else assertEquals(p0, p1);
                     break;
             }
         }
