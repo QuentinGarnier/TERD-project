@@ -36,6 +36,7 @@ public class GameMenuCustomPanel extends JPanel {
         JButton button = new JButton(text);
         if(larger) button.setPreferredSize(new Dimension(text.length() * 16 + 32,40));
         else button.setPreferredSize(new Dimension(text.length() * 12,40));
+        button.setOpaque(true);
         button.setBackground(new Color(220, 200, 160));
         button.setForeground(Color.BLACK);
         button.setIcon(new ImageIcon(""));
