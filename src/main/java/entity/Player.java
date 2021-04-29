@@ -72,6 +72,7 @@ public class Player extends AbstractEntity {
         Merchant.SellPanel.sellPanel.clearSell();
         WorldMap.stageNum = 0;
         Monster.boss.modifyHP(Monster.boss.getHPMax());
+        Monster.boss.updateState(EntityState.NEUTRAL);
     }
 
     public WhatHeroDoes getWhatHeroDoes() {
