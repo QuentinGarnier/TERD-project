@@ -6,6 +6,8 @@ import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
@@ -85,7 +87,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
 
 
         // ===== Middle panel (sound & resolution) =====
-        JPanel inter = new JPanel(new GridLayout(1, 2));
+        JPanel inter = new JPanel(new GridLayout(1, 3));
         inter.setOpaque(false);
 
 
@@ -138,7 +140,14 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             }
         });
 
-
+        // Keys part
+        JPanel interCenter = new JPanel(new BorderLayout());
+        // TODO a traduire
+        JButton button = GameMenuCustomPanel.createMenuButton("Set keys");
+        button.addActionListener(e -> setKeys());
+        interCenter.add(button);
+        interCenter.setOpaque(false);
+        inter.add(interCenter);
 
         //Resolution part:
         JPanel interRight = new JPanel(new BorderLayout());
@@ -398,5 +407,57 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
 
     private enum Effect {
         GOTO_START, SAVE_SETTINGS;
+    }
+
+    public enum MyKeyboard {
+        up('w'), down('s'),
+        left ('a'), right('d'), action('q'),
+        restart('r'), pause('p'), inventory('i');
+        public char car;
+        MyKeyboard(char a){
+            this.car = a;
+        }
+    }
+
+    public static void setKeys(){
+        JDialog dialog = new JDialog(GameWindow.window, true);
+        JPanel panel = new JPanel(new GridLayout(0,1));
+        for (MyKeyboard k : MyKeyboard.values()){
+            panel.add(makeLine(dialog, k));
+        }
+        panel.setFocusable(true);
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    private static JPanel makeLine(JDialog father, MyKeyboard k){
+        JPanel panel = new JPanel(new GridLayout(0,2));
+        JLabel label = new JLabel(k.toString());
+        JButton button = new JButton(k.car + "");
+        button.addActionListener(e -> {
+            JDialog dialog = new JDialog(father, true);
+            dialog.setUndecorated(true);
+            JPanel panel1 = new JPanel();
+            JLabel label1 = new JLabel("Enter a key [a-z]");
+            panel1.setFocusable(true);
+            panel1.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    k.car = e.getKeyChar();
+                    button.setText("" + e.getKeyChar());
+                    dialog.dispose();
+                }
+            });
+            panel1.add(label1);
+            dialog.setContentPane(panel1);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        });
+        panel.add(label);
+        panel.add(button);
+        return panel;
     }
 }

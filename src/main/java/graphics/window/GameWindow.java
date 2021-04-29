@@ -11,6 +11,7 @@ import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.menu.GameMenuPanel;
 import graphics.window.menu.GamePausePanel;
+import graphics.window.menu.GameMenuOptionsPanel.MyKeyboard;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -261,36 +262,30 @@ public class GameWindow extends JFrame {
             Player player = Player.getInstancePlayer();
             WorldMap worldMap = WorldMap.getInstanceWorld();
             WhatHeroDoes choice = player.getWhatHeroDoes();
-            switch (key) {
-                case 'w' -> applyCommand(Move.UP);
-                case 'd' -> applyCommand(Move.RIGHT);
-                case 's' -> applyCommand(Move.DOWN);
-                case 'a' -> applyCommand(Move.LEFT);
-                case 'q' -> {
-                    if (worldMap.getCell(player.getPosition()).getBaseContent().equals(CellElementType.EMPTY)) {
-                        switch (choice) {
-                            case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
-                            case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
-                        }
-                        applyCommand(null);
+            if (key ==  MyKeyboard.up.car) applyCommand(Move.UP);
+            else if (key ==  MyKeyboard.down.car) applyCommand(Move.DOWN);
+            else if (key ==  MyKeyboard.left.car) applyCommand(Move.LEFT);
+            else if (key ==  MyKeyboard.right.car) applyCommand(Move.RIGHT);
+            else if (key ==  MyKeyboard.action.car) {
+                if (worldMap.getCell(player.getPosition()).getBaseContent().equals(CellElementType.EMPTY)) {
+                    switch (choice) {
+                        case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
+                        case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
                     }
+                    applyCommand(null);
                 }
-                case 'i' -> {
-                    gameInterfacePanel.displayRealInventory();
-                    gameInterfacePanel.repaint();
+            } else if (key ==  MyKeyboard.inventory.car){
+                gameInterfacePanel.displayRealInventory();
+                gameInterfacePanel.repaint();
+            } else if (key == MyKeyboard.restart.car){
+                int apply = JOptionPane.showConfirmDialog(GameWindow.window,
+                        Language.restartConfirmation(),
+                        "", JOptionPane.YES_NO_OPTION);
+                if (apply == JOptionPane.YES_OPTION) {
+                    Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
+                    Tools.restartGame();
                 }
-                case '0' -> GameWindow.window.dispose();
-                case 'r' -> {
-                    int apply = JOptionPane.showConfirmDialog(GameWindow.window,
-                            Language.restartConfirmation(),
-                            "", JOptionPane.YES_NO_OPTION);
-                    if (apply == JOptionPane.YES_OPTION) {
-                        Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
-                        Tools.restartGame();
-                    }
-                }
-                case 'p' -> new GamePausePanel();
-            }
+            } else if (key == MyKeyboard.pause.car)new GamePausePanel();
             refreshInventory(true);
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) new GamePausePanel();
