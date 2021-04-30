@@ -120,7 +120,7 @@ public enum Language {
         return lang("Cancel", "Annuler", "Annullare", "...");
     }
     public static String reset() {
-        return lang("Reset", "Restaurer", "...", "...");
+        return lang("Reset", "Restaurer", "Reset", "...");
     }
     public static String confirm() {
         return lang("Confirm", "Confirmer", "Confermare", "...");
