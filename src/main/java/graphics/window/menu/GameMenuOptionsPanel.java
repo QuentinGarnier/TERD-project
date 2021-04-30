@@ -9,14 +9,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     private JButton backButton, validateButton, keysButton;
     private JLabel optionsLabel, setLangLabel, soundLabel, resolutionsLabel, difficultyLabel;
     private JComboBox resolutions;
+    private int selectedRes;
     private static final String[] sizes = {"800 x 600", "1024 x 768", "1280 x 800", "1440 x 900", "1680 x 1050", "1920 x 1080"};
-    private char[] defaultKeys;
+    private static char[] defaultKeys;
+    private static ArrayList<JButton> keysButtons;
 
     private Language language;
     private JButton langENButton;
@@ -35,6 +38,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         language = GameWindow.language();
         difficultySelected = GameWindow.difficulty();
         imgLocked = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/locked.png")));
+        keysButtons = new ArrayList<>();
     }
     
     void fillScreen() {
@@ -160,6 +164,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         for(int i = 0; i<resolutions.getItemCount(); i++) {
             if(resolutions.getItemAt(i).equals(sz)) {
                 resolutions.setSelectedIndex(i);
+                selectedRes = i;
                 break;
             }
         }
@@ -314,6 +319,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     }
 
     private void setSettings() {
+        selectedRes = resolutions.getSelectedIndex();
         String[] sz = sizes[resolutions.getSelectedIndex()].split(" x ");
         int[] res = {Integer.parseInt(sz[0]), Integer.parseInt(sz[1])};
         Tools.Settings.saveSettings(language, soundCheckBox.isSelected(), difficultySelected, GameWindow.getDifficultiesUnlocked(), res);
@@ -377,45 +383,69 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             public void mouseClicked(MouseEvent e) {
                 button.setBackground(bg);
                 switch (effect) {
-                    case GOTO_START -> { KeyBindings.defaultKeys(defaultKeys); GameMenuPanel.getMenuPanel.displayStartScreen(); }
+                    case GOTO_START -> cancel();
                     case SAVE_SETTINGS -> setSettings();
                 }
             }
         });
     }
 
-
-    private enum Effect {
-        GOTO_START, SAVE_SETTINGS;
+    private void cancel() {
+        resolutions.setSelectedIndex(selectedRes);
+        KeyBindings.defaultKeys(defaultKeys);
+        GameMenuPanel.getMenuPanel.displayStartScreen();
     }
 
     public static void setKeys() {
         JDialog dialog = new JDialog(GameWindow.window, true);
-        JPanel panel = new JPanel(new GridLayout(0,1));
-        for (KeyBindings k : KeyBindings.values()) panel.add(makeLine(dialog, k));
-        panel.setFocusable(true);
-        dialog.setContentPane(panel);
+        JPanel panelTab = new JPanel(new GridLayout(0,1));
+        JPanel buttons = new JPanel(new GridLayout(0, 3, 10, 0));
+
+        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        dialog.setUndecorated(true);
+        panelTab.setFocusable(true);
+        panelTab.setBorder(bigBorder(true));
+
+        JButton bBack = createMenuButton(Language.cancel());
+        JButton bDefault = createMenuButton(Language.reset());
+        JButton bConfirm = createMenuButton(Language.confirm());
+        bBack.addActionListener(e -> { KeyBindings.defaultKeys(defaultKeys); dialog.dispose(); });
+        bDefault.addActionListener(e -> { KeyBindings.defaultKeys(); refreshButtonsText(); });
+        bConfirm.addActionListener(e -> dialog.dispose());
+        buttons.add(bBack);
+        buttons.add(bDefault);
+        buttons.add(bConfirm);
+
+        keysButtons.clear();
+        int x = 0;
+        for (KeyBindings k : KeyBindings.values()) panelTab.add(makeLine(dialog, k, x++));
+        panelTab.add(new JLabel());
+        panelTab.add(buttons);
+        dialog.setContentPane(panelTab);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 
-    private static JPanel makeLine(JDialog father, KeyBindings k) {
+    private static JPanel makeLine(JDialog father, KeyBindings k, int even) {
         JPanel panel = new JPanel(new GridLayout(0,2));
-        JLabel label = new JLabel(k.toString());
+        JLabel label = new JLabel(" " + k.toString() + " ");
         JButton button = new JButton(k.key + "");
+        if(even % 2 != 0) panel.setBackground(Color.LIGHT_GRAY);
+        keysButtons.add(button);
         button.addActionListener(e -> {
             JDialog dialog = new JDialog(father, true);
             dialog.setUndecorated(true);
             JPanel panel1 = new JPanel();
             JLabel label1 = new JLabel(Language.enterKey() + " [A-Z]");
+            panel1.setBorder(bigBorder(true));
             panel1.setFocusable(true);
             panel1.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
                     if((e.getKeyChar() >= 'a' && e.getKeyChar() <= 'z') || (e.getKeyChar() >= 'A' && e.getKeyChar() <= 'Z')) {
                         k.switchKey(Character.toUpperCase(e.getKeyChar()));
-                        button.setText("" + k.key);
+                        refreshButtonsText();
                         dialog.dispose();
                     }
                 }
@@ -426,8 +456,19 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
         });
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(label);
         panel.add(button);
         return panel;
+    }
+
+    private static void refreshButtonsText() {
+        for(int i = 0; i < keysButtons.size(); i++)
+            keysButtons.get(i).setText(KeyBindings.values()[i].key + "");
+    }
+
+
+    private enum Effect {
+        GOTO_START, SAVE_SETTINGS;
     }
 }

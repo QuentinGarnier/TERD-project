@@ -150,12 +150,18 @@ public class Tools {
         private static boolean mute = false;
         private static GameWindow.Difficulty difficulty; //0 to 4
         private static boolean[] difficultiesUnlocked; //1 to 5
+        private static char[] keys = new char[GameWindow.KeyBindings.values().length];
         private static final String path =
                 (System.getProperty("os.name").startsWith("Windows") ?
                         System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage\\.settings" :
                         System.getProperty("user.home") + "/.ThatTimeTheHeroSavedTheVillage/settings_project_TERD");
 
+
         public static void loadSettings() {
+            loadSettings(false);
+        }
+
+        private static void loadSettings(boolean reload) {
             try {
                 File f = new File(path);
                 if(!f.exists()) {
@@ -184,6 +190,7 @@ public class Tools {
                                     difficultiesUnlocked = new boolean[5];
                                     for(int i = 0; i < 5; i++) difficultiesUnlocked[i] = i < n;
                                 }
+                                case "sKeys" -> { for(int i = 1; i < info.length; i++) keys[i - 1] = info[i].charAt(0); }
                             }
                         }
                     }
@@ -192,8 +199,9 @@ public class Tools {
                 if(resolution == null || language == null || difficulty == null || difficultiesUnlocked == null)
                     defaultSettings(); //If at least 1 line is missing, then restore the default settings.
             } catch(Exception e) {
-                defaultSettings(); //If at least 1 line is missing, then restore the default settings.
-                saveSettings(language, !mute, difficulty, difficultiesUnlocked, resolution);
+                e.printStackTrace();
+                defaultSettings();
+                if(!reload) saveSettings(language, !mute, difficulty, difficultiesUnlocked, resolution);
             }
         }
 
@@ -202,6 +210,7 @@ public class Tools {
                 if (!makeDir()) return;
                 File f = new File(path);
                 if(!f.exists()) if(!f.createNewFile()) return;
+
                 FileWriter writer = new FileWriter(f);
                 writer.write("sResolution " + resolution[0] + "_x_" + resolution[1] + "\n");
                 writer.write("sLanguage " + lang + "\n");
@@ -210,8 +219,12 @@ public class Tools {
                 int res = 0;
                 for(boolean b: unlocked) if(b) res++;
                 writer.write("sUnlocked " + res + "\n");
+                writer.write("sKeys");
+                for(GameWindow.KeyBindings k : GameWindow.KeyBindings.values()) writer.write(" " + k.key);
+                writer.write("\n");
+
                 writer.close();
-                loadSettings();
+                loadSettings(true);
             } catch(IOException e) {
                 e.printStackTrace();
             }
@@ -243,6 +256,10 @@ public class Tools {
 
         public static boolean[] getDifficultiesUnlocked() {
             return difficultiesUnlocked;
+        }
+
+        public static char[] getKeys() {
+            return keys;
         }
     }
 

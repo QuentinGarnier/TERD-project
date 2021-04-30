@@ -240,7 +240,7 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         arrowD.add(new JLabel(GameWindow.KeyBindings.left.key + " : " + Language.directions(Move.LEFT)));
         arrowD.add(new JLabel(GameWindow.KeyBindings.down.key + " : " + Language.directions(Move.DOWN)));
         arrowD.add(new JLabel(GameWindow.KeyBindings.right.key + " : " + Language.directions(Move.RIGHT)));
-        arrowD.add(new JLabel(GameWindow.KeyBindings.action.key + " : " + Language.interactionReadBelow()));
+        arrowD.add(new JLabel(GameWindow.KeyBindings.action.key + " : " + Language.actionReadBelow()));
         arrowD.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.add(arrowD);
 

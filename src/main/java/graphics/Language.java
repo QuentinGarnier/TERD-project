@@ -8,7 +8,6 @@ import graphics.elements.Move;
 import graphics.map.Theme;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
-import graphics.window.menu.GameMenuOptionsPanel;
 import items.AbstractItem;
 import items.ItemTrap;
 import items.collectables.ConsumableTypes;
@@ -115,7 +114,16 @@ public enum Language {
         return lang("Keys", "Touches", "Tasti", "...");
     }
     public static String enterKey() {
-        return lang("Press a key", "Appuyez sur une touche", "Press a key", "...");
+        return lang("Press a key", "Appuyez sur une touche", "Premi un tasto", "...");
+    }
+    public static String cancel() {
+        return lang("Cancel", "Annuler", "Annullare", "...");
+    }
+    public static String reset() {
+        return lang("Reset", "Restaurer", "...", "...");
+    }
+    public static String confirm() {
+        return lang("Confirm", "Confirmer", "Confermare", "...");
     }
     public static String resolution() {
         return lang("Resolution", "Résolution", "Risoluzione", "...");
@@ -569,6 +577,18 @@ public enum Language {
             case FINAL_BOSS -> lang("Final Boss", "Boss Final", "Boss Finale", "نهائي بوس");
         };
     }
+    public static String translate(GameWindow.KeyBindings key) {
+        return switch(key) {
+            case up -> Language.directions(Move.UP);
+            case left -> Language.directions(Move.LEFT);
+            case down -> Language.directions(Move.DOWN);
+            case right -> Language.directions(Move.RIGHT);
+            case action -> lang("Action", "Action", "Azione", "...");
+            case inventory -> logInventory();
+            case options -> options();
+            case restart -> restart();
+        };
+    }
 
 
 
@@ -805,8 +825,8 @@ public enum Language {
     }
     public static String directions(Move m) {
         return switch (m) {
-            case UP -> lang("Go up", "Monter", "Salire", "يصعد");
-            case DOWN -> lang("Go down", "Descendre", "Scendere", "انزل");
+            case UP -> lang("Go up", "Allez en haut", "Salire", "يصعد");
+            case DOWN -> lang("Go down", "Allez en bas", "Scendere", "انزل");
             case RIGHT -> lang("Go right", "Aller à droite", "Andare a destra", "انعطف يمينا");
             case LEFT -> lang("Go left", "Aller à gauche", "Andare a sinistra", "أذهب يسارا");
         };
@@ -827,8 +847,8 @@ public enum Language {
                 "<html> لعبة جديدة <br> بنفس البطل </ html>"
         );
     }
-    public static String interactionReadBelow() {
-        return lang("Interaction (read below)", "Interaction (lire ci-dessous)", "Interazione (leggi sotto)", "التفاعل (اقرأ أدناه)");
+    public static String actionReadBelow() {
+        return lang("Action (read below)", "Action (lire ci-dessous)", "Azione (leggi sotto)", "التفاعل (اقرأ أدناه)");
     }
     public static String creditsText() {
         return lang(
@@ -1018,9 +1038,6 @@ public enum Language {
     }
     public static String erase() {
         return lang("Erase", "Effacer", "Cancellare", "...");
-    }
-    public static String cancel() {
-        return lang("Cancel", "Annuler", "Annullare", "...");
     }
     public static String end() {
         return lang("End", "Fin", "Fine", "...");

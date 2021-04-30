@@ -126,6 +126,13 @@ public class GameWindow extends JFrame {
         muted = Tools.Settings.isMuted();
         difficulty = Tools.Settings.getDifficulty();
         difficultiesUnlocked = Tools.Settings.getDifficultiesUnlocked();
+        for(int i = 0; i < KeyBindings.values().length; i++) {
+            if(Tools.Settings.getKeys()[i] == 0) {
+                KeyBindings.defaultKeys();
+                break;
+            }
+            KeyBindings.values()[i].key = Tools.Settings.getKeys()[i];
+        }
     }
 
     public static void setSettings(Language l, boolean sound, Difficulty d) {
@@ -358,6 +365,11 @@ public class GameWindow extends JFrame {
                 }
             }
             key = c;
+        }
+
+        @Override
+        public String toString() {
+            return Language.translate(this);
         }
     }
 
