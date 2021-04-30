@@ -11,12 +11,13 @@ Adam BEN AMARA - GitHub : AdamBenAmara
 
 ## Exécution de l'application :
 Il suffit d'exécuter la fonction main de la classe Main (fonctionnel dans IntelliJ).  
-Particularité en jeu : pour jouer, l'application ouvre une fenêtre graphique avec laquelle on interagit avec la souris et les touches du clavier (dépendantes de la langue de votre clavier) :  
+Particularité en jeu : pour jouer, l'application ouvre une fenêtre graphique avec laquelle on interagit avec la souris et les touches du clavier (que l'on peut changer si on le souhaite). Par défaut, les touches sont :  
 - Dans le menu de départ, on interagit avec la souris  
-- **WASD** / **ZQSD** (fr) : touches de **déplacement**  
-- **Q** / **A** (fr) : touche d'**attaque** (appuyer une fois pour commencer une attaque, puis déplacer le curseur avec les touches de déplacement jusqu'à une cible et appuyer à nouveau sur la touche d'attaque)  
-- **I** : touche pour ouvrir/fermer l'**inventaire** (naviguer dans l'inventaire avec **W** / **Z** (fr))  
+- **WASD** : touches de **déplacement**  
+- **Q** : touche d'**action** (appuyer une fois pour commencer une attaque, puis déplacer le curseur avec les touches de déplacement jusqu'à une cible et appuyer à nouveau sur la touche d'action ; idem pour interagir avec le Marchand)  
+- **I** : touche pour ouvrir/fermer l'**inventaire** (naviguer dans l'inventaire avec **W**)  
 - **ESC** ou **P** : touche pour ouvrir le **menu en jeu** (interactif avec la souris) pour couper/remettre le son ou revenir au menu de départ  
+- **R** : touche pour relancer la partie avec la même spécialité   
 - **Touches fléchées** : permettent de visualiser la carte en dehors de l'écran sans avoir à se déplacer  
 <br /> 
 
@@ -54,3 +55,8 @@ Toute la documentation relative au projet peut être consultée sur notre [page 
 - Ajout de la touche ESC / P pour accéder à un petit "menu en jeu"
 - Divers équilibrages et ajouts d'items
 - Correctifs divers
+
+
+## ATTENTION !  
+
+Lors de la phase de tests durant la compilation en .jar, il est possible (sous Mac OS uniquement ?) que les sons des items soient joués lors de leur utilisation. Il est donc <ins>vivement recommandé</ins> de **couper ou réduire le son** lors de cette phase.
