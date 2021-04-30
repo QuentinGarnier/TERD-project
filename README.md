@@ -11,7 +11,7 @@ Adam BEN AMARA - GitHub : AdamBenAmara
 
 ## Exécution de l'application :
 Il suffit d'exécuter la fonction main de la classe Main (fonctionnel dans IntelliJ).  
-Particularité en jeu : pour jouer, l'application ouvre une fenêtre graphique avec laquelle on interagit avec la souris et les touches du clavier (que l'on peut changer si on le souhaite). Par défaut, les touches sont :  
+Particularité en jeu : pour jouer, l'application ouvre une fenêtre graphique avec laquelle on interagit avec la souris et les touches du clavier (que l'on peut changer si on le souhaite à partir du menu de départ ou en jeu avec la touche **ESC** / **P** (par défaut)). Par défaut, les touches sont :  
 - Dans le menu de départ, on interagit avec la souris  
 - **WASD** : touches de **déplacement**  
 - **Q** : touche d'**action** (appuyer une fois pour commencer une attaque, puis déplacer le curseur avec les touches de déplacement jusqu'à une cible et appuyer à nouveau sur la touche d'action ; idem pour interagir avec le Marchand)  
