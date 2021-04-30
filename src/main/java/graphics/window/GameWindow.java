@@ -11,7 +11,6 @@ import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
 import graphics.window.menu.GameMenuPanel;
 import graphics.window.menu.GamePausePanel;
-import graphics.window.menu.GameMenuOptionsPanel.MyKeyboard;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -251,33 +250,31 @@ public class GameWindow extends JFrame {
 
         @Override
         public void keyTyped(KeyEvent e) {}
-
         @Override
         public void keyPressed(KeyEvent e) {}
 
         @Override
         public void keyReleased(KeyEvent e) {
-            char key = (Tools.getKeyboard().equals("fr_FR")? Tools.universalCharOf(e.getKeyChar()) : e.getKeyChar());
-
+            char key = Character.toUpperCase(e.getKeyChar());
             Player player = Player.getInstancePlayer();
-            WorldMap worldMap = WorldMap.getInstanceWorld();
             WhatHeroDoes choice = player.getWhatHeroDoes();
-            if (key ==  MyKeyboard.up.car) applyCommand(Move.UP);
-            else if (key ==  MyKeyboard.down.car) applyCommand(Move.DOWN);
-            else if (key ==  MyKeyboard.left.car) applyCommand(Move.LEFT);
-            else if (key ==  MyKeyboard.right.car) applyCommand(Move.RIGHT);
-            else if (key ==  MyKeyboard.action.car) {
-                if (worldMap.getCell(player.getPosition()).getBaseContent().equals(CellElementType.EMPTY)) {
+
+            if (key ==  KeyBindings.up.key) applyCommand(Move.UP);
+            else if (key ==  KeyBindings.down.key) applyCommand(Move.DOWN);
+            else if (key ==  KeyBindings.left.key) applyCommand(Move.LEFT);
+            else if (key ==  KeyBindings.right.key) applyCommand(Move.RIGHT);
+            else if (key ==  KeyBindings.action.key) {
+                if (WorldMap.getInstanceWorld().getCell(player.getPosition()).getBaseContent().equals(CellElementType.EMPTY)) {
                     switch (choice) {
                         case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
                         case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
                     }
                     applyCommand(null);
                 }
-            } else if (key ==  MyKeyboard.inventory.car){
+            } else if (key ==  KeyBindings.inventory.key) {
                 gameInterfacePanel.displayRealInventory();
                 gameInterfacePanel.repaint();
-            } else if (key == MyKeyboard.restart.car){
+            } else if (key == KeyBindings.restart.key) {
                 int apply = JOptionPane.showConfirmDialog(GameWindow.window,
                         Language.restartConfirmation(),
                         "", JOptionPane.YES_NO_OPTION);
@@ -285,10 +282,9 @@ public class GameWindow extends JFrame {
                     Tools.Ranking.saveRanking(Tools.Victory_Death.ABANDON);
                     Tools.restartGame();
                 }
-            } else if (key == MyKeyboard.pause.car)new GamePausePanel();
-            refreshInventory(true);
+            } else if (key == KeyBindings.options.key || e.getKeyCode() == KeyEvent.VK_ESCAPE) new GamePausePanel();
 
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) new GamePausePanel();
+            refreshInventory(true);
         }
     }
 
@@ -324,4 +320,45 @@ public class GameWindow extends JFrame {
             };
         }
     }
+
+    public enum KeyBindings {
+        up('W'), left ('A'), down('S'), right('D'),
+        action('Q'), inventory('I'), options('P'), restart('R');
+
+        public char key;
+
+        KeyBindings(char c) {
+            this.key = c;
+        }
+
+        public static void defaultKeys() {
+            char[] keys = {'W', 'A', 'S', 'D', 'Q', 'I', 'P', 'R'};
+            int i = 0;
+            for (KeyBindings k : KeyBindings.values()) {
+                k.key = keys[i];
+                i++;
+            }
+        }
+
+        public static void defaultKeys(char[] keys) {
+            int i = 0;
+            for (KeyBindings k : KeyBindings.values()) {
+                k.key = keys[i];
+                i++;
+            }
+        }
+
+        public void switchKey(char c) {
+            for (KeyBindings k : KeyBindings.values()) {
+                if(k.key == c) {
+                    char tmp = k.key;
+                    k.key = key;
+                    key = tmp;
+                    return;
+                }
+            }
+            key = c;
+        }
+    }
+
 }

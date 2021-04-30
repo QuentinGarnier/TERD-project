@@ -1,6 +1,5 @@
 package graphics;
 
-
 import entity.AbstractEntity;
 import entity.EntityState;
 import entity.EntityType;
@@ -9,6 +8,7 @@ import graphics.elements.Move;
 import graphics.map.Theme;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
+import graphics.window.menu.GameMenuOptionsPanel;
 import items.AbstractItem;
 import items.ItemTrap;
 import items.collectables.ConsumableTypes;
@@ -109,7 +109,16 @@ public enum Language {
         return lang("Select language", "Sélectionnez la langue", "Seleziona la lingua", "اختار اللغة");
     }
     public static String gameSound() {
-        return lang("Game sound", "Son du jeu", "Suono del gioco", "صوت اللعبة");
+        return lang("Sounds", "Sons", "Suoni", "صوت اللعبة");
+    }
+    public static String keyBindings() {
+        return lang("Keys", "Touches", "Tasti", "...");
+    }
+    public static String enterKey() {
+        return lang("Press a key", "Appuyez sur une touche", "Press a key", "...");
+    }
+    public static String resolution() {
+        return lang("Resolution", "Résolution", "Risoluzione", "...");
     }
     public static String chooseTheDifficulty() {
         return lang("Choose the difficulty", "Choisissez la difficulté", "Scegli la difficoltà", "اختر الصعوبة");
@@ -128,9 +137,6 @@ public enum Language {
     }
     public static String endless() {
         return lang("Endless", "Sans fin", "Infinito", "بدون نهاية");
-    }
-    public static String resolution() {
-        return lang("Screen resolution", "Résolution d'écran", "Risoluzione dello schermo", "...");
     }
 
 
@@ -723,41 +729,57 @@ public enum Language {
     }
     public static String infoQ1() {
         return lang(
-                "<html><center><h1> More info about Q key </h1>" +
+                "<html><center><h1> More info about " +
+                        GameWindow.KeyBindings.action.key + " key </h1>" +
                 "<h2>Attack</h2><br>" +
-                "When you press Q, you can see a gray zone (shadow) <br>" +
+                "When you press " +
+                        GameWindow.KeyBindings.action.key + ", you can see a gray zone (shadow) <br>" +
                 "showing you your attack area and a red square.<br>" +
                 "You can move this square with your move keys. <br>" +
                 "If a monster is under your aim, the square become green & <br>" +
-                "if you press Q again, this monster will be hit.<br>" +
-                "If you want to quit attack mode, press Q." +
+                "if you press " +
+                        GameWindow.KeyBindings.action.key + " again, this monster will be hit.<br>" +
+                "If you want to quit attack mode, press " +
+                        GameWindow.KeyBindings.action.key + "." +
                 "</center></html>",
-                "<html><center><h1> Plus d'info sur la touche A </h1>" +
+                "<html><center><h1> Plus d'info sur la touche " +
+                        GameWindow.KeyBindings.action.key + " </h1>" +
                 "<h2>Attaque</h2><br>" +
-                "Quand vous appuyez sur A, une zone grise (ombre) apparaît<br>" +
+                "Quand vous appuyez sur " +
+                        GameWindow.KeyBindings.action.key + ", une zone grise (ombre) apparaît<br>" +
                 "vous indiquant votre portée d'attaque ainsi qu'un carré rouge.<br>" +
                 "Vous pouvez déplacer ce carré avec les touches de déplacement. <br>" +
                 "Si un monstre est sous la cible, le carré devient vert et <br>" +
-                "si vous appuyez à nouveau sur A, ce monstre sera attaqué.<br>" +
-                "Si vous souhaitez sortir du mode attaque, appuyez sur A." +
+                "si vous appuyez à nouveau sur " +
+                        GameWindow.KeyBindings.action.key + ", ce monstre sera attaqué.<br>" +
+                "Si vous souhaitez sortir du mode attaque, appuyez sur " +
+                        GameWindow.KeyBindings.action.key + "." +
                 "</center></html>",
-                "<html><center><h1> Maggiori informazioni sul tasto Q </h1>" +
+                "<html><center><h1> Maggiori informazioni sul tasto " +
+                        GameWindow.KeyBindings.action.key + " </h1>" +
                 "<h2>Attacco</h2><br>" +
-                "Quando premi Q, appare une zona grigia (ombra) <br>" +
+                "Quando premi " +
+                        GameWindow.KeyBindings.action.key + ", appare une zona grigia (ombra) <br>" +
                 "che ti mostra il tuo raggio d'attacco e un quadrato rosso.<br>" +
                 "Puoi spostare questo quadrato con i tasti d'azione <br>" +
                 "Se un mostro è sotto la tua mira, il quadrato diventa verde & <br>" +
-                "se premi di nuovo Q, questo mostro sarà colpito.<br>" +
-                "Se vuoi usicre dalla modalità d'attacco, premi Q." +
+                "se premi di nuovo " +
+                        GameWindow.KeyBindings.action.key + ", questo mostro sarà colpito.<br>" +
+                "Se vuoi usicre dalla modalità d'attacco, premi " +
+                        GameWindow.KeyBindings.action.key + "." +
                 "</center></html>",
-                "<html> <center> <h1> مزيد من المعلومات حول المفتاح A </h1>" +
+                "<html> <center> <h1> مزيد من المعلومات حول المفتاح " +
+                        GameWindow.KeyBindings.action.key + " </h1>" +
                         "<h2> هجوم </ h2> <br>" +
-                        "عند الضغط على A ، تظهر منطقة رمادية (ظل) <br>" +
+                        "عند الضغط على " +
+                        GameWindow.KeyBindings.action.key + " ، تظهر منطقة رمادية (ظل) <br>" +
                         "تشير إلى نطاق هجومك بالإضافة إلى مربع أحمر. <br>" +
                         "يمكنك تحريك هذا المربع باستخدام مفاتيح الحركة. <br>" +
                         "إذا كان هناك وحش تحت الهدف ، يتحول المربع إلى اللون الأخضر و <br>" +
-                        "إذا ضغطت على A مرة أخرى ، فسيتم مهاجمة هذا الوحش. <br>" +
-                        "إذا كنت تريد الخروج من وضع الهجوم ، فاضغط على A" +
+                        "إذا ضغطت على " +
+                        GameWindow.KeyBindings.action.key + " مرة أخرى ، فسيتم مهاجمة هذا الوحش. <br>" +
+                        "إذا كنت تريد الخروج من وضع الهجوم ، فاضغط على " +
+                        GameWindow.KeyBindings.action.key + "" +
                         "</center> </html>"
         );
     }
@@ -765,16 +787,20 @@ public enum Language {
         return lang(
                 "<html><center><h2>Merchant</h2><br>" +
                         "When you are in the Merchant room, you can talk with<br>" +
-                        "the Merchant setting the aim on him and clicking Q.</center></html>",
+                        "the Merchant setting the aim on him and clicking " +
+                        GameWindow.KeyBindings.action.key + ".</center></html>",
                 "<html><center><h2>Marchand</h2><br>" +
                         "Quand vous êtes dans la salle du Marchand, vous pouvez lui<br>" +
-                        "parler en le ciblant puis en appuyant sur A.</center></html>",
+                        "parler en le ciblant puis en appuyant sur " +
+                        GameWindow.KeyBindings.action.key + ".</center></html>",
                 "<html><center><h2>Mercante</h2><br>" +
                         "Quando sei dal Mercante, puoi parlare con lui<br>" +
-                        "selezionando il tuo obiettivo su di lui e cliccando Q.</center></html>",
+                        "selezionando il tuo obiettivo su di lui e cliccando " +
+                        GameWindow.KeyBindings.action.key + ".</center></html>",
                 "<html> <center> <h2> التاجر </ h2> <br>" +
                         "عندما تكون في غرفة التاجر ، يمكنك جعله <br>" +
-                        "تحدث باستهدافها ثم الضغط على A </center> </html>"
+                        "تحدث باستهدافها ثم الضغط على " +
+                        GameWindow.KeyBindings.action.key + " </center> </html>"
         );
     }
     public static String directions(Move m) {
@@ -996,10 +1022,10 @@ public enum Language {
     public static String cancel() {
         return lang("Cancel", "Annuler", "Annullare", "...");
     }
-    public static String end(){
+    public static String end() {
         return lang("End", "Fin", "Fine", "...");
     }
-    public static String difficulty(){
+    public static String difficulty() {
         return lang("Difficulty", "Difficulté", "Difficoltà", "...");
     }
 }

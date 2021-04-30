@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameMenuCustomPanel extends JPanel {
     final Color colorBG = new Color(160, 140, 100, 230);
@@ -49,6 +51,18 @@ public class GameMenuCustomPanel extends JPanel {
                         BorderFactory.createLineBorder(Tools.WindowText.golden, 4)),
                 BorderFactory.createLineBorder(new Color(140, 110, 70))));
         button.setFocusable(false);
+        button.addMouseListener(new MouseAdapter() {
+            final Color bg = button.getBackground();
+            final Color hoverBG = new Color(180, 150, 110);
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(hoverBG);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(bg);
+            }
+        });
         return button;
     }
 

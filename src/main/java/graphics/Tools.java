@@ -11,7 +11,6 @@ import items.AbstractItem;
 
 import javax.sound.sampled.*;
 import java.awt.*;
-import java.awt.im.InputContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -22,12 +21,6 @@ import java.util.List;
 import java.util.*;
 
 public class Tools {
-
-    public static String getKeyboard() {
-        InputContext context = InputContext.getInstance();
-        Locale country = context.getLocale();
-        return country.toString();
-    }
 
     public static List<Position> findPath(List<List<Position>> P, Position start, Position end, Room r, Cell[][] lab, boolean[][] booleans){
         List<Position> res = new ArrayList<>();
@@ -80,22 +73,6 @@ public class Tools {
             }
         }
         return P;
-    }
-
-    public static char universalCharOf(char key) {
-        return switch (key) {
-            case 'z' -> 'w';
-            case 'q' -> 'a';
-            case 'a' -> 'q';
-            case 'w' -> 'z';
-            default -> key;
-        };
-    }
-
-    public static void showCommands() {
-        char top = 'w', left = 'a', attack = 'q';
-        if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; attack = 'a';}
-        System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
     }
 
     public static Clip play(URL pathname, boolean loop) {
@@ -161,6 +138,8 @@ public class Tools {
             return Language.translate(this);
         }
     }
+
+
 
     /**
      * A sub class for the settings of the game.
@@ -309,12 +288,13 @@ public class Tools {
             }
         }
 
-        /*
-        * Save file :
-        * Date | VictoryDefeat | Difficulty | Spec | Level | Stage | Name
-        * the name is at the end since it can be composed by any char
-         */
 
+        /**
+         * Save ranking file:
+         * Date | VictoryDefeat | Difficulty | Spec | Level | Stage | Name
+         * The name is at the end since it can be composed by any char.
+         * @param vd one of DEATH_BY_HUNGER, DEATH_BY_HP, WIN or ABANDON
+         */
         public static void saveRanking(Victory_Death vd) {
             if(!makeDir()) return;
             File f = new File(path);
@@ -336,7 +316,7 @@ public class Tools {
                         WorldMap.stageNum + " " +
                         (GameWindow.name == null || GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
                 fw.close();
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -348,13 +328,13 @@ public class Tools {
                 FileWriter fw = new FileWriter(path);
                 fw.write("");
                 fw.close();
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private static boolean makeDir(){
+    private static boolean makeDir() {
         File directory = new File(
                 System.getProperty("os.name").startsWith("Windows") ?
                         System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage" :

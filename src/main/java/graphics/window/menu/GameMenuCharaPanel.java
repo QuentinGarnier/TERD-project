@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
@@ -120,24 +121,16 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
         specPanel.add(nameLabel, BorderLayout.SOUTH);
 
         Color hoverColor = new Color(20, 20, 20);
-        specPanel.addMouseListener(new MouseListener() {
+        specPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setCharaSelected(numMouseEffect);
                 specBorderOn(numMouseEffect);
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {}
-
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 specPanel.setBackground(hoverColor);
             }
-
             @Override
             public void mouseExited(MouseEvent e) {
                 specPanel.setBackground(Color.BLACK);
@@ -178,9 +171,7 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
      */
     private void addMouseEffect(JButton button, Effect effect) {
         Color bg = button.getBackground();
-        Color hoverBG = new Color(180, 150, 110);
-
-        button.addMouseListener(new MouseListener() {
+        button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 button.setBackground(bg);
@@ -188,18 +179,6 @@ public class GameMenuCharaPanel extends GameMenuCustomPanel {
                     case LAUNCH -> launch();
                     case GOTO_START -> GameMenuPanel.getMenuPanel.displayStartScreen();
                 }
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hoverBG);
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(bg);
             }
         });
     }

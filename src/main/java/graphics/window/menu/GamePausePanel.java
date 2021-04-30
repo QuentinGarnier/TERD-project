@@ -6,10 +6,7 @@ import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Objects;
 
 import static graphics.Tools.Settings;
@@ -133,9 +130,7 @@ public class GamePausePanel extends JDialog {
      */
     private void addMouseEffect(JButton button, Effect effect) {
         Color bg = button.getBackground();
-        Color hoverBG = new Color(180, 150, 110);
-
-        button.addMouseListener(new MouseListener() {
+        button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 button.setBackground(bg);
@@ -146,18 +141,6 @@ public class GamePausePanel extends JDialog {
                     case EXIT -> quitGame();
                     case RESUME -> dispose();
                 }
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hoverBG);
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(bg);
             }
         });
     }
@@ -207,7 +190,7 @@ public class GamePausePanel extends JDialog {
             bigPanel.add(scroller);
 
             backButton = GameMenuCustomPanel.createMenuButton(Language.back());
-            backButton.addMouseListener(new MouseListener() {
+            backButton.addMouseListener(new MouseAdapter() {
                 final Color bg = backButton.getBackground();
                 final Color hoverBG = new Color(180, 150, 110);
                 @Override
@@ -215,10 +198,6 @@ public class GamePausePanel extends JDialog {
                     backButton.setBackground(bg);
                     dispose();
                 }
-                @Override
-                public void mousePressed(MouseEvent e) {}
-                @Override
-                public void mouseReleased(MouseEvent e) {}
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     backButton.setBackground(hoverBG);
