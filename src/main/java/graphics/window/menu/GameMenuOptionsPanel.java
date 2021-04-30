@@ -39,6 +39,8 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         difficultySelected = GameWindow.difficulty();
         imgLocked = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/locked.png")));
         keysButtons = new ArrayList<>();
+        defaultKeys = new char[KeyBindings.values().length];
+        for(int i = 0; i < defaultKeys.length; i++) defaultKeys[i] = KeyBindings.values()[i].key;
     }
     
     void fillScreen() {
@@ -145,7 +147,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
 
         keysButton = GameMenuCustomPanel.createMenuButton(Language.keyBindings());
         Color bg = keysButton.getBackground();
-        keysButton.addActionListener(e -> {setKeys(); keysButton.setBackground(bg);});
+        keysButton.addActionListener(e -> {setKeys(false); keysButton.setBackground(bg);});
 
         interCenter.add(keysButton);
         inter.add(interCenter);
@@ -336,8 +338,6 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         language = GameWindow.language();
         soundCheckBox.setSelected(GameWindow.hasSound());
         difficultySelected = GameWindow.difficulty();
-        defaultKeys = new char[KeyBindings.values().length];
-        for(int i = 0; i < defaultKeys.length; i++) defaultKeys[i] = KeyBindings.values()[i].key;
         langBorders();
         diffBorders();
         refreshCheckbox();
@@ -396,7 +396,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         GameMenuPanel.getMenuPanel.displayStartScreen();
     }
 
-    public static void setKeys() {
+    public static void setKeys(boolean externCall) {
         JDialog dialog = new JDialog(GameWindow.window, true);
         JPanel panelTab = new JPanel(new GridLayout(0,1));
         JPanel buttons = new JPanel(new GridLayout(0, 3, 10, 0));
@@ -411,7 +411,11 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         JButton bConfirm = createMenuButton(Language.confirm());
         bBack.addActionListener(e -> { KeyBindings.defaultKeys(defaultKeys); dialog.dispose(); });
         bDefault.addActionListener(e -> { KeyBindings.defaultKeys(); refreshButtonsText(); });
-        bConfirm.addActionListener(e -> dialog.dispose());
+        bConfirm.addActionListener(e -> {
+            if(externCall) Tools.Settings.saveSettings(GameWindow.language(), GameWindow.hasSound(),
+                    GameWindow.difficulty(), GameWindow.getDifficultiesUnlocked(), GameWindow.resolution());
+            dialog.dispose();
+        });
         buttons.add(bBack);
         buttons.add(bDefault);
         buttons.add(bConfirm);
