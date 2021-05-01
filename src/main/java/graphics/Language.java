@@ -34,7 +34,7 @@ public enum Language {
         return lang("Help", "Aide", "Aiuto", "يساعد");
     }
     public static String ranking() {
-        return lang("Ranking", "Classement", "Classifica", "...");
+        return lang("Ranking", "Classement", "Classifica", "تصنيف");
     }
     public static String exitGame() {
         return lang("Exit Game", "Quitter le Jeu", "Esci dal Gioco", "اترك اللعبة");
@@ -72,7 +72,7 @@ public enum Language {
         String body2 = lang("He becomes Enraged when his HP is low. In counterpart, he loses 1 Hunger Point for each attack.",
                 "Il devient Enragé quand ses PV sont bas. En contrepartie, il perd 1 Point de Faim à chaque attaque.",
                 "Si arrabbia quando i suoi HP sono bassi. Tuttavia, perde 1 Punto Fame a ogni attacco",
-                "في المقابل ، يخسر نقطة جوع واحدة لكل هجوم.");
+                "يصبح غاضبًا عندما تكون نقاط صحته منخفضة. في المقابل ، يخسر نقطة جوع واحدة لكل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String archerDescription() {
@@ -83,7 +83,7 @@ public enum Language {
         String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss the target.",
                 "Chaque attaque a une chance d'infliger plus de dégâts, d'empoisonner l'adversaire... ou de rater la cible.",
                 "Ogni attacco ha la probabilità d'infliggere più danni, di avvelenare l'avversario... o di mancare il bersaglio.",
-                "كل هجوم لديه فرصة لإحداث المزيد من الضرر ، أو إحداث تأثير ... أو تفويت الهدف.");
+                "كل هجوم لديه فرصة لإحداث المزيد من الضرر ، وتسميم الخصم ... أو تفويت الهدف.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String mageDescription() {
@@ -94,11 +94,11 @@ public enum Language {
         String body2 = lang("His power lies in his ability to burn, freeze or paralyse his opponents and heal himself slightly with each attack.",
                 "Sa force réside dans sa capacité à brûler, geler ou paralyser ses adversaires et se soigner légèrement à chaque attaque.",
                 "La sua forza è la capacità di bruciare, gelare o paralizzare i suoi avversari e curarsi leggermente a ogni attacco.",
-                "تكمن قوته في قدرته على حرق خصومه وشفاء نفسه قليلاً مع كل هجوم.");
+                "تكمن قوتها في قدرتها على حرق أو تجميد أو شل المعارضين وشفاء نفسها برفق مع كل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String enterYourName() {
-        return lang("Enter your name:", "Entrez votre nom :", "Inserisci il tuo nome:", "...");
+        return lang("Enter your name:", "Entrez votre nom :", "Inserisci il tuo nome:", "أدخل أسمك:");
     }
 
 
@@ -111,22 +111,22 @@ public enum Language {
         return lang("Sounds", "Sons", "Suoni", "صوت اللعبة");
     }
     public static String keyBindings() {
-        return lang("Keys", "Touches", "Tasti", "...");
+        return lang("Keys", "Touches", "Tasti", "مفاتيح");
     }
     public static String enterKey() {
-        return lang("Press a key", "Appuyez sur une touche", "Premi un tasto", "...");
+        return lang("Press a key", "Appuyez sur une touche", "Premi un tasto", "اضغط على زر");
     }
     public static String cancel() {
-        return lang("Cancel", "Annuler", "Annullare", "...");
+        return lang("Cancel", "Annuler", "Annullare", "لالغاء");
     }
     public static String reset() {
-        return lang("Reset", "Restaurer", "Reset", "...");
+        return lang("Reset", "Restaurer", "Reset", "يعيد");
     }
     public static String confirm() {
-        return lang("Confirm", "Confirmer", "Confermare", "...");
+        return lang("Confirm", "Confirmer", "Confermare", "أكد");
     }
     public static String resolution() {
-        return lang("Resolution", "Résolution", "Risoluzione", "...");
+        return lang("Resolution", "Résolution", "Risoluzione", "القرار");
     }
     public static String chooseTheDifficulty() {
         return lang("Choose the difficulty", "Choisissez la difficulté", "Scegli la difficoltà", "اختر الصعوبة");
@@ -510,10 +510,10 @@ public enum Language {
 
     public static String translate(Tools.Victory_Death vd){
         return switch (vd){
-            case DEATH_BY_HP -> lang("Death by HP", "Mort par PV", "Morte per HP", "...");
-            case DEATH_BY_HUNGER -> lang("Death by hunger", "Mort par famine", "Morte par fame", "...");
-            case WIN -> lang("Victory", "Victoire", "Vittoria", "...");
-            case ABANDON -> lang("Abandon", "Abandon", "Abbandono", "...");
+            case DEATH_BY_HP -> lang("Death by HP", "Mort par PV", "Morte per HP", "الموت بنقاط الإصابة");
+            case DEATH_BY_HUNGER -> lang("Death by hunger", "Mort par famine", "Morte par fame", "الموت بالمجاعة");
+            case WIN -> lang("Victory", "Victoire", "Vittoria", "فوز");
+            case ABANDON -> lang("Abandon", "Abandon", "Abbandono", "التخلي عن");
         };
     }
 
@@ -583,7 +583,7 @@ public enum Language {
             case left -> Language.directions(Move.LEFT);
             case down -> Language.directions(Move.DOWN);
             case right -> Language.directions(Move.RIGHT);
-            case action -> lang("Action", "Action", "Azione", "...");
+            case action -> lang("Action", "Action", "Azione", "عمل");
             case inventory -> logInventory();
             case options -> options();
             case restart -> restart();
@@ -1019,30 +1019,30 @@ public enum Language {
 
     // ===== Ranking Panel =====
     public static String clear() {
-        return lang("Clear", "Effacer", "Cancellare", "...");
+        return lang("Clear", "Effacer", "Cancellare", "تمحو");
     }
     public static String date() {
-        return lang("Date", "Date", "Data", "...");
+        return lang("Date", "Date", "Data", "بتاريخ");
     }
     public static String heroName() {
-        return lang("Name", "Nom", "Nome", "...");
+        return lang("Name", "Nom", "Nome", "الكنية");
     }
     public static String speciality() {
-        return lang("Speciality", "Spécialité", "Specialità", "...");
+        return lang("Speciality", "Spécialité", "Specialità", "تخصص");
     }
     public static String confirmClear() {
         return lang("You are about to erase the entire ranking history. This action is irreversible.",
                 "Vous êtes sur le point d'effacer tout l'historique du classement. Cette action est irréversible.",
                 "Stai per cancellare l'intera cronologia della classifica. Questa azione è irreversibile.",
-                "...");
+                "أنت على وشك محو سجل الترتيب بالكامل. هذا العمل لا رجوع فيه.");
     }
     public static String erase() {
-        return lang("Erase", "Effacer", "Cancellare", "...");
+        return lang("Erase", "Effacer", "Cancellare", "تمحو");
     }
     public static String end() {
-        return lang("End", "Fin", "Fine", "...");
+        return lang("End", "Fin", "Fine", "نهاية");
     }
     public static String difficulty() {
-        return lang("Difficulty", "Difficulté", "Difficoltà", "...");
+        return lang("Difficulty", "Difficulté", "Difficoltà", "صعوبة");
     }
 }
