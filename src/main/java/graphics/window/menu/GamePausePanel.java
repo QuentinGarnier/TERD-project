@@ -6,10 +6,7 @@ import graphics.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Objects;
 
 import static graphics.Tools.Settings;
@@ -18,7 +15,7 @@ import static graphics.window.menu.GameMenuInfoPanel.setHelpPanel;
 public class GamePausePanel extends JDialog {
     private final JPanel container;
     private final JCheckBox soundCheckBox;
-    private final JButton helpButton;
+    private final JButton helpButton, keysButton;
     private final JButton restartGame, mainMenu, quitGame;
     private final JButton playButton;
 
@@ -34,6 +31,7 @@ public class GamePausePanel extends JDialog {
         container.add(title);
         soundCheckBox = new JCheckBox("");
         helpButton = GameMenuCustomPanel.createMenuButton(Language.help());
+        keysButton = GameMenuCustomPanel.createMenuButton(Language.keyBindings());
         playButton = GameMenuCustomPanel.createMenuButton(Language.resume());
         mainMenu = GameMenuCustomPanel.createMenuButton(Language.menu());
         quitGame = GameMenuCustomPanel.createMenuButton(Language.quitTheGame());
@@ -54,6 +52,8 @@ public class GamePausePanel extends JDialog {
 
         soundEffect();
         container.add(helpButton);
+        container.add(keysButton);
+        container.add(new JLabel()); //An empty separator for the buttons
         container.add(restartGame);
         container.add(mainMenu);
         container.add(quitGame);
@@ -67,6 +67,7 @@ public class GamePausePanel extends JDialog {
 
     private void addMouseEffects() {
         addMouseEffect(helpButton, Effect.HELP);
+        addMouseEffect(keysButton, Effect.KEYS);
         addMouseEffect(restartGame, Effect.RESTART);
         addMouseEffect(mainMenu, Effect.MENU);
         addMouseEffect(quitGame, Effect.EXIT);
@@ -133,37 +134,24 @@ public class GamePausePanel extends JDialog {
      */
     private void addMouseEffect(JButton button, Effect effect) {
         Color bg = button.getBackground();
-        Color hoverBG = new Color(180, 150, 110);
-
-        button.addMouseListener(new MouseListener() {
+        button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 button.setBackground(bg);
                 switch (effect) {
                     case HELP -> helpPanel();
+                    case KEYS -> GameMenuOptionsPanel.setKeys(true);
                     case RESTART -> restartGame();
                     case MENU -> mainMenu();
                     case EXIT -> quitGame();
                     case RESUME -> dispose();
                 }
             }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hoverBG);
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(bg);
-            }
         });
     }
 
     private enum Effect {
-        HELP, RESTART, MENU, EXIT, RESUME
+        HELP, KEYS, RESTART, MENU, EXIT, RESUME
     }
 
     private static class KeysActions extends KeyAdapter {
@@ -207,7 +195,7 @@ public class GamePausePanel extends JDialog {
             bigPanel.add(scroller);
 
             backButton = GameMenuCustomPanel.createMenuButton(Language.back());
-            backButton.addMouseListener(new MouseListener() {
+            backButton.addMouseListener(new MouseAdapter() {
                 final Color bg = backButton.getBackground();
                 final Color hoverBG = new Color(180, 150, 110);
                 @Override
@@ -215,10 +203,6 @@ public class GamePausePanel extends JDialog {
                     backButton.setBackground(bg);
                     dispose();
                 }
-                @Override
-                public void mousePressed(MouseEvent e) {}
-                @Override
-                public void mouseReleased(MouseEvent e) {}
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     backButton.setBackground(hoverBG);

@@ -11,7 +11,6 @@ import items.AbstractItem;
 
 import javax.sound.sampled.*;
 import java.awt.*;
-import java.awt.im.InputContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -22,12 +21,6 @@ import java.util.List;
 import java.util.*;
 
 public class Tools {
-
-    public static String getKeyboard() {
-        InputContext context = InputContext.getInstance();
-        Locale country = context.getLocale();
-        return country.toString();
-    }
 
     public static List<Position> findPath(List<List<Position>> P, Position start, Position end, Room r, Cell[][] lab, boolean[][] booleans){
         List<Position> res = new ArrayList<>();
@@ -80,22 +73,6 @@ public class Tools {
             }
         }
         return P;
-    }
-
-    public static char universalCharOf(char key) {
-        return switch (key) {
-            case 'z' -> 'w';
-            case 'q' -> 'a';
-            case 'a' -> 'q';
-            case 'w' -> 'z';
-            default -> key;
-        };
-    }
-
-    public static void showCommands() {
-        char top = 'w', left = 'a', attack = 'q';
-        if (getKeyboard().equals("fr_FR")){ top = 'z'; left = 'q'; attack = 'a';}
-        System.out.printf(System.lineSeparator() + "To move : %c (top), %c (left), s (bottom), d (right)%sTo attack (not effective): %c%sTo leave : p%s", top, left, System.lineSeparator(), attack, System.lineSeparator(), System.lineSeparator());
     }
 
     public static Clip play(URL pathname, boolean loop) {
@@ -162,6 +139,8 @@ public class Tools {
         }
     }
 
+
+
     /**
      * A sub class for the settings of the game.
      */
@@ -171,12 +150,18 @@ public class Tools {
         private static boolean mute = false;
         private static GameWindow.Difficulty difficulty; //0 to 4
         private static boolean[] difficultiesUnlocked; //1 to 5
+        private static char[] keys = new char[GameWindow.KeyBindings.values().length];
         private static final String path =
                 (System.getProperty("os.name").startsWith("Windows") ?
                         System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage\\.settings" :
                         System.getProperty("user.home") + "/.ThatTimeTheHeroSavedTheVillage/settings_project_TERD");
 
+
         public static void loadSettings() {
+            loadSettings(false);
+        }
+
+        private static void loadSettings(boolean reload) {
             try {
                 File f = new File(path);
                 if(!f.exists()) {
@@ -205,6 +190,7 @@ public class Tools {
                                     difficultiesUnlocked = new boolean[5];
                                     for(int i = 0; i < 5; i++) difficultiesUnlocked[i] = i < n;
                                 }
+                                case "sKeys" -> { for(int i = 1; i < info.length; i++) keys[i - 1] = info[i].charAt(0); }
                             }
                         }
                     }
@@ -213,8 +199,9 @@ public class Tools {
                 if(resolution == null || language == null || difficulty == null || difficultiesUnlocked == null)
                     defaultSettings(); //If at least 1 line is missing, then restore the default settings.
             } catch(Exception e) {
-                defaultSettings(); //If at least 1 line is missing, then restore the default settings.
-                saveSettings(language, !mute, difficulty, difficultiesUnlocked, resolution);
+                e.printStackTrace();
+                defaultSettings();
+                if(!reload) saveSettings(language, !mute, difficulty, difficultiesUnlocked, resolution);
             }
         }
 
@@ -223,6 +210,7 @@ public class Tools {
                 if (!makeDir()) return;
                 File f = new File(path);
                 if(!f.exists()) if(!f.createNewFile()) return;
+
                 FileWriter writer = new FileWriter(f);
                 writer.write("sResolution " + resolution[0] + "_x_" + resolution[1] + "\n");
                 writer.write("sLanguage " + lang + "\n");
@@ -231,8 +219,12 @@ public class Tools {
                 int res = 0;
                 for(boolean b: unlocked) if(b) res++;
                 writer.write("sUnlocked " + res + "\n");
+                writer.write("sKeys");
+                for(GameWindow.KeyBindings k : GameWindow.KeyBindings.values()) writer.write(" " + k.key);
+                writer.write("\n");
+
                 writer.close();
-                loadSettings();
+                loadSettings(true);
             } catch(IOException e) {
                 e.printStackTrace();
             }
@@ -264,6 +256,10 @@ public class Tools {
 
         public static boolean[] getDifficultiesUnlocked() {
             return difficultiesUnlocked;
+        }
+
+        public static char[] getKeys() {
+            return keys;
         }
     }
 
@@ -309,12 +305,13 @@ public class Tools {
             }
         }
 
-        /*
-        * Save file :
-        * Date | VictoryDefeat | Difficulty | Spec | Level | Stage | Name
-        * the name is at the end since it can be composed by any char
-         */
 
+        /**
+         * Save ranking file:
+         * Date | VictoryDefeat | Difficulty | Spec | Level | Stage | Name
+         * The name is at the end since it can be composed by any char.
+         * @param vd one of DEATH_BY_HUNGER, DEATH_BY_HP, WIN or ABANDON
+         */
         public static void saveRanking(Victory_Death vd) {
             if(!makeDir()) return;
             File f = new File(path);
@@ -336,7 +333,7 @@ public class Tools {
                         WorldMap.stageNum + " " +
                         (GameWindow.name == null || GameWindow.name.equals("") ? "Unknown" : GameWindow.name) + "\n");
                 fw.close();
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -348,13 +345,13 @@ public class Tools {
                 FileWriter fw = new FileWriter(path);
                 fw.write("");
                 fw.close();
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private static boolean makeDir(){
+    private static boolean makeDir() {
         File directory = new File(
                 System.getProperty("os.name").startsWith("Windows") ?
                         System.getenv("APPDATA") + "\\ThatTimeTheHeroSavedTheVillage" :

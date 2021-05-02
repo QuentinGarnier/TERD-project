@@ -3,21 +3,23 @@ package graphics.window.menu;
 import graphics.Language;
 import graphics.Tools;
 import graphics.window.GameWindow;
+import graphics.window.GameWindow.KeyBindings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GameMenuOptionsPanel extends GameMenuCustomPanel {
-    private JButton backButton, validateButton;
+    private JButton backButton, validateButton, keysButton;
     private JLabel optionsLabel, setLangLabel, soundLabel, resolutionsLabel, difficultyLabel;
     private JComboBox resolutions;
+    private int selectedRes;
     private static final String[] sizes = {"800 x 600", "1024 x 768", "1280 x 800", "1440 x 900", "1680 x 1050", "1920 x 1080"};
+    private static char[] defaultKeys;
+    private static ArrayList<JButton> keysButtons;
 
     private Language language;
     private JButton langENButton;
@@ -36,6 +38,9 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         language = GameWindow.language();
         difficultySelected = GameWindow.difficulty();
         imgLocked = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/locked.png")));
+        keysButtons = new ArrayList<>();
+        defaultKeys = new char[KeyBindings.values().length];
+        for(int i = 0; i < defaultKeys.length; i++) defaultKeys[i] = KeyBindings.values()[i].key;
     }
     
     void fillScreen() {
@@ -87,9 +92,8 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
 
 
         // ===== Middle panel (sound & resolution) =====
-        JPanel inter = new JPanel(new GridLayout(1, 3));
+        JPanel inter = new JPanel(new GridLayout(1, 3, 20, 0));
         inter.setOpaque(false);
-
 
 
         //Sound part:
@@ -97,8 +101,8 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         JPanel interLeft = new JPanel(new GridLayout(1, 2));
         JPanel panelForBox = new JPanel(new BorderLayout());
         JPanel panelForLabel = new JPanel(new BorderLayout());
-        JPanel aroundBox = new JPanel(new BorderLayout());
-        JPanel aroundLabel = new JPanel(new BorderLayout());
+        JPanel aroundBox = new JPanel(new GridBagLayout());
+        JPanel aroundLabel = new JPanel(new GridBagLayout());
 
         interLeft.setOpaque(false);
         panelForBox.setOpaque(false);
@@ -106,10 +110,10 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         aroundBox.setOpaque(false);
         aroundLabel.setOpaque(false);
 
-        aroundBox.add(soundCheckBox, BorderLayout.NORTH);
+        aroundBox.add(soundCheckBox);
         panelForBox.add(aroundBox, BorderLayout.EAST);
         interLeft.add(panelForBox);
-        aroundLabel.add(soundLabel, BorderLayout.NORTH);
+        aroundLabel.add(soundLabel);
         panelForLabel.add(aroundLabel, BorderLayout.WEST);
         interLeft.add(panelForLabel);
         inter.add(interLeft);
@@ -117,7 +121,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         soundCheckBox.setBorder(null);
         soundCheckBox.setOpaque(false);
         refreshCheckbox();
-        soundCheckBox.addMouseListener(new MouseListener() {
+        soundCheckBox.addMouseListener(new MouseAdapter() {
             final Icon bg = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox.png")));
             final ImageIcon hover = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox_hover.png")));
             final Icon bgT = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/checkbox_true.png")));
@@ -126,10 +130,6 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             public void mouseClicked(MouseEvent e) {
                 soundCheckBox.setIcon(soundCheckBox.isSelected()?hoverT:hover);
             }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
             @Override
             public void mouseEntered(MouseEvent e) {
                 soundCheckBox.setIcon(soundCheckBox.isSelected()?hoverT:hover);
@@ -140,14 +140,18 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             }
         });
 
-        // Keys part
-        JPanel interCenter = new JPanel(new BorderLayout());
-        // TODO a traduire
-        JButton button = GameMenuCustomPanel.createMenuButton("Set keys");
-        button.addActionListener(e -> setKeys());
-        interCenter.add(button);
+
+        //Keys part:
+        JPanel interCenter = new JPanel(new GridBagLayout());
         interCenter.setOpaque(false);
+
+        keysButton = GameMenuCustomPanel.createMenuButton(Language.keyBindings());
+        Color bg = keysButton.getBackground();
+        keysButton.addActionListener(e -> {setKeys(false); keysButton.setBackground(bg);});
+
+        interCenter.add(keysButton);
         inter.add(interCenter);
+
 
         //Resolution part:
         JPanel interRight = new JPanel(new BorderLayout());
@@ -162,6 +166,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         for(int i = 0; i<resolutions.getItemCount(); i++) {
             if(resolutions.getItemAt(i).equals(sz)) {
                 resolutions.setSelectedIndex(i);
+                selectedRes = i;
                 break;
             }
         }
@@ -181,7 +186,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         lastP.add(bigDiffPanel);
         diffBorders();
 
-        inter.setPreferredSize(new Dimension(500, 80));
+        inter.setPreferredSize(new Dimension(600, 80));
         langArea.add(setLangLabel, BorderLayout.NORTH);
         langArea.add(flagArea, BorderLayout.SOUTH);
         lastP.add(inter, BorderLayout.NORTH);
@@ -238,16 +243,12 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         diffPanel.add(labelName, BorderLayout.SOUTH);
         diffPanel.add(diffImgLabel);
 
-        if(unlocked) diffPanel.addMouseListener(new MouseListener() {
+        if(unlocked) diffPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setDifficulty(difficulty);
                 diffBorders();
             }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
             @Override
             public void mouseEntered(MouseEvent e) {
                 diffImgLabel.setIcon(imgHover);
@@ -306,6 +307,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         optionsLabel.setText(Language.options());
         setLangLabel.setText(Language.selectTheLanguage());
         soundLabel.setText(" " + Language.gameSound());
+        keysButton.setText(Language.keyBindings());
         resolutionsLabel.setText(Language.resolution());
 
         difficultyLabel.setText("— " + Language.chooseTheDifficulty() + " —");
@@ -319,6 +321,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
     }
 
     private void setSettings() {
+        selectedRes = resolutions.getSelectedIndex();
         String[] sz = sizes[resolutions.getSelectedIndex()].split(" x ");
         int[] res = {Integer.parseInt(sz[0]), Integer.parseInt(sz[1])};
         Tools.Settings.saveSettings(language, soundCheckBox.isSelected(), difficultySelected, GameWindow.getDifficultiesUnlocked(), res);
@@ -328,6 +331,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         GameMenuPanel.getMenuPanel.displayStartScreen();
         GameWindow.window.setSize(res[0], res[1]);
         GameWindow.window.setLocationRelativeTo(null);
+        GameMenuPanel.getMenuPanel.setTexts();
     }
 
     void prepareScreen() {
@@ -349,16 +353,12 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         };
         Icon img = button.getIcon();
         ImageIcon hover = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/menu/opt_" + langURL + "_hover.png")));
-        button.addMouseListener(new MouseListener() {
+        button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 language = l;
                 langBorders();
             }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
             @Override
             public void mouseEntered(MouseEvent e) {
                 button.setIcon(hover);
@@ -378,76 +378,80 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
      */
     private void addMouseEffect(JButton button, Effect effect) {
         Color bg = button.getBackground();
-        Color hoverBG = new Color(180, 150, 110);
-
-        button.addMouseListener(new MouseListener() {
+        button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 button.setBackground(bg);
                 switch (effect) {
-                    case GOTO_START -> GameMenuPanel.getMenuPanel.displayStartScreen();
+                    case GOTO_START -> cancel();
                     case SAVE_SETTINGS -> setSettings();
                 }
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hoverBG);
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(bg);
             }
         });
     }
 
-
-    private enum Effect {
-        GOTO_START, SAVE_SETTINGS;
+    private void cancel() {
+        resolutions.setSelectedIndex(selectedRes);
+        KeyBindings.defaultKeys(defaultKeys);
+        GameMenuPanel.getMenuPanel.displayStartScreen();
     }
 
-    public enum MyKeyboard {
-        up('w'), down('s'),
-        left ('a'), right('d'), action('q'),
-        restart('r'), pause('p'), inventory('i');
-        public char car;
-        MyKeyboard(char a){
-            this.car = a;
-        }
-    }
-
-    public static void setKeys(){
+    public static void setKeys(boolean externCall) {
         JDialog dialog = new JDialog(GameWindow.window, true);
-        JPanel panel = new JPanel(new GridLayout(0,1));
-        for (MyKeyboard k : MyKeyboard.values()){
-            panel.add(makeLine(dialog, k));
-        }
-        panel.setFocusable(true);
-        dialog.setContentPane(panel);
+        JPanel panelTab = new JPanel(new GridLayout(0,1));
+        JPanel buttons = new JPanel(new GridLayout(0, 3, 10, 0));
+
+        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        dialog.setUndecorated(true);
+        panelTab.setFocusable(true);
+        panelTab.setBorder(bigBorder(true));
+
+        JButton bBack = createMenuButton(Language.cancel());
+        JButton bDefault = createMenuButton(Language.reset());
+        JButton bConfirm = createMenuButton(Language.confirm());
+        bBack.addActionListener(e -> { KeyBindings.defaultKeys(defaultKeys); dialog.dispose(); });
+        bDefault.addActionListener(e -> { KeyBindings.defaultKeys(); refreshButtonsText(); });
+        bConfirm.addActionListener(e -> {
+            if(externCall) Tools.Settings.saveSettings(GameWindow.language(), GameWindow.hasSound(),
+                    GameWindow.difficulty(), GameWindow.getDifficultiesUnlocked(), GameWindow.resolution());
+            dialog.dispose();
+        });
+        buttons.add(bBack);
+        buttons.add(bDefault);
+        buttons.add(bConfirm);
+
+        keysButtons.clear();
+        int x = 0;
+        for (KeyBindings k : KeyBindings.values()) panelTab.add(makeLine(dialog, k, x++));
+        panelTab.add(new JLabel());
+        panelTab.add(buttons);
+        dialog.setContentPane(panelTab);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 
-    private static JPanel makeLine(JDialog father, MyKeyboard k){
+    private static JPanel makeLine(JDialog father, KeyBindings k, int even) {
         JPanel panel = new JPanel(new GridLayout(0,2));
-        JLabel label = new JLabel(k.toString());
-        JButton button = new JButton(k.car + "");
+        JLabel label = new JLabel(" " + k.toString() + " ");
+        JButton button = new JButton(k.key + "");
+        if(even % 2 != 0) panel.setBackground(Color.LIGHT_GRAY);
+        keysButtons.add(button);
         button.addActionListener(e -> {
             JDialog dialog = new JDialog(father, true);
             dialog.setUndecorated(true);
             JPanel panel1 = new JPanel();
-            JLabel label1 = new JLabel("Enter a key [a-z]");
+            JLabel label1 = new JLabel(Language.enterKey() + " [A-Z]");
+            panel1.setBorder(bigBorder(true));
             panel1.setFocusable(true);
             panel1.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
-                    k.car = e.getKeyChar();
-                    button.setText("" + e.getKeyChar());
-                    dialog.dispose();
+                    if((e.getKeyChar() >= 'a' && e.getKeyChar() <= 'z') || (e.getKeyChar() >= 'A' && e.getKeyChar() <= 'Z')) {
+                        k.switchKey(Character.toUpperCase(e.getKeyChar()));
+                        refreshButtonsText();
+                        dialog.dispose();
+                    }
                 }
             });
             panel1.add(label1);
@@ -456,8 +460,19 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
         });
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(label);
         panel.add(button);
         return panel;
+    }
+
+    private static void refreshButtonsText() {
+        for(int i = 0; i < keysButtons.size(); i++)
+            keysButtons.get(i).setText(KeyBindings.values()[i].key + "");
+    }
+
+
+    private enum Effect {
+        GOTO_START, SAVE_SETTINGS;
     }
 }

@@ -124,6 +124,10 @@ public class GameMenuPanel extends JPanel {
         infoPanel.setTexts();
     }
 
+    void setInfoPanelText() {
+        infoPanel.setTexts();
+    }
+
     public void refreshDifficulties() {
         optionsScreen = new GameMenuOptionsPanel();
         optionsScreen.fillScreen();

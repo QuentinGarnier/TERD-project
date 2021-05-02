@@ -11,6 +11,7 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import entity.Player.WhatHeroDoes;
 import graphics.window.GameWindow;
+import graphics.window.menu.GameMenuOptionsPanel;
 import items.AbstractItem;
 
 import java.util.*;
@@ -67,9 +68,8 @@ public class WorldMap {
             theme = Theme.FINAL_BOSS;
             initializeBossLab();
             placePlayer();
-        } else /*if (stageNum < difficulty.stagesNumber)*/{
+        } else {
             theme = randomTheme();
-            //difficulty = GameWindow.getDifficulty();
             items.add(AbstractItem.end);
             createRooms();
             createCorridors(true);
@@ -211,12 +211,6 @@ public class WorldMap {
         return getCell(p.getX(), p.getY());
     }
 
-    public Corridor getCurrentCorridor(int x, int y) {
-        Cell c = getCell(x, y);
-        return c.getBaseContent().equals(CellElementType.CORRIDOR) ?
-                corridors.get(c.getBaseId()) : null;
-    }
-
     public Room getCurrentRoom(Position p) {
         return getCurrentRoom(p.getX(), p.getY());
     }
@@ -261,7 +255,6 @@ public class WorldMap {
         String row2 = "Money : " + Tools.TerminalText.yellow(Player.getInstancePlayer().getMoney() + " ●") + " " + "| HP : " + Tools.TerminalText.red(Player.getInstancePlayer().getHP() + "/" + Player.getInstancePlayer().getHPMax() + " ♥") + " " +
                 "| Attack : " + Tools.TerminalText.blue(Player.getInstancePlayer().getAttack() + " ⚔");
         int padRow2 = padding(row2);
-        //System.out.println(padRow1 + " " + padRow2);
         String ATH = " ".repeat(padRow0) + row0 + System.lineSeparator() +
                 "-".repeat(MAX_X) + System.lineSeparator() +
                 " ".repeat(padRow1) + row1 + System.lineSeparator() +
@@ -305,24 +298,23 @@ public class WorldMap {
         if(buffer.length() == 1) {
             key = buffer.charAt(0);
 
-            if(Tools.getKeyboard().equals("fr_FR")) key = Tools.universalCharOf(key);
             Player player = Player.getInstancePlayer();
             WhatHeroDoes choice = player.getWhatHeroDoes();
-            switch (key) {
-                case 'w' -> applyCommand(Move.UP);
-                case 'a' -> applyCommand(Move.LEFT);
-                case 's' -> applyCommand(Move.DOWN);
-                case 'd' -> applyCommand(Move.RIGHT);
-                case 'q' -> {
+
+            if (key ==  GameWindow.KeyBindings.up.key) applyCommand(Move.UP);
+            else if (key ==  GameWindow.KeyBindings.down.key) applyCommand(Move.DOWN);
+            else if (key ==  GameWindow.KeyBindings.left.key) applyCommand(Move.LEFT);
+            else if (key ==  GameWindow.KeyBindings.right.key) applyCommand(Move.RIGHT);
+            else if (key ==  GameWindow.KeyBindings.action.key) {
+                if (WorldMap.getInstanceWorld().getCell(player.getPosition()).getBaseContent().equals(CellElementType.EMPTY)) {
                     switch (choice) {
                         case MOVING -> player.setWhatHeroDoes(WhatHeroDoes.CHOOSING_ATTACK);
                         case CHOOSING_ATTACK -> player.setWhatHeroDoes(WhatHeroDoes.ATTACKING);
                     }
                     applyCommand(null);
                 }
-                case 'p' -> System.out.println("You left the game.");
-                default -> gamePlayer();
             }
+            else if (key == GameWindow.KeyBindings.restart.key) Tools.restartGame();
 
             WorldMap.getInstanceWorld().repaint();
         }

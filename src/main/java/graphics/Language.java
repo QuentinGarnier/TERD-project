@@ -1,6 +1,5 @@
 package graphics;
 
-
 import entity.AbstractEntity;
 import entity.EntityState;
 import entity.EntityType;
@@ -35,7 +34,7 @@ public enum Language {
         return lang("Help", "Aide", "Aiuto", "يساعد");
     }
     public static String ranking() {
-        return lang("Ranking", "Classement", "Classifica", "...");
+        return lang("Ranking", "Classement", "Classifica", "تصنيف");
     }
     public static String exitGame() {
         return lang("Exit Game", "Quitter le Jeu", "Esci dal Gioco", "اترك اللعبة");
@@ -73,7 +72,7 @@ public enum Language {
         String body2 = lang("He becomes Enraged when his HP is low. In counterpart, he loses 1 Hunger Point for each attack.",
                 "Il devient Enragé quand ses PV sont bas. En contrepartie, il perd 1 Point de Faim à chaque attaque.",
                 "Si arrabbia quando i suoi HP sono bassi. Tuttavia, perde 1 Punto Fame a ogni attacco",
-                "في المقابل ، يخسر نقطة جوع واحدة لكل هجوم.");
+                "يصبح غاضبًا عندما تكون نقاط صحته منخفضة. في المقابل ، يخسر نقطة جوع واحدة لكل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String archerDescription() {
@@ -84,7 +83,7 @@ public enum Language {
         String body2 = lang("Each attack has a chance to deal more damage, inflict an effect... or miss the target.",
                 "Chaque attaque a une chance d'infliger plus de dégâts, d'empoisonner l'adversaire... ou de rater la cible.",
                 "Ogni attacco ha la probabilità d'infliggere più danni, di avvelenare l'avversario... o di mancare il bersaglio.",
-                "كل هجوم لديه فرصة لإحداث المزيد من الضرر ، أو إحداث تأثير ... أو تفويت الهدف.");
+                "كل هجوم لديه فرصة لإحداث المزيد من الضرر ، وتسميم الخصم ... أو تفويت الهدف.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String mageDescription() {
@@ -95,11 +94,11 @@ public enum Language {
         String body2 = lang("His power lies in his ability to burn, freeze or paralyse his opponents and heal himself slightly with each attack.",
                 "Sa force réside dans sa capacité à brûler, geler ou paralyser ses adversaires et se soigner légèrement à chaque attaque.",
                 "La sua forza è la capacità di bruciare, gelare o paralizzare i suoi avversari e curarsi leggermente a ogni attacco.",
-                "تكمن قوته في قدرته على حرق خصومه وشفاء نفسه قليلاً مع كل هجوم.");
+                "تكمن قوتها في قدرتها على حرق أو تجميد أو شل المعارضين وشفاء نفسها برفق مع كل هجوم.");
         return "<html><p style=\"text-align: center;\">" + body1 + "<br />" + body2 + "</p></html>";
     }
     public static String enterYourName() {
-        return lang("Enter your name:", "Entrez votre nom :", "Inserisci il tuo nome:", "...");
+        return lang("Enter your name:", "Entrez votre nom :", "Inserisci il tuo nome:", "أدخل أسمك:");
     }
 
 
@@ -109,7 +108,25 @@ public enum Language {
         return lang("Select language", "Sélectionnez la langue", "Seleziona la lingua", "اختار اللغة");
     }
     public static String gameSound() {
-        return lang("Game sound", "Son du jeu", "Suono del gioco", "صوت اللعبة");
+        return lang("Sounds", "Sons", "Suoni", "صوت اللعبة");
+    }
+    public static String keyBindings() {
+        return lang("Keys", "Touches", "Tasti", "مفاتيح");
+    }
+    public static String enterKey() {
+        return lang("Press a key", "Appuyez sur une touche", "Premi un tasto", "اضغط على زر");
+    }
+    public static String cancel() {
+        return lang("Cancel", "Annuler", "Annullare", "لالغاء");
+    }
+    public static String reset() {
+        return lang("Reset", "Restaurer", "Reset", "يعيد");
+    }
+    public static String confirm() {
+        return lang("Confirm", "Confirmer", "Confermare", "أكد");
+    }
+    public static String resolution() {
+        return lang("Resolution", "Résolution", "Risoluzione", "القرار");
     }
     public static String chooseTheDifficulty() {
         return lang("Choose the difficulty", "Choisissez la difficulté", "Scegli la difficoltà", "اختر الصعوبة");
@@ -128,9 +145,6 @@ public enum Language {
     }
     public static String endless() {
         return lang("Endless", "Sans fin", "Infinito", "بدون نهاية");
-    }
-    public static String resolution() {
-        return lang("Screen resolution", "Résolution d'écran", "Risoluzione dello schermo", "...");
     }
 
 
@@ -221,9 +235,9 @@ public enum Language {
     public static String logDealDamage(AbstractEntity entity1, AbstractEntity entity2) {
         boolean b = entity2 instanceof Player;
         int dmg = (Math.max(0, entity1.getAttack() - (b ? Player.getInstancePlayer().getDefense() : 0)));
-        return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? " (Absorbed : " + (entity1.getAttack() - dmg) + ")" : ""),
+        return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? " (Absorbed: " + (entity1.getAttack() - dmg) + ")" : ""),
                 entity1 + " inflige " + dmg + " dégâts à " + entity2 + "." + (dmg != entity1.getAttack() ? " (Absorbé : " + (entity1.getAttack() - dmg) + ")" : ""),
-                entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? " (Assorbito" + (entity1.getAttack() - dmg) + ")" : ""),
+                entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? " (Assorbito: " + (entity1.getAttack() - dmg) + ")" : ""),
                 entity1 + " يلحق " + dmg + " ضرر لأ " + entity2 + "." + (dmg != entity1.getAttack() ? "(" + (entity1.getAttack() - dmg) + " (يمتص " : ""));
     }
 
@@ -496,10 +510,10 @@ public enum Language {
 
     public static String translate(Tools.Victory_Death vd){
         return switch (vd){
-            case DEATH_BY_HP -> lang("Death by HP", "Mort par PV", "Morte per HP", "...");
-            case DEATH_BY_HUNGER -> lang("Death by hunger", "Mort par famine", "Morte par fame", "...");
-            case WIN -> lang("Victory", "Victoire", "Vittoria", "...");
-            case ABANDON -> lang("Abandon", "Abandon", "Abbandono", "...");
+            case DEATH_BY_HP -> lang("Death by HP", "Mort par PV", "Morte per HP", "الموت بنقاط الإصابة");
+            case DEATH_BY_HUNGER -> lang("Death by hunger", "Mort par famine", "Morte par fame", "الموت بالمجاعة");
+            case WIN -> lang("Victory", "Victoire", "Vittoria", "فوز");
+            case ABANDON -> lang("Abandon", "Abandon", "Abbandono", "التخلي عن");
         };
     }
 
@@ -561,6 +575,18 @@ public enum Language {
             case FOREST -> lang("Forest", "Forêt", "Foresta", "غابة");
             case MERCHANT -> lang("Store", "Magasin", "Negozio", "المحل");
             case FINAL_BOSS -> lang("Final Boss", "Boss Final", "Boss Finale", "نهائي بوس");
+        };
+    }
+    public static String translate(GameWindow.KeyBindings key) {
+        return switch(key) {
+            case up -> Language.directions(Move.UP);
+            case left -> Language.directions(Move.LEFT);
+            case down -> Language.directions(Move.DOWN);
+            case right -> Language.directions(Move.RIGHT);
+            case action -> lang("Action", "Action", "Azione", "عمل");
+            case inventory -> logInventory();
+            case options -> options();
+            case restart -> restart();
         };
     }
 
@@ -723,41 +749,57 @@ public enum Language {
     }
     public static String infoQ1() {
         return lang(
-                "<html><center><h1> More info about Q key </h1>" +
+                "<html><center><h1> More info about " +
+                        GameWindow.KeyBindings.action.key + " key </h1>" +
                 "<h2>Attack</h2><br>" +
-                "When you press Q, you can see a gray zone (shadow) <br>" +
+                "When you press " +
+                        GameWindow.KeyBindings.action.key + ", you can see a gray zone (shadow) <br>" +
                 "showing you your attack area and a red square.<br>" +
                 "You can move this square with your move keys. <br>" +
                 "If a monster is under your aim, the square become green & <br>" +
-                "if you press Q again, this monster will be hit.<br>" +
-                "If you want to quit attack mode, press Q." +
+                "if you press " +
+                        GameWindow.KeyBindings.action.key + " again, this monster will be hit.<br>" +
+                "If you want to quit attack mode, press " +
+                        GameWindow.KeyBindings.action.key + "." +
                 "</center></html>",
-                "<html><center><h1> Plus d'info sur la touche A </h1>" +
+                "<html><center><h1> Plus d'info sur la touche " +
+                        GameWindow.KeyBindings.action.key + " </h1>" +
                 "<h2>Attaque</h2><br>" +
-                "Quand vous appuyez sur A, une zone grise (ombre) apparaît<br>" +
+                "Quand vous appuyez sur " +
+                        GameWindow.KeyBindings.action.key + ", une zone grise (ombre) apparaît<br>" +
                 "vous indiquant votre portée d'attaque ainsi qu'un carré rouge.<br>" +
                 "Vous pouvez déplacer ce carré avec les touches de déplacement. <br>" +
                 "Si un monstre est sous la cible, le carré devient vert et <br>" +
-                "si vous appuyez à nouveau sur A, ce monstre sera attaqué.<br>" +
-                "Si vous souhaitez sortir du mode attaque, appuyez sur A." +
+                "si vous appuyez à nouveau sur " +
+                        GameWindow.KeyBindings.action.key + ", ce monstre sera attaqué.<br>" +
+                "Si vous souhaitez sortir du mode attaque, appuyez sur " +
+                        GameWindow.KeyBindings.action.key + "." +
                 "</center></html>",
-                "<html><center><h1> Maggiori informazioni sul tasto Q </h1>" +
+                "<html><center><h1> Maggiori informazioni sul tasto " +
+                        GameWindow.KeyBindings.action.key + " </h1>" +
                 "<h2>Attacco</h2><br>" +
-                "Quando premi Q, appare une zona grigia (ombra) <br>" +
+                "Quando premi " +
+                        GameWindow.KeyBindings.action.key + ", appare une zona grigia (ombra) <br>" +
                 "che ti mostra il tuo raggio d'attacco e un quadrato rosso.<br>" +
                 "Puoi spostare questo quadrato con i tasti d'azione <br>" +
                 "Se un mostro è sotto la tua mira, il quadrato diventa verde & <br>" +
-                "se premi di nuovo Q, questo mostro sarà colpito.<br>" +
-                "Se vuoi usicre dalla modalità d'attacco, premi Q." +
+                "se premi di nuovo " +
+                        GameWindow.KeyBindings.action.key + ", questo mostro sarà colpito.<br>" +
+                "Se vuoi usicre dalla modalità d'attacco, premi " +
+                        GameWindow.KeyBindings.action.key + "." +
                 "</center></html>",
-                "<html> <center> <h1> مزيد من المعلومات حول المفتاح A </h1>" +
+                "<html> <center> <h1> مزيد من المعلومات حول المفتاح " +
+                        GameWindow.KeyBindings.action.key + " </h1>" +
                         "<h2> هجوم </ h2> <br>" +
-                        "عند الضغط على A ، تظهر منطقة رمادية (ظل) <br>" +
+                        "عند الضغط على " +
+                        GameWindow.KeyBindings.action.key + " ، تظهر منطقة رمادية (ظل) <br>" +
                         "تشير إلى نطاق هجومك بالإضافة إلى مربع أحمر. <br>" +
                         "يمكنك تحريك هذا المربع باستخدام مفاتيح الحركة. <br>" +
                         "إذا كان هناك وحش تحت الهدف ، يتحول المربع إلى اللون الأخضر و <br>" +
-                        "إذا ضغطت على A مرة أخرى ، فسيتم مهاجمة هذا الوحش. <br>" +
-                        "إذا كنت تريد الخروج من وضع الهجوم ، فاضغط على A" +
+                        "إذا ضغطت على " +
+                        GameWindow.KeyBindings.action.key + " مرة أخرى ، فسيتم مهاجمة هذا الوحش. <br>" +
+                        "إذا كنت تريد الخروج من وضع الهجوم ، فاضغط على " +
+                        GameWindow.KeyBindings.action.key + "" +
                         "</center> </html>"
         );
     }
@@ -765,22 +807,26 @@ public enum Language {
         return lang(
                 "<html><center><h2>Merchant</h2><br>" +
                         "When you are in the Merchant room, you can talk with<br>" +
-                        "the Merchant setting the aim on him and clicking Q.</center></html>",
+                        "the Merchant setting the aim on him and clicking " +
+                        GameWindow.KeyBindings.action.key + ".</center></html>",
                 "<html><center><h2>Marchand</h2><br>" +
                         "Quand vous êtes dans la salle du Marchand, vous pouvez lui<br>" +
-                        "parler en le ciblant puis en appuyant sur A.</center></html>",
+                        "parler en le ciblant puis en appuyant sur " +
+                        GameWindow.KeyBindings.action.key + ".</center></html>",
                 "<html><center><h2>Mercante</h2><br>" +
                         "Quando sei dal Mercante, puoi parlare con lui<br>" +
-                        "selezionando il tuo obiettivo su di lui e cliccando Q.</center></html>",
+                        "selezionando il tuo obiettivo su di lui e cliccando " +
+                        GameWindow.KeyBindings.action.key + ".</center></html>",
                 "<html> <center> <h2> التاجر </ h2> <br>" +
                         "عندما تكون في غرفة التاجر ، يمكنك جعله <br>" +
-                        "تحدث باستهدافها ثم الضغط على A </center> </html>"
+                        "تحدث باستهدافها ثم الضغط على " +
+                        GameWindow.KeyBindings.action.key + " </center> </html>"
         );
     }
     public static String directions(Move m) {
         return switch (m) {
-            case UP -> lang("Go up", "Monter", "Salire", "يصعد");
-            case DOWN -> lang("Go down", "Descendre", "Scendere", "انزل");
+            case UP -> lang("Go up", "Allez en haut", "Salire", "يصعد");
+            case DOWN -> lang("Go down", "Allez en bas", "Scendere", "انزل");
             case RIGHT -> lang("Go right", "Aller à droite", "Andare a destra", "انعطف يمينا");
             case LEFT -> lang("Go left", "Aller à gauche", "Andare a sinistra", "أذهب يسارا");
         };
@@ -801,8 +847,8 @@ public enum Language {
                 "<html> لعبة جديدة <br> بنفس البطل </ html>"
         );
     }
-    public static String interactionReadBelow() {
-        return lang("Interaction (read below)", "Interaction (lire ci-dessous)", "Interazione (leggi sotto)", "التفاعل (اقرأ أدناه)");
+    public static String actionReadBelow() {
+        return lang("Action (read below)", "Action (lire ci-dessous)", "Azione (leggi sotto)", "التفاعل (اقرأ أدناه)");
     }
     public static String creditsText() {
         return lang(
@@ -973,33 +1019,30 @@ public enum Language {
 
     // ===== Ranking Panel =====
     public static String clear() {
-        return lang("Clear", "Effacer", "Cancellare", "...");
+        return lang("Clear", "Effacer", "Cancellare", "تمحو");
     }
     public static String date() {
-        return lang("Date", "Date", "Data", "...");
+        return lang("Date", "Date", "Data", "بتاريخ");
     }
     public static String heroName() {
-        return lang("Name", "Nom", "Nome", "...");
+        return lang("Name", "Nom", "Nome", "الكنية");
     }
     public static String speciality() {
-        return lang("Speciality", "Spécialité", "Specialità", "...");
+        return lang("Speciality", "Spécialité", "Specialità", "تخصص");
     }
     public static String confirmClear() {
         return lang("You are about to erase the entire ranking history. This action is irreversible.",
                 "Vous êtes sur le point d'effacer tout l'historique du classement. Cette action est irréversible.",
                 "Stai per cancellare l'intera cronologia della classifica. Questa azione è irreversibile.",
-                "...");
+                "أنت على وشك محو سجل الترتيب بالكامل. هذا العمل لا رجوع فيه.");
     }
     public static String erase() {
-        return lang("Erase", "Effacer", "Cancellare", "...");
+        return lang("Erase", "Effacer", "Cancellare", "تمحو");
     }
-    public static String cancel() {
-        return lang("Cancel", "Annuler", "Annullare", "...");
+    public static String end() {
+        return lang("End", "Fin", "Fine", "نهاية");
     }
-    public static String end(){
-        return lang("End", "Fin", "Fine", "...");
-    }
-    public static String difficulty(){
-        return lang("Difficulty", "Difficulté", "Difficoltà", "...");
+    public static String difficulty() {
+        return lang("Difficulty", "Difficulté", "Difficoltà", "صعوبة");
     }
 }

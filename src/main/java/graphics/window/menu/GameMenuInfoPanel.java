@@ -11,14 +11,13 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URL;
 import java.util.Objects;
 
 public class GameMenuInfoPanel extends GameMenuCustomPanel {
-    private final JPanel leftPane;
-    private final JPanel centerPane;
+    private final JPanel leftPane, centerPane;
     private final JPanel helpPanel;
     private final JPanel aboutPanel;
     private final JPanel creditsPanel;
@@ -224,24 +223,24 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
 
         // ARROWS
         JPanel arrows = new JPanel(new GridLayout(3,3));
-        arrows.add(makeSquareLabel(""));
-        arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "Z": "W"));
-        arrows.add(makeSquareLabel(""));
-        arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "Q": "A"));
-        arrows.add(makeSquareLabel("S"));
-        arrows.add(makeSquareLabel("D"));
-        arrows.add(makeSquareLabel(""));
-        arrows.add(makeSquareLabel(GameWindow.language() == Language.FR? "A": "Q"));
-        arrows.add(makeSquareLabel(""));
+        arrows.add(makeSquareLabel('0'));
+        arrows.add(makeSquareLabel(GameWindow.KeyBindings.up.key));
+        arrows.add(makeSquareLabel('0'));
+        arrows.add(makeSquareLabel(GameWindow.KeyBindings.left.key));
+        arrows.add(makeSquareLabel(GameWindow.KeyBindings.down.key));
+        arrows.add(makeSquareLabel(GameWindow.KeyBindings.right.key));
+        arrows.add(makeSquareLabel('0'));
+        arrows.add(makeSquareLabel(GameWindow.KeyBindings.action.key));
+        arrows.add(makeSquareLabel('0'));
         panel.add(arrows, BorderLayout.WEST);
 
         // ARROW DESCRIPTION
         JPanel arrowD = new JPanel(new GridLayout(5, 1));
-        arrowD.add(new JLabel((GameWindow.language() == Language.FR? "Z": "W") + " : " + Language.directions(Move.UP)));
-        arrowD.add(new JLabel((GameWindow.language() == Language.FR? "Q": "A") + " : " + Language.directions(Move.LEFT)));
-        arrowD.add(new JLabel("S : " + Language.directions(Move.DOWN)));
-        arrowD.add(new JLabel("D : " + Language.directions(Move.RIGHT)));
-        arrowD.add(new JLabel((GameWindow.language() == Language.FR? "A": "Q") + " : " + Language.interactionReadBelow()));
+        arrowD.add(new JLabel(GameWindow.KeyBindings.up.key + " : " + Language.directions(Move.UP)));
+        arrowD.add(new JLabel(GameWindow.KeyBindings.left.key + " : " + Language.directions(Move.LEFT)));
+        arrowD.add(new JLabel(GameWindow.KeyBindings.down.key + " : " + Language.directions(Move.DOWN)));
+        arrowD.add(new JLabel(GameWindow.KeyBindings.right.key + " : " + Language.directions(Move.RIGHT)));
+        arrowD.add(new JLabel(GameWindow.KeyBindings.action.key + " : " + Language.actionReadBelow()));
         arrowD.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.add(arrowD);
 
@@ -250,13 +249,13 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
 
     private static JPanel arrowSecondColumn() {
         JPanel panel = new JPanel(new GridLayout(0,1));
-        panel.add(makeKeyDescription("I", Language.openTheInventory()));
-        panel.add(makeKeyDescription("P", "/ [ESC] : " + Language.options()));
-        panel.add(makeKeyDescription("R", Language.newGameSameHero()));
+        panel.add(makeKeyDescription(GameWindow.KeyBindings.inventory.key, Language.openTheInventory()));
+        panel.add(makeKeyDescription(GameWindow.KeyBindings.options.key, "/ [ESC] : " + Language.options()));
+        panel.add(makeKeyDescription(GameWindow.KeyBindings.restart.key, Language.newGameSameHero()));
         return panel;
     }
 
-    private static JPanel makeKeyDescription(String key, String description) {
+    private static JPanel makeKeyDescription(char key, String description) {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = makeSquareLabel(key);
         JLabel descr = new JLabel(description);
@@ -266,8 +265,8 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
         return panel;
     }
 
-    private static JLabel makeSquareLabel(String s) {
-        JLabel label = new JLabel(s);
+    private static JLabel makeSquareLabel(char s) {
+        JLabel label = new JLabel(s == '0'? "" : "" + s);
         label.setOpaque(true);
         label.setFont(new Font("monospaced", Font.PLAIN, 30));
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
@@ -316,27 +315,13 @@ public class GameMenuInfoPanel extends GameMenuCustomPanel {
 
     private void addMouseEffect(JButton button, boolean exitButton) {
         Color bg = button.getBackground();
-        Color hoverBG = new Color(180, 150, 110);
-
-        button.addMouseListener(new MouseListener() {
+        button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(exitButton) {
                     button.setBackground(bg);
                     GameMenuPanel.getMenuPanel.displayStartScreen();
                 }
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hoverBG);
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(bg);
             }
         });
     }
