@@ -192,6 +192,7 @@ public class Player extends AbstractEntity {
     public void modifyHunger(int x, boolean toDisplayMsg) {
         hunger = Math.max(Math.min(hunger + x, 100), 0);
         if (toDisplayMsg && (x >= 0)) GameWindow.addToLogs(Language.logModifyHunger(x), Tools.WindowText.purple);
+        if (hunger <= 30) GameWindow.addToLogs(Language.logStarving(), Tools.WindowText.purple);
         if (hunger == 0) {
             modifyHP(-getHPMax());
             Tools.gameEnd(Tools.Victory_Death.DEATH_BY_HUNGER);

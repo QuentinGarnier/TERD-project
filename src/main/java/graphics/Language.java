@@ -264,6 +264,9 @@ public enum Language {
                 (x >= 0 ? "Guadagni " + x : "Perdi " + (-x)) + " Punt" + (x > 1 || x < -1 ? "i" : "o") + " Fame.",
                 "أنتم " + (x >= 0 ? "فوز " + x : "تخسر " + (-x)) + "لا جوع");
     }
+    public static String logStarving() {
+        return lang("You are starving...", "Vous êtes affamé...", "Stai morendo di fame...", "أنت تتضور جوعا...");
+    }
     public static String logHeroDeath(boolean deathByHunger) {
         if(deathByHunger) return lang("HERO DIED OF HUNGER", "LE HÉROS EST MORT DE FAIM", "L'EROE È MORTO DI FAME","البطل مات من الجوع");
         return lang("HERO IS DEAD", "LE HÉROS EST MORT", "L'EROE È MORTO","البطل ميت");

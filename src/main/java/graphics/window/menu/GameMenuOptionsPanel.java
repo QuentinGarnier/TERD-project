@@ -332,6 +332,7 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         GameWindow.window.setSize(res[0], res[1]);
         GameWindow.window.setLocationRelativeTo(null);
         GameMenuPanel.getMenuPanel.setTexts();
+        for(int i = 0; i < defaultKeys.length; i++) defaultKeys[i] = KeyBindings.values()[i].key;
     }
 
     void prepareScreen() {

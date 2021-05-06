@@ -24,6 +24,7 @@ public class GameWindow extends JFrame {
     public static String name = "";
     public static GameWindow window = new GameWindow();
 
+    private static boolean settingsLoaded;
     private static int[] resolution;
     private static Language lang;
     private static boolean muted;
@@ -64,6 +65,13 @@ public class GameWindow extends JFrame {
         }
         else window.displayMenuPanels();
         window.setVisible(true);
+        if(!settingsLoaded) {
+            JLabel txt = new JLabel("<html><center>Welcome to \"That Time the Hero saved the Village\"!" +
+                    "<br />It seems it's the first time you enter the game." +
+                    "<br />You can change you key bindings and the language in the options.</center></html>");
+            JOptionPane.showMessageDialog(GameWindow.window, txt, "That Time the Hero saved the Village", JOptionPane.PLAIN_MESSAGE);
+            settingsLoaded = true;
+        }
     }
 
     private static void playMusics() {
@@ -100,7 +108,7 @@ public class GameWindow extends JFrame {
     }
 
     private void setup() {
-        loadSettings();
+        settingsLoaded = loadSettings();
         setTitle("That Time the Hero saved the Village");
         setSize(resolution[0], resolution[1]);
         setMinimumSize(new Dimension(800,600));
@@ -119,8 +127,8 @@ public class GameWindow extends JFrame {
         });
     }
 
-    private void loadSettings() {
-        Tools.Settings.loadSettings();
+    private boolean loadSettings() {
+        boolean b = Tools.Settings.loadSettings();
         resolution = Tools.Settings.getResolution();
         lang = Tools.Settings.getLanguage();
         muted = Tools.Settings.isMuted();
@@ -133,6 +141,7 @@ public class GameWindow extends JFrame {
             }
             KeyBindings.values()[i].key = Tools.Settings.getKeys()[i];
         }
+        return b;
     }
 
     public static void setSettings(Language l, boolean sound, Difficulty d) {

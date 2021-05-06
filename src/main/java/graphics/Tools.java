@@ -10,6 +10,7 @@ import graphics.window.GameWindow;
 import items.AbstractItem;
 
 import javax.sound.sampled.*;
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -157,16 +158,16 @@ public class Tools {
                         System.getProperty("user.home") + "/.ThatTimeTheHeroSavedTheVillage/settings_project_TERD");
 
 
-        public static void loadSettings() {
-            loadSettings(false);
+        public static boolean loadSettings() {
+            return loadSettings(false);
         }
 
-        private static void loadSettings(boolean reload) {
+        private static boolean loadSettings(boolean reload) {
             try {
                 File f = new File(path);
                 if(!f.exists()) {
                     defaultSettings();
-                    return;
+                    return false;
                 }
                 Scanner scanner = new Scanner(f);
                 String line;
@@ -196,12 +197,16 @@ public class Tools {
                     }
                 }
                 scanner.close();
-                if(resolution == null || language == null || difficulty == null || difficultiesUnlocked == null)
+                if(resolution == null || language == null || difficulty == null || difficultiesUnlocked == null) {
                     defaultSettings(); //If at least 1 line is missing, then restore the default settings.
+                    return false;
+                }
+                return true;
             } catch(Exception e) {
                 e.printStackTrace();
                 defaultSettings();
                 if(!reload) saveSettings(language, !mute, difficulty, difficultiesUnlocked, resolution);
+                return false;
             }
         }
 
@@ -236,6 +241,7 @@ public class Tools {
             mute = false; //Default value
             difficulty = GameWindow.Difficulty.EASY; //Default value
             difficultiesUnlocked = new boolean[]{true, false, false, false, false};
+            saveSettings(language, true, difficulty, difficultiesUnlocked, resolution);
         }
 
         public static int[] getResolution() {
