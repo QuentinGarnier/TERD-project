@@ -99,10 +99,6 @@ public class Cell extends JLabel {
         return baseId;
     }
 
-    public int getItemId() {
-        return item.getIdPosRoom();
-    }
-
     public AbstractItem getItem() {
         return item;
     }
@@ -122,10 +118,6 @@ public class Cell extends JLabel {
         return baseContent.isWall();
     }
 
-    public boolean isRoom(Cell[][] lab){
-        return baseContent.equals(CellElementType.EMPTY);
-    }
-
     public boolean isDoor(Cell[][] lab){
         int x = position.getX(), y = position.getY();
         if (x + 1 == WorldMap.MAX_X ||
@@ -140,10 +132,6 @@ public class Cell extends JLabel {
         int x = position.getX(), y = position.getY();
         return (worldMap.getCell(x + 1, y).isWall() && worldMap.getCell(x - 1, y).isWall()) ||
                 (worldMap.getCell(x, y + 1).isWall() && worldMap.getCell(x, y - 1).isWall());
-    }
-
-    public boolean isAimed(){
-        return isAimed;
     }
 
     public void setAimed(boolean b){
@@ -171,7 +159,6 @@ public class Cell extends JLabel {
                     default -> false;
                 };
             }
-            //return cell.getBaseId() == baseId && cell.getBaseContent().equals(baseContent);
         }
         return false;
     }

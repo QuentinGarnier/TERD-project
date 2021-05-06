@@ -11,7 +11,6 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import entity.Player.WhatHeroDoes;
 import graphics.window.GameWindow;
-import graphics.window.menu.GameMenuOptionsPanel;
 import items.AbstractItem;
 
 import java.util.*;
@@ -34,7 +33,7 @@ public class WorldMap {
     private final List<AbstractItem> items;
 
 
-    private WorldMap() throws ErrorPositionOutOfBound {
+    private WorldMap()  {
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
@@ -57,7 +56,7 @@ public class WorldMap {
         };
     }
 
-    public void generateWorld() throws ErrorPositionOutOfBound {
+    public void generateWorld()  {
         rooms.clear();
         corridors.clear();
         items.clear();
@@ -173,7 +172,7 @@ public class WorldMap {
         }
     }
 
-    private void createRooms() throws ErrorPositionOutOfBound {
+    private void createRooms()  {
         for (int i = 0; i < maxRandomRoom; i++) {
             new Room(rooms, lab, items, theme);
         }
@@ -247,7 +246,13 @@ public class WorldMap {
         return (MAX_X - s1.length())/2;
     }
 
-    public void showATH() {
+    //Display and play (shell):
+    public void printGame() {
+        repaint();
+        gamePlayer();
+    }
+
+    private void showATH() {
         String row0 = Player.getInstancePlayer().getEntityType().toString() + " " + Player.getInstancePlayer().getState().getText();
         int padRow0 = padding(row0);
         String row1 = "  >>> Level : " + Tools.TerminalText.green("" + Player.getInstancePlayer().getLvl()) + " " + "| Hunger : " + Tools.TerminalText.magenta(Player.getInstancePlayer().getHunger() + " (" + Player.getInstancePlayer().getHungerState() + ")") + " <<<";
@@ -288,7 +293,6 @@ public class WorldMap {
     }
 
     public static void gamePlayer() {
-
         Scanner sc = new Scanner(System.in);
         String buffer;
         char key;

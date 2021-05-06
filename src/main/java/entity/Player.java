@@ -2,7 +2,6 @@ package entity;
 
 import graphics.Language;
 import graphics.Tools;
-import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
@@ -34,23 +33,19 @@ public class Player extends AbstractEntity {
     private WhatHeroDoes whatHeroDoes;
     private Position attackPosition;
 
-    private Player(Position p, EntityType speciality) throws ErrorPositionOutOfBound {
+    private Player(Position p, EntityType speciality)  {
         super(p, -1, speciality);
         level = 1;
         experiencePoints = 0;
         hunger = 100;  //100 is the max value for the Hunger Bar
         hungerTurnCounter = 0;
         inventory = new ArrayList<>();
-        money = 0;
+        money = 900;
         whatHeroDoes = WhatHeroDoes.MOVING;
     }
 
-    private Player(EntityType speciality) throws ErrorPositionOutOfBound {
-        this(new Position(0, 0), speciality);
-    }
-
-    private Player() throws ErrorPositionOutOfBound {
-        this(EntityType.HERO_WARRIOR);
+    private Player()  {
+        this(new Position(0, 0), EntityType.HERO_WARRIOR);
     }
 
     public void restorePlayer() {
@@ -125,10 +120,6 @@ public class Player extends AbstractEntity {
 
     public int getMoney() {
         return money;
-    }
-
-    public EntityState getState() {
-        return super.getState();
     }
 
     public void modifyMoney(int x) {
@@ -223,11 +214,6 @@ public class Player extends AbstractEntity {
         super.setAttack(att);
     }
 
-    @Override
-    public void decrementRemainingTime() {
-        super.decrementRemainingTime();
-    }
-
     private void moveMonsters() {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell cell = worldMap.getCell(getPosition());
@@ -248,7 +234,7 @@ public class Player extends AbstractEntity {
         if (cell.getBaseId() == Merchant.getInstanceMerchant().getSafeRoomId() && (!cell.getBaseContent().equals(CellElementType.CORRIDOR))) Merchant.getInstanceMerchant().applyStrategy();
     }
 
-    public void makeAction(boolean isAttacking, Move m, Position p) throws ErrorPositionOutOfBound {
+    public void makeAction(boolean isAttacking, Move m, Position p)  {
         boolean b;
         if (getState().equals(EntityState.FROZEN)) {
             GameWindow.addToLogs(Language.logYouAreFrozen(), Color.CYAN);
@@ -269,7 +255,7 @@ public class Player extends AbstractEntity {
         }
     }
 
-    private boolean move(Move move) throws ErrorPositionOutOfBound {
+    private boolean move(Move move)  {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         Cell oldCell = worldMap.getCell(getPosition());
         if (moveEntity(move)) {

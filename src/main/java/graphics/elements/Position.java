@@ -37,14 +37,6 @@ public class Position {
         return y;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
@@ -58,10 +50,6 @@ public class Position {
     public static boolean insideWorld(int x, int y) {
         return x >= 0 && x < WorldMap.MAX_X &&
                 y >= 0 && y < WorldMap.MAX_Y;
-    }
-
-    public int posToInt() {
-        return WorldMap.MAX_Y * y + x;
     }
 
     public boolean insideWorld() {
@@ -103,14 +91,6 @@ public class Position {
     public static double distance(Position p1, Position p2){
         if (p1 == null || p2 == null) return Double.MAX_VALUE;
         return Math.round(Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
-    }
-
-    public static Move knockbackCalcul(Position p2){
-        Position p1 = Player.getInstancePlayer().getPosition();
-        int x = p1.getX() - p2.getX(), y = p1.getY() - p2.getY();
-        boolean xB = x > 0, yB = y > 0, r = x == y && Math.random() >= 0.50;
-
-        return Math.abs(x) > Math.abs(y) || r ? xB ? Move.LEFT : Move.RIGHT : yB ? Move.UP : Move.DOWN;
     }
 
     public ArrayList<Position> calcRangePosition(int range, boolean isAccessible) {

@@ -2,7 +2,6 @@ package graphics.map;
 
 import entity.AbstractEntity;
 import entity.Player;
-import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
 import graphics.elements.Room;
 import graphics.elements.cells.Cell;
@@ -15,9 +14,7 @@ import static org.junit.Assert.*;
 public class WorldMapTest {
     WorldMap w = WorldMap.getInstanceWorld();
     @Test
-    public void testProgrammeStrongConnected() throws ErrorPositionOutOfBound {
-        //w.setDifficulty(GameWindow.Difficulty.ENDLESS);
-
+    public void testProgrammeStrongConnected() {
         Position endPos;
         for (int i = 0; i < 10; i++) {
             endPos = AbstractItem.end.getPosition();
@@ -29,18 +26,11 @@ public class WorldMapTest {
             }
             w.generateWorld();
         }
-        //System.out.println(WorldMap.getInstanceWorld().toString());
     }
     @Test
     public void testSecurityCell(){
         // test that lab do not modify
         for (int i = 0; i < 9; i++) w.generateWorld();
-        for (int i = 0; i < WorldMap.MAX_X; i++){
-            for (int j = 0; j < WorldMap.MAX_Y; j++){
-                Cell c = w.getCell(i, j);
-                c =  new Cell(CellElementType.OUTSIDE_ROOM, -1, new Position(i, j), null);
-            }
-        }
         boolean allAtZero = true;
         for (int i = 0; i < WorldMap.MAX_X; i++){
             for (int j = 0; j < WorldMap.MAX_Y; j++){
@@ -54,7 +44,7 @@ public class WorldMapTest {
     }
 
     @Test
-    public void onlyOneHero() throws ErrorPositionOutOfBound {
+    public void onlyOneHero()  {
         for (int i = 0; i < 100; i++) {
             int oneHero = 0;
             w.generateWorld();

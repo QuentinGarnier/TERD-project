@@ -36,7 +36,7 @@ public class GamePausePanel extends JDialog {
         mainMenu = GameMenuCustomPanel.createMenuButton(Language.menu());
         quitGame = GameMenuCustomPanel.createMenuButton(Language.quitTheGame());
         restartGame = GameMenuCustomPanel.createMenuButton(Language.restart());
-        container.addKeyListener(new KeysActions(this, soundCheckBox));
+        container.addKeyListener(new KeysActions(this));
         container.setFocusable(true);
         soundCheckBox.setFocusable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -156,21 +156,15 @@ public class GamePausePanel extends JDialog {
 
     private static class KeysActions extends KeyAdapter {
         private final GamePausePanel jd;
-        private final JCheckBox cb;
 
-        public KeysActions(GamePausePanel jd, JCheckBox cb){
+        public KeysActions(GamePausePanel jd){
             this.jd = jd;
-            this.cb = cb;
         }
         @Override
         public void keyReleased(KeyEvent e) {
-            switch (e.getKeyCode()){
-                case KeyEvent.VK_ESCAPE, KeyEvent.VK_P -> jd.dispose();
-                case KeyEvent.VK_R -> jd.restartGame();
-                case KeyEvent.VK_M -> jd.mainMenu();
-                case KeyEvent.VK_Q -> jd.quitGame();
-                case KeyEvent.VK_V -> cb.doClick();
-            }
+            char key = Character.toUpperCase(e.getKeyChar());
+            if (key == GameWindow.KeyBindings.restart.key) jd.restartGame();
+            else if (key == GameWindow.KeyBindings.options.key || e.getKeyCode() == KeyEvent.VK_ESCAPE) jd.dispose();
         }
     }
 
@@ -219,6 +213,14 @@ public class GamePausePanel extends JDialog {
 
             setContentPane(bigPanel);
             setCursor(Tools.cursor());
+
+            bigPanel.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    if(e.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
+                }
+            });
+            bigPanel.setFocusable(true);
 
             pack();
             setLocationRelativeTo(null);

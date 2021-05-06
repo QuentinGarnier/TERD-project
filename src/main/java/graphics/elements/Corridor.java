@@ -143,20 +143,12 @@ public class Corridor {
         return res;
     }
 
-    public boolean isHasBeenVisited() {
-        return hasBeenVisited;
-    }
-
     public void setVisited(){
         if (!hasBeenVisited) {
             hasBeenVisited = true;
             positionList.forEach(p-> lab[p.getX()][p.getY()].removeFog());
             doorList.forEach(p-> lab[p.getX()][p.getY()].removeFog());
         }
-    }
-
-    public List<Position> getDoorList() {
-        return Collections.unmodifiableList(doorList);
     }
 }
 

@@ -426,6 +426,14 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
         panelTab.add(new JLabel());
         panelTab.add(buttons);
         dialog.setContentPane(panelTab);
+
+        panelTab.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) dialog.dispose();
+            }
+        });
+
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
@@ -447,7 +455,8 @@ public class GameMenuOptionsPanel extends GameMenuCustomPanel {
             panel1.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
-                    if((e.getKeyChar() >= 'a' && e.getKeyChar() <= 'z') || (e.getKeyChar() >= 'A' && e.getKeyChar() <= 'Z')) {
+                    if(e.getKeyCode() == KeyEvent.VK_ESCAPE) dialog.dispose();
+                    else if((e.getKeyChar() >= 'a' && e.getKeyChar() <= 'z') || (e.getKeyChar() >= 'A' && e.getKeyChar() <= 'Z')) {
                         k.switchKey(Character.toUpperCase(e.getKeyChar()));
                         refreshButtonsText();
                         dialog.dispose();

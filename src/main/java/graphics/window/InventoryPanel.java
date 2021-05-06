@@ -41,7 +41,7 @@ public class InventoryPanel extends JPanel {
     }
 
     private void createLine(AbstractCollectableItem ai) {
-        String s1 = ai.toString(), s2 = ai.getEffect();
+        String s1 = ai.toString();
         int s3 = ai.getPrice();
         JPanel panel = new JPanel(new BorderLayout());
         JLabel fstCol = createLog(s1, Color.BLACK);
@@ -188,9 +188,7 @@ public class InventoryPanel extends JPanel {
                     setInventoryText(Color.RED, Language.logCantDropItem());
                 updateInventory(false);
             });
-            esc.addActionListener(e -> {
-                updateInventory(false);
-            });
+            esc.addActionListener(e -> updateInventory(false));
             add(equip);
             add(throwAway);
             add(esc);

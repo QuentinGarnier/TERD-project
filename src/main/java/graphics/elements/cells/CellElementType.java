@@ -35,6 +35,7 @@ public enum CellElementType {
     ORC('O', false, "entities/monsters/orc"),
     BOSS('D', false, "entities/monsters/dragonL"),
     MERCHANT('M', false, "entities/merchant/merchant");
+
     private static final ImageIcon bossL = new ImageIcon(Objects.requireNonNull(
             CellElementType.class.getClassLoader().getResource("data/images/entities/monsters/dragonL.png")));
     private static final ImageIcon bossR = new ImageIcon(Objects.requireNonNull(
@@ -42,16 +43,12 @@ public enum CellElementType {
 
     private final char symbol;
     private final boolean isAccessible;
-    private ImageIcon icon;
+    private final ImageIcon icon;
 
     CellElementType(char c, boolean isAccessible, String pathEnd) {
         this.symbol = c;
         this.isAccessible = isAccessible;
         this.icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/" + pathEnd + ".png")));
-    }
-
-    public char getSymbol() {
-        return symbol;
     }
 
     public boolean isAccessible() {
@@ -64,10 +61,6 @@ public enum CellElementType {
 
     public static ImageIcon getBossIcon(boolean left){
         return left ? bossL : bossR;
-    }
-
-    public void setIcon(ImageIcon i) {
-        this.icon = i;
     }
 
     public boolean isHero() {
@@ -92,11 +85,6 @@ public enum CellElementType {
          return this.equals(CellElementType.VERTICAL_WALL)
                 || this.equals(CellElementType.HORIZONTAL_WALL) || this.equals(CellElementType.CORNER_BOT)
                 || this.equals(CellElementType.CORNER_TOP);
-    }
-
-    public boolean isObstacle() {
-        return this.equals(CellElementType.TREE) || this.equals(CellElementType.STONE)
-                || this.equals(CellElementType.HOLE) || this.equals(CellElementType.BOX) || this.equals(CellElementType.PALM_TREE);
     }
 
     @Override

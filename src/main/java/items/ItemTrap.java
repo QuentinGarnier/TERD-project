@@ -15,10 +15,10 @@ import java.util.Random;
 public class ItemTrap extends AbstractItem{
 
     public final int effect;
-    private final Random rndTrap = new Random();
 
     ItemTrap(int i, Position position) {
         super(i, ItemType.TRAP, position, true);
+        Random rndTrap = new Random();
         this.effect = rndTrap.nextInt(5);
     }
 

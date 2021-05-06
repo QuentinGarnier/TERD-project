@@ -2,7 +2,6 @@ package entity;
 
 import graphics.Language;
 import graphics.Tools;
-import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;
@@ -12,23 +11,14 @@ import items.collectables.ItemEquip;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
 import static graphics.window.GameInterfacePanel.createLog;
 
 public class Merchant extends AbstractEntity{
-    private static Merchant instanceMerchant;
-    static {
-        try {
-            instanceMerchant = new Merchant();
-        } catch (ErrorPositionOutOfBound errorPositionOutOfBound) {
-            errorPositionOutOfBound.printStackTrace();
-        }
-    }
+    private static final Merchant instanceMerchant = new Merchant();
     private int counter;
     public final static int marketSize = 20;
     private final List<AbstractCollectableItem> market;
@@ -37,7 +27,7 @@ public class Merchant extends AbstractEntity{
     private final JDialog marketWindow;
     public final ImageIcon merchantIcon;
 
-    public Merchant() throws ErrorPositionOutOfBound {
+    public Merchant()  {
         super(new Position(0, 0), 0, EntityType.ALLY_MERCHANT);
         counter = WorldMap.MAX_X * WorldMap.MAX_Y + 1;
         isMoving = 0;
@@ -52,18 +42,26 @@ public class Merchant extends AbstractEntity{
         return instanceMerchant;
     }
 
-    public void generateMarket(){
+    public void generateMarket() {
         market.clear();
 
         BuyPanel.buyPanel.removeAll();
 
-        for(int i = 0; i < marketSize; i++) {
+        for(int i = 0; i < marketSize; i++)
             market.add(AbstractCollectableItem.generateAbstractCollItems(counter++, null));
-        }
 
         BuyPanel.buyPanel.makeMarket(market);
-        marketWindow.repaint(); marketWindow.revalidate();
+        marketWindow.repaint();
+        marketWindow.revalidate();
+        marketWindow.getContentPane().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) marketWindow.setVisible(false);
+            }
+        });
+        marketWindow.getContentPane().setFocusable(true);
     }
+
     public void refreshWindows() {
         marketWindow.setTitle(Language.merketTitle());
         JTabbedPane jtp = (JTabbedPane) marketWindow.getContentPane().getComponent(0);
@@ -71,7 +69,8 @@ public class Merchant extends AbstractEntity{
         jtp.setTitleAt(1, Language.logBuyOrSell(false, true));
         generateMarket();
     }
-    private void initializeWindow(){
+
+    private void initializeWindow() {
         marketWindow.setPreferredSize(new Dimension(850, 300));
         marketWindow.setResizable(false);
         marketWindow.pack();
@@ -83,6 +82,7 @@ public class Merchant extends AbstractEntity{
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab(Language.logBuyOrSell(true, true), new JScrollPane(BuyPanel.buyPanel));
         tabs.addTab(Language.logBuyOrSell(false, true), new JScrollPane(SellPanel.sellPanel));
+        tabs.setFocusable(false);
 
         marketWindow.add(tabs);
 
@@ -93,7 +93,9 @@ public class Merchant extends AbstractEntity{
         marketWindow.repaint(); marketWindow.revalidate();
     }
 
-    public void openMarket(){ marketWindow.setVisible(true); }
+    public void openMarket() {
+        marketWindow.setVisible(true);
+    }
 
     public boolean isMoving(){ return (isMoving % 3 == 0); }
 
@@ -150,7 +152,7 @@ public class Merchant extends AbstractEntity{
         else SellPanel.sellPanel.add(jButton);
     }
 
-    private static void MerchantMouseListener(JButton button){
+    private static void MerchantMouseListener(JButton button) {
         button.getComponent(0).setBackground(Color.WHITE);
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createCompoundBorder(
@@ -166,43 +168,60 @@ public class Merchant extends AbstractEntity{
         });
     }
 
-
+    private static void restoreFocus() {
+        instanceMerchant.marketWindow.setFocusable(true);
+    }
 
     public static class BuyPanel extends JPanel {
 
         public final static BuyPanel buyPanel = new BuyPanel();
         private BuyPanel() {
             setLayout(new GridLayout(0,1));
+            setFocusable(false);
         }
 
-        public void makeMarket(List<AbstractCollectableItem> items){ items.forEach((item) -> createLine(true, item)); }
+        public void makeMarket(List<AbstractCollectableItem> items) {
+            items.forEach((item) -> createLine(true, item));
+        }
 
         private static class BuyItemButton extends JButton {
-            private final ActionListener al;
 
             BuyItemButton(AbstractCollectableItem ai) {
                 super();
-                al = e -> {
+                ActionListener al = e -> {
                     Player pl = Player.getInstancePlayer();
                     String confirmText = Language.confirmBuy();
-                    if (pl.getHP() == 0) return;
                     if (ai instanceof ItemEquip) {
                         ItemEquip ie = (ItemEquip) ai;
                         if (pl.getEntityType() != ie.getEquipmentType().getEntityType())
                             confirmText = Language.confirmDialog(true, false);
                     }
-                    if (0 != JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), confirmText, Language.confirmDialog(true, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) return;
-                    if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) { GameWindow.addToLogs(Language.logInventoryFull(), Color.RED); GameWindow.refreshInventory(true); return; }
+                    if (JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), confirmText, Language.confirmDialog(true, true),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon) != JOptionPane.YES_OPTION) {
+                        restoreFocus();
+                        return;
+                    }
+                    if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) {
+                        GameWindow.addToLogs(Language.logInventoryFull(), Color.RED);
+                        GameWindow.refreshInventory(true);
+                        restoreFocus();
+                        return;
+                    }
                     if (pl.enoughMoney(ai.getPrice())) {
                         pl.modifyMoney(-ai.getPrice());
-                        if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_buy.wav")), false);
+                        if (GameWindow.hasSound())
+                            Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_buy.wav")), false);
                         GameWindow.addToLogs(ai + " " + Language.logBuyOrSell(true, false), Color.GREEN);
-                        Merchant.removeItem(ai); buyPanel.remove(this); buyPanel.revalidate(); buyPanel.repaint();
+                        Merchant.removeItem(ai);
+                        buyPanel.remove(this);
+                        buyPanel.revalidate();
+                        buyPanel.repaint();
                         Player.addItem(ai);
                         SellPanel.sellPanel.addSellInventory(ai);
                     }
                     else GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
                     GameWindow.refreshInventory(true);
+                    restoreFocus();
                 };
                 super.addActionListener(al);
             }
@@ -228,7 +247,9 @@ public class Merchant extends AbstractEntity{
         private SellPanel() {
             lineCount = 0;
             gl = new GridLayout(11, 1);
-            setLayout(gl); }
+            setLayout(gl);
+            setFocusable(false);
+        }
         
         public void makeInventory(List<AbstractCollectableItem> items) {
             items.forEach((item) -> createLine(false, item));
@@ -261,23 +282,29 @@ public class Merchant extends AbstractEntity{
         }
 
         private static class SellItemButton extends JButton {
-            private final ActionListener al;
             public final AbstractCollectableItem ai;
 
             SellItemButton(AbstractCollectableItem ai) {
                 super();
                 this.ai = ai;
-                al = e -> {
-                    if (Player.getInstancePlayer().getHP() == 0) return;
-                    if (0 == JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false, false), Language.confirmDialog(false, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon)) {
-                        int gain = (ai.getPrice()/2);
+                ActionListener al = e -> {
+                    if (JOptionPane.showConfirmDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.confirmDialog(false, false),
+                            Language.confirmDialog(false, true), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, instanceMerchant.merchantIcon) == JOptionPane.YES_OPTION) {
+                        int gain = (ai.getPrice() / 2);
                         Player.getInstancePlayer().modifyMoney(gain);
-                        if(GameWindow.hasSound()) Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_sell.wav")), false);
+                        if (GameWindow.hasSound())
+                            Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_sell.wav")), false);
                         GameWindow.addToLogs(ai.toString() + " " + Language.logBuyOrSell(false, false) + " (+" + gain + " " + Language.logMoney() + ")", Tools.WindowText.golden);
-                        Player.removeItem(ai); sellPanel.remove(this); sellPanel.revalidate(); sellPanel.repaint();
-                        createLine(true, ai); BuyPanel.buyPanel.revalidate(); BuyPanel.buyPanel.repaint();
+                        Player.removeItem(ai);
+                        sellPanel.remove(this);
+                        sellPanel.revalidate();
+                        sellPanel.repaint();
+                        createLine(true, ai);
+                        BuyPanel.buyPanel.revalidate();
+                        BuyPanel.buyPanel.repaint();
                         GameWindow.refreshInventory(true);
                     }
+                    restoreFocus();
                 };
                 super.addActionListener(al);
             }

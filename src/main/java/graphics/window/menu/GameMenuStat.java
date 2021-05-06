@@ -9,7 +9,6 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -102,15 +101,10 @@ public class GameMenuStat extends GameMenuCustomPanel {
                 for (int i = date1.length - 1; i > -1; i--){
                     if (date1[i] != date2[i]) return Integer.compare(date1[i], date2[i]);
                 }
-                return Integer.compare(0, 0);
+                return 0;
             }
         });
-        Comparator<String> integerComparator = new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Integer.compare(Integer.decode(o2), Integer.decode(o1));
-            }
-        };
+        Comparator<String> integerComparator = (o1, o2) -> Integer.compare(Integer.decode(o2), Integer.decode(o1));
         sorter.setComparator(4, integerComparator);
         sorter.setComparator(5, integerComparator);
 
@@ -156,7 +150,7 @@ public class GameMenuStat extends GameMenuCustomPanel {
             GradientPaint gp = new GradientPaint(
                     0, 0, color1, 0, h, color2);
             g2d.setPaint(gp);
-            g2d.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+            g2d.fill(new Rectangle(0, 0, w, h));
             g2d.dispose();
             getUI().paint(g, this);
         }

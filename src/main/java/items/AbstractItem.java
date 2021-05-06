@@ -2,7 +2,6 @@ package items;
 
 import entity.Merchant;
 import graphics.Language;
-import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
 import graphics.map.WorldMap;
 import graphics.window.GamePanel;
@@ -19,7 +18,7 @@ import java.util.Random;
 public abstract class AbstractItem extends JLabel {
     public final static AbstractItem end = new AbstractItem(0, ItemType.END, null, true) {
         @Override
-        public boolean usePrivate() throws ErrorPositionOutOfBound {
+        public boolean usePrivate()  {
             WorldMap worldMap = WorldMap.getInstanceWorld();
             worldMap.generateWorld();
             Merchant.getInstanceMerchant().generateMarket();
@@ -77,25 +76,19 @@ public abstract class AbstractItem extends JLabel {
         }
     }
 
-    public int getIdPosRoom() {
-        return this.idPosRoom;
-    }
-
-    public ItemType getType() { return type; }
-
     public Position getPosition() {
         return position;
     }
 
     public int getId() { return id; }
 
-    public boolean use() throws ErrorPositionOutOfBound {
+    public boolean use()  {
         this.position = null;
         setLocation();
         return usePrivate();
     }
 
-    protected abstract boolean usePrivate() throws ErrorPositionOutOfBound;  //return true if consumed, else return false
+    protected abstract boolean usePrivate() ;  //return true if consumed, else return false
 
     public void setPosition(Position position) {
         this.position = position;

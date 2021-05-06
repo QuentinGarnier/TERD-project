@@ -22,29 +22,30 @@ public class PositionTest {
             p1.setPosition(p0.getX(), p0.getY());
 
             switch (gen) {
-                case 0:
+                case 0 -> {
                     p0.nextPosition(Move.UP.getMove());
-                    if(p1.getY() - 1 >= 0) assertTrue(w.getCell(p1.getX(), p1.getY() - 1).isAccessible() != p0.equals(p1));
+                    if (p1.getY() - 1 >= 0)
+                        assertTrue(w.getCell(p1.getX(), p1.getY() - 1).isAccessible() != p0.equals(p1));
                     else assertEquals(p0, p1);
-                    break;
-
-                case 1:
+                }
+                case 1 -> {
                     p0.nextPosition(Move.LEFT.getMove());
-                    if(p1.getX() - 1 >= 0)assertTrue(w.getCell(p1.getX() - 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    if (p1.getX() - 1 >= 0)
+                        assertTrue(w.getCell(p1.getX() - 1, p1.getY()).isAccessible() != p0.equals(p1));
                     else assertEquals(p0, p1);
-                    break;
-
-                case 2:
+                }
+                case 2 -> {
                     p0.nextPosition(Move.RIGHT.getMove());
-                    if(p1.getX() + 1 < WorldMap.MAX_X)assertTrue(w.getCell(p1.getX() + 1, p1.getY()).isAccessible() != p0.equals(p1));
+                    if (p1.getX() + 1 < WorldMap.MAX_X)
+                        assertTrue(w.getCell(p1.getX() + 1, p1.getY()).isAccessible() != p0.equals(p1));
                     else assertEquals(p0, p1);
-                    break;
-
-                case 3:
+                }
+                case 3 -> {
                     p0.nextPosition(Move.DOWN.getMove());
-                    if(p1.getY() + 1 < WorldMap.MAX_Y)assertTrue(w.getCell(p1.getX(), p1.getY() + 1).isAccessible() != p0.equals(p1));
+                    if (p1.getY() + 1 < WorldMap.MAX_Y)
+                        assertTrue(w.getCell(p1.getX(), p1.getY() + 1).isAccessible() != p0.equals(p1));
                     else assertEquals(p0, p1);
-                    break;
+                }
             }
         }
     }

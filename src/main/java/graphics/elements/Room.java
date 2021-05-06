@@ -31,7 +31,7 @@ public class Room {
     private final List<Position> doors;
     private final Theme theme;
 
-    public Room(List<Room> roomList, Cell[][] lab, List<AbstractItem> items, Theme theme) throws ErrorPositionOutOfBound {
+    public Room(List<Room> roomList, Cell[][] lab, List<AbstractItem> items, Theme theme)  {
         this.id = roomList.size();
         this.globalItems = items;
         this.monsters = new ArrayList<>();
@@ -51,7 +51,7 @@ public class Room {
         }
     }
 
-    public Room(List<Room> roomList, Cell[][] lab, Theme theme) throws ErrorPositionOutOfBound {
+    public Room(List<Room> roomList, Cell[][] lab, Theme theme)  {
         this.id = 0;
         this.topLeft = new Position(5,5);
         this.bottomRight = new Position(25,25);
@@ -104,7 +104,7 @@ public class Room {
         }
     }
 
-    private void putRandomEltInRoom() throws ErrorPositionOutOfBound {
+    private void putRandomEltInRoom()  {
         putItems();
         putMonsters();
     }
@@ -130,7 +130,7 @@ public class Room {
         doors.add(door);
     }
 
-    public boolean putObstacles() {
+    public void putObstacles() {
         boolean isMerchantRoom = id == Merchant.getInstanceMerchant().getSafeRoomId();
         if (!isMerchantRoom) {
             for (int x = topLeft.getX() + 1; x < bottomRight.getX(); x++)
@@ -149,7 +149,6 @@ public class Room {
         Position endPos = AbstractItem.end.getPosition();
         if (endPos != null && inRoom(endPos))
             Tools.BFS(endPos, this, lab, booleans);
-        return true;
     }
 
     private boolean inRoom(Position pos){
@@ -159,7 +158,7 @@ public class Room {
                 pos.getY() <= bottomRight.getY();
     }
 
-    private void putMonsters() throws ErrorPositionOutOfBound {
+    private void putMonsters()  {
         int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_MONSTERS));
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom();
@@ -177,10 +176,6 @@ public class Room {
         if (lab[x][y].getMainContentType().equals(lab[x][y].getBaseContent()) && lab[x][y].getObstacle() == null)
             return new Position(x, y);
         else return getRandomPosInRoom();
-    }
-
-    public List<AbstractItem> getGlobalItems() {
-        return Collections.unmodifiableList(globalItems);
     }
 
     public void setLowestRoomNeighbor(int lowestRoomNeighbor) {
@@ -211,39 +206,17 @@ public class Room {
         return lowestRoomNeighbor;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public List<Monster> getMonsters() {
         return Collections.unmodifiableList(monsters);
     }
 
     public List<AbstractItem> getItems() { return Collections.unmodifiableList(currentRoomItems);}
 
-    public static boolean isRoom(Cell c) {
-        CellElementType ct = c.getBaseContent();
-        return ct == CellElementType.HORIZONTAL_WALL ||
-                ct == CellElementType.VERTICAL_WALL ||
-                ct == CellElementType.CORNER_BOT ||
-                ct == CellElementType.CORNER_TOP ||
-                ct == CellElementType.EMPTY;
-    }
-
-    public boolean isPositionInsideRoom(Position p) {
-        return p.getX() >= topLeft.getX() && p.getX() <= bottomRight.getX() &&
-                p.getY() >= topLeft.getY() && p.getY() <= bottomRight.getY();
-    }
-
     public void removeEntity(Monster m) {
         monsters.remove(m);
     }
 
-    public boolean isHasBeenVisited() {
-        return hasBeenVisited;
-    }
-
-    public void setVisited(){
+    public void setVisited() {
         if (!hasBeenVisited) {
             hasBeenVisited = true;
             for (int x = 0; x < getWidth() + 1; x++) for (int y = 0; y < getHeight() + 1; y++){
@@ -257,7 +230,6 @@ public class Room {
         StringBuilder sb = new StringBuilder();
         for(int j = topLeft.getY(); j <= bottomRight.getY(); j++) {
             for(int i = topLeft.getX(); i <= bottomRight.getX(); i++) {
-                //sb.append(lab[i][j].getObstacle() == null ? (lab[i][j].getMainContentType().equals(lab[i][j].getBaseContent()) ? lab[i][j].getBaseContent().toString() : ".") : lab[i][j].getObstacle().toString());
                 sb.append(lab[i][j].toString());
             }
             sb.append(System.lineSeparator());

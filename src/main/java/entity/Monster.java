@@ -1,6 +1,5 @@
 package entity;
 
-import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Position;
 
 import java.util.Random;
@@ -8,11 +7,11 @@ import java.util.Random;
 public class Monster extends AbstractEntity {
     public static final Monster boss = new Monster(new Position(10, 10), 0, EntityType.MONSTER_BOSS);
 
-    public Monster(Position p, int id, EntityType et) throws ErrorPositionOutOfBound {
+    public Monster(Position p, int id, EntityType et)  {
         super(p, id, et);
     }
 
-    public static Monster generateRandomMonster(Position pos, int id) throws ErrorPositionOutOfBound {
+    public static Monster generateRandomMonster(Position pos, int id)  {
         EntityType[] monsterTypes = EntityType.monsters();
         int rndElt = new Random().nextInt(monsterTypes.length);
         EntityType monsterType = monsterTypes[rndElt];
@@ -26,10 +25,5 @@ public class Monster extends AbstractEntity {
             return m.getPosition().equals(getPosition());
         }
         return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }

@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class Animation extends Thread {
     private volatile boolean running = false;
-    AbstractEntity entity;
-    EntityState state;
-    final JLabel[] images;
+    private final AbstractEntity entity;
+    private final EntityState state;
+    private final JLabel[] images;
 
     Animation(AbstractEntity e, EntityState es) {
         super();

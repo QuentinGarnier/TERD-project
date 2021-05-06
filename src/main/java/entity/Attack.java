@@ -2,7 +2,6 @@ package entity;
 
 import graphics.Language;
 import graphics.Tools;
-import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.map.WorldMap;
 import graphics.window.GameWindow;

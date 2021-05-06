@@ -2,7 +2,6 @@ package entity;
 
 import graphics.Language;
 import graphics.Tools;
-import graphics.elements.ErrorPositionOutOfBound;
 import graphics.elements.Move;
 import graphics.elements.Position;
 import graphics.elements.cells.Cell;
@@ -38,7 +37,7 @@ public abstract class AbstractEntity extends JPanel {
     private final Timer timer;
     private final Point comparePosition;
 
-    public AbstractEntity(Position position, int id, EntityType entityType) throws ErrorPositionOutOfBound {
+    public AbstractEntity(Position position, int id, EntityType entityType)  {
         super();
         this.position = position;
         this.entityType = entityType;
@@ -154,7 +153,7 @@ public abstract class AbstractEntity extends JPanel {
             GameWindow.window.setScrollFrameBar();
     }
 
-    public boolean moveEntity(Position p) throws ErrorPositionOutOfBound {
+    public boolean moveEntity(Position p)  {
         CellElementType ct = entityType.cellElementType;
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
@@ -178,12 +177,8 @@ public abstract class AbstractEntity extends JPanel {
     }
 
 
-    public boolean moveEntity(Move m) throws ErrorPositionOutOfBound {
+    public boolean moveEntity(Move m)  {
         return moveEntity(m.getMove());
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Position getPosition() {
