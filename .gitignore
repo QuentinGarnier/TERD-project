@@ -11,7 +11,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -27,4 +26,5 @@ hs_err_pid*
 TERD-project.iml
 data/settings.set
 target/**
+out/**
 src/main/resources/META-INF/MANIFEST.MF
