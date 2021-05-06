@@ -15,7 +15,7 @@ Particularité en jeu : pour jouer, l'application ouvre une fenêtre graphique a
 - Dans le menu de départ, on interagit avec la souris  
 - **WASD** : touches de **déplacement**  
 - **Q** : touche d'**action** (appuyer une fois pour commencer une attaque, puis déplacer le curseur avec les touches de déplacement jusqu'à une cible et appuyer à nouveau sur la touche d'action ; idem pour interagir avec le Marchand)  
-- **I** : touche pour ouvrir/fermer l'**inventaire** (naviguer dans l'inventaire avec **W**)  
+- **I** : touche pour ouvrir/fermer l'**inventaire**  
 - **ESC** ou **P** : touche pour ouvrir le **menu en jeu** (interactif avec la souris) pour couper/remettre le son ou revenir au menu de départ  
 - **R** : touche pour relancer la partie avec la même spécialité   
 - **Touches fléchées** : permettent de visualiser la carte en dehors de l'écran sans avoir à se déplacer  
@@ -33,28 +33,21 @@ L'affichage de la carte est en fenêtre graphique (JFrame), toutefois il est pos
 
 
 ## Documentation :
-Toute la documentation relative au projet peut être consultée sur notre [page wiki](https://github.com/QuentinGarnier/TERD-project/wiki).  
+Toute la documentation relative au projet peut être consultée sur notre [page wiki](https://github.com/QuentinGarnier/TERD-project/wiki) (pour les informations détaillées sur la dernière version, cliquez [ici](https://github.com/QuentinGarnier/TERD-project/wiki/Version-5.0)).  
 
 
-## Notes de mise à jour ([v4.0](https://github.com/QuentinGarnier/TERD-project/wiki/Version-4.0)) :
-
-- Optimisation du brouillard de guerre (avec exploration progressive)
-- Ajout des musiques du jeu
-- Niveau et expérience du joueur effectifs
-- Traductions du jeu en 4 langues
-- Ajout du menu de départ
-- Ajout du marchand et des prix sur les items
-- Ajout du système d'étages
-- Ajout des thèmes par étages (+ thème Marchand et Boss Final)
-- Ajout des obstacles dans les salles
-- Finition de l'inventaire (consommer/jeter/équiper… un item)
-- Ajout d'un décrément de la famine tous les 5 tours et de la mort par famine
-- Ajout du Boss Final et de sa stratégie
-- Ajout des effets sonores à l'utilisation des items + à l'activation d'un piège
-- Ajout des animations (Threads) pour les états
-- Ajout de la touche ESC / P pour accéder à un petit "menu en jeu"
-- Divers équilibrages et ajouts d'items
-- Correctifs divers
+## Notes de mise à jour ([v5.0](https://github.com/QuentinGarnier/TERD-project/wiki/Version-5.0)) :
+- Position de ciblage lors de l'attaque retenue  
+- Correctif de l'enregistrement des _settings_ dans le .jar  
+- Amélioration du menu options en jeu (touche ESC)  
+- Ajout d'un popup de fin de jeu (Victoire ou Défaite)  
+- Déblocage progressif des difficultés (en cas de Victoire dans la difficulté la plus haute disponible)  
+- Ajout du système de classement, et demande de nom avant d'entrer en jeu  
+- Ajout de la résolution d'écran dans les options  
+- Ajout du changement de raccourcis claviers dans les options  
+- Ajout d'un popup au premier lancement du jeu  
+- Dernières traductions implémentées  
+- Correctifs et équilibrages divers  
 
 
 ## ATTENTION !  
