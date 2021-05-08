@@ -234,7 +234,9 @@ public class GameWindow extends JFrame {
         clip.close();
     }
 
-
+    public static GamePanel getGamePanel() {
+        return gamePanel;
+    }
 
     private static class KeysActions implements KeyListener {
 

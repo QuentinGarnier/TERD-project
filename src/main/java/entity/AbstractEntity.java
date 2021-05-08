@@ -218,6 +218,9 @@ public abstract class AbstractEntity extends JPanel {
             if (this.entityType.equals(EntityType.MONSTER_BOSS)){
                 Tools.gameEnd(Tools.Victory_Death.WIN);
             }
+            if (this.entityType.isHeroType()){
+                GameWindow.getGamePanel().setObjective();
+            }
         }
         updateBar();
     }
