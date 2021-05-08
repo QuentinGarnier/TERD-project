@@ -325,7 +325,7 @@ public enum Language {
     public static String logEffect(EntityState es) {
         String e = switch (es) {
             case BURNT -> lang("Burning", "de brûlure", "bruciante","احتراق");
-            case FROZEN -> lang("Frozing", "de gel", "congelante","الصقيع");
+            case FROZEN -> lang("Frozing", "de gelo", "congelante","الصقيع");
             case HEALED -> lang("Healing", "de guérison", "curativo","شفاء");
             case INVULNERABLE -> lang("Invulnerability", "d'invulnérabilité", "invulnerabilità","مناعة");
             case PARALYSED -> lang("Paralysis", "de paralysation", "paralisi","شلل");
@@ -381,7 +381,7 @@ public enum Language {
     public static String logYouAreFrozen() {
         return lang("The gel keeps you from moving.",
                 "Le gel vous empêche de bouger.",
-                "Il gel ti impedisce di muoverti.",
+                "Il gelo ti impedisce di muoverti.",
                 "يمنعك الجل من الحركة.");
     }
     public static String logPoisonEffect(int amount) {
@@ -1052,6 +1052,6 @@ public enum Language {
         return lang("Can't parse the ranking file, it has been cleared",
                 "Le fichier du classement est invalid, il a été écrasé",
                 "Il file della classifica é non valido, è stato cancellato",
-                "...");
+                "ملف الترتيب غير صالح ، لقد تم الكتابة فوقه");
     }
 }
