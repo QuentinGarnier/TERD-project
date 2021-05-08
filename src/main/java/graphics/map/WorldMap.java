@@ -1,6 +1,7 @@
 package graphics.map;
 
 
+import entity.EntityState;
 import entity.Monster;
 import entity.Player;
 import entity.Merchant;
@@ -85,6 +86,10 @@ public class WorldMap {
 
     public void initializeBossLab() {
         new Room(rooms, lab, theme);
+        Monster.boss.modifyHP(Monster.boss.getHPMax());
+        Monster.boss.updateState(EntityState.NEUTRAL);
+        Random rnd = new Random();
+        Monster.boss.setPosition(rnd.nextInt(10) + 10, rnd.nextInt(10) + 10);
         lab[Monster.boss.getPosition().getX()][Monster.boss.getPosition().getY()].setEntity(Monster.boss);
     }
 
