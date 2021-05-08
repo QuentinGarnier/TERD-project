@@ -1049,9 +1049,9 @@ public enum Language {
         return lang("Difficulty", "Difficulté", "Difficoltà", "صعوبة");
     }
     public static String logInvalidFile(){
-        return lang("Can't parse the ranking file, it has been cleared",
-                "Le fichier du classement est invalid, il a été écrasé",
-                "Il file della classifica é non valido, è stato cancellato",
-                "ملف الترتيب غير صالح ، لقد تم الكتابة فوقه");
+        return lang("Can't parse the ranking file: it has been cleared.",
+                "Le fichier du classement est invalide : il a été réinitialisé.",
+                "Il file della classifica é non valido: è stato cancellato.",
+                "ملف الترتيب غير صالح ، لقد تم الكتابة فوقه.");
     }
 }
