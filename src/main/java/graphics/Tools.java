@@ -78,7 +78,6 @@ public class Tools {
 
     public static Clip play(URL pathname, boolean loop) {
         try {
-            //File audioFile1 = new File(pathname.toURI());
             AudioInputStream audioStream1 = AudioSystem.getAudioInputStream(pathname);
 
             AudioFormat format = audioStream1.getFormat();

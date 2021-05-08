@@ -4,7 +4,6 @@ import entity.AbstractEntity;
 import entity.Player;
 import graphics.elements.Position;
 import graphics.elements.Room;
-import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import items.AbstractItem;
 import org.junit.Test;

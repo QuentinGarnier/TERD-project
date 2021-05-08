@@ -325,7 +325,7 @@ public enum Language {
     public static String logEffect(EntityState es) {
         String e = switch (es) {
             case BURNT -> lang("Burning", "de brûlure", "bruciante","احتراق");
-            case FROZEN -> lang("Frozing", "de gelo", "congelante","الصقيع");
+            case FROZEN -> lang("Freezing", "de gelo", "congelante","الصقيع");
             case HEALED -> lang("Healing", "de guérison", "curativo","شفاء");
             case INVULNERABLE -> lang("Invulnerability", "d'invulnérabilité", "invulnerabilità","مناعة");
             case PARALYSED -> lang("Paralysis", "de paralysation", "paralisi","شلل");
