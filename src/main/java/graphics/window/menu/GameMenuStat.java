@@ -91,7 +91,7 @@ public class GameMenuStat extends GameMenuCustomPanel {
         sorter.setComparator(0, new Comparator<String>() {
             private int[] splitDate(String s){
                 String[] split = s.split("/");
-                return new int[]{Integer.decode(split[0]), Integer.decode(split[1]), Integer.decode(split[2])};
+                return new int[]{Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])};
             }
 
             @Override

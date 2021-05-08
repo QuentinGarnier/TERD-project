@@ -288,16 +288,18 @@ public class Tools {
                 String[][] resS = new String[res.size()][limit];
                 for (int i = 0; i < res.size(); i++){
                     int j = 0;
+                    validDate(res.get(i)[j]);
                     resS[i][j] = res.get(i)[j++];
-                    resS[i][j] = Victory_Death.findById(Integer.decode(res.get(i)[j++])).toString();
-                    resS[i][j] = GameWindow.Difficulty.findById(Integer.decode(res.get(i)[j++])).toString();
+                    resS[i][j] = Victory_Death.findById(Integer.parseInt(res.get(i)[j++])).toString();
+                    resS[i][j] = GameWindow.Difficulty.findById(Integer.parseInt(res.get(i)[j++])).toString();
                     resS[i][j] = switch (res.get(i)[j++]) {
                         case "1" -> Language.archerCL();
                         case "2" -> Language.mageCL();
-                        default -> Language.warriorCL();
+                        case "3" -> Language.warriorCL();
+                        default -> throw new NumberFormatException();
                     };
-                    resS[i][j] = res.get(i)[j++];
-                    resS[i][j] = res.get(i)[j++];
+                    resS[i][j] = checkInteger(res.get(i)[j++]);
+                    resS[i][j] = checkInteger(res.get(i)[j++]);
                     resS[i][j] = res.get(i)[j];
                 }
                 return resS;
@@ -306,11 +308,25 @@ public class Tools {
             } catch (Exception e){
                 System.err.println(e);
                 System.err.println("Can't parse the ranking file.");
+                JOptionPane.showMessageDialog(GameWindow.window, Language.logInvalidFile());
                 clearRanking();
                 return null;
             }
         }
 
+        private static void validDate(String date){
+            String[] res = date.split("/");
+            if (res.length != 3){
+                Integer.parseInt(res[0]);
+                Integer.parseInt(res[1]);
+                Integer.parseInt(res[2]);
+            }
+        }
+
+        private static String checkInteger(String s){
+            Integer.parseInt(s);
+            return s;
+        }
 
         /**
          * Save ranking file:

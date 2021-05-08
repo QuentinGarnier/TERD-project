@@ -40,7 +40,7 @@ public class Player extends AbstractEntity {
         hunger = 100;  //100 is the max value for the Hunger Bar
         hungerTurnCounter = 0;
         inventory = new ArrayList<>();
-        money = 900;
+        money = 0;
         whatHeroDoes = WhatHeroDoes.MOVING;
     }
 
