@@ -7,6 +7,7 @@ import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.Theme;
 import graphics.map.WorldMap;
+import graphics.window.GameWindow;
 import items.AbstractItem;
 
 import java.util.*;
@@ -17,7 +18,7 @@ public class Room {
     public static final int MIN_HEIGHT = 7;
     public static final int MAX_HEIGHT = 12;
     private static final double MAX_ITEMS = 0.4;
-    private static final double MAX_MONSTERS = 0.2;
+    private static double MAX_MONSTERS = 0.2;
     private boolean hasBeenVisited;
     private final List<AbstractItem> globalItems;
     private final List<Monster> monsters;
@@ -32,6 +33,13 @@ public class Room {
     private final Theme theme;
 
     public Room(List<Room> roomList, Cell[][] lab, List<AbstractItem> items, Theme theme)  {
+        MAX_MONSTERS = switch (GameWindow.difficulty()){
+            case TUTORIAL -> 0.1;
+            case EASY -> 0.2;
+            case MEDIUM, ENDLESS -> 0.3;
+            case HARD -> 0.4;
+            case NIGHTMARE -> 0.5;
+        };
         this.id = roomList.size();
         this.globalItems = items;
         this.monsters = new ArrayList<>();
@@ -159,7 +167,7 @@ public class Room {
     }
 
     private void putMonsters()  {
-        int nbOfElt = gen.nextInt((int) Math.round(getArea() * MAX_MONSTERS));
+        int nbOfElt = id == 0 ? 3 : gen.nextInt((int) Math.round(getArea() * MAX_MONSTERS));
         while (nbOfElt > 0) {
             Position pos = getRandomPosInRoom();
             Cell currentC = lab[pos.getX()][pos.getY()];

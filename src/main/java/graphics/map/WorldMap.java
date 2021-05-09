@@ -96,8 +96,7 @@ public class WorldMap {
     public void placePlayer() {
         Player.getInstancePlayer().stopTimer();
         Random rnd = new Random();
-        int iRoom = rnd.nextInt(rooms.size());
-        Room room = rooms.get(iRoom);
+        Room room = rooms.get(0);
 
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
@@ -110,10 +109,6 @@ public class WorldMap {
             getCell(x, y).setEntity(Player.getInstancePlayer());
             room.setVisited();
             room.addDoor(res);
-            for (int i = 3; i < room.getMonsters().size(); i++){
-                Monster m = room.getMonsters().get(i);
-                m.takeDamage(m.getHPMax() + 1);
-            }
         }
         else placePlayer();
     }
