@@ -314,7 +314,7 @@ public class GameWindow extends JFrame {
 
 
     public enum Difficulty {
-        TUTORIAL(2, 0), EASY(10, 1), MEDIUM(20, 2), HARD(50, 3), NIGHTMARE(100, 4), ENDLESS(-1, 5);
+        TUTORIAL(2, 0), EASY(5, 1), MEDIUM(10, 2), HARD(20, 3), NIGHTMARE(40, 4), ENDLESS(-1, 5);
         /* ===== No Final Boss in Endless mod ===== */
 
         public final int stagesNumber;
