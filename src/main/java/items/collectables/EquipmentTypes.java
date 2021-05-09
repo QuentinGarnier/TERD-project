@@ -3,6 +3,8 @@ package items.collectables;
 import entity.EntityState;
 import entity.EntityType;
 import graphics.Language;
+import graphics.map.WorldMap;
+import graphics.window.GameWindow;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -53,9 +55,28 @@ public enum EquipmentTypes {
         this.rarity = rarity;
     }
 
+    public static EquipmentRarity calcRar(double a, boolean cond1, boolean cond2){
+        if (cond1) return a <= 0.50 ?
+                EquipmentRarity.COMMON : a <= 0.80 ?
+                EquipmentRarity.RARE : a <= 0.95 ?
+                EquipmentRarity.EPIC : EquipmentRarity.LEGENDARY;
+        else if (cond2) return a <= 0.50 ?
+                EquipmentRarity.COMMON : a <= 0.80 ?
+                EquipmentRarity.RARE : EquipmentRarity.EPIC;
+        else return a <= 0.50 ?
+                    EquipmentRarity.COMMON : EquipmentRarity.RARE;
+    }
+
     public static EquipmentTypes createRandomEquip() {
         double rn = Math.random();
-        EquipmentRarity raritySelected = rn <= 0.50 ? EquipmentRarity.COMMON : rn <= 0.80 ? EquipmentRarity.RARE : rn <= 0.95 ? EquipmentRarity.EPIC : EquipmentRarity.LEGENDARY;
+        EquipmentRarity raritySelected;
+        if (GameWindow.difficulty() == GameWindow.Difficulty.ENDLESS){
+            int stageNum = WorldMap.stageNum;
+            raritySelected = calcRar(rn, stageNum > 20, stageNum > 40);
+        } else {
+            double div = WorldMap.stageNum / (float) GameWindow.difficulty().stagesNumber;
+            raritySelected = calcRar(rn, div > 3 / 4.0, div > 2 / 4.0);
+        }
         EquipmentTypes[] equipmentTypesByRarity = Arrays.stream(EquipmentTypes.values()).filter(elt -> elt.rarity == raritySelected).toArray(EquipmentTypes[]::new);
         int rndElt = new Random().nextInt(equipmentTypesByRarity.length);
         return equipmentTypesByRarity[rndElt];
