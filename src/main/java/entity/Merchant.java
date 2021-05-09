@@ -78,6 +78,7 @@ public class Merchant extends AbstractEntity{
         marketWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/system/market.png")));
         marketWindow.setIconImage(icon.getImage());
+        Language.setOptionPaneLang();
 
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab(Language.logBuyOrSell(true, true), new JScrollPane(BuyPanel.buyPanel));
