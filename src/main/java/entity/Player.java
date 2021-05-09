@@ -282,7 +282,6 @@ public class Player extends AbstractEntity {
         if (cell.getEntity() instanceof Monster && Position.distance(getPosition(), position) <= getRange()) {
             Monster m = (Monster) cell.getEntity();
             Attack.attack(this, m);
-            if (attackItem != null && m.getHP() != 0 && entityType != EntityType.HERO_ARCHER) attackItem.applyEffect(m);
             return true;
         }
         return false;
