@@ -110,6 +110,10 @@ public class WorldMap {
             getCell(x, y).setEntity(Player.getInstancePlayer());
             room.setVisited();
             room.addDoor(res);
+            for (int i = 3; i < room.getMonsters().size(); i++){
+                Monster m = room.getMonsters().get(i);
+                m.takeDamage(m.getHPMax() + 1);
+            }
         }
         else placePlayer();
     }
