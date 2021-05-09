@@ -302,7 +302,7 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     public void applyStrategy() {
-        if (HP > 0 && (HP < HPMax || (this instanceof Monster && ((Monster) this).canAttack()))) {
+        if (HP > 0 && (HP < HPMax || (this instanceof Monster && ((Monster) this).canAttack())) || this instanceof Merchant) {
             strategy.applyStrategy();
         }
     }
