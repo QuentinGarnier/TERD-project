@@ -97,11 +97,13 @@ public class GameInterfacePanel extends JPanel {
         Color green = Tools.WindowText.green;
         Color violet = Tools.WindowText.purple;
         Color red = Tools.WindowText.red;
+        Color brown = new Color(130, 65, 0);
 
-        //Speciality:
-        JPanel spec = new JPanel(new GridLayout(1,1));
+        //Speciality & State:
+        JPanel spec = new JPanel(new GridLayout(2,1));
         spec.setBackground(Color.LIGHT_GRAY);
         createTxtLabel(spec, Language.translate(player.getEntityType()), (player.getEntityType() == EntityType.HERO_WARRIOR? red: (player.getEntityType() == EntityType.HERO_ARCHER? green: cyan)), 16);
+        createTxtLabel(spec, Language.translate(player.getState()) + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""), violet, 14);
         statsPanel.add(spec);
 
         //HP (add bar in the future and group it with this label):
@@ -110,11 +112,11 @@ public class GameInterfacePanel extends JPanel {
         //Hunger (add bar in the future and group it with this label):
         createBarGroup(statsPanel,Language.hunger() + ": " + Language.translateHungerState(player.getHungerState()), violet, "bar_violet.png", 100, player.getHunger());
 
-        //State:
-        createLabelForStats(Language.translate(player.getState()) + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""), violet, 14);
-
         //Attack:
         createLabelForStats(Language.attack() + ": " + player.getAttack() + " ⚔", cyan, 14);
+
+        //Defense:
+        createLabelForStats(Language.defense() + ": " + player.getDefense() + " ⛨", brown, 14);
 
         //Range:
         createLabelForStats(Language.range() + ": " + player.getRange() + " ◎", green, 14);
@@ -166,10 +168,11 @@ public class GameInterfacePanel extends JPanel {
 
     private void refreshStats() {
         Player player = Player.getInstancePlayer();
+        ((JLabel)(((JPanel)(statsPanel.getComponent(0))).getComponent(1))).setText(Language.translate(player.getState()) + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""));
         refreshBarGroup((JPanel)(statsPanel.getComponent(1)), Language.hp() + ": " + player.getHP() + "/" + player.getHPMax() + " ♥", player.getHPMax(), player.getHP(), "bar_red.png");
         refreshBarGroup((JPanel)(statsPanel.getComponent(2)), Language.hunger() + ": " + Language.translateHungerState(player.getHungerState()), 100, player.getHunger(), "bar_violet.png");
-        ((JLabel)(statsPanel.getComponent(3))).setText(Language.translate(player.getState()) + (player.getState() != EntityState.NEUTRAL ? " (" + player.getRemainingTime() + ")" : ""));
-        ((JLabel)(statsPanel.getComponent(4))).setText(Language.attack() + ": " + player.getAttack() + " ⚔");
+        ((JLabel)(statsPanel.getComponent(3))).setText(Language.attack() + ": " + player.getAttack() + " ⚔");
+        ((JLabel)(statsPanel.getComponent(4))).setText(Language.defense() + ": " + player.getDefense() + " ⛨");
         ((JLabel)(statsPanel.getComponent(5))).setText(Language.range() + ": " + player.getRange() + " ◎");
     }
 
