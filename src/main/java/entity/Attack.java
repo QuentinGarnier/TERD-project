@@ -21,9 +21,10 @@ public class Attack {
             return;
         }
         if (entity1.entityType != EntityType.HERO_ARCHER) {
-            int dmg = Math.max(0, entity1.getAttack() - ((entity2 instanceof Player) ? (int) ((double) Player.getInstancePlayer().getDefense()/100 * entity1.getAttack()) : 0));
-            GameWindow.addToLogs(Language.logDealDamage(entity1, entity2, dmg), Tools.WindowText.red);
-            entity2.takeDamage(dmg);
+
+            GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
+            entity2.takeDamage(Math.max(0, entity1.getAttack() - ((entity2 instanceof Player) ? Player.getInstancePlayer().getDefense() : 0)));
+
             if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {
                 if (oldHP >= entity2.getHPMax()*0.75 && entity2.getHP() < entity2.getHPMax()*0.75 || oldHP >= entity2.getHPMax()*0.25 && entity2.getHP() < entity2.getHPMax()*0.25) entity2.updateState(EntityState.INVULNERABLE);
             }
@@ -41,7 +42,7 @@ public class Attack {
                     GameWindow.addToLogs(Language.logCriticalHit(entity1, entity2, (int) (entity1.getAttack()*1.5)), Tools.WindowText.red);
                     entity2.takeDamage((int) (entity1.getAttack()*1.5));
                 } else {
-                    GameWindow.addToLogs(Language.logDealDamage(entity1, entity2, entity1.getAttack()), Tools.WindowText.red);
+                    GameWindow.addToLogs(Language.logDealDamage(entity1, entity2), Tools.WindowText.red);
                     entity2.takeDamage(entity1.getAttack());
                 }
 
