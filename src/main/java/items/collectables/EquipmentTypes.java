@@ -26,17 +26,17 @@ public enum EquipmentTypes {
 
 
     //Defensive equipments:
-    WOOD_SHIELD(6, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.COMMON),
-    IRON_SHIELD(9, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.RARE),
-    DRAGON_SHIELD(20, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.LEGENDARY),
+    WOOD_SHIELD(15, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.COMMON),
+    IRON_SHIELD(30, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.RARE),
+    DRAGON_SHIELD(60, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.LEGENDARY),
 
-    LEATHER_GAUNTLET(5, null, false, EntityType.HERO_ARCHER, EquipmentRarity.COMMON),
-    LEATHER_ARMBAND(7, null, false, EntityType.HERO_ARCHER, EquipmentRarity.RARE),
-    LEATHER_CHESTPLATE(10, null, false, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
+    LEATHER_GAUNTLET(10, null, false, EntityType.HERO_ARCHER, EquipmentRarity.COMMON),
+    LEATHER_ARMBAND(20, null, false, EntityType.HERO_ARCHER, EquipmentRarity.RARE),
+    LEATHER_CHESTPLATE(40, null, false, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
 
-    MAGIC_HAT(5, null, false, EntityType.HERO_MAGE, EquipmentRarity.COMMON),
-    MAGIC_TUNIC(8, null, false, EntityType.HERO_MAGE, EquipmentRarity.RARE),
-    MAGIC_SPHERE(12, null, false, EntityType.HERO_MAGE, EquipmentRarity.EPIC);
+    MAGIC_HAT(10, null, false, EntityType.HERO_MAGE, EquipmentRarity.COMMON),
+    MAGIC_TUNIC(25, null, false, EntityType.HERO_MAGE, EquipmentRarity.RARE),
+    MAGIC_SPHERE(45, null, false, EntityType.HERO_MAGE, EquipmentRarity.EPIC);
 
 
     private final int effect;

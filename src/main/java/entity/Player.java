@@ -21,7 +21,7 @@ import java.util.List;
 public class Player extends AbstractEntity {
     private static Player instancePlayer = new Player();
 
-    public final static int MAX_INVENTORY_SIZE = 20;
+    public final static int MAX_INVENTORY_SIZE = 1;
     private int hungerTurnCounter;
     private int level;
     private int experiencePoints;

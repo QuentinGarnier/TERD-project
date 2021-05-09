@@ -232,12 +232,11 @@ public enum Language {
     public static String logNothingHappens(AbstractEntity e) {
         return lang(e + " is Immune.", e + " est Immunisé.", e + " è Immune.", " محصن." + e);
     }
-    public static String logDealDamage(AbstractEntity entity1, AbstractEntity entity2) {
-        boolean b = entity2 instanceof Player;
-        int dmg = (Math.max(0, entity1.getAttack() - (b ? Player.getInstancePlayer().getDefense() : 0)));
-        return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? " (Absorbed: " + (entity1.getAttack() - dmg) + ")" : ""),
-                entity1 + " inflige " + dmg + " dégâts à " + entity2 + "." + (dmg != entity1.getAttack() ? " (Absorbé : " + (entity1.getAttack() - dmg) + ")" : ""),
-                entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? " (Assorbito: " + (entity1.getAttack() - dmg) + ")" : ""),
+    public static String logDealDamage(AbstractEntity entity1, AbstractEntity entity2, int dmg) {
+    boolean b = entity2 instanceof Player;
+        return lang(entity1 + " deals " + dmg + " damage to " + entity2 + "." + (dmg != entity1.getAttack() ? " [Absorbed: " + (entity1.getAttack() - dmg) + " (" + Player.getInstancePlayer().getDefense() + "%)"+ "]" : ""),
+                entity1 + " inflige " + dmg + " dégâts à " + entity2 + "." + (dmg != entity1.getAttack() ? " [Absorbé : " + (entity1.getAttack() - dmg) + " (" + Player.getInstancePlayer().getDefense() + "%)"+ "]" : ""),
+                entity1 + " infligge " + dmg + " danni a " + entity2 + "." + (dmg != entity1.getAttack() ? " [Assorbito: " + (entity1.getAttack() - dmg) + " (" + Player.getInstancePlayer().getDefense() + "%)"+ "]" : ""),
                 entity1 + " يلحق " + dmg + " ضرر لأ " + entity2 + "." + (dmg != entity1.getAttack() ? "(" + (entity1.getAttack() - dmg) + " (يمتص " : ""));
     }
 
