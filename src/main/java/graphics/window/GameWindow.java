@@ -148,6 +148,7 @@ public class GameWindow extends JFrame {
         lang = l;
         muted = !sound;
         difficulty = d;
+        Language.setOptionPaneLang();
     }
 
     public static int[] resolution() {

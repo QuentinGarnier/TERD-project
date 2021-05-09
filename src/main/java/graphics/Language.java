@@ -14,6 +14,8 @@ import items.collectables.ConsumableTypes;
 import items.collectables.EquipmentTypes;
 import items.collectables.ItemEquip;
 
+import javax.swing.*;
+
 public enum Language {
     EN, FR, IT, AR;
 
@@ -1058,5 +1060,16 @@ public enum Language {
                 "Le fichier du classement est invalide : il a été réinitialisé.",
                 "Il file della classifica é non valido: è stato cancellato.",
                 "ملف الترتيب غير صالح ، لقد تم الكتابة فوقه.");
+    }
+
+    public static void setOptionPaneLang(){
+        UIManager.put("OptionPane.cancelButtonText",
+                lang("Cancel", "Annuler", "Annullare", "..."));
+        UIManager.put("OptionPane.noButtonText",
+                lang("No","Non", "No", "..."));
+        UIManager.put("OptionPane.okButtonText",
+                lang("Ok", "Ok", "Ok", "..."));
+        UIManager.put("OptionPane.yesButtonText",
+                lang("Yes", "Oui", "Sì", "..."));
     }
 }
