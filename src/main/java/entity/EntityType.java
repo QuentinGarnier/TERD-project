@@ -6,14 +6,14 @@ import java.util.Arrays;
 
 public enum EntityType {
 
-    HERO_ARCHER(CellElementType.HERO_A, 100, 25, 5, 0, 0),
+    HERO_ARCHER(CellElementType.HERO_A, 100, 20, 5, 0, 0),
     HERO_WARRIOR(CellElementType.HERO_W, 200, 30, 1, 0,0),
     HERO_MAGE(CellElementType.HERO_M, 140, 15, 3, 0,0),
 
-    MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1, 25, 3),
-    MONSTER_ORC(CellElementType.ORC, 54, 20, 1, 70, 3),
-    MONSTER_SPIDER(CellElementType.SPIDER, 32, 5, 1, 35, 4),
-    MONSTER_WIZARD(CellElementType.WIZARD, 20, 10, 3, 40, 5),
+    MONSTER_GOBLIN(CellElementType.GOBLIN, 35, 8, 1, 25, 4),
+    MONSTER_ORC(CellElementType.ORC, 54, 20, 1, 70, 4),
+    MONSTER_SPIDER(CellElementType.SPIDER, 32, 5, 1, 35, 5),
+    MONSTER_WIZARD(CellElementType.WIZARD, 20, 10, 3, 40, 6),
     MONSTER_BOSS(CellElementType.BOSS, 200, 10, 4, 500, 15),
 
     ALLY_MERCHANT(CellElementType.MERCHANT, 100, 0, 1, 0, 0);
