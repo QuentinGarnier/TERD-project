@@ -106,6 +106,12 @@ public enum EquipmentTypes {
     }
 
     public enum EquipmentRarity {
-        COMMON, RARE, EPIC, LEGENDARY
+        COMMON(2), RARE(4), EPIC(8), LEGENDARY(16);
+
+        public final int multiplier;
+
+        EquipmentRarity(int multi) {
+            multiplier = multi;
+        }
     }
 }
