@@ -191,6 +191,15 @@ public class Merchant extends AbstractEntity{
                 ActionListener al = e -> {
                     Player pl = Player.getInstancePlayer();
                     String confirmText = Language.confirmBuy();
+
+                    if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) {
+                        GameWindow.addToLogs(Language.logInventoryFull(), Color.RED);
+                        GameWindow.refreshInventory(true);
+                        JOptionPane.showMessageDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.logInventoryFullMarket(), Language.logInventoryMarket(), JOptionPane.WARNING_MESSAGE, instanceMerchant.merchantIcon);
+                        restoreFocus();
+                        return;
+                    }
+
                     if (ai instanceof ItemEquip) {
                         ItemEquip ie = (ItemEquip) ai;
                         if (pl.getEntityType() != ie.getEquipmentType().getEntityType())
@@ -201,12 +210,7 @@ public class Merchant extends AbstractEntity{
                         restoreFocus();
                         return;
                     }
-                    if (Player.getInventory().size() >= Player.MAX_INVENTORY_SIZE) {
-                        GameWindow.addToLogs(Language.logInventoryFull(), Color.RED);
-                        GameWindow.refreshInventory(true);
-                        restoreFocus();
-                        return;
-                    }
+
                     if (pl.enoughMoney(ai.getPrice())) {
                         pl.modifyMoney(-ai.getPrice());
                         if (GameWindow.hasSound())

@@ -281,7 +281,11 @@ public enum Language {
         return lang("Not enough money.", "Pas assez d'argent.", "Denaro insufficiente.","مال غير كاف.");
     }
     public static String logInventoryFull() {
-        return lang("The inventory is full!", "L'inventaire est plein !", "L'inventario è pieno!","المخزون ممتلئ!");
+        return lang("The inventory is full!", "L'inventaire est plein !", "L'inventario è pieno!", "المخزون ممتلئ!");
+    }
+
+    public static String logInventoryFullMarket() {
+        return lang("You have no more space in your inventory!", "Vous n'avez plus de place dans votre inventaire !", "Non hai più spazio nel tuo inventario!","ليس لديك مساحة في مخزونك!");
     }
 
     public static String merketTitle() {
@@ -338,6 +342,7 @@ public enum Language {
     public static String logInventory() {
         return lang("Inventory", "Inventaire", "Inventario","المخزون");
     }
+    public static String logInventoryMarket() { return lang("Full inventory", "Inventaire plein", "Inventario completo","جرد كامل"); }
     public static String logEquipped() {
         return lang("equipped", "équipé(e)", "in uso","مجهز");
     }
