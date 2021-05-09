@@ -43,7 +43,7 @@ public abstract class AbstractEntity extends JPanel {
         this.entityType = entityType;
         this.strategy = new Strategy(this);
         this.HP = entityType.isHeroType()? entityType.HPByType : entityType.HPByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() -2;
-        this.HPMax = entityType.isHeroType()? entityType.HPByType : entityType.HPByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
+        this.HPMax = entityType.isHeroType()? entityType.HPByType : (entityType == EntityType.MONSTER_BOSS) ? WorldMap.getInstanceWorld() == null ? 200 : 40 * WorldMap.stageNum + 2 * Player.getInstancePlayer().getLvl() : entityType.HPByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
         this.attack = entityType.isHeroType()? entityType.attackByType : entityType.attackByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
         this.attackMax = entityType.isHeroType()? entityType.attackByType : entityType.attackByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
         this.range = entityType.rangeByType;
@@ -225,6 +225,12 @@ public abstract class AbstractEntity extends JPanel {
         }
         updateBar();
     }
+
+    public void modifyHPByPercentage(int p) {
+        int res = (int) (Math.round((double) (p/100) * this.getHPMax()));
+        modifyHP(Math.max(res, 1));
+    }
+
     public void fullHeal() {
         HP = HPMax;
     }

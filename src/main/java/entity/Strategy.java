@@ -35,17 +35,17 @@ public class Strategy {
         boolean isFled;
         boolean fleeMode = currentEntity.getHP() <= currentEntity.getHPMax() / 2;
         boolean isInvulnerable = currentEntity.getState() != EntityState.INVULNERABLE;
-        if (!isInvulnerable) increaseHP(2);
+        if (!isInvulnerable) modifyRelativelyHP(1);
 
-        if (currentEntity.getPosition().distance(hero.getPosition()) > 6 && currentEntity.getHP() < currentEntity.getHPMax()) increaseHP(4);
+        if (currentEntity.getPosition().distance(hero.getPosition()) > 6 && currentEntity.getHP() < currentEntity.getHPMax()) modifyRelativelyHP(2);
 
         if (fleeMode) {
             if (!withinReachBossByType()) {
-                increaseHP(isInvulnerable ? 4 : 8);
+                modifyRelativelyHP(isInvulnerable ? 1 : 3);
                 return;
             }
             else {
-                increaseHP(1);
+                modifyRelativelyHP(1);
                 Position p = currentEntity.getPosition();
                 isFled = bossFleeHero();
                 if (isFled){
@@ -63,7 +63,7 @@ public class Strategy {
             goCloseHero();
             return;
         }
-        else increaseHP(isInvulnerable ? 4 : 8);
+        else modifyRelativelyHP(isInvulnerable ? 2 : 4);
         currentEntity.setBossImage(null);
     }
 
@@ -200,5 +200,9 @@ public class Strategy {
 
     public void increaseHP(int x) {
         currentEntity.modifyHP(x);
+    }
+
+    public void modifyRelativelyHP(int x) {
+        currentEntity.modifyHPByPercentage(x);
     }
 }
