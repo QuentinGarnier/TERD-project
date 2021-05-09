@@ -148,7 +148,7 @@ public class GameInterfacePanel extends JPanel {
         JLabel bar = new JLabel(imageIcon);
         bar.setHorizontalAlignment(SwingConstants.LEFT);
         topPanel.add(bar);
-        createTxtLabel(topPanel, Language.stage() + ": " + WorldMap.stageNum, null);
+        createTxtLabel(topPanel, Language.stage() + ": " + WorldMap.stageNum + "/" + GameWindow.difficulty().stagesNumber, null);
         createTxtLabel(topPanel, Language.level() + ": " + p.getLvl() + " — (" + p.getXP() + "/" + p.getMaxXP() + " XP)", null);
         createTxtLabel(topPanel, "—  " + WorldMap.getInstanceWorld().getTheme() + "  —", null);
     }
@@ -187,7 +187,7 @@ public class GameInterfacePanel extends JPanel {
         imageIcon = new ImageIcon(image);
 
         ((JLabel)(topPanel.getComponent(0))).setIcon(imageIcon);
-        ((JLabel)(topPanel.getComponent(1))).setText(Language.stage() + ": " + WorldMap.stageNum);
+        ((JLabel)(topPanel.getComponent(1))).setText(Language.stage() + ": " + WorldMap.stageNum +  "/" + GameWindow.difficulty().stagesNumber);
         ((JLabel)(topPanel.getComponent(2))).setText(Language.level() + ": " + p.getLvl() + " — (" + p.getXP() + "/" + p.getMaxXP() + " XP)");
         ((JLabel)(topPanel.getComponent(3))).setText("—  " + WorldMap.getInstanceWorld().getTheme() + "  —");
     }
