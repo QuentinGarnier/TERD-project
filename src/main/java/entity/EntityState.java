@@ -72,7 +72,7 @@ public enum EntityState {
                 GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.golden);
                 break;
             case ENRAGED:
-                entity.setAttack(entity.getAttackMax() + 10);
+                entity.setAttack((int) (entity.getAttackMax() * 1.10));
                 GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.red);
                 break;
             case FROZEN: GameWindow.addToLogs(Language.logEffect(entity), Tools.WindowText.cyan); break;
@@ -98,12 +98,12 @@ public enum EntityState {
         int amount;
         switch (entity.getState()) {
             case BURNT:
-                amount = 2;
+                amount = (int) (entity.getHPMax() * 0.02);
                 entity.takeDamage(amount);
                 if (entity.isHero()) GameWindow.addToLogs(Language.logBurnEffect(amount), Tools.WindowText.orange);
                 break;
             case POISONED:
-                amount = 1;
+                amount = (int) (entity.getHPMax() * 0.01);
                 entity.takeDamage(amount);
                 if (entity instanceof Player){
                     GameWindow.addToLogs(Language.logPoisonEffect(amount), Tools.WindowText.purple);
@@ -111,7 +111,7 @@ public enum EntityState {
                     if (((Player) entity).getHunger() == 0)  return;
                 } break;
             case HEALED:
-                amount = 10;
+                amount = (int) (entity.getHPMax() * 0.04);
                 entity.modifyHP(amount);
                 if (entity.isHero()) GameWindow.addToLogs(Language.logHealEffect(amount), Tools.WindowText.green);
                 break;

@@ -365,7 +365,7 @@ public enum Language {
         Language l = GameWindow.language();
         if (entity.getState() == EntityState.ENRAGED) {
             return lang("Rage makes ", "La rage rend ", "La rabbia rende ","يصنع داء الكلب") + entity
-                    + lang(" stronger! [+10 ", " plus fort ! [+10 ", " più forte! [+10 ","اقوى ! [+10") + (l.equals(FR) ? attack().replaceFirst(".$","") : attack()) + "]";
+                    + lang(" stronger! [+10% ", " plus fort ! [+10% ", " più forte! [+10% ","اقوى ! [%+10") + (l.equals(FR) ? attack().replaceFirst(".$","") : attack()) + "]";
         }
         return translate(entity.entityType) + switch (entity.getState()) {
             case BURNT -> lang(" is burning!", " brûle !", " sta bruciando!","يحرق!");
