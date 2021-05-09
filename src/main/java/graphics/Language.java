@@ -1064,12 +1064,12 @@ public enum Language {
 
     public static void setOptionPaneLang(){
         UIManager.put("OptionPane.cancelButtonText",
-                lang("Cancel", "Annuler", "Annullare", "..."));
+                lang("Cancel", "Annuler", "Annullare", "لالغاء"));
         UIManager.put("OptionPane.noButtonText",
-                lang("No","Non", "No", "..."));
+                lang("No","Non", "No", "لا"));
         UIManager.put("OptionPane.okButtonText",
-                lang("Ok", "Ok", "Ok", "..."));
+                lang("Ok", "Ok", "Ok", "تمام"));
         UIManager.put("OptionPane.yesButtonText",
-                lang("Yes", "Oui", "Sì", "..."));
+                lang("Yes", "Oui", "Sì", "نعم"));
     }
 }
