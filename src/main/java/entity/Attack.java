@@ -46,8 +46,8 @@ public class Attack {
                     entity2.takeDamage(entity1.getAttack());
                 }
 
-                ItemEquip ie = ((Player) entity1).getAttackItem();
-                if (ie != null && ie.getEquipmentType().getMagicEffect() != null) ie.applyEffect((Monster) entity2);
+                ItemEquip ieArcher = ((Player) entity1).getAttackItem();
+                if (ieArcher != null && ieArcher.getEquipmentType().getMagicEffect() != null) ieArcher.applyEffect((Monster) entity2);
                 else if (arrow < 0.20) entity2.updateState(EntityState.POISONED);
 
                 if (entity2.getEntityType() == EntityType.MONSTER_BOSS) {
@@ -57,7 +57,9 @@ public class Attack {
 
             case HERO_WARRIOR:
                 ((Player) entity1).modifyHunger(-1, true);
-                if (entity2.entityType == EntityType.MONSTER_ORC) entity2.updateState(EntityState.ENRAGED);
+
+                ItemEquip ieWarrior = ((Player) entity1).getAttackItem();
+                if (ieWarrior != null && ieWarrior.getEquipmentType().getMagicEffect() != null && entity2.getState() != EntityState.INVULNERABLE) if (entity2 instanceof Monster) ieWarrior.applyEffect((Monster) entity2);
                 break;
 
             case HERO_MAGE:
@@ -70,7 +72,11 @@ public class Attack {
                     }
                 }
 
-                if (entity1.getState() != EntityState.PARALYSED && entity2.getState() != EntityState.INVULNERABLE) entity2.updateState(EntityState.getRandom());
+                ItemEquip ieMage = ((Player) entity1).getAttackItem();
+                if (entity2.getState() != EntityState.INVULNERABLE) {
+                    if (ieMage != null && ieMage.getEquipmentType().getMagicEffect() != null) if (entity2 instanceof Monster) { ieMage.applyEffect((Monster) entity2); }
+                    else if (entity1.getState() != EntityState.PARALYSED) entity2.updateState(EntityState.getRandom());
+                }
                 return;
 
             case MONSTER_GOBLIN: break;
