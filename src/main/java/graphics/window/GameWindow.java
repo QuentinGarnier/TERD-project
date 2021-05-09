@@ -197,8 +197,13 @@ public class GameWindow extends JFrame {
 
     public void setScrollFrameBar() {
         Point pos = gamePanel.getHeroPosition();
-        jScrollPane.getHorizontalScrollBar().setValue(pos.x - 400);
-        jScrollPane.getVerticalScrollBar().setValue(pos.y - 150);
+        boolean b = jScrollPane.getHorizontalScrollBar().getValue() == pos.x - 400 &&
+                jScrollPane.getVerticalScrollBar().getValue() == pos.y - 150;
+        if (!b) {
+            jScrollPane.getHorizontalScrollBar().setValue(pos.x - 400);
+            jScrollPane.getVerticalScrollBar().setValue(pos.y - 150);
+            GamePanel.clearMonsterAttackRange();
+        }
     }
 
     public static void refreshInventory(boolean refreshInventoryLog) {

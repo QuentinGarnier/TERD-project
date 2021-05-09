@@ -1,6 +1,6 @@
 package graphics.elements;
 
-import entity.Player;
+import entity.AbstractEntity;
 import graphics.elements.cells.Cell;
 import graphics.elements.cells.CellElementType;
 import graphics.map.WorldMap;
@@ -93,9 +93,8 @@ public class Position {
         return Math.round(Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
     }
 
-    public ArrayList<Position> calcRangePosition(int range, boolean isAccessible) {
-        Player player = Player.getInstancePlayer();
-        Position pos = player.getPosition();
+    public ArrayList<Position> calcRangePosition(AbstractEntity ae, boolean isAccessible, int range) {
+        Position pos = ae.getPosition();
         WorldMap worldMap = WorldMap.getInstanceWorld();
         ArrayList<Position> res = new ArrayList<>();
         int roomId = worldMap.getCell(pos).getBaseId();

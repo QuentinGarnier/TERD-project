@@ -162,7 +162,7 @@ public abstract class AbstractEntity extends JPanel {
         worldMap.getCell(position).setEntity(this);
         Cell currentCell = worldMap.getCell(position);
         if (this instanceof Player && currentCell.getBaseContent().equals(CellElementType.CORRIDOR))
-            for (Position pos : position.calcRangePosition(2, false)) worldMap.getCell(pos).removeFog();
+            for (Position pos : position.calcRangePosition(Player.getInstancePlayer(),false, Player.getInstancePlayer().getRange())) worldMap.getCell(pos).removeFog();
         if (ct.isHero() && currentCell.getItem() != null) {
             AbstractItem ai = currentCell.getItem();
             if(ai.immediateUse) {
@@ -214,6 +214,7 @@ public abstract class AbstractEntity extends JPanel {
             if (this instanceof Monster) {
                 GameWindow.addToLogs(Language.translate(this.entityType) + " " + Language.logDie() + "!", Tools.WindowText.red);
                 Player.getInstancePlayer().earnXP(entityType.experienceByType);
+                GamePanel.clearMonsterAttackRange();
             }
             if (this.entityType.equals(EntityType.MONSTER_BOSS)){
                 Tools.gameEnd(Tools.Victory_Death.WIN);
@@ -301,12 +302,15 @@ public abstract class AbstractEntity extends JPanel {
     }
 
     public void applyStrategy() {
-        if (HP > 0) strategy.applyStrategy();
+        if (HP > 0 && (HP < HPMax || (this instanceof Monster && ((Monster) this).canAttack()))) {
+            strategy.applyStrategy();
+        }
     }
 
     public void goTo(Position p) {
         WorldMap worldMap = WorldMap.getInstanceWorld();
         worldMap.getCell(position).entityLeft();
+        GamePanel.clearMonsterAttackRange();
         this.position = p;
         setLocation();
         worldMap.getCell(position).setEntity(this);

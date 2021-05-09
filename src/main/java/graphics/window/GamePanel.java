@@ -22,7 +22,9 @@ public class GamePanel extends JPanel {
     private final ImageIcon green2 = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("data/images/map/miscellaneous/slide_square_green.png")));
     private final JLabel squareLabel = new JLabel(green);
     private final JLabel[][] squareLabels;
-    private final List<JLabel> opaqueLabels;
+    private final static List<JLabel> opaqueLabels = new ArrayList<>();
+    private final static List<JLabel> opaqueLabelsMonsters = new ArrayList<>();
+    private final static List<JLabel> opaqueLabelsMonsterActivationZone = new ArrayList<>();
     private final WorldMap worldMap = WorldMap.getInstanceWorld();
     public static final int size = 32;
 
@@ -33,7 +35,6 @@ public class GamePanel extends JPanel {
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(WorldMap.MAX_X * size,WorldMap.MAX_Y * size));
         squareLabels = new JLabel[3][3];
-        opaqueLabels = new ArrayList<>();
     }
 
     void display() {
@@ -62,7 +63,9 @@ public class GamePanel extends JPanel {
                 add(worldMap.getCell(x, y));
 
         // OBJECTIVE SHADOW
-        makeOpaqueLabel();
+        makeOpaqueLabel(Player.getInstancePlayer().getRange(), new Color(0,0,0,80), opaqueLabels);
+        makeOpaqueLabel(20, new Color(200,0,0,70), opaqueLabelsMonsters);
+        makeOpaqueLabel(20, new Color(0,0,100,50), opaqueLabelsMonsterActivationZone);
 
         // MONSTERS
         worldMap.getRooms().forEach(room -> room.getMonsters().forEach(this::add));
@@ -140,14 +143,14 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void makeOpaqueLabel() {
-        opaqueLabels.clear();
-        for (int i = 0; i < Math.pow((Player.getInstancePlayer().getRange() + 1) * 2, 2); i++) {
+    private void makeOpaqueLabel(int range, Color color, List<JLabel> labels) {
+        labels.clear();
+        for (int i = 0; i < Math.pow((range + 1) * 2, 2); i++) {
             JLabel l = new JLabel();
             l.setOpaque(true);
             l.setBounds(-size, -size, size, size);
-            l.setBackground(new Color(0, 0, 0, 120));
-            opaqueLabels.add(l);
+            l.setBackground(color);
+            labels.add(l);
             add(l);
         }
     }
@@ -165,15 +168,36 @@ public class GamePanel extends JPanel {
         }
     }
 
+    public static void clearMonsterAttackRange(){
+        opaqueLabelsMonsters.forEach(e -> e.setLocation(-size, -size));
+        opaqueLabelsMonsterActivationZone.forEach(e -> e.setLocation(-size, -size));
+    }
+
+    public static void placeAttackLabels(AbstractEntity ae){
+        boolean isMonster = (ae instanceof Monster);
+        List<JLabel> labels =  isMonster ? GamePanel.opaqueLabelsMonsters : GamePanel.opaqueLabels;
+        List<JLabel> labels2 = isMonster ? GamePanel.opaqueLabelsMonsterActivationZone : null;
+        labels.forEach(e -> e.setLocation(-size, -size));
+        ArrayList<Position> opaquePos = ae.getPosition().calcRangePosition(ae, true, ae.getRange());
+        for (int i = 0; i < opaquePos.size(); i++){
+            Position current = opaquePos.get(i);
+            labels.get(i).setLocation(current.getX() * size, current.getY() * size);
+        }
+        if (labels2 != null) {
+            labels2.forEach(e -> e.setLocation(-size, -size));
+            opaquePos = ae.getPosition().calcRangePosition(ae, true, ae.getEntityType().attackZone);
+            for (int i = 0; i < opaquePos.size(); i++){
+                Position current = opaquePos.get(i);
+                labels2.get(i).setLocation(current.getX() * size, current.getY() * size);
+            }
+        }
+    }
+
     public void setObjective() {
         Player player = Player.getInstancePlayer();
         WhatHeroDoes whatHeroDoes = player.getWhatHeroDoes();
         if (whatHeroDoes == WhatHeroDoes.CHOOSING_ATTACK && player.getHP() > 0) {
-            ArrayList<Position> opaquePos = player.getPosition().calcRangePosition(player.getRange(), true);
-            for (int i = 0; i < opaquePos.size(); i++){
-                Position current = opaquePos.get(i);
-                opaqueLabels.get(i).setLocation(current.getX() * size, current.getY() * size);
-            }
+            placeAttackLabels(player);
             if (player.entityType == EntityType.HERO_MAGE) {
                 Position p = player.getAttackPosition();
                 for (int x = 0; x < 3; x++) {
