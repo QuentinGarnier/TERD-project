@@ -115,7 +115,7 @@ public class WorldMap {
 
     private void placeEnd() {
         Random rnd = new Random();
-        int iRoom = rnd.nextInt(rooms.size());
+        int iRoom = 2;//rnd.nextInt(rooms.size());
         Room room = rooms.get(iRoom);
         int x = room.getTopLeft().getX() + rnd.nextInt(room.getWidth() - 1) + 1;
         int y = room.getTopLeft().getY() + rnd.nextInt(room.getHeight() - 1) + 1;
