@@ -172,7 +172,7 @@ public class GameInterfacePanel extends JPanel {
         refreshBarGroup((JPanel)(statsPanel.getComponent(1)), Language.hp() + ": " + player.getHP() + "/" + player.getHPMax() + " ♥", player.getHPMax(), player.getHP(), "bar_red.png");
         refreshBarGroup((JPanel)(statsPanel.getComponent(2)), Language.hunger() + ": " + Language.translateHungerState(player.getHungerState()), 100, player.getHunger(), "bar_violet.png");
         ((JLabel)(statsPanel.getComponent(3))).setText(Language.attack() + ": " + player.getAttack() + " ⚔");
-        ((JLabel)(statsPanel.getComponent(4))).setText(Language.defense() + ": " + player.getDefense() + " ⛨");
+        ((JLabel)(statsPanel.getComponent(4))).setText(Language.defense() + ": " + player.getDefense() + " ♦");
         ((JLabel)(statsPanel.getComponent(5))).setText(Language.range() + ": " + player.getRange() + " ◎");
     }
 
