@@ -1,5 +1,6 @@
 package items.collectables;
 
+import entity.EntityType;
 import entity.Monster;
 import entity.Player;
 import graphics.Language;
@@ -20,7 +21,17 @@ public class ItemEquip extends AbstractCollectableItem {
         et = EquipmentTypes.createRandomEquip();
         int rnd = (int) (Math.random()*6);
         effect = et.getEffectInt() + (Player.getInstancePlayer() == null ? 0 : Player.getInstancePlayer().getLvl()) - 1 + rnd;
-        price = effect * et.getRarity().multiplier;
+        int plus;
+        if(et.getMagicEffect() == null) plus = 0;
+        else plus = switch(et.getMagicEffect()) {
+            case FROZEN -> 150;
+            case BURNT, PARALYSED -> 100;
+            case POISONED -> 50;
+            default -> 0;
+        };
+        double tmpPrice = (effect * et.getRarity().multiplier * (et.isOffensive? 3 : 1) + plus);
+        tmpPrice = tmpPrice * (et.getEntityType().equals(EntityType.HERO_WARRIOR) && et.getRarity().multiplier > 4? 0.9 : 1);
+        price = (int)(tmpPrice);
     }
 
     @Override

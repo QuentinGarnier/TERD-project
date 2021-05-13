@@ -28,11 +28,11 @@ public enum EquipmentTypes {
     IRON_STAFF(20, null, true, EntityType.HERO_MAGE, EquipmentRarity.RARE),
     GOLDEN_STAFF(30, null, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
     MAGIC_STAFF(20, EntityState.FROZEN, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
-    DRAGON_STAFF(40, null, true, EntityType.HERO_MAGE, EquipmentRarity.LEGENDARY),
+    DRAGON_STAFF(45, null, true, EntityType.HERO_MAGE, EquipmentRarity.LEGENDARY),
 
 
     //Defensive equipments:
-    WOOD_SHIELD(6, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.COMMON),
+    WOOD_SHIELD(5, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.COMMON),
     IRON_SHIELD(9, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.RARE),
     DIAMOND_SHIELD(14, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.EPIC),
     DRAGON_SHIELD(20, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.LEGENDARY),
