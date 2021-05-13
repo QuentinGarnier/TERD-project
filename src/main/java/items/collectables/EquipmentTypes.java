@@ -19,26 +19,33 @@ public enum EquipmentTypes {
     DRAGON_SWORD(100, EntityState.BURNT, true, EntityType.HERO_WARRIOR, EquipmentRarity.LEGENDARY),
 
     SHORT_BOW(10, null, true, EntityType.HERO_ARCHER, EquipmentRarity.COMMON),
-    LONG_BOW(20, null, true, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
+    LONG_BOW(20, null, true, EntityType.HERO_ARCHER, EquipmentRarity.RARE),
+    CROSSBOW(40, null, true, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
+    MAGIC_BOW(30, EntityState.FROZEN, true, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
     DRAGON_BOW(80, EntityState.BURNT, true, EntityType.HERO_ARCHER, EquipmentRarity.LEGENDARY),
 
     WOODEN_STAFF(10, null, true, EntityType.HERO_MAGE, EquipmentRarity.COMMON),
-    MAGIC_STAFF(40, EntityState.FROZEN, true, EntityType.HERO_MAGE, EquipmentRarity.RARE),
-    DRAGON_STAFF(90, EntityState.BURNT, true, EntityType.HERO_MAGE, EquipmentRarity.LEGENDARY),
+    IRON_STAFF(20, null, true, EntityType.HERO_MAGE, EquipmentRarity.RARE),
+    GOLDEN_STAFF(40, null, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
+    MAGIC_STAFF(60, null, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
+    DRAGON_STAFF(90, null, true, EntityType.HERO_MAGE, EquipmentRarity.LEGENDARY),
 
 
     //Defensive equipments:
     WOOD_SHIELD(6, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.COMMON),
     IRON_SHIELD(9, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.RARE),
+    DIAMOND_SHIELD(14, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.EPIC),
     DRAGON_SHIELD(20, null, false, EntityType.HERO_WARRIOR, EquipmentRarity.LEGENDARY),
 
     LEATHER_GAUNTLET(5, null, false, EntityType.HERO_ARCHER, EquipmentRarity.COMMON),
     LEATHER_ARMBAND(7, null, false, EntityType.HERO_ARCHER, EquipmentRarity.RARE),
-    LEATHER_CHESTPLATE(10, null, false, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
+    LEATHER_HELMET(10, null, false, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
+    LEATHER_CHESTPLATE(14, null, false, EntityType.HERO_ARCHER, EquipmentRarity.LEGENDARY),
 
     MAGIC_HAT(5, null, false, EntityType.HERO_MAGE, EquipmentRarity.COMMON),
     MAGIC_TUNIC(8, null, false, EntityType.HERO_MAGE, EquipmentRarity.RARE),
-    MAGIC_SPHERE(12, null, false, EntityType.HERO_MAGE, EquipmentRarity.EPIC);
+    MAGIC_GRIMOIRE(11, null, false, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
+    MAGIC_SPHERE(15, null, false, EntityType.HERO_MAGE, EquipmentRarity.LEGENDARY);
 
 
     private final int effect;

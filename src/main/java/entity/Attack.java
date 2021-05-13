@@ -74,7 +74,9 @@ public class Attack {
 
                 ItemEquip ieMage = ((Player) entity1).getAttackItem();
                 if (entity2.getState() != EntityState.INVULNERABLE) {
-                    if (ieMage != null && ieMage.getEquipmentType().getMagicEffect() != null) if (entity2 instanceof Monster) { ieMage.applyEffect((Monster) entity2); }
+                    if (ieMage != null && ieMage.getEquipmentType().getMagicEffect() != null) {
+                        if (entity2 instanceof Monster) ieMage.applyEffect((Monster) entity2);
+                    }
                     else if (entity1.getState() != EntityState.PARALYSED) entity2.updateState(EntityState.getRandom());
                 }
                 return;
