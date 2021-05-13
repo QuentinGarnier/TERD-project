@@ -294,8 +294,7 @@ public class Tools {
                     resS[i][j] = switch (res.get(i)[j++]) {
                         case "1" -> Language.archerCL();
                         case "2" -> Language.mageCL();
-                        case "3" -> Language.warriorCL();
-                        default -> throw new NumberFormatException();
+                        default -> Language.warriorCL();
                     };
                     resS[i][j] = checkInteger(res.get(i)[j++]);
                     resS[i][j] = checkInteger(res.get(i)[j++]);
