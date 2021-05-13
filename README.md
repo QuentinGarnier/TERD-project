@@ -46,8 +46,16 @@ Toute la documentation relative au projet peut être consultée sur notre [page 
 - Ajout de la résolution d'écran dans les options  
 - Ajout du changement de raccourcis claviers dans les options  
 - Ajout d'un popup au premier lancement du jeu  
+- Ajout d'une "zone de repérage" pour les monstres (+ visualisation au survol)  
+- Ajout de rareté sur les items influençant leur apparition et leur prix  
+- Ajout de nouveaux items  
 - Dernières traductions implémentées  
 - Correctifs et équilibrages divers  
+
+
+## Astuces pour tester le jeu  
+Afin de pouvoir plus rapidement atteindre la salle du boss, il est possible de manuellement modifier le fichier "settings" (dossier à la racine "$HOME/ThatTimeTheHeroSavedTheVillage" sur Mac et Linux, dans "AppData/Roaming/ThatTimeTheHeroSavedTheVillage" sur Windows) en remplaçant la valeur de "sDifficulty 1" par 0 : ceci met le jeu dans une difficulté "Tutorial" de 2 niveaux uniquement.  
+Il est également possible de déverouiller les difficultés supérieurs en modifiant la valeur de "sUnlocked 1" par 5.  
 
 
 ## ATTENTION !  
