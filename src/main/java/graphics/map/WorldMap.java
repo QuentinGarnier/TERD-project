@@ -1,10 +1,7 @@
 package graphics.map;
 
 
-import entity.EntityState;
-import entity.Monster;
-import entity.Player;
-import entity.Merchant;
+import entity.*;
 import graphics.ChooseAttackCell;
 import graphics.Tools;
 import graphics.elements.*;
@@ -34,13 +31,12 @@ public class WorldMap {
     private final List<AbstractItem> items;
 
 
-    private WorldMap()  {
+    private WorldMap() {
         lab = new Cell[MAX_X][MAX_Y];
         rooms = new ArrayList<>();
         corridors = new ArrayList<>();
         items = new ArrayList<>();
         difficulty = GameWindow.Difficulty.EASY;
-        generateWorld();
     }
 
     public void setDifficulty(GameWindow.Difficulty diff){
@@ -86,7 +82,7 @@ public class WorldMap {
 
     public void initializeBossLab() {
         new Room(rooms, lab, theme);
-        Monster.boss.modifyHP(Monster.boss.getHPMax());
+        Monster.boss.updateStats();
         Monster.boss.updateState(EntityState.NEUTRAL);
         Random rnd = new Random();
         Monster.boss.setPosition(rnd.nextInt(10) + 10, rnd.nextInt(10) + 10);

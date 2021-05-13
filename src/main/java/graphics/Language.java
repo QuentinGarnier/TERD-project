@@ -549,22 +549,29 @@ public enum Language {
 
             case SHORT_BOW -> lang("Short Bow", "Arc Court", "Arco Corto","القوس القصير");
             case LONG_BOW -> lang("Long Bow", "Arc Long", "Arco Lungo","القوس الطويل");
+            case CROSSBOW -> lang("Crossbow", "Arbalète", "Balestra", "القوس والنشاب");
+            case MAGIC_BOW -> lang("Magic Bow", "Arc Magique", "Arco Magico", "القوس السحري");
             case DRAGON_BOW -> lang("Dragon Bow", "Arc du Dragon", "Arco del Drago","قوس التنين");
 
             case WOODEN_STAFF -> lang("Wooden Staff", "Sceptre en Bois", "Scettro di Legno","صولجان خشبي");
+            case IRON_STAFF -> lang("Iron Staff", "Sceptre en Fer", "Scettro di Ferro", "صولجان حديدي");
+            case GOLDEN_STAFF -> lang("Golden Staff", "Sceptre en Or", "Scettro di Oro", "الصولجان الذهبي");
             case MAGIC_STAFF -> lang("Magic Staff", "Sceptre Magique", "Scettro Magico","الصولجان السحري");
             case DRAGON_STAFF -> lang("Dragon Staff", "Sceptre du Dragon", "Scettro del Drago","صولجان التنين");
 
             case WOOD_SHIELD -> lang("Wooden Shield", "Bouclier en Bois", "Scudo di Legno","درع خشبي");
             case IRON_SHIELD -> lang("Iron Shield", "Bouclier en Fer", "Scudo di Ferro","درع الحديد");
+            case DIAMOND_SHIELD -> lang("Diamond Shield", "Bouclier en Diamant", "Scudo di Diamante", "درع الماس");
             case DRAGON_SHIELD -> lang("Dragon Shield", "Bouclier du Dragon", "Scudo del Drago","درع التنين");
 
             case LEATHER_GAUNTLET -> lang("Leather Gauntlet", "Gantelet en Cuir", "Guanti in Pelle","القفاز الجلدي");
             case LEATHER_ARMBAND -> lang("Leather Armband", "Brassard en Cuir", "Bracciale in Pelle","سوار جلدي");
+            case LEATHER_HELMET -> lang("Leather Helmet", "Casque en Cuir", "Elmo in Pelle", "خوذة جلدية");
             case LEATHER_CHESTPLATE -> lang("Leather Chestplate", "Plastron en Cuir", "Pettorale in Pelle","ثدي الجلد");
 
             case MAGIC_HAT -> lang("Magic Hat", "Chapeau Magique", "Cappello Magico","قبعة سحرية");
             case MAGIC_TUNIC -> lang("Magic Tunic", "Tunique Magique", "Tunica Magica","سترة سحرية");
+            case MAGIC_GRIMOIRE -> lang("Magic Grimoire", "Grimoire Magique", "Libro Magico", "كتاب السحر");
             case MAGIC_SPHERE -> lang("Magic Sphere", "Sphère Magique", "Sfera Magica","المجال السحري");
         };
     }

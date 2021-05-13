@@ -12,8 +12,10 @@ import static org.junit.Assert.*;
 
 public class WorldMapTest {
     WorldMap w = WorldMap.getInstanceWorld();
+
     @Test
     public void testProgrammeStrongConnected() {
+        w.generateWorld();
         Position endPos;
         for (int i = 0; i < 10; i++) {
             endPos = AbstractItem.end.getPosition();

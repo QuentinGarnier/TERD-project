@@ -42,10 +42,6 @@ public abstract class AbstractEntity extends JPanel {
         this.position = position;
         this.entityType = entityType;
         this.strategy = new Strategy(this);
-        this.HP = entityType.isHeroType()? entityType.HPByType : entityType.HPByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() -2;
-        this.HPMax = entityType.isHeroType()? entityType.HPByType : (entityType == EntityType.MONSTER_BOSS) ? WorldMap.getInstanceWorld() == null ? 200 : 40 * WorldMap.stageNum + 2 * Player.getInstancePlayer().getLvl() : entityType.HPByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
-        this.attack = entityType.isHeroType()? entityType.attackByType : entityType.attackByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
-        this.attackMax = entityType.isHeroType()? entityType.attackByType : entityType.attackByType /*+ WorldMap.stageNum*/ + Player.getInstancePlayer().getLvl() - 2;
         this.range = entityType.rangeByType;
         this.state = EntityState.NEUTRAL;
         this.remainingTime = EntityState.NEUTRAL.getDuration();
@@ -59,6 +55,8 @@ public abstract class AbstractEntity extends JPanel {
         this.image = new JLabel();
 
         barLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+        updateStats();
         setup();
 
         // MOVE WITH THREAD
@@ -73,6 +71,21 @@ public abstract class AbstractEntity extends JPanel {
                 counter.set(0);
             }
         });
+    }
+
+    public void updateStats() {
+        boolean b = WorldMap.getInstanceWorld() == null;
+        int bonus = b ? 0 : WorldMap.stageNum;
+        int lvl = Player.getInstancePlayer() == null ? 0 : Player.getInstancePlayer().getLvl();
+        this.HPMax = entityType.isHeroType()?
+                entityType.HPByType :
+                (entityType == EntityType.MONSTER_BOSS) ?
+                        b ? 200 : 40 * WorldMap.stageNum + 2 * lvl :
+                        entityType.HPByType + bonus + lvl;
+        this.HP = this.HPMax;
+        this.attackMax = entityType.attackByType + (entityType.isHeroType()? 0 : bonus + lvl);
+        this.attack = this.attackMax;
+        updateBar();
     }
 
     private void myFun(){
@@ -322,8 +335,8 @@ public abstract class AbstractEntity extends JPanel {
         worldMap.getCell(position).setEntity(this);
     }
 
-    public boolean setBossImage(Position p){
-        if (entityType.equals(EntityType.MONSTER_BOSS)) {
+    public boolean setBossImage(Position p) {
+        if (entityType.equals(EntityType.MONSTER_BOSS) && Player.getInstancePlayer() != null) {
             image(p != null ? p : new Position(position.getX() - Player.getInstancePlayer().getPosition().getX(), 0));
             return true;
         }

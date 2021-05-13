@@ -19,7 +19,7 @@ public class ItemEquip extends AbstractCollectableItem {
         isEquipped = false;
         et = EquipmentTypes.createRandomEquip();
         int rnd = (int) (Math.random()*6);
-        effect = et.getEffectInt() + Player.getInstancePlayer().getLvl() - 1 + rnd;
+        effect = et.getEffectInt() + (Player.getInstancePlayer() == null ? 0 : Player.getInstancePlayer().getLvl()) - 1 + rnd;
         price = effect * et.getRarity().multiplier;
     }
 
