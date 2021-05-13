@@ -286,6 +286,14 @@ public enum Language {
         return lang("The inventory is full!", "L'inventaire est plein !", "L'inventario è pieno!", "المخزون ممتلئ!");
     }
 
+    public static String NotEnoughMoneyTitle() {
+        return lang("Not enough money", "Pas assez d'argent", "Denaro insufficiente","مال غير كاف");
+    }
+
+    public static String logNotEnoughMoney2() {
+        return lang("You do not have enough money to purchase this item.", "Vous n'avez pas assez d'argent pour acheter cet item.", "Non hai abbastanza soldi per acquistare questo articolo.","ليس لديك ما يكفي من المال لشراء هذا العنصر.");
+    }
+
     public static String logInventoryFullMarket() {
         return lang("You have no more space in your inventory!", "Vous n'avez plus de place dans votre inventaire !", "Non hai più spazio nel tuo inventario!","ليس لديك مساحة في مخزونك!");
     }

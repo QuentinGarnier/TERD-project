@@ -201,6 +201,14 @@ public class Merchant extends AbstractEntity{
                         return;
                     }
 
+                    if (!pl.enoughMoney(ai.getPrice())) {
+                        GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
+                        GameWindow.refreshInventory(true);
+                        JOptionPane.showMessageDialog(Merchant.getInstanceMerchant().getMarketWindow(), Language.logNotEnoughMoney2(), Language.NotEnoughMoneyTitle(), JOptionPane.WARNING_MESSAGE, instanceMerchant.merchantIcon);
+                        restoreFocus();
+                        return;
+                    }
+
                     if (ai instanceof ItemEquip) {
                         ItemEquip ie = (ItemEquip) ai;
                         if (pl.getEntityType() != ie.getEquipmentType().getEntityType())
@@ -212,21 +220,17 @@ public class Merchant extends AbstractEntity{
                         return;
                     }
 
-                    if (pl.enoughMoney(ai.getPrice())) {
-                        pl.modifyMoney(-ai.getPrice());
-                        if (GameWindow.hasSound())
-                            Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_buy.wav")), false);
-                        GameWindow.addToLogs(ai + " " + Language.logBuyOrSell(true, false), Color.GREEN);
-                        Merchant.removeItem(ai);
-                        buyPanel.remove(this);
-                        buyPanel.revalidate();
-                        buyPanel.repaint();
-                        Player.addItem(ai);
-                        SellPanel.sellPanel.addSellInventory(ai);
-                    }
-                    else GameWindow.addToLogs(Language.logNotEnoughMoney(), Color.RED);
+                    pl.modifyMoney(-ai.getPrice());
+                    if (GameWindow.hasSound())
+                        Tools.play(Objects.requireNonNull(getClass().getClassLoader().getResource("data/audio/SE/coin_buy.wav")), false);
+                    GameWindow.addToLogs(ai + " " + Language.logBuyOrSell(true, false), Color.GREEN);
+                    Merchant.removeItem(ai);
+                    buyPanel.remove(this);
+                    buyPanel.revalidate();
+                    buyPanel.repaint();
+                    Player.addItem(ai);
+                    SellPanel.sellPanel.addSellInventory(ai);
                     GameWindow.refreshInventory(true);
-                    restoreFocus();
                 };
                 super.addActionListener(al);
             }
