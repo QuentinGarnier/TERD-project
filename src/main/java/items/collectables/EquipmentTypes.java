@@ -16,19 +16,19 @@ public enum EquipmentTypes {
     IRON_SWORD(20, null, true, EntityType.HERO_WARRIOR, EquipmentRarity.RARE),
     MAGIC_SWORD(40, EntityState.BURNT, true, EntityType.HERO_WARRIOR, EquipmentRarity.EPIC),
     ICY_SWORD(30, EntityState.FROZEN, true, EntityType.HERO_WARRIOR, EquipmentRarity.EPIC),
-    DRAGON_SWORD(100, EntityState.BURNT, true, EntityType.HERO_WARRIOR, EquipmentRarity.LEGENDARY),
+    DRAGON_SWORD(60, EntityState.BURNT, true, EntityType.HERO_WARRIOR, EquipmentRarity.LEGENDARY),
 
     SHORT_BOW(10, null, true, EntityType.HERO_ARCHER, EquipmentRarity.COMMON),
     LONG_BOW(20, null, true, EntityType.HERO_ARCHER, EquipmentRarity.RARE),
-    CROSSBOW(40, null, true, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
-    MAGIC_BOW(30, EntityState.FROZEN, true, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
-    DRAGON_BOW(80, EntityState.BURNT, true, EntityType.HERO_ARCHER, EquipmentRarity.LEGENDARY),
+    CROSSBOW(35, null, true, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
+    MAGIC_BOW(25, EntityState.FROZEN, true, EntityType.HERO_ARCHER, EquipmentRarity.EPIC),
+    DRAGON_BOW(50, EntityState.BURNT, true, EntityType.HERO_ARCHER, EquipmentRarity.LEGENDARY),
 
     WOODEN_STAFF(10, null, true, EntityType.HERO_MAGE, EquipmentRarity.COMMON),
     IRON_STAFF(20, null, true, EntityType.HERO_MAGE, EquipmentRarity.RARE),
-    GOLDEN_STAFF(40, null, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
-    MAGIC_STAFF(60, null, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
-    DRAGON_STAFF(90, null, true, EntityType.HERO_MAGE, EquipmentRarity.LEGENDARY),
+    GOLDEN_STAFF(30, null, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
+    MAGIC_STAFF(20, EntityState.FROZEN, true, EntityType.HERO_MAGE, EquipmentRarity.EPIC),
+    DRAGON_STAFF(40, null, true, EntityType.HERO_MAGE, EquipmentRarity.LEGENDARY),
 
 
     //Defensive equipments:
